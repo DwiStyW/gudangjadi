@@ -5,18 +5,18 @@ $no 		= $_GET['kd'];
 $kode 		= $_GET['hal'];
 $date	= date("Y-m-d h:i:s");
 
-$tampil1=mysql_query("select * from riwayat WHERE no='$no'");
-while($data1=mysql_fetch_array($tampil1)){
+$tampil1=mysqli_query($conn,"select * from riwayat WHERE no='$no'");
+while($data1=mysqli_fetch_array($tampil1)){
 $awal=$data1['keluar'];
-	$tampil=mysql_query("select * from saldo WHERE kode='$kode'");
-	while($data=mysql_fetch_array($tampil)){
+	$tampil=mysqli_query($conn,"select * from saldo WHERE kode='$kode'");
+	while($data=mysqli_fetch_array($tampil)){
 	$hasil=$data['saldo']+$awal;
-	$query1 = mysql_query("UPDATE saldo SET saldo='$hasil', tanggal='$date'
+	$query1 = mysqli_query($conn,"UPDATE saldo SET saldo='$hasil', tanggal='$date'
 	 WHERE kode='$kode'");
 	}
 }
-$query2 = mysql_query("DELETE FROM riwayat WHERE no='$no'");
-$query = mysql_query("DELETE FROM keluar WHERE no='$no'");
+$query2 = mysqli_query($conn,"DELETE FROM riwayat WHERE no='$no'");
+$query = mysqli_query($conn,"DELETE FROM keluar WHERE no='$no'");
 
 if ($query2){
 	echo "<script>alert('Data Berhasil dihapus!'); window.location = 'keluar.php'</script>";	

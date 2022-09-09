@@ -2,7 +2,7 @@
 include "koneksi.php";
 $no 	= $_GET['kd'];
 
-$query = mysql_query("DELETE FROM grup WHERE id='$no'");
+$query = mysqli_query($conn,"DELETE FROM grup WHERE id='$no'");
 
 if ($query){
 	echo "<script>alert('Data Berhasil dihapus!'); window.location = 'grup.php'</script>";	

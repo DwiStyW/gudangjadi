@@ -65,8 +65,8 @@ $_SESSION['start_time'] = time();
 <body>
 <?php
   $username = $_SESSION['username'];
-  $query_user_login = mysql_query("select * from tb_user where username='$username'");
-  $user_login = mysql_fetch_array($query_user_login);
+  $query_user_login = mysqli_query($conn,"select * from tb_user where username='$username'");
+  $user_login = mysqli_fetch_array($query_user_login);
   ini_set('date.timezone', 'Asia/Jakarta');
 ?>
               
@@ -76,8 +76,8 @@ $_SESSION['start_time'] = time();
         $kode   = $_GET['kode'];
 
     //Mastergrup        
-    $tampil2=mysql_query("select * from golongan WHERE id='$kode'");
-    $data2=mysql_fetch_array($tampil2);
+    $tampil2=mysqli_query($conn,"select * from golongan WHERE id='$kode'");
+    $data2=mysqli_fetch_array($tampil2);
 
 ?>				
 <h3>Report Saldo Barang Jadi</h3>
@@ -111,12 +111,12 @@ Saldo Stok Golongan <b><?php echo $data2['namagol'];?></b> Dari <b><?php echo da
 	</thead>
 	<tbody>
 		<?php
-        $tampil=mysql_query("SELECT * FROM master, riwayat  WHERE master.id=riwayat.kode && master.kdgol='$kode' && riwayat.tglform between '$mulai' AND '$end' ORDER BY no ASC");
-        $tampil1=mysql_query("SELECT * FROM master WHERE kdgol='$kode' ORDER BY kode ASC");
+        $tampil=mysqli_query($conn,"SELECT * FROM master, riwayat  WHERE master.id=riwayat.kode && master.kdgol='$kode' && riwayat.tglform between '$mulai' AND '$end' ORDER BY no ASC");
+        $tampil1=mysqli_query($conn,"SELECT * FROM master WHERE kdgol='$kode' ORDER BY kode ASC");
 		
         
         $no=1;
-        while($data=mysql_fetch_array($tampil1)){
+        while($data=mysqli_fetch_array($tampil1)){
         $code=$data['id'];
          ?>
         <tr style="text-align: center">                                            
@@ -126,11 +126,11 @@ Saldo Stok Golongan <b><?php echo $data2['namagol'];?></b> Dari <b><?php echo da
             
             <!-- Sal Awal -->
             <td> <?php 
-            $in=mysql_query("SELECT SUM(masuk) AS salIn FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
-            $out=mysql_query("SELECT SUM(keluar) AS salOut FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
+            $in=mysqli_query($conn,"SELECT SUM(masuk) AS salIn FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
+            $out=mysqli_query($conn,"SELECT SUM(keluar) AS salOut FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
             
-            while($ambil=mysql_fetch_array($in)){
-            while($ambil1=mysql_fetch_array($out)){
+            while($ambil=mysqli_fetch_array($in)){
+            while($ambil1=mysqli_fetch_array($out)){
             $saldo=$ambil['salIn']-$ambil1['salOut'];
             //konvert 3 satuan
                 $ts1  = floor($saldo/($data['max1']*$data['max2']));
@@ -144,8 +144,8 @@ Saldo Stok Golongan <b><?php echo $data2['namagol'];?></b> Dari <b><?php echo da
 
             <!-- Masuk -->
             <td><?php 
-            $masuk=mysql_query("SELECT SUM(masuk) AS mas FROM riwayat  WHERE kode='$code' && tglform between '$mulai' AND '$end'");
-            while($ambi=mysql_fetch_array($masuk)){
+            $masuk=mysqli_query($conn,"SELECT SUM(masuk) AS mas FROM riwayat  WHERE kode='$code' && tglform between '$mulai' AND '$end'");
+            while($ambi=mysqli_fetch_array($masuk)){
             //konvert 3 satuan
                 $tas1  = floor($ambi['mas']/($data['max1']*$data['max2']));
                 $itas  = $ambi['mas']-($tas1*$data['max1']*$data['max2']);
@@ -157,8 +157,8 @@ Saldo Stok Golongan <b><?php echo $data2['namagol'];?></b> Dari <b><?php echo da
 
             <!-- Keluar -->
             <td><?php 
-            $keluar=mysql_query("SELECT SUM(keluar) AS kel FROM riwayat  WHERE kode='$code' && tglform between '$mulai' AND '$end'");
-            while($amb=mysql_fetch_array($keluar)){
+            $keluar=mysqli_query($conn,"SELECT SUM(keluar) AS kel FROM riwayat  WHERE kode='$code' && tglform between '$mulai' AND '$end'");
+            while($amb=mysqli_fetch_array($keluar)){
             //konvert 3 satuan
                 $sat1  = floor($amb['kel']/($data['max1']*$data['max2']));
                 $sis  = $amb['kel']-($sat1*$data['max1']*$data['max2']);

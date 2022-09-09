@@ -41,8 +41,8 @@
 					<td><?php echo $tglform; ?></td>
 					<td><?php echo $noform; ?></td>											
 					<td><?php 					
-					$tampil=mysql_query("select * from master WHERE id='$kode'");
-					$data=mysql_fetch_array($tampil);
+					$tampil=mysqli_query($conn,"select * from master WHERE id='$kode'");
+					$data=mysqli_fetch_array($tampil);
 					echo $data['kode'];					
 					?></td>
 					<td><?php echo $data['nama']; ?></td>

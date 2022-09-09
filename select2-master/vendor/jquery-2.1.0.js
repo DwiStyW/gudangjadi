@@ -8601,7 +8601,7 @@
             var script, callback;
             return {
                 send: function( _, complete ) {
-                    script = jQuery("<script>").prop({
+                    script = jquery($conn,"<script>").prop({
                         async: true,
                         charset: s.scriptCharset,
                         src: s.url
@@ -8794,7 +8794,7 @@
 
                         // If a selector was specified, locate the right elements in a dummy div
                         // Exclude scripts to avoid IE 'Permission Denied' errors
-                        jQuery("<div>").append( jQuery.parseHTML( responseText ) ).find( selector ) :
+                        jquery($conn,"<div>").append( jQuery.parseHTML( responseText ) ).find( selector ) :
 
                         // Otherwise use the full result
                         responseText );

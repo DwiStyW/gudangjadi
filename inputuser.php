@@ -18,8 +18,8 @@ if (isset($_SESSION['start_time'])) {
 $_SESSION['start_time'] = time();
 
   $username = $_SESSION['username'];
-  $query_user_login = mysql_query("select * from tb_user where username='$username'");
-  $user_login = mysql_fetch_array($query_user_login);
+  $query_user_login = mysqli_query($conn,"select * from tb_user where username='$username'");
+  $user_login = mysqli_fetch_array($query_user_login);
   $iduser = $user_login['user_id'];
   ini_set('date.timezone', 'Asia/Jakarta');
   

@@ -92,8 +92,8 @@ $_SESSION['start_time'] = time();
 <body>
 <?php
   $username = $_SESSION['username'];
-  $query_user_login = mysql_query("select * from tb_user where username='$username'");
-  $user_login = mysql_fetch_array($query_user_login);
+  $query_user_login = mysqli_query($conn,"select * from tb_user where username='$username'");
+  $user_login = mysqli_fetch_array($query_user_login);
   ini_set('date.timezone', 'Asia/Jakarta');
 ?>
     <!--[if lt IE 8]>
@@ -142,10 +142,10 @@ $_SESSION['start_time'] = time();
 									</thead>
 									<tbody>
 										<?php					
-										$tampil=mysql_query("select * from master order by id desc");
-										$total=mysql_num_rows($tampil); 										
+										$tampil=mysqli_query($conn,"select * from master order by id desc");
+										$total=mysqli_num_rows($tampil); 										
 										$no=1;
-										while($data=mysql_fetch_array($tampil)){												 												
+										while($data=mysqli_fetch_array($tampil)){												 												
 										 ?>
 										<tr> 
 											<td><?php echo $no;?></td>
@@ -159,15 +159,15 @@ $_SESSION['start_time'] = time();
                                             <td><?php echo $data['sat3']; ?></td>
 											<td><?php
                                                     $kdgol=$data['kdgol'];
-        											$tampil2=mysql_query("select * from GOLONGAN WHERE id='$kdgol'");
-        											$grup=mysql_fetch_array($tampil2);
+        											$tampil2=mysqli_query($conn,"select * from GOLONGAN WHERE id='$kdgol'");
+        											$grup=mysqli_fetch_array($tampil2);
         											echo $grup['namagol']; 
                                                 ?>        
                                             </td>
                                             <td><?php
                                                     $kdjenis=$data['kdjenis'];
-                                                    $tampil3=mysql_query("select * from JENIS WHERE id='$kdgol'");
-                                                    $jenis=mysql_fetch_array($tampil3);
+                                                    $tampil3=mysqli_query($conn,"select * from JENIS WHERE id='$kdgol'");
+                                                    $jenis=mysqli_fetch_array($tampil3);
                                                     echo $jenis['namajenis']; 
                                                 ?>        
                                             </td>

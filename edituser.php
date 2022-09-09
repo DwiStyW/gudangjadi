@@ -18,8 +18,8 @@ if (isset($_SESSION['start_time'])) {
 $_SESSION['start_time'] = time();
 
   $username = $_SESSION['username'];
-  $query_user_login = mysql_query("select * from tb_user where username='$username'");
-  $user_login = mysql_fetch_array($query_user_login);
+  $query_user_login = mysqli_query($conn,"select * from tb_user where username='$username'");
+  $user_login = mysqli_fetch_array($query_user_login);
   $iduser = $user_login['user_id'];
   ini_set('date.timezone', 'Asia/Jakarta');
   
@@ -151,8 +151,8 @@ $_SESSION['start_time'] = time();
                                                 <div class="all-form-element-inner">
 													<form enctype="multipart/form-data" action="updatebahan.php" method="post">
                                                     <?php
-													$query = mysql_query("SELECT * FROM tb_user WHERE user_id='$_GET[kd]'");
-													$data  = mysql_fetch_array($query);
+													$query = mysqli_query($conn,"SELECT * FROM tb_user WHERE user_id='$_GET[kd]'");
+													$data  = mysqli_fetch_array($query);
 													?>
 													<input name="no" type="hidden" class="form-control" id="no" value="<?php echo $data['user_id'];?>" />
 														<div class="form-group-inner">

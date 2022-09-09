@@ -1,10 +1,14 @@
 <?php
-$user_name = "root";
-$password = "";
+$servername = "localhost";
 $database = "gudangjadi";
-$host_name = "localhost"; 
- 
-mysql_connect($host_name, $user_name, $password);
-mysql_select_db($database);
+$username = "root";
+$password = "";
 
+// untuk tulisan bercetak tebal silakan sesuaikan dengan detail database Anda
+// membuat koneksi
+$conn = mysqli_connect($servername, $username, $password, $database);
+// mengecek koneksi
+if (!$conn) {
+    die("Koneksi gagal: " . mysqli_connect_error());
+}
 ?>

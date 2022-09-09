@@ -93,8 +93,8 @@ $_SESSION['start_time'] = time();
 <body onload='search()'>
 <?php
   $username = $_SESSION['username'];
-  $query_user_login = mysql_query("select * from tb_user where username='$username'");
-  $user_login = mysql_fetch_array($query_user_login);
+  $query_user_login = mysqli_query($conn,"select * from tb_user where username='$username'");
+  $user_login = mysqli_fetch_array($query_user_login);
   $iduser = $user_login['user_id'];
   ini_set('date.timezone', 'Asia/Jakarta');
   date_default_timezone_set('Asia/Jakarta');
@@ -149,8 +149,8 @@ $_SESSION['start_time'] = time();
                                                                     <option value=""></option>
                                                                     <?php
                                                                     // ambil data dari database
-                                                                    $tampil=mysql_query("select * from golongan");
-                                                                    while($data=mysql_fetch_array($tampil)){ ?>
+                                                                    $tampil=mysqli_query($conn,"select * from golongan");
+                                                                    while($data=mysqli_fetch_array($tampil)){ ?>
                                                                         <option value="<?php echo $data['id']; ?>"><?php echo $data['kdgol']; ?> <?php echo $data['namagol']; ?></option>
                                                                     <?php } ?>
                                                                 </select>

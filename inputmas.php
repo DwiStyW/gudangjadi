@@ -92,8 +92,8 @@ $_SESSION['start_time'] = time();
 <body>
 <?php
   $username = $_SESSION['username'];
-  $query_user_login = mysql_query("select * from tb_user where username='$username'");
-  $user_login = mysql_fetch_array($query_user_login);
+  $query_user_login = mysqli_query($conn,"select * from tb_user where username='$username'");
+  $user_login = mysqli_fetch_array($query_user_login);
   ini_set('date.timezone', 'Asia/Jakarta');
 ?>
     <!--[if lt IE 8]>
@@ -159,8 +159,8 @@ $_SESSION['start_time'] = time();
                                                                         <select id="gol" name="gol" class="form-control">
                                                                             <option></option>
                                                                             <?php
-                                                                            $query1 = mysql_query("SELECT * FROM GOLONGAN");
-                                                                            while ($data1  = mysql_fetch_array($query1)) {
+                                                                            $query1 = mysqli_query($conn,"SELECT * FROM GOLONGAN");
+                                                                            while ($data1  = mysqli_fetch_array($query1)) {
                                                                             ?>
                                                                             <option value="<?php echo $data1['id'];?>"><?php echo $data1['kdgol'];?> <?php echo $data1['namagol'];?></option>
                                                                             <?php }
@@ -180,8 +180,8 @@ $_SESSION['start_time'] = time();
                                                                         <select id="jenis" name="jenis" class="form-control">
                                                                             <option></option>
                                                                             <?php
-                                                                            $query2 = mysql_query("SELECT * FROM JENIS");
-                                                                            while ($data2  = mysql_fetch_array($query2)) {
+                                                                            $query2 = mysqli_query($conn,"SELECT * FROM JENIS");
+                                                                            while ($data2  = mysqli_fetch_array($query2)) {
                                                                             ?>
                                                                             <option value="<?php echo $data2['id'];?>"><?php echo $data2['kdjenis'];?> <?php echo $data2['namajenis'];?></option>
                                                                             <?php }

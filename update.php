@@ -18,8 +18,8 @@ switch ($mode) {
 		$golongan  	= $_POST['golongan'];
 		$jenis  	= $_POST['jenis'];
 
-		$query 		= mysql_query("UPDATE MASTER SET kode='$kode', nama='$nama', ukuran='$ukuran', sat1='$sat1', max1='$max1', sat2='$sat2', max2='$max2', sat3='$sat3', kdgol='$golongan', kdjenis='$jenis' WHERE id='$no'");
-		$query1 	= mysql_query("UPDATE SALDO SET kode='$kode' WHERE no='$no'");
+		$query 		= mysqli_query($conn,"UPDATE MASTER SET kode='$kode', nama='$nama', ukuran='$ukuran', sat1='$sat1', max1='$max1', sat2='$sat2', max2='$max2', sat3='$sat3', kdgol='$golongan', kdjenis='$jenis' WHERE id='$no'");
+		$query1 	= mysqli_query($conn,"UPDATE SALDO SET kode='$kode' WHERE no='$no'");
 		 
 		if ($query&&$query1){
 			echo "<script>alert('Data Master Barang Berhasil diubah!'); window.location = 'master.php'</script>";	
@@ -34,7 +34,7 @@ switch ($mode) {
 		$kdgol	 	= $_POST['kdgol'];
 		$namagol	= $_POST['namagol'];
 
-		$query = mysql_query("UPDATE golongan SET kdgol='$kdgol', namagol='$namagol' WHERE id='$no'");
+		$query = mysqli_query($conn,"UPDATE golongan SET kdgol='$kdgol', namagol='$namagol' WHERE id='$no'");
 		 
 		if ($query){
 			echo "<script>alert('Data Berhasil diubah!'); window.location = 'golongan.php'</script>";	
@@ -49,7 +49,7 @@ switch ($mode) {
 		$kdjenis	= $_POST['kdjenis'];
 		$namajenis	= $_POST['namajenis'];
 
-		$query = mysql_query("UPDATE jenis SET kdjenis='$kdjenis', namajenis='$namajenis' WHERE id='$no'");
+		$query = mysqli_query($conn,"UPDATE jenis SET kdjenis='$kdjenis', namajenis='$namajenis' WHERE id='$no'");
 		 
 		if ($query){
 			echo "<script>alert('Data Berhasil diubah!'); window.location = 'jenis.php'</script>";	
@@ -71,18 +71,18 @@ switch ($mode) {
 		$adm		= $_POST['adm'];
 		$cat	    = $_POST['cat'];
 
-		$tampil2=mysql_query("select * from master WHERE id='$kode'");
-		$data2=mysql_fetch_array($tampil2);		
+		$tampil2=mysqli_query($conn,"select * from master WHERE id='$kode'");
+		$data2=mysqli_fetch_array($tampil2);		
 		//konvert 3 Satuan
 			$sats1	= $sat1*$data2['max1']*$data2['max2'];
 			$sats2	= $sat2*$data2['max2'];
 			$jumlah = $sats1+$sats2+$sat3;
 
-		$tampil1=mysql_query("select * from riwayat WHERE no='$no'");
-		$data1=mysql_fetch_array($tampil1);
+		$tampil1=mysqli_query($conn,"select * from riwayat WHERE no='$no'");
+		$data1=mysqli_fetch_array($tampil1);
 
-		$tampil=mysql_query("select * from saldo WHERE no='$kode'");
-		$data=mysql_fetch_array($tampil);
+		$tampil=mysqli_query($conn,"select * from saldo WHERE no='$kode'");
+		$data=mysqli_fetch_array($tampil);
 			
 		$awal=$data1['masuk'];
 
@@ -92,12 +92,12 @@ switch ($mode) {
 		if ($update<0) {
 			echo "<script>alert('JUMLAH STOK MINUS !!!'); window.location = 'masuk.php'</script>"; } 
 		else {
-			$query1 = mysql_query("UPDATE saldo SET saldo='$update', tanggal='$date', tglform='$tglform' WHERE no='$kode'");
+			$query1 = mysqli_query($conn,"UPDATE saldo SET saldo='$update', tanggal='$date', tglform='$tglform' WHERE no='$kode'");
 			if ($query1){
-				$query2 = mysql_query("UPDATE riwayat SET noform='$noform', kode='$kode', masuk='$jumlah', tglform='$tglform' , saldo='$update', tanggal='$date', ket='$ket', adm='$adm', cat='$cat'
+				$query2 = mysqli_query($conn,"UPDATE riwayat SET noform='$noform', kode='$kode', masuk='$jumlah', tglform='$tglform' , saldo='$update', tanggal='$date', ket='$ket', adm='$adm', cat='$cat'
 						  WHERE no='$no'");
 				if ($query2){
-				$query = mysql_query("UPDATE masuk SET noform='$noform', kode='$kode', jumlah='$jumlah', tglform='$tglform' , saldo='$update', tanggal='$date', adm='$adm', cat='$cat'
+				$query = mysqli_query($conn,"UPDATE masuk SET noform='$noform', kode='$kode', jumlah='$jumlah', tglform='$tglform' , saldo='$update', tanggal='$date', adm='$adm', cat='$cat'
 				WHERE no='$no'");
 				echo "<script>alert('Data Barang Masuk Berhasil dirubah!'); window.location = 'masuk.php'</script>";	
 				}
@@ -119,18 +119,18 @@ switch ($mode) {
 		$tglform    = $_POST['tglform'];
 		$adm		= $_POST['adm'];
 
-		$tampil2=mysql_query("select * from master WHERE id='$kode'");
-		$data2=mysql_fetch_array($tampil2);		
+		$tampil2=mysqli_query($conn,"select * from master WHERE id='$kode'");
+		$data2=mysqli_fetch_array($tampil2);		
 		//konvert 3 Satuan
 			$sats1	= $sat1*$data2['max1']*$data2['max2'];
 			$sats2	= $sat2*$data2['max2'];
 			$jumlah = $sats1+$sats2+$sat3;
 
-		$tampil1=mysql_query("select * from riwayat WHERE no='$no'");
-		$data1=mysql_fetch_array($tampil1);
+		$tampil1=mysqli_query($conn,"select * from riwayat WHERE no='$no'");
+		$data1=mysqli_fetch_array($tampil1);
 
-		$tampil=mysql_query("select * from saldo WHERE no='$kode'");
-		$data=mysql_fetch_array($tampil);
+		$tampil=mysqli_query($conn,"select * from saldo WHERE no='$kode'");
+		$data=mysqli_fetch_array($tampil);
 			
 		$awal=$data1['keluar'];
 
@@ -140,13 +140,13 @@ switch ($mode) {
 		if ($update<0) {
 			echo "<script>alert('JUMLAH STOK MINUS !!!'); window.location = 'keluar.php'</script>";
 		} else {
-		$query1 = mysql_query("UPDATE saldo SET saldo='$update', tanggal='$date', tglform='$tglform'
+		$query1 = mysqli_query($conn,"UPDATE saldo SET saldo='$update', tanggal='$date', tglform='$tglform'
 		 WHERE no='$kode'");
 			if ($query1){
-				$query2 = mysql_query("UPDATE riwayat SET noform='$noform', kode='$kode', keluar='$jumlah', tglform='$tglform' , saldo='$update', tanggal='$date', ket='$ket', adm='$adm'
+				$query2 = mysqli_query($conn,"UPDATE riwayat SET noform='$noform', kode='$kode', keluar='$jumlah', tglform='$tglform' , saldo='$update', tanggal='$date', ket='$ket', adm='$adm'
 						  WHERE no='$no'");
 				if ($query2){
-				$query = mysql_query("UPDATE keluar SET noform='$noform', kode='$kode', jumlah='$jumlah', tglform='$tglform' , saldo='$update', tanggal='$date', adm='$adm'
+				$query = mysqli_query($conn,"UPDATE keluar SET noform='$noform', kode='$kode', jumlah='$jumlah', tglform='$tglform' , saldo='$update', tanggal='$date', adm='$adm'
 				WHERE no='$no'");
 				echo "<script>alert('Data Barang Keluar Berhasil dirubah!'); window.location = 'keluar.php'</script>";	
 				}

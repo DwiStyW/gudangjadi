@@ -93,8 +93,8 @@ $_SESSION['start_time'] = time();
 <body>
   <?php
   $username = $_SESSION['username'];
-  $query_user_login = mysql_query("select * from tb_user where username='$username'");
-  $user_login = mysql_fetch_array($query_user_login);
+  $query_user_login = mysqli_query($conn,"select * from tb_user where username='$username'");
+  $user_login = mysqli_fetch_array($query_user_login);
   ini_set('date.timezone', 'Asia/Jakarta');
 
   ?>
@@ -147,27 +147,27 @@ $_SESSION['start_time'] = time();
                   </thead>
                   <tbody>
                     <?php
-                    $tampil = mysql_query("SELECT * FROM master, riwayat  WHERE master.id=riwayat.kode && riwayat.tglform between '$mulai' AND '$end' ORDER BY kdgol ASC, kode ASC");
-                    $tampil1 = mysql_query("SELECT * FROM master ORDER BY kdgol ASC, nama ASC");
+                    $tampil = mysqli_query($conn,"SELECT * FROM master, riwayat  WHERE master.id=riwayat.kode && riwayat.tglform between '$mulai' AND '$end' ORDER BY kdgol ASC, kode ASC");
+                    $tampil1 = mysqli_query($conn,"SELECT * FROM master ORDER BY kdgol ASC, nama ASC");
 
                     $no = 1;
-                    while ($data = mysql_fetch_array($tampil1)) {
+                    while ($data = mysqli_fetch_array($tampil1)) {
                       $code = $data['id'];
 
                     //SaldoAwal
-                      $in = mysql_query("SELECT SUM(masuk) AS salIn FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
-                      $out = mysql_query("SELECT SUM(keluar) AS salOut FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
+                      $in = mysqli_query($conn,"SELECT SUM(masuk) AS salIn FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
+                      $out = mysqli_query($conn,"SELECT SUM(keluar) AS salOut FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
 
-                      while ($ambil = mysql_fetch_array($in)) {
-                      while ($ambil1 = mysql_fetch_array($out)) {
+                      while ($ambil = mysqli_fetch_array($in)) {
+                      while ($ambil1 = mysqli_fetch_array($out)) {
                           $saldo = $ambil['salIn'] - $ambil1['salOut'];
 
                     //Masuk
-                        $masuk = mysql_query("SELECT SUM(masuk) AS mas FROM riwayat  WHERE kode='$code' && tglform between '$start' AND '$end'");
-                        while ($ambi = mysql_fetch_array($masuk)) {
+                        $masuk = mysqli_query($conn,"SELECT SUM(masuk) AS mas FROM riwayat  WHERE kode='$code' && tglform between '$start' AND '$end'");
+                        while ($ambi = mysqli_fetch_array($masuk)) {
                     //Keluar
-                        $keluar = mysql_query("SELECT SUM(keluar) AS kel FROM riwayat  WHERE kode='$code' && tglform between '$start' AND '$end'");
-                        while ($amb = mysql_fetch_array($keluar)) {
+                        $keluar = mysqli_query($conn,"SELECT SUM(keluar) AS kel FROM riwayat  WHERE kode='$code' && tglform between '$start' AND '$end'");
+                        while ($amb = mysqli_fetch_array($keluar)) {
 
                     // Saldo Akhir
 						$akhirr = $saldo + $ambi['mas'] - $amb['kel'];
@@ -183,8 +183,8 @@ $_SESSION['start_time'] = time();
 		            <?php
 		            $kdgrup = $data['kdgol'];
 		            //Mastergrup        
-		            $tampil2 = mysql_query("select * from golongan WHERE id='$kdgrup'");
-		            $data2 = mysql_fetch_array($tampil2); ?>
+		            $tampil2 = mysqli_query($conn,"select * from golongan WHERE id='$kdgrup'");
+		            $data2 = mysqli_fetch_array($tampil2); ?>
 		            <td><?php echo $data2['kdgol']; ?> <?php echo $data2['namagol']; ?></td>
 		            <td><?php echo $data['kode']; ?></td>
 		            <td><?php echo $data['nama']; ?></td>

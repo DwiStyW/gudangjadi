@@ -92,8 +92,8 @@ $_SESSION['start_time'] = time();
 <body>
 <?php
   $username = $_SESSION['username'];
-  $query_user_login = mysql_query("select * from tb_user where username='$username'");
-  $user_login = mysql_fetch_array($query_user_login);
+  $query_user_login = mysqli_query($conn,"select * from tb_user where username='$username'");
+  $user_login = mysqli_fetch_array($query_user_login);
   ini_set('date.timezone', 'Asia/Jakarta');
 ?>
     <!--[if lt IE 8]>
@@ -158,20 +158,20 @@ $_SESSION['start_time'] = time();
 							
 									<tbody>
 										<?php					
-										$tampil=mysql_query("select * from riwayat, master WHERE riwayat.kode='$code' && master.id=riwayat.kode && tglform between '$start' AND '$end' ORDER BY riwayat.tglform ASC, riwayat.masuk DESC ");
-										$tam=mysql_query("select * from master WHERE id='$code'");
-										$tes=mysql_fetch_array($tam);
+										$tampil=mysqli_query($conn,"select * from riwayat, master WHERE riwayat.kode='$code' && master.id=riwayat.kode && tglform between '$start' AND '$end' ORDER BY riwayat.tglform ASC, riwayat.masuk DESC ");
+										$tam=mysqli_query($conn,"select * from master WHERE id='$code'");
+										$tes=mysqli_fetch_array($tam);
 										
-										$in=mysql_query("SELECT SUM(masuk) AS salIn FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
-										$out=mysql_query("SELECT SUM(keluar) AS salOut FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
-										$salawal=mysql_query("SELECT * FROM riwayat WHERE kode='$code' && tglform='$start'");
+										$in=mysqli_query($conn,"SELECT SUM(masuk) AS salIn FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
+										$out=mysqli_query($conn,"SELECT SUM(keluar) AS salOut FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
+										$salawal=mysqli_query($conn,"SELECT * FROM riwayat WHERE kode='$code' && tglform='$start'");
 										
-										$ambil=mysql_fetch_array($in);
-										$ambil1=mysql_fetch_array($out);
+										$ambil=mysqli_fetch_array($in);
+										$ambil1=mysqli_fetch_array($out);
 										$sals=$ambil['salIn']-$ambil1['salOut'];
 										
 										$no=1;
-										$dat=mysql_fetch_array($salawal);										
+										$dat=mysqli_fetch_array($salawal);										
 										 ?>
 										 <!-- Saldo Awal -->
 										<tr>
@@ -199,7 +199,7 @@ $_SESSION['start_time'] = time();
 											<td>Saldo</td>
 											<td></td>
 										</tr>
-										<?php while($data=mysql_fetch_array($tampil)){												 												
+										<?php while($data=mysqli_fetch_array($tampil)){												 												
 										 ?>
 										<tr>
 										<?php 	
@@ -310,10 +310,10 @@ $_SESSION['start_time'] = time();
 											<td></td>
                                             <td>Total</td>
 											<td><?php 
-											$allin=mysql_query("SELECT SUM(masuk) AS sumIn FROM riwayat WHERE  keluar='0'&& kode='$code' && tglform between '$start' AND '$end'");
-											$allout=mysql_query("SELECT SUM(keluar) AS sumOut FROM riwayat WHERE masuk='0' && kode='$code' && tglform between '$start' AND '$end'");
-											$take=mysql_fetch_array($allin);
-											$take1=mysql_fetch_array($allout);
+											$allin=mysqli_query($conn,"SELECT SUM(masuk) AS sumIn FROM riwayat WHERE  keluar='0'&& kode='$code' && tglform between '$start' AND '$end'");
+											$allout=mysqli_query($conn,"SELECT SUM(keluar) AS sumOut FROM riwayat WHERE masuk='0' && kode='$code' && tglform between '$start' AND '$end'");
+											$take=mysqli_fetch_array($allin);
+											$take1=mysqli_fetch_array($allout);
                                              //konvert 3 satuan
                                                 $stts1  = floor($take['sumIn']/($tes['max1']*$tes['max2']));
                                                 $sit = $take['sumIn']-($stts1*$tes['max1']*$tes['max2']);

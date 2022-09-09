@@ -92,8 +92,8 @@ $_SESSION['start_time'] = time();
 <body>
 <?php
   $username = $_SESSION['username'];
-  $query_user_login = mysql_query("select * from tb_user where username='$username'");
-  $user_login = mysql_fetch_array($query_user_login);
+  $query_user_login = mysqli_query($conn,"select * from tb_user where username='$username'");
+  $user_login = mysqli_fetch_array($query_user_login);
   $iduser = $user_login['user_id'];
   ini_set('date.timezone', 'Asia/Jakarta');
 ?>
@@ -120,8 +120,8 @@ $_SESSION['start_time'] = time();
                                                 <div class="all-form-element-inner">
 													<form enctype="multipart/form-data" action="update.php?mode=4.php" method="post">
                                                     <?php
-													$query = mysql_query("SELECT * FROM riwayat WHERE no='$_GET[kd]'");
-													$data  = mysql_fetch_array($query);
+													$query = mysqli_query($conn,"SELECT * FROM riwayat WHERE no='$_GET[kd]'");
+													$data  = mysqli_fetch_array($query);
 													?>
 													<input name="no" type="hidden" class="form-control" id="no" value="<?php echo $data['no'];?>" />
 														<div class="form-group-inner">
@@ -137,8 +137,8 @@ $_SESSION['start_time'] = time();
                                                         </div>														
 														 <?php
                                                         $kodi = $data['kode'];
-                                                        $query1 = mysql_query("SELECT * FROM master WHERE id='$kodi'");
-                                                        $data1  = mysql_fetch_array($query1);
+                                                        $query1 = mysqli_query($conn,"SELECT * FROM master WHERE id='$kodi'");
+                                                        $data1  = mysqli_fetch_array($query1);
                                                         ?>
                                                         <div class="form-group-inner">
                                                             <div class="row">

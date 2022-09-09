@@ -8,8 +8,8 @@ $kode    	 		= $_POST['kode'];
 $jumlah	    	    = $_POST['jumlah'];
 $adm	    	    = $_POST['adm'];
 
-$tampil=mysql_query("SELECT * FROM riwayat WHERE noform='$noform'");
-$cek = mysql_num_rows($tampil);
+$tampil=mysqli_query($conn,"SELECT * FROM riwayat WHERE noform='$noform'");
+$cek = mysqli_num_rows($tampil);
 
 if ($cek>0){	
 	
@@ -105,8 +105,8 @@ $_SESSION['start_time'] = time();
 <body>
 <?php
   $username = $_SESSION['username'];
-  $query_user_login = mysql_query("select * from tb_user where username='$username'");
-  $user_login = mysql_fetch_array($query_user_login);
+  $query_user_login = mysqli_query($conn,"select * from tb_user where username='$username'");
+  $user_login = mysqli_fetch_array($query_user_login);
   $iduser = $user_login['user_id'];
   ini_set('date.timezone', 'Asia/Jakarta');
 ?>
@@ -149,10 +149,10 @@ $_SESSION['start_time'] = time();
 									</thead>
 									<tbody>
 										<?php					
-										$tampil=mysql_query("select * from riwayat, master, tb_user WHERE riwayat.noform='$noform' && master.id=riwayat.kode && riwayat.adm=tb_user.user_id ORDER BY riwayat.no DESC ");
+										$tampil=mysqli_query($conn,"select * from riwayat, master, tb_user WHERE riwayat.noform='$noform' && master.id=riwayat.kode && riwayat.adm=tb_user.user_id ORDER BY riwayat.no DESC ");
 										
 										$no=1;
-										while($data=mysql_fetch_array($tampil)){												 												
+										while($data=mysqli_fetch_array($tampil)){												 												
 										 ?>
 										<tr>												                                                  
 											<td><?php echo $no;?></td>											

@@ -92,8 +92,8 @@ $_SESSION['start_time'] = time();
 <body>
 <?php
   $username = $_SESSION['username'];
-  $query_user_login = mysql_query("select * from tb_user where username='$username'");
-  $user_login = mysql_fetch_array($query_user_login);
+  $query_user_login = mysqli_query($conn,"select * from tb_user where username='$username'");
+  $user_login = mysqli_fetch_array($query_user_login);
   ini_set('date.timezone', 'Asia/Jakarta');
 ?>
     <!--[if lt IE 8]>
@@ -119,8 +119,8 @@ $_SESSION['start_time'] = time();
                                                 <div class="all-form-element-inner">
 													<form enctype="multipart/form-data" action="update.php?mode=2.php" method="post">
                                                     <?php
-													$query = mysql_query("SELECT * FROM golongan WHERE id='$_GET[kd]'");
-													$data  = mysql_fetch_array($query);
+													$query = mysqli_query($conn,"SELECT * FROM golongan WHERE id='$_GET[kd]'");
+													$data  = mysqli_fetch_array($query);
 													?>
                                                         
                                                     <input name="no" type="hidden" class="form-control" id="no" value="<?php echo $data['id'];?>" readonly="readonly"/> 
