@@ -1,12 +1,12 @@
-<?php 
-include "koneksi.php" ;
-include "cek-login.php" ;
+<?php
+include "koneksi.php";
+include "cek-login.php";
 
 $timeout = 10; // Set timeout menit
 $logout_redirect_url = "logout.php"; // Set logout URL
 
 
- 
+
 $timeout = $timeout * 60; // Ubah menit ke detik
 if (isset($_SESSION['start_time'])) {
     $elapsed_time = time() - $_SESSION['start_time'];
@@ -20,8 +20,9 @@ $_SESSION['start_time'] = time();
 <!doctype html>
 <html class="no-js" lang="en">
 
-<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-    
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Input Master | SI Gudang</title>
     <meta name="description" content="">
@@ -90,12 +91,12 @@ $_SESSION['start_time'] = time();
 </head>
 
 <body>
-<?php
-  $username = $_SESSION['username'];
-  $query_user_login = mysql_query("select * from tb_user where username='$username'");
-  $user_login = mysql_fetch_array($query_user_login);
-  ini_set('date.timezone', 'Asia/Jakarta');
-?>
+    <?php
+    $username = $_SESSION['username'];
+    $query_user_login = mysqli_query($conn, "select * from tb_user where username='$username'");
+    $user_login = mysqli_fetch_array($query_user_login);
+    ini_set('date.timezone', 'Asia/Jakarta');
+    ?>
     <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -103,166 +104,164 @@ $_SESSION['start_time'] = time();
 
     <!-- Data table area Start-->
     <div class="basic-form-area mg-b-15">
-                <div class="container-fluid">                                     
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="sparkline12-list shadow-reset mg-t-30">
-                                <div class="sparkline12-hd">
-                                    <div class="main-sparkline12-hd">
-                                        <h1>Input Master Barang Jadi</h1>                                        
-                                    </div>
-                                </div>
-                                <div class="sparkline12-graph">
-                                    <div class="basic-login-form-ad">
-                                        <div class="row">
-                                            <div class="col-lg-12">											
-                                                <div class="all-form-element-inner">
-													<form enctype="multipart/form-data" action="insert.php?mode=1.php" method="post">
-                                                    
-                                                        <div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Kode Barang</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <input name="kode" type="text" class="form-control" id="kode" placeholder="Kode Barang" required/>																	
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Nama Barang</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <input name="nama" type="text" class="form-control" id="nama" placeholder="Nama Barang" required/>																	
-                                                                </div>
-                                                            </div>
-                                                        </div>
-														<div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Ukuran</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <input name="ukuran" type="text" class="form-control" id="ukuran" placeholder="Ukuran" required/>																	
-                                                                </div>
-                                                            </div>
-                                                        </div>
-														<div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Nama Golongan</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <div class="form-select-list">
-                                                                        <select id="gol" name="gol" class="form-control">
-                                                                            <option></option>
-                                                                            <?php
-                                                                            $query1 = mysql_query("SELECT * FROM GOLONGAN");
-                                                                            while ($data1  = mysql_fetch_array($query1)) {
-                                                                            ?>
-                                                                            <option value="<?php echo $data1['id'];?>"><?php echo $data1['kdgol'];?> <?php echo $data1['namagol'];?></option>
-                                                                            <?php }
-                                                                            ?>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>                                                                          
-                                                            </div>
-                                                        </div>
-														<div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Nama Jenis</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <div class="form-select-list">
-                                                                        <select id="jenis" name="jenis" class="form-control">
-                                                                            <option></option>
-                                                                            <?php
-                                                                            $query2 = mysql_query("SELECT * FROM JENIS");
-                                                                            while ($data2  = mysql_fetch_array($query2)) {
-                                                                            ?>
-                                                                            <option value="<?php echo $data2['id'];?>"><?php echo $data2['kdjenis'];?> <?php echo $data2['namajenis'];?></option>
-                                                                            <?php }
-                                                                            ?>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>                                                                          
-                                                            </div>
-                                                        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="sparkline12-list shadow-reset mg-t-30">
+                        <div class="sparkline12-hd">
+                            <div class="main-sparkline12-hd">
+                                <h1>Input Master Barang Jadi</h1>
+                            </div>
+                        </div>
+                        <div class="sparkline12-graph">
+                            <div class="basic-login-form-ad">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="all-form-element-inner">
+                                            <form enctype="multipart/form-data" action="insert.php?mode=1.php" method="post">
 
-                                                     <!-- 3 Satuan -->
-                                                    <br/>   
-                                                        <div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Satuan 1</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <input name="sat1" type="text" class="form-control" id="sat1" placeholder="Satuan1"/>
-                                                                </div>
-                                                            </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Kode Barang</label>
                                                         </div>
-                                                        <div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Isi Satuan 1</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <input name="max1" type="text" class="form-control" id="max1" placeholder="Isi 1"/>
-                                                                </div>
-                                                            </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="kode" type="text" class="form-control" id="kode" placeholder="Kode Barang" required />
                                                         </div>
-                                                        <div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Satuan 2</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <input name="sat2" type="text" class="form-control" id="sat2" placeholder="Satuan2"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Isi Satuan 2</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <input name="max2" type="text" class="form-control" id="max2" placeholder="Isi 2"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Satuan 3</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <input name="sat3" type="text" class="form-control" id="sat3" placeholder="Satuan3"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        <div class="form-group-inner">
-                                                            <div class="login-btn-inner">
-                                                                <div class="row">
-                                                                    <div class="col-lg-3"></div>
-                                                                    <div class="col-lg-9">
-                                                                        <div class="login-horizental cancel-wp pull-left">
-                                                                            <a href="master.php"><button class="btn btn-white" type="button">Kembali</button></a>
-                                                                            <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Save Change</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-														
-                                                    </form>
-													
+                                                    </div>
                                                 </div>
-                                            </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Nama Barang</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="nama" type="text" class="form-control" id="nama" placeholder="Nama Barang" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Ukuran</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="ukuran" type="text" class="form-control" id="ukuran" placeholder="Ukuran" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Nama Golongan</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <div class="form-select-list">
+                                                                <select id="gol" name="gol" class="form-control">
+                                                                    <option></option>
+                                                                    <?php
+                                                                    $query1 = mysqli_query($conn, "SELECT * FROM GOLONGAN");
+                                                                    while ($data1  = mysqli_fetch_array($query1)) {
+                                                                    ?>
+                                                                        <option value="<?php echo $data1['id']; ?>"><?php echo $data1['kdgol']; ?> <?php echo $data1['namagol']; ?></option>
+                                                                    <?php }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Nama Jenis</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <div class="form-select-list">
+                                                                <select id="jenis" name="jenis" class="form-control">
+                                                                    <option></option>
+                                                                    <?php
+                                                                    $query2 = mysqli_query($conn, "SELECT * FROM JENIS");
+                                                                    while ($data2  = mysqli_fetch_array($query2)) {
+                                                                    ?>
+                                                                        <option value="<?php echo $data2['id']; ?>"><?php echo $data2['kdjenis']; ?> <?php echo $data2['namajenis']; ?></option>
+                                                                    <?php }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 3 Satuan -->
+                                                <br />
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Satuan 1</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="sat1" type="text" class="form-control" id="sat1" placeholder="Satuan1" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Isi Satuan 1</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="max1" type="text" class="form-control" id="max1" placeholder="Isi 1" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Satuan 2</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="sat2" type="text" class="form-control" id="sat2" placeholder="Satuan2" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Isi Satuan 2</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="max2" type="text" class="form-control" id="max2" placeholder="Isi 2" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Satuan 3</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="sat3" type="text" class="form-control" id="sat3" placeholder="Satuan3" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group-inner">
+                                                    <div class="login-btn-inner">
+                                                        <div class="row">
+                                                            <div class="col-lg-3"></div>
+                                                            <div class="col-lg-9">
+                                                                <div class="login-horizental cancel-wp pull-left">
+                                                                    <a href="master.php"><button class="btn btn-white" type="button">Kembali</button></a>
+                                                                    <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Save Change</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+
                                         </div>
                                     </div>
                                 </div>
@@ -271,14 +270,16 @@ $_SESSION['start_time'] = time();
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
     <!-- Data table area End-->
     <!-- Footer Start-->
     <div class="footer-copyright-area">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">                        
+                <div class="col-lg-12">
                     <div class="footer-copy-right">
-						<p> Copyright &#169; <?php echo date("Y")?> All rights reserved. Designed by <i>IT Dept INDOSAR</p>						
+                        <p> Copyright &#169; <?php echo date("Y") ?> All rights reserved. Designed by <i>IT Dept INDOSAR</p>
                     </div>
                 </div>
             </div>
@@ -286,7 +287,7 @@ $_SESSION['start_time'] = time();
     </div>
     <!-- Footer End-->
     <!-- Color Switcher -->
-	<!--
+    <!--
     <div class="ec-colorswitcher">
         <a class="ec-handle" href="#"><i class="fa fa-cog" aria-hidden="true"></i></a>
         <h3>Style Switcher</h3>
@@ -331,7 +332,7 @@ $_SESSION['start_time'] = time();
 	-->
     <!-- Color Switcher end -->
     <!-- Chat Box Start-->
-    
+
     <!-- Chat Box End-->
     <!-- jquery
 		============================================ -->

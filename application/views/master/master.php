@@ -44,8 +44,8 @@
             <div class="sparkline8-graph">
               <div class="datatable-dashv1-list custom-datatable-overright">
                 <div id="toolbar">
-                  <a href="inputmas.php"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Input Master</button></a>
-                  <a href="golongan.php"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master Golongan</button></a>
+                  <button class="btn btn-sm btn-primary login-submit-cs" data-toggle="modal" data-target="#exampleModal">Input Master</button></a>
+                  <a href="<?= base_url("golongan") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master Golongan</button></a>
                   <a href="jenis.php"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master Jenis</button></a>
                   <!-- <a target="_blank" href="printmaster.php"><button class="btn btn-sm btn-success login-submit-cs" type="submit">Print Master</button></a> -->
                   <a href="index.php"><button class="btn btn-white" type="button">Kembali</button></a>
@@ -86,10 +86,8 @@
                         <td><?php echo $m->namagol ?></td>
                         <td><?php echo $m->namajenis ?></td>
                         <td>
-                          <a class="btn btn-sm btn-primary" href="#"><i class="fa fa-edit"></i> Edit</a>
-                          <a class="btn btn-sm btn-danger" href="#" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-wrench"></i> Hapus</a>
-                          <!-- <a class="btn btn-sm btn-primary" href="editmas.php?hal=edit&kd=<?php echo $data['id']; ?>"><i class="fa fa-edit"></i> Edit</a>
-                          <a class="btn btn-sm btn-danger" href="hapusmas.php?hal=hapus&kd=<?php echo $data['id']; ?>" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-wrench"></i> Hapus</a> -->
+                          <a class="btn btn-sm btn-primary" href="<?= base_url("master/editmas/" . $m->id) ?>"><i class="fa fa-edit"></i> Edit</a>
+                          <a class="btn btn-sm btn-danger" href="<?= base_url("master/hapus_master/" . $m->id) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-wrench"></i> Hapus</a>
                         </td>
                       </tr>
                     <?php $no++;
@@ -104,3 +102,85 @@
     </div>
   </div>
   <!-- Data table area End-->
+
+  <!-- Modal Tambah Master -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <label class="modal-title" id="exampleModalLabel">Form Input Master</label>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="<?= base_url('') . '/master/tambah_golongan' ?>" method="post">
+
+            <div class="form group">
+              <label>kode Golongan</label>
+              <input type="text" name="kdgol" class="form-control">
+            </div>
+
+            <div class="form group">
+              <label>Nama Golongan</label>
+              <input type="text" name="namagol" class="form-control">
+            </div>
+
+            <div class="form group">
+              <label>Ukuran</label>
+              <input type="text" name="ukuran" class="form-control">
+            </div>
+
+            <div class="form group">
+              <label>Satuan 1</label>
+              <input type="text" name="sat1" class="form-control">
+            </div>
+
+            <div class="form group">
+              <label>Isi Satuan 1</label>
+              <input type="text" name="max1" class="form-control">
+            </div>
+
+            <div class="form group">
+              <label>Satuan 2</label>
+              <input type="text" name="sat2" class="form-control">
+            </div>
+
+            <div class="form group">
+              <label>Isi Satuan 2</label>
+              <input type="text" name="max2" class="form-control">
+            </div>
+
+            <div class="form group">
+              <label>Satuan 3</label>
+              <input type="text" name="sat3" class="form-control">
+            </div>
+
+            <div class="form group">
+              <label>Golongan</label>
+              <select type="select" name="kdgol" class="form-control">
+                <option disabled selected value hidden>Pilih Golongan</option>
+                <?php foreach ($golongan as $g) { ?>
+                  <option value="<?= $g->id ?>"><?= $g->namagol ?></option>
+                <?php } ?>
+              </select>
+            </div>
+
+            <div class="form group">
+              <label>Jenis</label>
+              <select type="select" name="kdjenis" class="form-control">
+                <option disabled selected value hidden>Pilih Jenis</option>
+                <?php foreach ($jenis as $j) { ?>
+                  <option value="<?= $j->id ?>"><?= $j->namajenis ?></option>
+                <?php } ?>
+              </select>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- END Modal -->

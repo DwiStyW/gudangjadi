@@ -5,7 +5,7 @@ Gudang Jadi
 *******************
 Update :
 *******************
-1. Login _
-2. Home _
-3. Master _
-
+1. Login_
+2. Home_
+3. Master_
+4. Tambah Golongan_
