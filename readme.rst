@@ -2,10 +2,9 @@
 Gudang Jadi
 ###################
 
-*******************
-Update :
-*******************
--Home
--Login
--Master
+Update : 
+1. Login
+2. Home
+3. Master
+
 
