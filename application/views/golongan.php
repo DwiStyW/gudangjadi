@@ -71,8 +71,8 @@
                         <td>
                           <!-- <a class="btn btn-sm btn-primary" href="editgol.php?hal=edit&kd=<?php echo $data['id']; ?>"><i class="fa fa-edit"></i> Edit</a>
                           <a class="btn btn-sm btn-danger" href="hapusgr.php?hal=hapus&kd=<?php echo $data['id']; ?>" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-wrench"></i> Hapus</a> -->
-                          <a class="btn btn-sm btn-primary" href="#"><i class="fa fa-edit"></i> Edit</a>
-                          <a class="btn btn-sm btn-danger" href="#" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-trash"></i> Hapus</a>
+                          <a class="btn btn-sm btn-primary" href="#" data-toggle="modal" data-target="#editmodal" id="tomboledit" data-id="<?= $g->id ?>" data-kdgol="<?= $g->kdgol ?>" data-namagol="<?= $g->namagol ?>"><i class="fa fa-edit"></i> Edit</a>
+                          <a class="btn btn-sm btn-danger" href="<?= base_url("golongan/hapus_golongan/" . $g->id) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-trash"></i> Hapus</a>
                         </td>
                       </tr>
                     <?php } ?>
@@ -87,13 +87,12 @@
   </div>
   <!-- Data table area End-->
 
-
-  <!-- Modal Tambah Master -->
+  <!-- Modal Tambah golongan -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <label class="modal-title" id="exampleModalLabel">Form Input Master</label>
+          <label class="modal-title" id="exampleModalLabel">Form Tambah Golongan</label>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -119,3 +118,52 @@
     </div>
   </div>
   <!-- END Modal -->
+
+  <!-- Modal Edit Golongan -->
+  <div class="modal fade" id="editmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <label class="modal-title" id="exampleModalLabel">Form Edit Golongan</label>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="<?= base_url() . 'golongan/update_golongan' ?>" method="post">
+
+            <input type="hidden" id="id" name="id" class="form-control">
+
+            <div class="form group">
+              <label>kode Golongan</label>
+              <input type="text" id="kdgol" name="kdgol" class="form-control">
+            </div>
+
+            <div class="form group">
+              <label>Nama Golongan</label>
+              <input type="text" id="namagol" name="namagol" class="form-control">
+            </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- END Modal -->
+
+  <!-- get data -->
+  <script src="<?= base_url() ?>assets/js/jquery-3.2.1.min.js"></script>
+  <script>
+    $(document).on("click", "#tomboledit", function() {
+      let id = $(this).data('id');
+      let kdgol = $(this).data('kdgol');
+      let namagol = $(this).data('namagol');
+
+      $(".modal-body #id").val(id);
+      $(".modal-body #kdgol").val(kdgol);
+      $(".modal-body #namagol").val(namagol);
+
+    });
+  </script>

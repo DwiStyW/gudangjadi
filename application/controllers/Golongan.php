@@ -3,7 +3,7 @@ class Golongan extends CI_Controller
 {
     public function index()
     {
-        $data['golongan'] = $this->golongan_model->tampil_golongan();
+        $data['golongan'] = $this->get->tampil_golongan();
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("golongan", $data);
@@ -22,7 +22,32 @@ class Golongan extends CI_Controller
             'namagol' => $namagol
         );
 
-        $this->golongan_model->tambah_golongan($data, 'golongan');
+        $this->insert->tambah($data, 'golongan');
+        redirect('golongan');
+    }
+
+    public function update_golongan()
+    {
+        $id = $this->input->post('id');
+        $kdgol = $this->input->post('kdgol');
+        $namagol = $this->input->post('namagol');
+
+        $data = array(
+            'kdgol' => $kdgol,
+            'namagol' => $namagol
+        );
+        $where = array(
+            'id' => $id,
+        );
+
+        $this->edit->update($where, $data, 'golongan');
+        redirect('golongan');
+    }
+
+    public function hapus_golongan($id)
+    {
+        $where = array('id' => $id);
+        $this->delete->hapus($where, 'golongan');
         redirect('golongan');
     }
 }

@@ -46,7 +46,7 @@
                 <div id="toolbar">
                   <button class="btn btn-sm btn-primary login-submit-cs" data-toggle="modal" data-target="#exampleModal">Input Master</button></a>
                   <a href="<?= base_url("golongan") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master Golongan</button></a>
-                  <a href="jenis.php"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master Jenis</button></a>
+                  <a href="<?= base_url("jenis") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master Jenis</button></a>
                   <!-- <a target="_blank" href="printmaster.php"><button class="btn btn-sm btn-success login-submit-cs" type="submit">Print Master</button></a> -->
                   <a href="index.php"><button class="btn btn-white" type="button">Kembali</button></a>
                 </div>
@@ -87,7 +87,7 @@
                         <td><?php echo $m->namajenis ?></td>
                         <td>
                           <a class="btn btn-sm btn-primary" href="<?= base_url("master/editmas/" . $m->id) ?>"><i class="fa fa-edit"></i> Edit</a>
-                          <a class="btn btn-sm btn-danger" href="<?= base_url("master/hapus_master/" . $m->id) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-wrench"></i> Hapus</a>
+                          <a class="btn btn-sm btn-danger" href="<?= base_url("master/hapus_master/" . $m->id) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-trash"></i> Hapus</a>
                         </td>
                       </tr>
                     <?php $no++;
@@ -112,16 +112,16 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="<?= base_url('') . '/master/tambah_golongan' ?>" method="post">
+          <form action="<?= base_url('') . 'master/tambah_master' ?>" method="post">
 
             <div class="form group">
-              <label>kode Golongan</label>
-              <input type="text" name="kdgol" class="form-control">
+              <label>kode Barang</label>
+              <input type="text" name="kode" class="form-control">
             </div>
 
             <div class="form group">
-              <label>Nama Golongan</label>
-              <input type="text" name="namagol" class="form-control">
+              <label>Nama barang</label>
+              <input type="text" name="nama" class="form-control">
             </div>
 
             <div class="form group">

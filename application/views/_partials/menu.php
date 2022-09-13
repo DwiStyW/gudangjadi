@@ -84,7 +84,7 @@
                     <ul class="nav nav-tabs custom-menu-wrap">
                         <li><a href="<?= base_url("home") ?>">Home</a></li>
                         <li><a href="<?= base_url("master") ?>">Master Barang</a></li>
-                        <li><a href="masuk.php">Barang Masuk</a></li>
+                        <li><a href="<?= base_url("masuk") ?>">Barang Masuk</a></li>
                         <li><a href="keluar.php">Barang Keluar</a></li>
                         <li><a href="riwayat.php">Riwayat Keluar Masuk</a></li>
                         <li><a href="reportgr.php">Report per Gol</a></li>

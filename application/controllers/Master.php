@@ -3,9 +3,9 @@ class Master extends CI_Controller
 {
     public function index()
     {
-        $data['master'] = $this->master_model->tampil_master();
-        $data['golongan'] = $this->master_model->get_gol();
-        $data['jenis'] = $this->master_model->get_jen();
+        $data['master'] = $this->get->tampil_master();
+        $data['golongan'] = $this->get->tampil_golongan();
+        $data['jenis'] = $this->get->tampil_jenis();
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("master/master", $data);
@@ -41,16 +41,16 @@ class Master extends CI_Controller
         );
 
 
-        $this->master_model->tambah_master($data, 'master');
+        $this->insert->tambah($data, 'master');
         redirect('master');
     }
 
     public function editmas($id)
     {
         $where = array('id' => $id);
-        $data['golongan'] = $this->master_model->get_gol();
-        $data['jenis'] = $this->master_model->get_jen();
-        $data['master'] = $this->master_model->edit_master($where, 'master')->result();
+        $data['golongan'] = $this->get->tampil_golongan();
+        $data['jenis'] = $this->get->tampil_jenis();
+        $data['master'] = $this->get->edit_master($where, 'master')->result();
         $this->load->view('_partials/header');
         $this->load->view('_partials/menu');
         $this->load->view('master/editmas', $data);
@@ -85,14 +85,14 @@ class Master extends CI_Controller
             'id' => $id
         );
 
-        $this->master_model->update_master($where, $data, 'master');
+        $this->edit->update($where, $data, 'master');
         redirect('master');
     }
 
     public function hapus_master($id)
     {
         $where = array('id' => $id);
-        $this->master_model->hapus_master($where, 'master');
+        $this->delete->hapus($where, 'master');
         redirect('master');
     }
 }
