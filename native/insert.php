@@ -49,7 +49,6 @@ switch ($mode) {
 		$sat2	    	    = $_POST['sat2'];
 		$sat3	    	    = $_POST['sat3'];
 		$adm	    	    = $_POST['adm'];
-		
 		$cat	    	    = $_POST['cat'];
 
 		$cekdouble = mysql_query("select * from riwayat where tanggal='$tgl'");
@@ -176,5 +175,3 @@ switch ($mode) {
 	break;
 
 }
-
-?>
