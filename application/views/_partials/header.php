@@ -59,6 +59,7 @@
   <script src="<?= base_url() ?>assets/js/vendor/modernizr-2.8.3.min.js"></script>
   <!-- Color Css Files
 		============================================ -->
+  <link rel="stylesheet" href="<?= base_url() ?>assets/select2-master/dist/css/select2.min.css" />
   <link rel="alternate stylesheet" type="text/css" href="<?= base_url() ?>assets/css/switcher/color-one.css" title="color-one" media="screen" />
   <link rel="alternate stylesheet" type="text/css" href="<?= base_url() ?>assets/css/switcher/color-two.css" title="color-two" media="screen" />
   <link rel="alternate stylesheet" type="text/css" href="<?= base_url() ?>assets/css/switcher/color-three.css" title="color-three" media="screen" />

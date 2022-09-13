@@ -61,4 +61,13 @@ class get extends CI_Model
         return $this->db->get()->result();
     }
     //end get data barang masuk
+
+    public function riwayat_all()
+    {
+        $this->db->select('*');
+        $this->db->from('riwayat,master');
+        $this->db->where("master.id=riwayat.kode");
+        $this->db->order_by('riwayat.no', 'DESC')->limit(20);
+        return $this->db->get()->result();
+    }
 }
