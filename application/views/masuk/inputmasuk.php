@@ -51,12 +51,14 @@
                                                         <div class="col-lg-3">
                                                             <label class="login2 pull-right pull-right-pro">Kode Barang</label>
                                                         </div>
-                                                        <div class="col-lg-8">
+                                                        <div class="col-lg-8" style="width:73%">
                                                             <div class="form-select-list">
-                                                                <select id="kode" name="kode" class="form-control">
+                                                                <select id="kode" name="kode" class="form-control" onchange="filSatuan()" required>
                                                                     <option type="search"></option>
-                                                                    <?php foreach ($masuk as $m) { ?>
-                                                                        <option value="<?= $m->id ?>"><?= $m->nama ?></option>
+                                                                    <?php
+                                                                    $no = 1;
+                                                                    foreach ($master as $mter) { ?>
+                                                                        <option value="<?= $mter->id ?>"><?= $no++ ?> | <?= $mter->nama ?> | <?= $mter->sat1 ?> | <?= $mter->sat2 ?> | <?= $mter->sat3 ?> | <?= $mter->kode ?></option>
                                                                     <?php } ?>
                                                                 </select>
                                                             </div>
@@ -69,7 +71,7 @@
                                                             <label class="login2 pull-right pull-right-pro">Satuan 1</label>
                                                         </div>
                                                         <div class="col-lg-9">
-                                                            <input name="sat1" type="number" class="form-control" id="sat1" placeholder="Satuan 1">
+                                                            <input id="sat1" name="sat1" type="number" class="form-control" id="sat1" placeholder="Satuan 1">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -118,7 +120,7 @@
                                                 <div class="form-group-inner">
                                                     <div class="row">
                                                         <div class="col-lg-9">
-                                                            <input name="adm" type="hidden" class="form-control" id="adm" value="" />
+                                                            <input name="adm" type="hidden" class="form-control" id="adm" value="<?= $this->session->userdata('user_id'); ?>" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -128,7 +130,7 @@
                                                             <div class="col-lg-3"></div>
                                                             <div class="col-lg-9">
                                                                 <div class="login-horizental cancel-wp pull-left">
-                                                                    <a href="masuk.php"><button class="btn btn-white" type="button">Kembali</button></a>
+                                                                    <a href="<?= base_url("masuk") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
                                                                     <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Save Change</button>
                                                                 </div>
                                                             </div>
@@ -243,13 +245,19 @@
                 }
             }
         }
+
+        function filSatuan() {
+            var kode = document.getElementById('kode').options;
+            var index = document.getElementById('kode').selectedIndex;
+            document.getElementById('sat1').placeholder = kode[index].text;
+        }
     </script>
     <script src="<?= base_url() ?>assets/js/jquery-2.1.4.min.js"></script>
     <script src="<?= base_url() ?>assets/select2-master/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
             $("#kode").select2({
-                placeholder: "Please Select"
+                placeholder: "Please Select",
             });
         });
     </script>

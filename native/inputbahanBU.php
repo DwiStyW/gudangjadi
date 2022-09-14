@@ -180,6 +180,7 @@ $_SESSION['start_time'] = time();
                                                                         $link = mysqli_connect('localhost', 'root', '', 'gudangjadi');
                                                                         $query = "SELECT * FROM master ORDER BY nama";
                                                                         $hasil = mysqli_query($link, $query);
+                                                                        $no = 1;
                                                                         while ($row = mysqli_fetch_array($hasil)) {
                                                                         ?>
                                                                             <option value="<?php echo $row['id'] ?>"><?php echo $row['nama'] ?> | <?php echo $row['sat1'] ?> | <?php echo $row['sat2'] ?> | <?php echo $row['sat3'] ?> | <?php echo $row['kode'] ?></option>

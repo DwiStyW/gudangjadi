@@ -23,15 +23,17 @@ class Auth extends CI_Controller
 </div>');
                 redirect('auth/login');
             } else {
+
+                $this->session->set_userdata('fullname', $auth->fullname);
+                $this->session->set_userdata('user_id', $auth->user_id);
                 $this->session->set_userdata('username', $auth->username);
                 $this->session->set_userdata('role', $auth->role);
-                $this->session->set_userdata('fullname', $auth->fullname);
                 switch ($auth->role) {
                     case 'admin':
                         redirect('home');
                         break;
                     case 'manager':
-                        redirect('admin/dashboard_admin');
+                        redirect('home');
                         break;
                     case 'user':
                         redirect('home');
@@ -45,10 +47,7 @@ class Auth extends CI_Controller
 
     public function logout()
     {
-        $this->session->unset_userdata('password');
-        $this->session->unset_userdata('username');
-        $this->session->unset_userdata('fullname');
-        $this->session->unset_userdata('role');
+        $this->session->sess_destroy();
         $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
   Anda Berhasil Logout
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">

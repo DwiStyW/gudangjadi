@@ -1,12 +1,12 @@
-<?php 
-include "koneksi.php" ;
-include "cek-login.php" ;
+<?php
+include "koneksi.php";
+include "cek-login.php";
 
 $timeout = 10; // Set timeout menit
 $logout_redirect_url = "logout.php"; // Set logout URL
 
 
- 
+
 $timeout = $timeout * 60; // Ubah menit ke detik
 if (isset($_SESSION['start_time'])) {
     $elapsed_time = time() - $_SESSION['start_time'];
@@ -20,8 +20,9 @@ $_SESSION['start_time'] = time();
 <!doctype html>
 <html class="no-js" lang="en">
 
-<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-    
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Edit Input Bahan | SI Gudang</title>
     <meta name="description" content="">
@@ -90,164 +91,162 @@ $_SESSION['start_time'] = time();
 </head>
 
 <body>
-<?php
-  $username = $_SESSION['username'];
-  $query_user_login = mysql_query("select * from tb_user where username='$username'");
-  $user_login = mysql_fetch_array($query_user_login);
-  $iduser = $user_login['user_id'];
-  ini_set('date.timezone', 'Asia/Jakarta');
-?>
+    <?php
+    $username = $_SESSION['username'];
+    $query_user_login = mysqli_query($conn, "select * from tb_user where username='$username'");
+    $user_login = mysqli_fetch_array($query_user_login);
+    $iduser = $user_login['user_id'];
+    ini_set('date.timezone', 'Asia/Jakarta');
+    ?>
     <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    <?php include('menu.php'); ?>    
+    <?php include('menu.php'); ?>
 
     <!-- Data table area Start-->
     <div class="basic-form-area mg-b-15">
-                <div class="container-fluid">                                     
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="sparkline12-list shadow-reset mg-t-30">
-                                <div class="sparkline12-hd">
-                                    <div class="main-sparkline12-hd">
-                                        <h1>Edit Input Bahan</h1>                                        
-                                    </div>
-                                </div>
-                                <div class="sparkline12-graph">
-                                    <div class="basic-login-form-ad">
-                                        <div class="row">
-                                            <div class="col-lg-12">											
-                                                <div class="all-form-element-inner">
-													<form enctype="multipart/form-data" action="update.php?mode=4.php" method="post">
-                                                    <?php
-													$query = mysql_query("SELECT * FROM riwayat WHERE no='$_GET[kd]'");
-													$data  = mysql_fetch_array($query);
-													?>
-													<input name="no" type="hidden" class="form-control" id="no" value="<?php echo $data['no'];?>" />
-														<div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Tanggal Form</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <input name="tglform" type="date" class="form-control" id="tglform" value="<?php echo $data['tglform'];?>" required/> 
-                                                                    
-                                                                </div>
-                                                            </div>
-                                                        </div>														
-														 <?php
-                                                        $kodi = $data['kode'];
-                                                        $query1 = mysql_query("SELECT * FROM master WHERE id='$kodi'");
-                                                        $data1  = mysql_fetch_array($query1);
-                                                        ?>
-                                                        <div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Nama barang</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <input name="name" type="text" class="form-control" id="name" value="<?php echo $data1['nama'];?>"readonly="readonly"/>
-                                                                    <input name="kode" type="hidden" class="form-control" id="kode" value="<?php echo $data['kode'];?>"readonly="readonly"/>
-                                                                </div>
-                                                            </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="sparkline12-list shadow-reset mg-t-30">
+                        <div class="sparkline12-hd">
+                            <div class="main-sparkline12-hd">
+                                <h1>Edit Input Bahan</h1>
+                            </div>
+                        </div>
+                        <div class="sparkline12-graph">
+                            <div class="basic-login-form-ad">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="all-form-element-inner">
+                                            <form enctype="multipart/form-data" action="update.php?mode=4.php" method="post">
+                                                <?php
+                                                $query = mysqli_query($conn, "SELECT * FROM riwayat WHERE no='$_GET[kd]'");
+                                                $data  = mysqli_fetch_array($query);
+                                                ?>
+                                                <input name="no" type="hidden" class="form-control" id="no" value="<?php echo $data['no']; ?>" />
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Tanggal Form</label>
                                                         </div>
-														<div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">No Form</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <input name="noform" type="text" class="form-control" id="noform" value="<?php echo $data['noform'];?>"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <?php
-                                                            //Perhitungan 3 Satuan
-                                                            $sats1  = floor($data['masuk']/($data1['max1']*$data1['max2']));
-                                                            $sisa   = $data['masuk']-($sats1*$data1['max1']*$data1['max2']);
-                                                            $sats2  = floor($sisa/$data1['max2']);
-                                                            $sats3  = $sisa-$sats2*$data1['max2'];
-                                                        ?>
+                                                        <div class="col-lg-9">
+                                                            <input name="tglform" type="date" class="form-control" id="tglform" value="<?php echo $data['tglform']; ?>" required />
 
-                                                        <div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Satuan 1</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <input name="sats1" type="text" class="form-control" id="sats1" value="<?php echo $sats1;?>" required/>
-                                                                </div>
-                                                            </div>
                                                         </div>
-                                                        <div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Satuan 2</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <input name="sats2" type="text" class="form-control" id="sats2" value="<?php echo $sats2;?>" required/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Satuan 3</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <input name="sats3" type="text" class="form-control" id="sats3" value="<?php echo $sats3;?>" required/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-														<div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Tanggal Input</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <input name="tgl" type="text" class="form-control" id="tgl" value="<?php echo date("Y-m-d h:i:s");?>" readonly="readonly"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        
-
-                                                        <div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <label class="login2 pull-right pull-right-pro">Catatan</label>
-                                                                </div>
-                                                                <div class="col-lg-9">
-                                                                    <input name="cat" value="<?php echo $data['cat'];?>" type="text" class="form-control" id="cat" placeholder="Catatan"/>                                                                 
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        														
-														<div class="form-group-inner">
-                                                            <div class="row">
-                                                                <div class="col-lg-9">
-                                                                    <input name="adm" type="hidden" class="form-control" id="adm" value="<?php echo $iduser;?>" /> 
-                                                                </div>
-                                                            </div>
-                                                        </div>
-														
-                                                        <div class="form-group-inner">
-                                                            <div class="login-btn-inner">
-                                                                <div class="row">
-                                                                    <div class="col-lg-3"></div>
-                                                                    <div class="col-lg-9">
-                                                                        <div class="login-horizental cancel-wp pull-left">
-                                                                            <a href="masuk.php"><button class="btn btn-white" type="button">Kembali</button></a>
-                                                                            <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Save Change</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-														
-                                                    </form>
-													
+                                                    </div>
                                                 </div>
-                                            </div>
+                                                <?php
+                                                $kodi = $data['kode'];
+                                                $query1 = mysqli_query($conn, "SELECT * FROM master WHERE id='$kodi'");
+                                                $data1  = mysqli_fetch_array($query1);
+                                                ?>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Nama barang</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="name" type="text" class="form-control" id="name" value="<?php echo $data1['nama']; ?>" readonly="readonly" />
+                                                            <input name="kode" type="hidden" class="form-control" id="kode" value="<?php echo $data['kode']; ?>" readonly="readonly" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">No Form</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="noform" type="text" class="form-control" id="noform" value="<?php echo $data['noform']; ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                                //Perhitungan 3 Satuan
+                                                $sats1  = floor($data['masuk'] / ($data1['max1'] * $data1['max2']));
+                                                $sisa   = $data['masuk'] - ($sats1 * $data1['max1'] * $data1['max2']);
+                                                $sats2  = floor($sisa / $data1['max2']);
+                                                $sats3  = $sisa - $sats2 * $data1['max2'];
+                                                ?>
+
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Satuan 1</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="sats1" type="text" class="form-control" id="sats1" value="<?php echo $sats1; ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Satuan 2</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="sats2" type="text" class="form-control" id="sats2" value="<?php echo $sats2; ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Satuan 3</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="sats3" type="text" class="form-control" id="sats3" value="<?php echo $sats3; ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Tanggal Input</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="tgl" type="text" class="form-control" id="tgl" value="<?php echo date("Y-m-d h:i:s"); ?>" readonly="readonly" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Catatan</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="cat" value="<?php echo $data['cat']; ?>" type="text" class="form-control" id="cat" placeholder="Catatan" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-9">
+                                                            <input name="adm" type="hidden" class="form-control" id="adm" value="<?php echo $iduser; ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group-inner">
+                                                    <div class="login-btn-inner">
+                                                        <div class="row">
+                                                            <div class="col-lg-3"></div>
+                                                            <div class="col-lg-9">
+                                                                <div class="login-horizental cancel-wp pull-left">
+                                                                    <a href="masuk.php"><button class="btn btn-white" type="button">Kembali</button></a>
+                                                                    <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Save Change</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+
                                         </div>
                                     </div>
                                 </div>
@@ -256,14 +255,16 @@ $_SESSION['start_time'] = time();
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
     <!-- Data table area End-->
     <!-- Footer Start-->
     <div class="footer-copyright-area">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">                        
+                <div class="col-lg-12">
                     <div class="footer-copy-right">
-						<p> Copyright &#169; <?php echo date("Y")?> All rights reserved. Designed by <i>IT Dept INDOSAR</p>						
+                        <p> Copyright &#169; <?php echo date("Y") ?> All rights reserved. Designed by <i>IT Dept INDOSAR</p>
                     </div>
                 </div>
             </div>
@@ -271,25 +272,24 @@ $_SESSION['start_time'] = time();
     </div>
 
     <script type="text/javascript">
-        
         var rupiah = document.getElementById('jumlah');
 
-        rupiah.addEventListener('keyup', function(e){
+        rupiah.addEventListener('keyup', function(e) {
             // tambahkan 'Rp.' pada saat form di ketik
             // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
             rupiah.value = formatRupiah(this.value, 'Rp. ');
         });
 
         /* Fungsi formatRupiah */
-        function formatRupiah(angka, prefix){
+        function formatRupiah(angka, prefix) {
             var number_string = angka.replace(/[^.\d]/g, '').toString(),
-            split           = number_string.split('.'),
-            sisa            = split[0].length % 3,
-            rupiah          = split[0].substr(0, sisa),
-            ribuan          = split[0].substr(sisa).match(/\d{1,3}/gi);
+                split = number_string.split('.'),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{1,3}/gi);
 
             // tambahkan titik jika yang di input sudah menjadi angka ribuan
-            if(ribuan){
+            if (ribuan) {
                 separator = sisa ? ',' : '';
                 rupiah += separator + ribuan.join(',');
             }

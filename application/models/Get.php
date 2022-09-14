@@ -51,7 +51,6 @@ class get extends CI_Model
     //end get data jenis
 
     // Get data barang masuk
-
     public function tampil_barang_masuk()
     {
         $this->db->select('*');
@@ -69,5 +68,10 @@ class get extends CI_Model
         $this->db->where("master.id=riwayat.kode");
         $this->db->order_by('riwayat.no', 'DESC')->limit(20);
         return $this->db->get()->result();
+    }
+
+    public function edit_masuk($where, $table)
+    {
+        return $this->db->get_where($table, $where);
     }
 }

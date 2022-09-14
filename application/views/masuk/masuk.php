@@ -77,8 +77,8 @@
                                                 <td><?php echo $m->suplai ?></td>
                                                 <td><?php echo $m->cat ?></td>
                                                 <td>
-                                                    <a class="btn btn-sm btn-primary" href="#"><i class="fa fa-edit"></i> Edit</a>
-                                                    <a class="btn btn-sm btn-danger" href="#" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-wrench"></i> Hapus</a>
+                                                    <a class="btn btn-sm btn-primary" href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>"><i class="fa fa-edit"></i> Edit</a>
+                                                    <a class="btn btn-sm btn-danger" href="<?= base_url("masuk/hapus_masuk/" . $m->no . "/" . $m->kode) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-trash"></i> Hapus</a>
                                                 </td>
                                             </tr>
                                         <?php
@@ -93,3 +93,32 @@
         </div>
     </div>
     <!-- Data table area End-->
+
+    <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
+    <?php if ($this->session->flashdata('sukses')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                position: 'top-end',
+                title: '<?= $this->session->flashdata('sukses') ?>',
+                showConfirmButton: false,
+                timer: 3000,
+                allowOutsideClick: false,
+                timerProgressBar: true
+            })
+        </script>
+    <?php endif ?>
+
+    <?php if ($this->session->flashdata('gagal')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                position: 'top-end',
+                title: '<?= $this->session->flashdata('gagal') ?>',
+                showConfirmButton: false,
+                timer: 3000,
+                allowOutsideClick: false,
+                timerProgressBar: true
+            })
+        </script>
+    <?php endif ?>
