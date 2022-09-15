@@ -19,6 +19,7 @@ tambah script sweetalert2 lokasi:assets/js/sweetalert2
 import: <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
 
 **ControllerGolongan**
+
 - function construct
 
 **ControllerKeluar**
