@@ -1,10 +1,3 @@
-###################
-Gudang Jadi
-###################
-
-Update : 
-1. Login
-2. Home
-3. Master
-
-
+.. image:: assets/img/logo/logo.png
+  :width: 400
+  :alt: Alternative text
