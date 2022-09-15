@@ -5,11 +5,11 @@ Gudang Jadi
 *******************
 Update :
 *******************
-1. Login_           : ok_
-2. Home_            : ok_
-3. Master_          : ok_
-4. Golongan_        : ok_
-5. barang_masuk_    : ok_
+1. Login           : ok_
+2. Home            : ok_
+3. Master          : ok_
+4. Golongan        : ok_
+5. barang_masuk    : ok_
 
 *******************
 Update tgl 15/09/2022
@@ -17,20 +17,35 @@ Update tgl 15/09/2022
 tambah script sweetalert2 lokasi:assets/js/sweetalert2
 import: <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
 
-1. ControllerGolongan_
+### ControllerGolongan_
 - function construct
-2. ControllerKeluar_
+
+### ControllerKeluar_
+
 - function input_keluar
+
 - function construct
-3. ControllerPenginput_
+
+### ControllerPenginput_
+
 - function construct
-4. Viewpenginput_
+
+### Viewpenginput_
+
 - echo kode barang
-5. Viewinputkeluar_
+
+### Viewinputkeluar_
+
 - option nama Master
+
 - script filSatuan()
-6. Viewkeluar_
+
+### Viewkeluar_
+
 - href input barang keluar
-7. Viewinputkeluar_
+
+### Viewinputkeluar_
+
 - option nama Master
+
 - script filSatuan()
