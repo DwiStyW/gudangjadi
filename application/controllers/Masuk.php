@@ -106,10 +106,10 @@ class Masuk extends CI_Controller
             $this->insert->tambah($data3, "masuk");
             $this->insert->tambah($data2, "riwayat");
             $this->session->set_flashdata('sukses', 'Data Masuk Berhasil di simpan!');
-            redirect("masuk");
+            redirect("masuk/input_masuk");
         } else {
             $this->session->set_flashdata('gagal', 'Data Masuk Gagal di simpan');
-            redirect("masuk");
+            redirect("masuk/input_masuk");
         }
     }
 

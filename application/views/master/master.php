@@ -64,7 +64,7 @@
                       <th data-field="sat3">Sat 3</th>
                       <th data-field="kdgol">Golongan</th>
                       <th data-field="jenis">Jenis</th>
-                      <th data-field="aksi" colspan="2">Aksi</th>
+                      <th data-field="aksi">Aksi</th>
 
                     </tr>
                   </thead>
@@ -85,9 +85,10 @@
                         <td><?php echo $m->sat3 ?></td>
                         <td><?php echo $m->namagol ?></td>
                         <td><?php echo $m->namajenis ?></td>
-                        <td><a class="btn btn-sm btn-primary" href="<?= base_url("master/editmas/" . $m->id) ?>"><i class="fa fa-edit"></i> Edit</a></td>
-                        <td><a class="btn btn-sm btn-danger" href="<?= base_url("master/hapus_master/" . $m->id) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-trash"></i> Hapus</a></td>
-
+                        <td>
+                          <a class="btn btn-sm btn-primary" href="<?= base_url("master/editmas/" . $m->id) ?>"><i class="fa fa-edit"></i> Edit</a>
+                          <a class="btn btn-sm btn-danger" href="<?= base_url("master/hapus_master/" . $m->id) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-trash"></i> Hapus</a>
+                        </td>
                       </tr>
                     <?php
                     } ?>
@@ -113,7 +114,7 @@
         <div class="modal-body">
           <form action="<?= base_url('') . 'master/tambah_master' ?>" method="post">
 
-            <input type="hidden" name="id" class="form-control">
+            <input type="text" name="id" class="form-control">
             <div class="form group">
               <label>kode Barang</label>
               <input type="text" name="kode" class="form-control">

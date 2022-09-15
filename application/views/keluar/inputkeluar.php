@@ -58,7 +58,7 @@
                                                                     <?php
                                                                     $no = 1;
                                                                     foreach ($master as $mter) { ?>
-                                                                        <option value="<?= $mter->id ?>"><?= $mter->nama ?> | <?= $mter->sat1 ?> | <?= $mter->sat2 ?> | <?= $mter->sat3 ?> | <?= $mter->kode ?></option>
+                                                                        <option value="<?= $mter->id ?>"><?= $mter->nama ?> -| <?= $mter->sat1 ?> |-| <?= $mter->sat2 ?> |-| <?= $mter->sat3 ?> |- <?= $mter->kode ?></option>
                                                                     <?php } ?>
                                                                 </select>
                                                             </div>
@@ -130,7 +130,7 @@
                                                             <div class="col-lg-3"></div>
                                                             <div class="col-lg-9">
                                                                 <div class="login-horizental cancel-wp pull-left">
-                                                                    <a href="<?= base_url("masuk") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
+                                                                    <a href="<?= base_url("keluar") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
                                                                     <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Save Change</button>
                                                                 </div>
                                                             </div>
@@ -201,10 +201,9 @@
                                                                                 <td><?php echo $sats3; ?> <?php echo $m->sat3 ?></td>
                                                                                 <td><?php echo $m->ket; ?></td>
                                                                                 <td><?php echo $m->tanggal; ?></td>
-                                                                                <td>
-                                                                                    <a href="#"> Edit </a>|
-                                                                                    <a href="#" onclick="javascript: return confirm('Anda yakin hapus ?')">Hapus</a>
-                                                                                </td>
+                                                                                <td><a href="#"> Edit </a></td>
+                                                                                <td><a href="#" onclick="javascript: return confirm('Anda yakin hapus ?')">Hapus</a></td>
+
                                                                             </tr>
                                                                         <?php
                                                                         } ?>
@@ -246,11 +245,23 @@
             }
         }
 
-        // function filSatuan() {
-        //     var kode = document.getElementById('kode').options;
-        //     var index = document.getElementById('kode').selectedIndex;
-        //     document.getElementById('sat1').placeholder = kode[index].text;
-        // }
+        function filSatuan() {
+            var kode = document.getElementById('kode').options;
+            var index = document.getElementById('kode').selectedIndex;
+            var text = kode[index].text;
+
+            var potong1 = text.slice(text.search("-") + 3, text.length);
+            var sat1 = potong1.slice(0, potong1.search("-") - 1);
+            document.getElementById('sat1').placeholder = sat1;
+
+            var potong2 = potong1.slice(potong1.search("-") + 3, text.length);
+            var sat2 = potong2.slice(0, potong2.search("-") - 1);
+            document.getElementById('sat2').placeholder = sat2;
+
+            var potong3 = potong2.slice(potong2.search("-") + 3, text.length);
+            var sat3 = potong3.slice(0, potong3.search("-") - 1);
+            document.getElementById('sat3').placeholder = sat3;
+        }
     </script>
     <script src="<?= base_url() ?>assets/js/jquery-2.1.4.min.js"></script>
     <script src="<?= base_url() ?>assets/select2-master/dist/js/select2.min.js"></script>

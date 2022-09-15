@@ -47,7 +47,7 @@
                                         foreach ($penginput as $p) {
                                             $query = $this->db->query("SELECT * FROM master WHERE master.id = '$p->kode'");
                                             foreach ($query->result() as $m) {
-                                                $kode = $m->id;
+                                                $kode = $m->kode;
                                                 $nama = $m->nama;
                                                 $sat3 = $m->sat3;
                                             }
@@ -61,7 +61,7 @@
                                                     <td><?php echo $no++ ?></td>
                                                     <td><?php echo date("d-m-Y", strtotime($p->tglform)) ?></td>
                                                     <td><?php echo $p->noform; ?></td>
-                                                    <td><?php echo $kode ?> | <?= $p->kode ?></td>
+                                                    <td><?php echo $kode ?></td>
                                                     <td><?php echo $nama ?></td>
                                                     <td><?php echo $p->masuk ?> <?php echo $sat3 ?></td>
                                                     <td><?php echo $p->keluar; ?> <?php echo $sat3 ?></td>

@@ -58,8 +58,9 @@
                                                                     <?php
                                                                     $no = 1;
                                                                     foreach ($master as $mter) { ?>
-                                                                        <option value="<?= $mter->id ?>"><?= $mter->nama ?> | <?= $mter->sat1 ?> | <?= $mter->sat2 ?> | <?= $mter->sat3 ?> | <?= $mter->kode ?></option>
-                                                                    <?php } ?>
+                                                                        <option value="<?= $mter->id ?>"><?= $mter->nama ?> -| <?= $mter->sat1 ?> |-| <?= $mter->sat2 ?> |-| <?= $mter->sat3 ?> |- <?= $mter->kode ?></option>
+                                                                    <?php }
+                                                                    echo "<script>var satuan1 =$mter->sat1 </script>"; ?>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -243,11 +244,23 @@
             }
         }
 
-        // function filSatuan() {
-        //     var kode = document.getElementById('kode').options;
-        //     var index = document.getElementById('kode').selectedIndex;
-        //     document.getElementById('sat1').placeholder = kode[index].text;
-        // }
+        function filSatuan() {
+            var kode = document.getElementById('kode').options;
+            var index = document.getElementById('kode').selectedIndex;
+            var text = kode[index].text;
+
+            var potong1 = text.slice(text.search("-") + 3, text.length);
+            var sat1 = potong1.slice(0, potong1.search("-") - 1);
+            document.getElementById('sat1').placeholder = sat1;
+
+            var potong2 = potong1.slice(potong1.search("-") + 3, text.length);
+            var sat2 = potong2.slice(0, potong2.search("-") - 1);
+            document.getElementById('sat2').placeholder = sat2;
+
+            var potong3 = potong2.slice(potong2.search("-") + 3, text.length);
+            var sat3 = potong3.slice(0, potong3.search("-") - 1);
+            document.getElementById('sat3').placeholder = sat3;
+        }
     </script>
     <script src="<?= base_url() ?>assets/js/jquery-2.1.4.min.js"></script>
     <script src="<?= base_url() ?>assets/select2-master/dist/js/select2.min.js"></script>
@@ -258,3 +271,33 @@
             });
         });
     </script>
+
+    <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
+    <?php if ($this->session->flashdata('sukses')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                position: 'top-end',
+                title: '<?= $this->session->flashdata('sukses') ?>',
+                showConfirmButton: false,
+                timer: 3000,
+                allowOutsideClick: false,
+                timerProgressBar: true
+            })
+        </script>
+    <?php endif ?>
+
+    <?php if ($this->session->flashdata('gagal')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                position: 'top-end',
+                title: '<?= $this->session->flashdata('gagal') ?>',
+                showConfirmButton: false,
+                timer: 3000,
+                allowOutsideClick: false,
+                timerProgressBar: true
+            })
+        </script>
+    <?php
+    endif ?>
