@@ -101,14 +101,14 @@ class Masuk extends CI_Controller
             'kode' => $kode
         );
 
-        if ((isset($data4) && isset($where1) && isset($data3) && isset($data2)) && ($sat1 > 0 && $sat2 >= 0 && $sat3 >= 0)) {
+        if ((isset($data4) && isset($where1) && isset($data3) && isset($data2)) && ($jumlah > 0)) {
             $this->edit->update($where1, $data4, "saldo");
             $this->insert->tambah($data3, "masuk");
             $this->insert->tambah($data2, "riwayat");
-            $this->session->set_flashdata('sukses', 'Data Berhasil di Update!');
+            $this->session->set_flashdata('sukses', 'Data Masuk Berhasil di simpan!');
             redirect("masuk");
         } else {
-            $this->session->set_flashdata('gagal', 'Data Gagal di Update!');
+            $this->session->set_flashdata('gagal', 'Data Masuk Gagal di simpan');
             redirect("masuk");
         }
     }
@@ -116,7 +116,7 @@ class Masuk extends CI_Controller
     public function edit_masuk($no)
     {
         $where = array('no' => $no);
-        $data['riwayat'] = $this->get->edit_masuk($where, 'riwayat')->result();
+        $data['riwayat'] = $this->get->get_where($where, 'riwayat')->result();
         $this->load->view('_partials/header');
         $this->load->view('_partials/menu');
         $this->load->view('masuk/editmasuk', $data);
@@ -202,10 +202,10 @@ class Masuk extends CI_Controller
                 $this->edit->update($where, $data, 'saldo');
                 $this->edit->update($where1, $data1, 'riwayat');
                 $this->edit->update($where2, $data2, 'masuk');
-                $this->session->set_flashdata('sukses', 'Data Berhasil di Update!');
+                $this->session->set_flashdata('sukses', 'Data Masuk Berhasil di Update!');
                 redirect("masuk");
             } else {
-                $this->session->set_flashdata('gagal', 'Data gagal di Update!');
+                $this->session->set_flashdata('gagal', 'Data Masuk Gagal di Update!');
                 redirect("masuk");
             }
         }
@@ -239,10 +239,10 @@ class Masuk extends CI_Controller
                 $this->edit->update($where1, $data1, 'saldo');
                 $this->delete->hapus($where, 'riwayat');
                 $this->delete->hapus($where, 'masuk');
-                $this->session->set_flashdata('sukses', 'Data Berhasil di Update!');
+                $this->session->set_flashdata('sukses', 'Data Masuk Berhasil di Hapus!');
                 redirect("masuk");
             } else {
-                $this->session->set_flashdata('gagal', 'Data Gagal di Update!');
+                $this->session->set_flashdata('gagal', 'Data Masuk Gagal di Hapus!');
                 redirect("masuk");
             }
         }
