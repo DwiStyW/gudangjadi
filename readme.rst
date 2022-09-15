@@ -17,20 +17,20 @@ Update tgl 15/09/2022
 tambah script sweetalert2 lokasi:assets/js/sweetalert2
 import: <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
 
-ControllerGolongan_
-- function construct
-ControllerKeluar_
-- function input_keluar
-- function construct
-ControllerPenginput_
-- function construct
-Viewpenginput_
-- echo kode barang
-Viewinputkeluar_
-- option nama Master
-- script filSatuan()
-Viewkeluar_
-- href input barang keluar
-Viewinputkeluar_
-- option nama Master
-- script filSatuan()
+|ControllerGolongan
+|- function construct
+|ControllerKeluar
+|- function input_keluar
+|- function construct
+|ControllerPenginput
+|- function construct
+|Viewpenginput
+|- echo kode barang
+|Viewinputkeluar
+|- option nama Master
+|- script filSatuan()
+|Viewkeluar
+|- href input barang keluar
+|Viewinputkeluar
+|- option nama Master
+|- script filSatuan()
