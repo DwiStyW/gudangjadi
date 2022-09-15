@@ -1,356 +1,315 @@
-<?php 
-include "koneksi.php" ;
-include "cek-login.php" ;
+<?php
+/**
+ * CodeIgniter
+ *
+ * An open source application development framework for PHP
+ *
+ * This content is released under the MIT License (MIT)
+ *
+ * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license	https://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 1.0.0
+ * @filesource
+ */
 
-$timeout = 10; // Set timeout menit
-$logout_redirect_url = "logout.php"; // Set logout URL
+/*
+ *---------------------------------------------------------------
+ * APPLICATION ENVIRONMENT
+ *---------------------------------------------------------------
+ *
+ * You can load different configurations depending on your
+ * current environment. Setting the environment also influences
+ * things like logging and error reporting.
+ *
+ * This can be set to anything, but default usage is:
+ *
+ *     development
+ *     testing
+ *     production
+ *
+ * NOTE: If you change these, also change the error_reporting() code below
+ */
+	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
+/*
+ *---------------------------------------------------------------
+ * ERROR REPORTING
+ *---------------------------------------------------------------
+ *
+ * Different environments will require different levels of error reporting.
+ * By default development will show errors but testing and live will hide them.
+ */
+switch (ENVIRONMENT)
+{
+	case 'development':
+		error_reporting(-1);
+		ini_set('display_errors', 1);
+	break;
 
- 
-$timeout = $timeout * 60; // Ubah menit ke detik
-if (isset($_SESSION['start_time'])) {
-    $elapsed_time = time() - $_SESSION['start_time'];
-    if ($elapsed_time >= $timeout) {
-        session_destroy();
-        echo "<script>alert('Session Anda Telah Habis!'); window.location = '$logout_redirect_url'</script>";
-    }
+	case 'testing':
+	case 'production':
+		ini_set('display_errors', 0);
+		if (version_compare(PHP_VERSION, '5.3', '>='))
+		{
+			error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
+		}
+		else
+		{
+			error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE);
+		}
+	break;
+
+	default:
+		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+		echo 'The application environment is not set correctly.';
+		exit(1); // EXIT_ERROR
 }
-$_SESSION['start_time'] = time();
-?>
-<!doctype html>
-<html class="no-js" lang="en">
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+/*
+ *---------------------------------------------------------------
+ * SYSTEM DIRECTORY NAME
+ *---------------------------------------------------------------
+ *
+ * This variable must contain the name of your "system" directory.
+ * Set the path if it is not in the same directory as this file.
+ */
+	$system_path = 'system';
 
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Saldo Bahan Kemas | SI Gudang</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- favicon
-		============================================ -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-    <!-- Google Fonts
-		============================================ -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i,800" rel="stylesheet">
-    <!-- Bootstrap CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- Bootstrap CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <!-- adminpro icon CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/adminpro-custon-icon.css">
-    <!-- meanmenu icon CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/meanmenu.min.css">
-    <!-- mCustomScrollbar CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
-    <!-- animate CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/animate.css">
-    <!-- data-table CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/data-table/bootstrap-table.css">
-    <link rel="stylesheet" href="css/data-table/bootstrap-editable.css">
-    <!-- normalize CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/normalize.css">
-    <!-- charts C3 CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/c3.min.css">
-    <!-- forms CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/form/all-type-forms.css">
-    <!-- switcher CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/switcher/color-switcher.css">
-    <!-- style CSS
-		============================================ -->
-    <link rel="stylesheet" href="style.css">
-    <!-- responsive CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/responsive.css">
-    <!-- modernizr JS
-		============================================ -->
-    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
-    <!-- Color Css Files
-		============================================ -->
-    <link rel="alternate stylesheet" type="text/css" href="css/switcher/color-one.css" title="color-one"
-        media="screen" />
-    <link rel="alternate stylesheet" type="text/css" href="css/switcher/color-two.css" title="color-two"
-        media="screen" />
-    <link rel="alternate stylesheet" type="text/css" href="css/switcher/color-three.css" title="color-three"
-        media="screen" />
-    <link rel="alternate stylesheet" type="text/css" href="css/switcher/color-four.css" title="color-four"
-        media="screen" />
-    <link rel="alternate stylesheet" type="text/css" href="css/switcher/color-five.css" title="color-five"
-        media="screen" />
-    <link rel="alternate stylesheet" type="text/css" href="css/switcher/color-six.css" title="color-six"
-        media="screen" />
-    <link rel="alternate stylesheet" type="text/css" href="css/switcher/color-seven.css" title="color-seven"
-        media="screen" />
-    <link rel="alternate stylesheet" type="text/css" href="css/switcher/color-eight.css" title="color-eight"
-        media="screen" />
-    <link rel="alternate stylesheet" type="text/css" href="css/switcher/color-nine.css" title="color-nine"
-        media="screen" />
-    <link rel="alternate stylesheet" type="text/css" href="css/switcher/color-ten.css" title="color-ten"
-        media="screen" />
-</head>
+/*
+ *---------------------------------------------------------------
+ * APPLICATION DIRECTORY NAME
+ *---------------------------------------------------------------
+ *
+ * If you want this front controller to use a different "application"
+ * directory than the default one you can set its name here. The directory
+ * can also be renamed or relocated anywhere on your server. If you do,
+ * use an absolute (full) server path.
+ * For more info please see the user guide:
+ *
+ * https://codeigniter.com/user_guide/general/managing_apps.html
+ *
+ * NO TRAILING SLASH!
+ */
+	$application_folder = 'application';
 
-<body>
-    <?php
-  $username = $_SESSION['username'];
-  $query_user_login = mysqli_query($conn,"select * from tb_user where username='$username'");
-  $user_login = mysqli_fetch_array($query_user_login);
-  ini_set('date.timezone', 'Asia/Jakarta');
-  
-?>
-    <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-
-    <?php include('menu.php'); ?>
+/*
+ *---------------------------------------------------------------
+ * VIEW DIRECTORY NAME
+ *---------------------------------------------------------------
+ *
+ * If you want to move the view directory out of the application
+ * directory, set the path to it here. The directory can be renamed
+ * and relocated anywhere on your server. If blank, it will default
+ * to the standard location inside your application directory.
+ * If you do move this, use an absolute (full) server path.
+ *
+ * NO TRAILING SLASH!
+ */
+	$view_folder = '';
 
 
-    <div class="admin-dashone-data-table-area mg-b-40">
-        <br />
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="sparkline8-hd">
-                        <div class="main-sparkline8-hd">
-                            <h1>Saldo Barang Jadi</h1>
-                        </div>
-                    </div>
-                    <div class="sparkline8-graph">
-                        <div class="datatable-dashv1-list custom-datatable-overright">
+/*
+ * --------------------------------------------------------------------
+ * DEFAULT CONTROLLER
+ * --------------------------------------------------------------------
+ *
+ * Normally you will set your default controller in the routes.php file.
+ * You can, however, force a custom routing by hard-coding a
+ * specific controller class/function here. For most applications, you
+ * WILL NOT set your routing here, but it's an option for those
+ * special instances where you might want to override the standard
+ * routing in a specific front controller that shares a common CI installation.
+ *
+ * IMPORTANT: If you set the routing here, NO OTHER controller will be
+ * callable. In essence, this preference limits your application to ONE
+ * specific controller. Leave the function name blank if you need
+ * to call functions dynamically via the URI.
+ *
+ * Un-comment the $routing array below to use this feature
+ */
+	// The directory name, relative to the "controllers" directory.  Leave blank
+	// if your controller is not in a sub-directory within the "controllers" one
+	// $routing['directory'] = '';
 
-                            <table id="table" data-toggle="table" data-pagination="true" data-search="true"
-                                data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true"
-                                data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
-                                data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true"
-                                data-toolbar="#toolbar">
-                                <thead>
-                                    <tr>
-                                        <th data-field="no">No</th>
-                                        <th data-field="grup">Golongan</th>
-                                        <th data-field="subgrup">Jenis</th>
-                                        <th data-field="kode">Kode Barang</th>
-                                        <th data-field="nama">Nama Barang</th>
-                                        <th data-field="satuan1">Satuan 1</th>
-                                        <th data-field="satuan2">Satuan 2</th>
-                                        <th data-field="satuan3">Satuan 3</th>
-                                        <th data-field="tglform">Tgl Form Terakhir</th>
-                                        <th data-field="tanggal">Tanggal Update</th>
+	// The controller class file name.  Example:  mycontroller
+	// $routing['controller'] = '';
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php					
-									$tampil=mysqli_query($conn,"select * from saldo, master WHERE master.kode=saldo.kode");
-									
-									$no=1;
-									while($data=mysqli_fetch_array($tampil)){												 												
-									 ?>
-                                    <tr>
-                                        <td><?php echo $no;?></td>
-                                        <td><?php 
-                                        $kdgol=$data['kdgol'];
-                                        //MasterGolongan
-                                        $tampil2=mysqli_query($conn,"select * from GOLONGAN WHERE id='$kdgol'");
-                                        $data2=mysqli_fetch_array($tampil2);
-                                        echo $data2['kdgol'];?> <?php echo $data2['namagol']; ?></td>
-                                        <td><?php 
-                                        $kdjenis=$data['kdjenis'];
-                                        //MasterJenis       
-                                        $tampil3=mysqli_query($conn,"select * from JENIS WHERE id='$kdjenis'");
-                                        $data3=mysqli_fetch_array($tampil3);
-                                        echo $data3['kdjenis'];?> <?php echo $data3['namajenis']; ?></td>
-                                        <td><?php echo $data['kode']; ?></td>
-                                        <td><?php echo $data['nama']; ?></td>
-                                        <?php
-                                            //Perhitungan 3 Satuan
-                                            $sats1  = floor($data['saldo']/($data['max1']*$data['max2']));
-                                            $sisa   = $data['saldo']-($sats1*$data['max1']*$data['max2']);
-                                            $sats2  = floor($sisa/$data['max2']);
-                                            $sats3  = $sisa-$sats2*$data['max2'];
-                                        ?>
-                                        <td><?php echo $sats1; ?> <?php echo $data['sat1']; ?></td>
-                                        <td><?php echo $sats2; ?> <?php echo $data['sat2']; ?></td>
-                                        <td><?php echo $sats3; ?> <?php echo $data['sat3']; ?></td>
-                                        <td><?php echo date("d-m-Y",strtotime($data['tglform'])); ?></td>
-                                        <td><?php echo $data['tanggal']; ?></td>
-                                    </tr>
-                                    <?php $no++;} ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="admin-dashone-data-table-area mg-b-40">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="sparkline8-hd">
-                        <div class="main-sparkline8-hd">
-                            <h1>Riwayat Bahan Masuk Keluar</h1>
-                        </div>
-                    </div>
-                    <div class="sparkline8-graph">
-
-                        <div class="datatable-dashv1-list custom-datatable-overright">
-                            <table id="table" data-toggle="table" data-pagination="true" data-search="true"
-                                data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true"
-                                data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
-                                data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true"
-                                data-toolbar="#toolbar">
-                                <thead>
-                                    <tr>
-                                        <th data-field="no">No</th>
-                                        <th data-field="tglform">Tgl Form</th>
-                                        <th data-field="noform">No Form</th>
-                                        <th data-field="nama">Nama Barang</th>
-                                        <th data-field="satuan1">Satuan 1</th>
-                                        <th data-field="satuan2">Satuan 2</th>
-                                        <th data-field="satuan3">Satuan 3</th>
-                                        <th data-field="saldo">Ket</th>
-                                        <th data-field="tanggal">Tgl Input</th>
-                                        <th data-field="adm">Oleh</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php					
-										$tampil=mysqli_query($conn,"select * from riwayat, master, tb_user WHERE master.id=riwayat.kode&&riwayat.adm=tb_user.user_id ORDER BY riwayat.no DESC ");
-										
-										$no=1;
-										while($data=mysqli_fetch_array($tampil)){												 												
-										 ?>
-                                    <tr>
-                                        <td><?php echo $no;?></td>
-                                        <td><?php echo date("d-m-Y",strtotime($data['tglform'])); ?></td>
-                                        <td><?php echo $data['noform']; ?></td>
-                                        <td><?php echo $data['nama']; ?></td>
-                                        <?php
-                                            if($data['masuk']==0){
-                                                $total = $data['keluar'];
-                                            } else {
-                                                $total = $data['masuk'];
-                                            }
-                                            
-                                            //Perhitungan 3 Satuan
-                                                $sats1  = floor($total/($data['max1']*$data['max2']));
-                                                $sisa   = $total-($sats1*$data['max1']*$data['max2']);
-                                                $sats2  = floor($sisa/$data['max2']);
-                                                $sats3  = $sisa-$sats2*$data['max2'];
-                                            ?>
-                                        <td><?php echo $sats1;?> <?php echo $data['sat1']; ?></td>
-                                        <td><?php echo $sats2;?> <?php echo $data['sat2']; ?></td>
-                                        <td><?php echo $sats3;?> <?php echo $data['sat3']; ?></td>
-                                        <td><?php echo $data['ket'];?></td>
-                                        <td><?php echo $data['tanggal']; ?></td>
-                                        <td><a href="penginput.php?user=<?php echo $data['user_id'];?>"><?php echo $data['username']; ?><a />
-                                        </td>
-                                    </tr>
-                                    <?php $no++;} ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <!-- Data table area End-->
-    <!-- Footer Start-->
-    <div class="footer-copyright-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="footer-copy-right">
-                        <p> Copyright &#169; <?php echo date("Y")?> All rights reserved. Designed by <i>IT Dept INDOSAR
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Footer End-->
+	// The controller function you wish to be called.
+	// $routing['function']	= '';
 
 
-    <!-- Chat Box End-->
-    <!-- jquery
-		============================================ -->
-    <script src="js/vendor/jquery-1.11.3.min.js"></script>
-    <!-- bootstrap JS
-		============================================ -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- meanmenu JS
-		============================================ -->
-    <script src="js/jquery.meanmenu.js"></script>
-    <!-- mCustomScrollbar JS
-		============================================ -->
-    <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-    <!-- sticky JS
-		============================================ -->
-    <script src="js/jquery.sticky.js"></script>
-    <!-- scrollUp JS
-		============================================ -->
-    <script src="js/jquery.scrollUp.min.js"></script>
-    <!-- counterup JS
-		============================================ -->
-    <script src="js/counterup/jquery.counterup.min.js"></script>
-    <script src="js/counterup/waypoints.min.js"></script>
-    <script src="js/counterup/counterup-active.js"></script>
-    <!-- peity JS
-		============================================ -->
-    <script src="js/peity/jquery.peity.min.js"></script>
-    <script src="js/peity/peity-active.js"></script>
-    <!-- sparkline JS
-		============================================ -->
-    <script src="js/sparkline/jquery.sparkline.min.js"></script>
-    <script src="js/sparkline/sparkline-active.js"></script>
-    <!-- flot JS
-		============================================ -->
-    <script src="js/flot/jquery.flot.js"></script>
-    <script src="js/flot/jquery.flot.tooltip.min.js"></script>
-    <script src="js/flot/jquery.flot.spline.js"></script>
-    <script src="js/flot/jquery.flot.resize.js"></script>
-    <script src="js/flot/jquery.flot.pie.js"></script>
-    <script src="js/flot/Chart.min.js"></script>
-    <script src="js/flot/flot-active.js"></script>
-    <!-- map JS
-		============================================ -->
-    <script src="js/map/raphael.min.js"></script>
-    <script src="js/map/jquery.mapael.js"></script>
-    <script src="js/map/france_departments.js"></script>
-    <script src="js/map/world_countries.js"></script>
-    <script src="js/map/usa_states.js"></script>
-    <script src="js/map/map-active.js"></script>
-    <!-- data table JS
-		============================================ -->
-    <script src="js/data-table/bootstrap-table.js"></script>
-    <script src="js/data-table/tableExport.js"></script>
-    <script src="js/data-table/data-table-active.js"></script>
-    <script src="js/data-table/bootstrap-table-editable.js"></script>
-    <script src="js/data-table/bootstrap-editable.js"></script>
-    <script src="js/data-table/bootstrap-table-resizable.js"></script>
-    <script src="js/data-table/colResizable-1.5.source.js"></script>
-    <script src="js/data-table/bootstrap-table-export.js"></script>
-    <!-- switcher JS
-		============================================ -->
-    <script src="js/switcher/styleswitch.js"></script>
-    <script src="js/switcher/switch-active.js"></script>
-    <!-- main JS
-		============================================ -->
-    <script src="js/main.js"></script>
-</body>
+/*
+ * -------------------------------------------------------------------
+ *  CUSTOM CONFIG VALUES
+ * -------------------------------------------------------------------
+ *
+ * The $assign_to_config array below will be passed dynamically to the
+ * config class when initialized. This allows you to set custom config
+ * items or override any default config values found in the config.php file.
+ * This can be handy as it permits you to share one application between
+ * multiple front controller files, with each file containing different
+ * config values.
+ *
+ * Un-comment the $assign_to_config array below to use this feature
+ */
+	// $assign_to_config['name_of_config_item'] = 'value of config item';
 
-</html>
+
+
+// --------------------------------------------------------------------
+// END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
+// --------------------------------------------------------------------
+
+/*
+ * ---------------------------------------------------------------
+ *  Resolve the system path for increased reliability
+ * ---------------------------------------------------------------
+ */
+
+	// Set the current directory correctly for CLI requests
+	if (defined('STDIN'))
+	{
+		chdir(dirname(__FILE__));
+	}
+
+	if (($_temp = realpath($system_path)) !== FALSE)
+	{
+		$system_path = $_temp.DIRECTORY_SEPARATOR;
+	}
+	else
+	{
+		// Ensure there's a trailing slash
+		$system_path = strtr(
+			rtrim($system_path, '/\\'),
+			'/\\',
+			DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
+		).DIRECTORY_SEPARATOR;
+	}
+
+	// Is the system path correct?
+	if ( ! is_dir($system_path))
+	{
+		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+		echo 'Your system folder path does not appear to be set correctly. Please open the following file and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME);
+		exit(3); // EXIT_CONFIG
+	}
+
+/*
+ * -------------------------------------------------------------------
+ *  Now that we know the path, set the main path constants
+ * -------------------------------------------------------------------
+ */
+	// The name of THIS file
+	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
+
+	// Path to the system directory
+	define('BASEPATH', $system_path);
+
+	// Path to the front controller (this file) directory
+	define('FCPATH', dirname(__FILE__).DIRECTORY_SEPARATOR);
+
+	// Name of the "system" directory
+	define('SYSDIR', basename(BASEPATH));
+
+	// The path to the "application" directory
+	if (is_dir($application_folder))
+	{
+		if (($_temp = realpath($application_folder)) !== FALSE)
+		{
+			$application_folder = $_temp;
+		}
+		else
+		{
+			$application_folder = strtr(
+				rtrim($application_folder, '/\\'),
+				'/\\',
+				DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
+			);
+		}
+	}
+	elseif (is_dir(BASEPATH.$application_folder.DIRECTORY_SEPARATOR))
+	{
+		$application_folder = BASEPATH.strtr(
+			trim($application_folder, '/\\'),
+			'/\\',
+			DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
+		);
+	}
+	else
+	{
+		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+		echo 'Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF;
+		exit(3); // EXIT_CONFIG
+	}
+
+	define('APPPATH', $application_folder.DIRECTORY_SEPARATOR);
+
+	// The path to the "views" directory
+	if ( ! isset($view_folder[0]) && is_dir(APPPATH.'views'.DIRECTORY_SEPARATOR))
+	{
+		$view_folder = APPPATH.'views';
+	}
+	elseif (is_dir($view_folder))
+	{
+		if (($_temp = realpath($view_folder)) !== FALSE)
+		{
+			$view_folder = $_temp;
+		}
+		else
+		{
+			$view_folder = strtr(
+				rtrim($view_folder, '/\\'),
+				'/\\',
+				DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
+			);
+		}
+	}
+	elseif (is_dir(APPPATH.$view_folder.DIRECTORY_SEPARATOR))
+	{
+		$view_folder = APPPATH.strtr(
+			trim($view_folder, '/\\'),
+			'/\\',
+			DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
+		);
+	}
+	else
+	{
+		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+		echo 'Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF;
+		exit(3); // EXIT_CONFIG
+	}
+
+	define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
+
+/*
+ * --------------------------------------------------------------------
+ * LOAD THE BOOTSTRAP FILE
+ * --------------------------------------------------------------------
+ *
+ * And away we go...
+ */
+require_once BASEPATH.'core/CodeIgniter.php';
