@@ -114,7 +114,7 @@
         <div class="modal-body">
           <form action="<?= base_url('') . 'master/tambah_master' ?>" method="post">
 
-            <input type="text" name="id" class="form-control">
+            <input type="hidden" name="id" class="form-control">
             <div class="form group">
               <label>kode Barang</label>
               <input type="text" name="kode" class="form-control">

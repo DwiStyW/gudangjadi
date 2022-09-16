@@ -14,7 +14,7 @@
                     <div class="sparkline12-list shadow-reset mg-t-30">
                         <div class="sparkline12-hd">
                             <div class="main-sparkline12-hd">
-                                <h1>Input Bahan Masuk</h1>
+                                <h1>Input Bahan Keluar</h1>
                             </div>
                         </div>
                         <div class="sparkline12-graph">
@@ -23,7 +23,7 @@
                                     <div class="col-lg-12">
                                         <div class="all-form-element-inner">
 
-                                            <form enctype="multipart/form-data" action="<?= base_url("masuk/barang_masuk") ?>" method="post" class="form">
+                                            <form enctype="multipart/form-data" action="<?= base_url("keluar/tambah_barang_keluar") ?>" method="post" class="form">
                                                 <div class="form-group-inner">
                                                     <div class="row">
                                                         <div class="col-lg-3">
@@ -70,161 +70,174 @@
                                                         <div class="col-lg-3">
                                                             <label class="login2 pull-right pull-right-pro">Satuan 1</label>
                                                         </div>
-                                                        <div class="col-lg-9">
-                                                            <input id="sat1" name="sat1" type="number" class="form-control" id="sat1" placeholder="Satuan 1">
+                                                        <div class="col-lg-7">
+                                                            <input name="sat1" type="number" class="form-control" placeholder="Satuan 1">
+                                                        </div>
+                                                        <div class="col-lg-2">
+                                                            <input readonly id=sat1 class="form-control" value="">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group-inner">
-                                                    <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <label class="login2 pull-right pull-right-pro">Satuan 2</label>
-                                                        </div>
-                                                        <div class="col-lg-9">
-                                                            <input name="sat2" type="number" class="form-control" id="sat2" placeholder="Satuan 2">
-                                                        </div>
-                                                    </div>
+                                        </div>
+                                        <div class="form-group-inner">
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <label class="login2 pull-right pull-right-pro">Satuan 2</label>
                                                 </div>
-                                                <div class="form-group-inner">
-                                                    <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <label class="login2 pull-right pull-right-pro">Satuan 3</label>
-                                                        </div>
-                                                        <div class="col-lg-9">
-                                                            <input name="sat3" type="number" class="form-control" id="sat3" placeholder="Satuan 3">
-                                                        </div>
-                                                    </div>
+                                                <div class="col-lg-7">
+                                                    <input name="sat2" type="number" class="form-control" placeholder="Satuan 2">
                                                 </div>
-
-                                                <div class="form-group-inner">
-                                                    <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <label class="login2 pull-right pull-right-pro">Tanggal Input</label>
-                                                        </div>
-                                                        <div class="col-lg-9">
-                                                            <input name="tgl" type="text" class="form-control" id="tgl" value="<?php echo date("Y-m-d h:i:s"); ?>" readonly="readonly" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group-inner">
-                                                    <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <label class="login2 pull-right pull-right-pro">Catatan</label>
-                                                        </div>
-                                                        <div class="col-lg-9">
-                                                            <input name="cat" type="text" class="form-control" id="cat" placeholder="Catatan" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group-inner">
-                                                    <div class="row">
-                                                        <div class="col-lg-9">
-                                                            <input name="adm" type="hidden" class="form-control" id="adm" value="<?= $this->session->userdata('user_id'); ?>" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group-inner">
-                                                    <div class="login-btn-inner">
-                                                        <div class="row">
-                                                            <div class="col-lg-3"></div>
-                                                            <div class="col-lg-9">
-                                                                <div class="login-horizental cancel-wp pull-left">
-                                                                    <a href="<?= base_url("keluar") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
-                                                                    <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Save Change</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                            <!-- Start Form -->
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="sparkline8-hd">
-                                                            <div class="main-sparkline8-hd">
-                                                                <h1>Form sudah input</h1>
-                                                            </div>
-                                                        </div>
-                                                        <div class="sparkline8-graph">
-                                                            <div class="datatable-dashv1-list custom-datatable-overright">
-                                                                <table data-toggle="table">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th data-field="no">No</th>
-                                                                            <th data-field="tglform">Tgl Form</th>
-                                                                            <th data-field="noform">No Form</th>
-                                                                            <th data-field="id">id</th>
-                                                                            <th data-field="kode">Kode Barang</th>
-                                                                            <th data-field="nama">Nama Barang</th>
-                                                                            <th data-field="satuan1">Satuan 1</th>
-                                                                            <th data-field="satuan2">Satuan 2</th>
-                                                                            <th data-field="satuan3">Satuan 3</th>
-                                                                            <th data-field="satuan3">ket</th>
-                                                                            <th data-field="tanggal">Tgl Input</th>
-                                                                            <th data-field="aksi" colspan=2>Aksi</th>
-
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody id="list">
-                                                                        <?php
-                                                                        $no = 1;
-                                                                        foreach ($masuk as $m) {
-                                                                        ?>
-                                                                            <tr>
-                                                                                <td><?php echo $no++; ?></td>
-                                                                                <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?></td>
-                                                                                <td><?php echo $m->noform; ?></td>
-                                                                                <td><?php echo $m->no; ?></td>
-                                                                                <td><?php echo $m->kode; ?></td>
-                                                                                <td><?php echo $m->nama; ?></td>
-                                                                                <?php
-                                                                                if ($m->masuk == 0) {
-
-                                                                                    //Perhitungan 3 Satuan
-                                                                                    $sats1  = floor($m->keluar / ($m->max1 * $m->max2));
-                                                                                    $sisa   = $m->keluar - ($sats1 * $m->max1 * $m->max2);
-                                                                                    $sats2  = floor($sisa / $m->max2);
-                                                                                    $sats3  = $sisa - $sats2 * $m->max2;
-                                                                                } else {
-
-                                                                                    //Perhitungan 3 Satuan
-                                                                                    $sats1  = floor($m->masuk / ($m->max1 * $m->max2));
-                                                                                    $sisa   = $m->masuk - ($sats1 * $m->max1 * $m->max2);
-                                                                                    $sats2  = floor($sisa / $m->max2);
-                                                                                    $sats3  = $sisa - $sats2 * $m->max2;
-                                                                                }
-                                                                                ?>
-                                                                                <td><?php echo $sats1; ?> <?php echo $m->sat1 ?></td>
-                                                                                <td><?php echo $sats2; ?> <?php echo $m->sat2 ?></td>
-                                                                                <td><?php echo $sats3; ?> <?php echo $m->sat3 ?></td>
-                                                                                <td><?php echo $m->ket; ?></td>
-                                                                                <td><?php echo $m->tanggal; ?></td>
-                                                                                <td><a href="#"> Edit </a></td>
-                                                                                <td><a href="#" onclick="javascript: return confirm('Anda yakin hapus ?')">Hapus</a></td>
-
-                                                                            </tr>
-                                                                        <?php
-                                                                        } ?>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <div class="col-lg-2">
+                                                    <input readonly id=sat2 class="form-control" value="">
                                                 </div>
                                             </div>
-                                            <!-- End Form -->
-
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group-inner">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <label class="login2 pull-right pull-right-pro">Satuan 3</label>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <input name="sat3" type="number" class="form-control" placeholder="Satuan 3">
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <input readonly id=sat3 class="form-control" value="">
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <label class="login2 pull-right pull-right-pro">Tanggal Input</label>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input name="tgl" type="text" class="form-control" id="tgl" value="<?php echo date("Y-m-d h:i:s"); ?>" readonly="readonly" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <label class="login2 pull-right pull-right-pro">Catatan</label>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input name="cat" type="text" class="form-control" id="cat" placeholder="Catatan" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-9">
+                                        <input name="adm" type="hidden" class="form-control" id="adm" value="<?= $this->session->userdata('user_id'); ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner">
+                                <div class="login-btn-inner">
+                                    <div class="row">
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9">
+                                            <div class="login-horizental cancel-wp pull-left">
+                                                <a href="<?= base_url("keluar") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
+                                                <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Save Change</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                            <!-- Start Form -->
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="sparkline8-hd">
+                                            <div class="main-sparkline8-hd">
+                                                <h1>Form sudah input</h1>
+                                            </div>
+                                        </div>
+                                        <div class="sparkline8-graph">
+                                            <div class="datatable-dashv1-list custom-datatable-overright">
+                                                <table data-toggle="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th data-field="no">No</th>
+                                                            <th data-field="tglform">Tgl Form</th>
+                                                            <th data-field="noform">No Form</th>
+                                                            <th data-field="id">id</th>
+                                                            <th data-field="kode">Kode Barang</th>
+                                                            <th data-field="nama">Nama Barang</th>
+                                                            <th data-field="satuan1">Satuan 1</th>
+                                                            <th data-field="satuan2">Satuan 2</th>
+                                                            <th data-field="satuan3">Satuan 3</th>
+                                                            <th data-field="satuan3">ket</th>
+                                                            <th data-field="tanggal">Tgl Input</th>
+                                                            <th data-field="aksi" colspan=2>Aksi</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="list">
+                                                        <?php
+                                                        $no = 1;
+                                                        foreach ($masuk as $m) {
+                                                        ?>
+                                                            <tr>
+                                                                <td><?php echo $no++; ?></td>
+                                                                <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?></td>
+                                                                <td><?php echo $m->noform; ?></td>
+                                                                <td><?php echo $m->no; ?></td>
+                                                                <td><?php echo $m->kode; ?></td>
+                                                                <td><?php echo $m->nama; ?></td>
+                                                                <?php
+                                                                if ($m->masuk == 0) {
+
+                                                                    //Perhitungan 3 Satuan
+                                                                    $sats1  = floor($m->keluar / ($m->max1 * $m->max2));
+                                                                    $sisa   = $m->keluar - ($sats1 * $m->max1 * $m->max2);
+                                                                    $sats2  = floor($sisa / $m->max2);
+                                                                    $sats3  = $sisa - $sats2 * $m->max2;
+                                                                } else {
+
+                                                                    //Perhitungan 3 Satuan
+                                                                    $sats1  = floor($m->masuk / ($m->max1 * $m->max2));
+                                                                    $sisa   = $m->masuk - ($sats1 * $m->max1 * $m->max2);
+                                                                    $sats2  = floor($sisa / $m->max2);
+                                                                    $sats3  = $sisa - $sats2 * $m->max2;
+                                                                }
+                                                                ?>
+                                                                <td><?php echo $sats1; ?> <?php echo $m->sat1 ?></td>
+                                                                <td><?php echo $sats2; ?> <?php echo $m->sat2 ?></td>
+                                                                <td><?php echo $sats3; ?> <?php echo $m->sat3 ?></td>
+                                                                <td><?php echo $m->ket; ?></td>
+                                                                <td><?php echo $m->tanggal; ?></td>
+                                                                <td><a href="#"> Edit </a></td>
+                                                                <td><a href="#" onclick="javascript: return confirm('Anda yakin hapus ?')">Hapus</a></td>
+
+                                                            </tr>
+                                                        <?php
+                                                        } ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Form -->
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    </div>
+    </div>
+    </div>
     </div>
     <!-- Data table area End-->
 
@@ -252,15 +265,15 @@
 
             var potong1 = text.slice(text.search("-") + 3, text.length);
             var sat1 = potong1.slice(0, potong1.search("-") - 1);
-            document.getElementById('sat1').placeholder = sat1;
+            document.getElementById('sat1').value = sat1;
 
             var potong2 = potong1.slice(potong1.search("-") + 3, text.length);
             var sat2 = potong2.slice(0, potong2.search("-") - 1);
-            document.getElementById('sat2').placeholder = sat2;
+            document.getElementById('sat2').value = sat2;
 
             var potong3 = potong2.slice(potong2.search("-") + 3, text.length);
             var sat3 = potong3.slice(0, potong3.search("-") - 1);
-            document.getElementById('sat3').placeholder = sat3;
+            document.getElementById('sat3').value = sat3;
         }
     </script>
     <script src="<?= base_url() ?>assets/js/jquery-2.1.4.min.js"></script>
@@ -272,3 +285,33 @@
             });
         });
     </script>
+
+    <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
+    <?php if ($this->session->flashdata('sukses')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                position: 'top-end',
+                title: '<?= $this->session->flashdata('sukses') ?>',
+                showConfirmButton: false,
+                timer: 3000,
+                allowOutsideClick: false,
+                timerProgressBar: true
+            })
+        </script>
+    <?php endif ?>
+
+    <?php if ($this->session->flashdata('gagal')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                position: 'top-end',
+                title: '<?= $this->session->flashdata('gagal') ?>',
+                showConfirmButton: false,
+                timer: 3000,
+                allowOutsideClick: false,
+                timerProgressBar: true
+            })
+        </script>
+    <?php
+    endif ?>

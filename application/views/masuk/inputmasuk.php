@@ -71,8 +71,11 @@
                                                         <div class="col-lg-3">
                                                             <label class="login2 pull-right pull-right-pro">Satuan 1</label>
                                                         </div>
-                                                        <div class="col-lg-9">
-                                                            <input id="sat1" name="sat1" type="number" class="form-control" id="sat1" placeholder="Satuan 1">
+                                                        <div class="col-lg-7">
+                                                            <input name="sat1" type="number" class="form-control" placeholder="Satuan 1">
+                                                        </div>
+                                                        <div class="col-lg-2">
+                                                            <input readonly id=sat1 class="form-control" value="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -81,8 +84,11 @@
                                                         <div class="col-lg-3">
                                                             <label class="login2 pull-right pull-right-pro">Satuan 2</label>
                                                         </div>
-                                                        <div class="col-lg-9">
-                                                            <input name="sat2" type="number" class="form-control" id="sat2" placeholder="Satuan 2">
+                                                        <div class="col-lg-7">
+                                                            <input name="sat2" type="number" class="form-control" placeholder="Satuan 2">
+                                                        </div>
+                                                        <div class="col-lg-2">
+                                                            <input readonly id=sat2 class="form-control" value="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -91,8 +97,11 @@
                                                         <div class="col-lg-3">
                                                             <label class="login2 pull-right pull-right-pro">Satuan 3</label>
                                                         </div>
-                                                        <div class="col-lg-9">
-                                                            <input name="sat3" type="number" class="form-control" id="sat3" placeholder="Satuan 3">
+                                                        <div class="col-lg-7">
+                                                            <input name="sat3" type="number" class="form-control" placeholder="Satuan 3">
+                                                        </div>
+                                                        <div class="col-lg-2">
+                                                            <input readonly id=sat3 class="form-control" value="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -251,15 +260,15 @@
 
             var potong1 = text.slice(text.search("-") + 3, text.length);
             var sat1 = potong1.slice(0, potong1.search("-") - 1);
-            document.getElementById('sat1').placeholder = sat1;
+            document.getElementById('sat1').value = sat1;
 
             var potong2 = potong1.slice(potong1.search("-") + 3, text.length);
             var sat2 = potong2.slice(0, potong2.search("-") - 1);
-            document.getElementById('sat2').placeholder = sat2;
+            document.getElementById('sat2').value = sat2;
 
             var potong3 = potong2.slice(potong2.search("-") + 3, text.length);
             var sat3 = potong3.slice(0, potong3.search("-") - 1);
-            document.getElementById('sat3').placeholder = sat3;
+            document.getElementById('sat3').value = sat3;
         }
     </script>
     <script src="<?= base_url() ?>assets/js/jquery-2.1.4.min.js"></script>

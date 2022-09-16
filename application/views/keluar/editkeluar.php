@@ -18,7 +18,7 @@
                     <div class="sparkline12-list shadow-reset mg-t-30">
                         <div class="sparkline12-hd">
                             <div class="main-sparkline12-hd">
-                                <h1>Edit Input Bahan</h1>
+                                <h1>Edit Output Bahan</h1>
                             </div>
                         </div>
                         <div class="sparkline12-graph">
@@ -27,7 +27,7 @@
                                     <div class="col-lg-12">
                                         <div class="all-form-element-inner">
                                             <?php foreach ($riwayat as $r) : ?>
-                                                <form enctype="multipart/form-data" action="<?= base_url("masuk/update_masuk") ?>" method="post">
+                                                <form enctype="multipart/form-data" action="<?= base_url("keluar/update_keluar") ?>" method="post">
                                                     <input name="no" type="hidden" class="form-control" id="no" value="<?php echo $r->no; ?>" />
                                                     <div class="form-group-inner">
                                                         <div class="row">
@@ -55,7 +55,7 @@
                                                                 <label class="login2 pull-right pull-right-pro">Nama barang</label>
                                                             </div>
                                                             <div class="col-lg-9">
-                                                                <input name="name" type="text" class="form-control" id="name" value="<?php echo $nama; ?> -|<?= $master->sat1 ?>|-|<?= $master->sat2 ?>|-|<?= $master->sat3 ?>|-|<?= $master->kode ?>|" readonly="readonly" />
+                                                                <input name="name" type="text" class="form-control" id="name" value="<?php echo $nama; ?>" readonly="readonly" />
                                                                 <input name="kode" type="hidden" class="form-control" id="kode" value="<?php echo $r->kode ?>" readonly="readonly" />
                                                             </div>
                                                         </div>
@@ -72,8 +72,8 @@
                                                     </div>
                                                     <?php
                                                     // Perhitungan 3 Satuan
-                                                    $sats1  = floor($r->masuk / ($max1 * $max2));
-                                                    $sisa   = $r->masuk - ($sats1 * $max1 * $max2);
+                                                    $sats1  = floor($r->keluar / ($max1 * $max2));
+                                                    $sisa   = $r->keluar - ($sats1 * $max1 * $max2);
                                                     $sats2  = floor($sisa / $max2);
                                                     $sats3  = $sisa - $sats2 * $max2;
                                                     ?>
@@ -87,7 +87,7 @@
                                                                 <input name="sats1" type="number" class="form-control" value="<?= $sats1 ?>" placeholder="Satuan 1">
                                                             </div>
                                                             <div class="col-lg-2">
-                                                                <input readonly id=sat1 class="form-control" value="<?= $master->sat1 ?>">
+                                                                <input readonly id=sat class="form-control" value="<?= $master->sat1 ?>">
                                                             </div>
                                                         </div>
                                                     </div>

@@ -37,7 +37,6 @@ class Masuk extends CI_Controller
     // tambah barang masuk
     public function barang_masuk()
     {
-        error_reporting(0);
         $tglform = $this->input->post('tglform');
         $noform = $this->input->post('noform');
         $koder = $this->input->post('kode');
@@ -216,8 +215,6 @@ class Masuk extends CI_Controller
         $tampil1 = $this->db->query("select * from riwayat WHERE no='$no'");
         foreach ($tampil1->result() as $riw) {
             $awal = $riw->masuk;
-            $tglform = $riw->tglform;
-            $tglform = $riw->noform;
         }
         $tampil = $this->db->query("select * from saldo WHERE kode='$kode'");
         foreach ($tampil->result() as $sal) {
