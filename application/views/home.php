@@ -1,14 +1,14 @@
 <div class="layarlebar">
     <div class="admin-dashone-data-table-area mg-b-40">
-        <div class="container" style="position:relative;top:-250px;z-index: 1">
+        <div class="container " style="position:relative;top:-250px;z-index: 1">
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
-                    <div class="container">
-                        <h4 class="mt-3 mb-3 ml-3"><b>Saldo Barang Jadi</b></h4>
+                    <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
+                        <h1>Saldo Barang Jadi</h1>
                     </div>
                 </div>
                 <div style="background-color:#fff">
-                    <div class="sparkline8-graph">
+                    <div class="sparkline8-graph shadow">
                         <div class="datatable-dashv1-list custom-datatable-overright"
                             style="margin-left:10px;margin-right:10px;padding-bottom:10px">
 
@@ -73,12 +73,12 @@
         <div class="container" style="position:relative;top:-150px;z-index: 1">
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
-                    <div class="container">
-                        <h4 class="mt-3 mb-3 ml-3"><b>Riwayat Bahan Masuk Keluar</b></h4>
+                    <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
+                        <h1>Riwayat Bahan Masuk Keluar</h1>
                     </div>
                 </div>
                 <div style="background-color:#fff">
-                    <div class="sparkline8-graph">
+                    <div class="sparkline8-graph shadow">
                         <div class="datatable-dashv1-list custom-datatable-overright"
                             style="margin-left:10px;margin-right:10px;padding-bottom:10px">
                             <table id="table" data-toggle="table" data-pagination="true" data-search="true"

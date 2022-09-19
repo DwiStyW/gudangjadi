@@ -17,7 +17,7 @@ window.onscroll = function() {
 };
 
 function scrollFunction() {
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
         mybutton.style.display = "block";
     } else {
         mybutton.style.display = "none";
@@ -101,10 +101,27 @@ function topFunction() {
 		============================================ -->
 <script src="<?= base_url() ?>assets/js/main.js"></script>
 
+<!-- jquery JS -->
+<script src="<?= base_url() ?>assets/js/jquery-3.2.1.min.js"></script>
+<script src="<?= base_url() ?>assets/js/counterup/jquery.waypoints.min.js"></script>
+<script src="<?= base_url() ?>assets/js/counterup/jquery.counterup.min.js"></script>
+<!-- select2 -->
+<script src="<?= base_url() ?>assets/select2-master/dist/js/select2.min.js"></script>
+<!-- sweetalert2 -->
+<script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
+
 </body>
 
 </html>
 <style>
+.select2-container--open {
+    z-index: 9999999
+}
+
+.swal2-container {
+    z-index: 20000 !important;
+}
+
 #myBtn {
     display: none;
     position: fixed;

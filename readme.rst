@@ -1,4 +1,2 @@
 .. image:: assets/img/logo/logo.png
-  :width: 200
-  :align: center
-  :target: https://indosar.co.id/
+  :width: 100

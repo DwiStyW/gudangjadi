@@ -20,6 +20,13 @@ class get extends CI_Model
     }
     //end get data home
 
+    //get where
+    public function get_where($where, $table)
+    {
+        return $this->db->get_where($table, $where);
+    }
+    //end get where
+
     // Get data master
     public function tampil_master()
     {
@@ -28,11 +35,6 @@ class get extends CI_Model
         $this->db->where('master.kdgol = golongan.id AND master.kdjenis = jenis.id');
         $this->db->order_by('master.id', 'DESC');
         return $this->db->get()->result();
-    }
-
-    public function edit_master($where, $table)
-    {
-        return $this->db->get_where($table, $where);
     }
     //end get data master
 
@@ -69,9 +71,15 @@ class get extends CI_Model
         $this->db->order_by('riwayat.no', 'DESC')->limit(20);
         return $this->db->get()->result();
     }
+    //end barang masuk
 
-    public function edit_masuk($where, $table)
+    //get data barang keluar
+    public function tampil_barang_keluar()
     {
-        return $this->db->get_where($table, $where);
+        $this->db->select('*');
+        $this->db->from('riwayat,master,tb_user');
+        $this->db->where("master.id=riwayat.kode AND riwayat.masuk=0 AND riwayat.adm=tb_user.user_id");
+        $this->db->order_by('riwayat.no', 'DESC');
+        return $this->db->get()->result();
     }
 }

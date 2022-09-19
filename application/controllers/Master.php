@@ -5,12 +5,9 @@ class Master extends CI_Controller
     {
         parent::__construct();
         if ($this->session->userdata('role') != 'user' && $this->session->userdata('role') != 'admin' && $this->session->userdata('role') != 'manager') {
-            $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            $this->session->set_flashdata('pesan', '<div class="fade show" style="color:red" role="alert">
   Anda Belum Login!
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>');
+</div><br>');
             redirect('auth/login');
         }
     }
@@ -63,7 +60,7 @@ class Master extends CI_Controller
         $where = array('id' => $id);
         $data['golongan'] = $this->get->tampil_golongan();
         $data['jenis'] = $this->get->tampil_jenis();
-        $data['master'] = $this->get->edit_master($where, 'master')->result();
+        $data['master'] = $this->get->get_where($where, 'master')->result();
         $this->load->view('_partials/header');
         $this->load->view('_partials/menu');
         $this->load->view('master/editmas', $data);

@@ -49,8 +49,8 @@
                     <li><a href="<?= base_url("home") ?>" class="btn btn-lg tekan text-white">Home</a></li>
                     <li><a href="<?= base_url("master") ?>" class="btn btn-lg tekan text-white">Master Barang</a>
                     </li>
-                    <li><a href="masuk.php" class="btn btn-lg tekan text-white">Barang Masuk</a></li>
-                    <li><a href="keluar.php" class="btn btn-lg tekan text-white">Barang Keluar</a></li>
+                    <li><a href="<?= base_url("masuk") ?>" class="btn btn-lg tekan text-white">Barang Masuk</a></li>
+                    <li><a href="<?= base_url("keluar") ?>" class="btn btn-lg tekan text-white">Barang Keluar</a></li>
                     <li><a href="riwayat.php" class="btn btn-lg tekan text-white">Riwayat Keluar Masuk</a></li>
                     <li><a href="reportgr.php" class="btn btn-lg tekan text-white">Report per Gol</a></li>
                     <li><a href="report.php" class="btn btn-lg tekan text-white">Report All</a></li>
@@ -83,7 +83,7 @@
         </div>
     </header>
 
-    <div class="header-top-area layarkecil blur" style="position: fixed;top: 0px;width: 100%; z-index: 10000;">
+    <div class="layarkecil blur" style="position: fixed;top: 0px;width: 100%; z-index: 10000;">
         <div class="container">
             <div style="display:flex;flex-wrap:wrap">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -95,20 +95,21 @@
                 </div>
             </div>
         </div>
-        <ul class="nav nav-tabs d-flex justify-content-between custom-menu-wrap">
-            <li><a href="<?= base_url("home") ?>" class="btn btn-sm" style="color:#0a1324"><b>Home</b></a></li>
-            <li><a href="<?= base_url("master") ?>" class="btn btn-sm" style="color:#0a1324"><b>Master Barang</b></a>
+        <ul class="nav nav-tabs custom-menu-wrap">
+            <li><a href="<?= base_url("home") ?>" style="color:#0a1324"><b>Home</b></a></li>
+            <li><a href="<?= base_url("master") ?>" style="color:#0a1324"><b>Master Barang</b></a>
             </li>
-            <li><a href="masuk.php" class="btn btn-sm" style="color:#0a1324"><b>Barang Masuk</b></a></li>
-            <li><a href="keluar.php" class="btn btn-sm" style="color:#0a1324"><b>Barang Keluar</b></a></li>
-            <li><a href="riwayat.php" class="btn btn-sm" style="color:#0a1324"><b>Riwayat Keluar Masuk</b></a></li>
-            <li><a href="reportgr.php" class="btn btn-sm" style="color:#0a1324"><b>Report per Gol</b></a></li>
-            <li><a href="report.php" class="btn btn-sm" style="color:#0a1324"><b>Report All</b></a></li>
+            <li><a href="<?= base_url("masuk") ?>" style="color:#0a1324"><b>Barang Masuk</b></a></li>
+            <li><a href="<?= base_url("keluar") ?>" style="color:#0a1324"><b>Barang Keluar</b></a>
+            </li>
+            <li><a href="riwayat.php" style="color:#0a1324"><b>Riwayat Keluar Masuk</b></a></li>
+            <li><a href="reportgr.php" style="color:#0a1324"><b>Report per Gol</b></a></li>
+            <li><a href="report.php" style="color:#0a1324"><b>Report All</b></a></li>
             <?php
                         $role = $this->session->userdata('role');
                         if ($role == 'admin') {
                         ?>
-            <li><a href="<?= base_url('user.php') ?>" class="btn btn-sm" style="color:#0a1324"><b>Admin</b></a>
+            <li><a href="<?= base_url('user.php') ?>" style="color:#0a1324"><b>Admin</b></a>
                 <?php } ?>
             </li>
         </ul>
@@ -138,11 +139,11 @@
                                         Barang</b></a>
                             </li>
                             <li class="nav-tabs text-left" style="margin-left:20px;margin-right:20px;margin-top:20px;">
-                                <a href="masuk.php"><b><i class="fa-archive fa"></i> Barang
+                                <a href="<?= base_url("masuk") ?>"><b><i class="fa-archive fa"></i> Barang
                                         Masuk</b></a>
                             </li>
                             <li class="nav-tabs text-left" style="margin-left:20px;margin-right:20px;margin-top:20px;">
-                                <a href="keluar.php"><b><i class="fa-calendar-o fa"></i> Barang
+                                <a href="<?= base_url("keluar") ?>"><b><i class="fa-calendar-o fa"></i> Barang
                                         Keluar</b></a>
                             </li>
                             <li class="nav-tabs text-left" style="margin-left:20px;margin-right:20px;margin-top:20px;">
