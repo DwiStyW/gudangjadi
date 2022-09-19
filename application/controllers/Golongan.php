@@ -63,4 +63,13 @@ class Golongan extends CI_Controller
         $this->delete->hapus($where, 'golongan');
         redirect('golongan');
     }
+
+    public function filgolongan()
+    {
+        $data['golongan'] = $this->get->tampil_golongan();
+        $this->load->view("_partials/header");
+        $this->load->view("_partials/menu");
+        $this->load->view("report/reportgr", $data);
+        $this->load->view("_partials/footer");
+    }
 }

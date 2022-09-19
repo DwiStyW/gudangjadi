@@ -82,4 +82,18 @@ class get extends CI_Model
         $this->db->order_by('riwayat.no', 'DESC');
         return $this->db->get()->result();
     }
+
+    public function filriwayat($kode, $where, $where1)
+    {
+        $this->db->select("*");
+        $this->db->from("riwayat, master");
+        if ($kode == "" || $kode == 0) {
+            $this->db->where("master.id=riwayat.kode AND tglform between '$where' AND '$where1'");
+        } else {
+            $this->db->where("riwayat.kode='$kode' AND master.id=riwayat.kode AND tglform between '$where' AND '$where1'");
+        }
+        $this->db->order_by("riwayat.tglform", "ASC");
+        $this->db->order_by("riwayat.masuk", "DESC");
+        return $this->db->get()->result();
+    }
 }

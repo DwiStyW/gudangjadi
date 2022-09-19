@@ -86,8 +86,8 @@
                         <li><a href="<?= base_url("master") ?>">Master Barang</a></li>
                         <li><a href="<?= base_url("masuk") ?>">Barang Masuk</a></li>
                         <li><a href="<?= base_url("keluar") ?>">Barang Keluar</a></li>
-                        <li><a href="riwayat.php">Riwayat Keluar Masuk</a></li>
-                        <li><a href="reportgr.php">Report per Gol</a></li>
+                        <li><a href="<?= base_url("riwayat") ?>">Riwayat Keluar Masuk</a></li>
+                        <li><a href="<?= base_url("golongan/filgolongan") ?>">Report per Gol</a></li>
                         <li><a href="report.php">Report All</a></li>
                         <?php
                         $role = $this->session->userdata('role');
