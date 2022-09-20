@@ -94,6 +94,6 @@ class get extends CI_Model
         }
         $this->db->order_by("riwayat.tglform", "ASC");
         $this->db->order_by("riwayat.masuk", "DESC");
-        return $this->db->get()->result();
+        return $this->db->get();
     }
 }

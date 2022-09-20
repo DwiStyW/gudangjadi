@@ -28,7 +28,7 @@
                                     <i class="fa-caret-down fa"></i>
                                 </a>
                                 <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated flipInX">
-                                    <li><a href="settings.php"><i class="fa fa-gear"></i> Settings</a>
+                                    <li><a href="<?= base_url('settings') ?>"><i class="fa fa-gear"></i> Settings</a>
                                     </li>
                                     <li><a href="<?= base_url("auth/logout") ?>"><i class="fa fa-sign-out"></i> Log Out</a>
                                     </li>
