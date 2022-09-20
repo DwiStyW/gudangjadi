@@ -90,7 +90,7 @@
                           <a class="btn btn-sm btn-danger" href="<?= base_url("master/hapus_master/" . $m->id) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-trash"></i> Hapus</a>
                         </td>
                       </tr>
-                    <?php $no++;
+                    <?php
                     } ?>
                   </tbody>
                 </table>
@@ -114,6 +114,7 @@
         <div class="modal-body">
           <form action="<?= base_url('') . 'master/tambah_master' ?>" method="post">
 
+            <input type="hidden" name="id" class="form-control">
             <div class="form group">
               <label>kode Barang</label>
               <input type="text" name="kode" class="form-control">

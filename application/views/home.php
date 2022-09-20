@@ -119,7 +119,7 @@
                                           <td><?php echo $sats3; ?> <?php echo $r->sat3; ?></td>
                                           <td><?php echo $r->ket; ?></td>
                                           <td><?php echo $r->tanggal; ?></td>
-                                          <td><a href="penginput.php?user=<?php echo $r->user_id; ?>"><?php echo $r->username; ?></a></td>
+                                          <td><a href="<?= base_url("penginput/user/" . $r->user_id) ?>"><?php echo $r->username; ?></a></td>
                                       </tr>
                                   <?php
                                     } ?>

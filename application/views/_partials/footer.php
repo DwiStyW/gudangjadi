@@ -83,6 +83,11 @@
 <script src="<?= base_url() ?>assets/js/jquery-3.2.1.min.js"></script>
 <script src="<?= base_url() ?>assets/js/counterup/jquery.waypoints.min.js"></script>
 <script src="<?= base_url() ?>assets/js/counterup/jquery.counterup.min.js"></script>
+<!-- select2 -->
+<script src="<?= base_url() ?>assets/select2-master/dist/js/select2.min.js"></script>
+<!-- sweetalert2 -->
+<script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
+
 </body>
 
 </html>

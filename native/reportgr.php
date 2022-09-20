@@ -1,12 +1,12 @@
-<?php 
-include "koneksi.php" ;
-include "cek-login.php" ;
+<?php
+include "koneksi.php";
+include "cek-login.php";
 
 $timeout = 10; // Set timeout menit
 $logout_redirect_url = "logout.php"; // Set logout URL
 
 
- 
+
 $timeout = $timeout * 60; // Ubah menit ke detik
 if (isset($_SESSION['start_time'])) {
     $elapsed_time = time() - $_SESSION['start_time'];
@@ -20,8 +20,9 @@ $_SESSION['start_time'] = time();
 <!doctype html>
 <html class="no-js" lang="en">
 
-<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-    
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Report per Golongan | SI Gudang</title>
     <meta name="description" content="">
@@ -91,108 +92,108 @@ $_SESSION['start_time'] = time();
 </head>
 
 <body onload='search()'>
-<?php
-  $username = $_SESSION['username'];
-  $query_user_login = mysql_query("select * from tb_user where username='$username'");
-  $user_login = mysql_fetch_array($query_user_login);
-  $iduser = $user_login['user_id'];
-  ini_set('date.timezone', 'Asia/Jakarta');
-  date_default_timezone_set('Asia/Jakarta');
-?>
+    <?php
+    $username = $_SESSION['username'];
+    $query_user_login = mysqli_query($conn, "select * from tb_user where username='$username'");
+    $user_login = mysqli_fetch_array($query_user_login);
+    $iduser = $user_login['user_id'];
+    ini_set('date.timezone', 'Asia/Jakarta');
+    date_default_timezone_set('Asia/Jakarta');
+    ?>
     <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
     <?php include('menu.php'); ?>
-    
+
     <!-- Data table area Start-->
     <div class="admin-dashone-data-table-area mg-b-40">
-    <div class="basic-form-area mg-b-15">
-        <div class="container-fluid">                                     
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="sparkline12-list shadow-reset mg-t-30">
-                        <div class="sparkline12-hd">
-                            <div class="main-sparkline12-hd">
-                                <h1>Report Per Golongan</h1>                                        
+        <div class="basic-form-area mg-b-15">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="sparkline12-list shadow-reset mg-t-30">
+                            <div class="sparkline12-hd">
+                                <div class="main-sparkline12-hd">
+                                    <h1>Report Per Golongan</h1>
+                                </div>
                             </div>
-                        </div>
-                        <div class="sparkline12-graph">
-                            <div class="basic-login-form-ad">
-                                <div class="row">
-                                    <div class="col-lg-12">                                         
-                                        <div class="all-form-element-inner">
-                                            <form enctype="multipart/form-data" action="tampilreportgr.php" method="post">
-                                                <div class="form-group-inner">
-                                                    <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <label class="login2 pull-right pull-right-pro">Range Tanggal</label>
-                                                        </div>
-                                                        <div class="col-lg-9">
-                                                        
-                                                        <div class="input-daterange input-group" id="datepicker">
-                                                            <input type="date" class="form-control" name="start" required/>
-                                                            <span class="input-group-addon">to</span>
-                                                            <input type="date" class="form-control" name="end" required/>
-                                                        </div>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                </div>
-                                                <div class="form-group-inner">
-                                                    <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <label class="login2 pull-right pull-right-pro">Golongan</label>
-                                                        </div>
-                                                        <div class="col-lg-9">
-                                                            <div class="form-select-list">
-                                                                <select id="kode" name="kode" class="form-control">
-                                                                    <option value=""></option>
-                                                                    <?php
-                                                                    // ambil data dari database
-                                                                    $tampil=mysql_query("select * from golongan");
-                                                                    while($data=mysql_fetch_array($tampil)){ ?>
-                                                                        <option value="<?php echo $data['id']; ?>"><?php echo $data['kdgol']; ?> <?php echo $data['namagol']; ?></option>
-                                                                    <?php } ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group-inner">
-                                                    <div class="login-btn-inner">
+                            <div class="sparkline12-graph">
+                                <div class="basic-login-form-ad">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="all-form-element-inner">
+                                                <form enctype="multipart/form-data" action="tampilreportgr.php" method="post">
+                                                    <div class="form-group-inner">
                                                         <div class="row">
-                                                            <div class="col-lg-3"></div>
+                                                            <div class="col-lg-3">
+                                                                <label class="login2 pull-right pull-right-pro">Range Tanggal</label>
+                                                            </div>
                                                             <div class="col-lg-9">
-                                                                <div class="login-horizental cancel-wp pull-left">
-                                                                    <a href="index.php"><button class="btn btn-white" type="button">Kembali</button></a>
-                                                                    <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Cari</button>
+
+                                                                <div class="input-daterange input-group" id="datepicker">
+                                                                    <input type="date" class="form-control" name="start" required />
+                                                                    <span class="input-group-addon">to</span>
+                                                                    <input type="date" class="form-control" name="end" required />
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group-inner">
+                                                        <div class="row">
+                                                            <div class="col-lg-3">
+                                                                <label class="login2 pull-right pull-right-pro">Golongan</label>
+                                                            </div>
+                                                            <div class="col-lg-9">
+                                                                <div class="form-select-list">
+                                                                    <select id="kode" name="kode" class="form-control">
+                                                                        <option value=""></option>
+                                                                        <?php
+                                                                        // ambil data dari database
+                                                                        $tampil = mysqli_query($conn, "select * from golongan");
+                                                                        while ($data = mysqli_fetch_array($tampil)) { ?>
+                                                                            <option value="<?php echo $data['id']; ?>"><?php echo $data['kdgol']; ?> <?php echo $data['namagol']; ?></option>
+                                                                        <?php } ?>
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </form>
+                                                    <div class="form-group-inner">
+                                                        <div class="login-btn-inner">
+                                                            <div class="row">
+                                                                <div class="col-lg-3"></div>
+                                                                <div class="col-lg-9">
+                                                                    <div class="login-horizental cancel-wp pull-left">
+                                                                        <a href="index.php"><button class="btn btn-white" type="button">Kembali</button></a>
+                                                                        <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Cari</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
     <!-- Data table area End-->
-    <br/>
+    <br />
     <!-- Footer Start-->
     <div class="footer-copyright-area">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">                        
+                <div class="col-lg-12">
                     <div class="footer-copy-right">
-                        <p> Copyright &#169; <?php echo date("Y")?> All rights reserved. Designed by <i>IT Dept INDOSAR</p>                     
+                        <p> Copyright &#169; <?php echo date("Y") ?> All rights reserved. Designed by <i>IT Dept INDOSAR</p>
                     </div>
                 </div>
             </div>
@@ -245,7 +246,7 @@ $_SESSION['start_time'] = time();
     -->
     <!-- Color Switcher end -->
     <!-- Chat Box Start-->
-    
+
     <!-- Chat Box End-->
     <!-- jquery
         ============================================ -->
@@ -314,15 +315,15 @@ $_SESSION['start_time'] = time();
     <script src="js/main.js"></script>
     <!-- JS Search
         ============================================ -->
-    <link rel="stylesheet" href="bootstrap.min.css"/>
-    <link rel="stylesheet" href="select2-master/dist/css/select2.min.css"/>
+    <link rel="stylesheet" href="bootstrap.min.css" />
+    <link rel="stylesheet" href="select2-master/dist/css/select2.min.css" />
     <script src="jquery-2.1.4.min.js"></script>
     <script src="select2-master/dist/js/select2.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $("#kode").select2({
                 placeholder: "Please Select"
-            });                
+            });
         });
     </script>
 </body>

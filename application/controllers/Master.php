@@ -1,6 +1,19 @@
 <?php
 class Master extends CI_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        if ($this->session->userdata('role') != 'user' && $this->session->userdata('role') != 'admin' && $this->session->userdata('role') != 'manager') {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  Anda Belum Login!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>');
+            redirect('auth/login');
+        }
+    }
     public function index()
     {
         $data['master'] = $this->get->tampil_master();
@@ -37,12 +50,23 @@ class Master extends CI_Controller
             'max2' => $max2,
             'sat3' => $sat3,
             'kdgol' => $kdgol,
-            'kdjenis' => $kdjenis
+            'kdjenis' => $kdjenis,
+            'tgl' => date("Y-m-d H:i:s")
         );
 
+        $data1 = array(
+            'no' => $id,
+            'kode' => $kode,
+            'saldo' => '',
+            'tglform ' => '',
+            'tanggal' => date("Y-m-d H:i:s")
+        );
 
-        $this->insert->tambah($data, 'master');
-        redirect('master');
+        if (isset($data) && isset($data1)) {
+            $this->insert->tambah($data1, 'saldo');
+            $this->insert->tambah($data, 'master');
+            redirect('master');
+        }
     }
 
     public function editmas($id)
@@ -50,7 +74,7 @@ class Master extends CI_Controller
         $where = array('id' => $id);
         $data['golongan'] = $this->get->tampil_golongan();
         $data['jenis'] = $this->get->tampil_jenis();
-        $data['master'] = $this->get->edit_master($where, 'master')->result();
+        $data['master'] = $this->get->get_where($where, 'master')->result();
         $this->load->view('_partials/header');
         $this->load->view('_partials/menu');
         $this->load->view('master/editmas', $data);
@@ -60,6 +84,7 @@ class Master extends CI_Controller
     public function update_master()
     {
         $id     = $this->input->post('id');
+        $kode   = $this->input->post('kode');
         $nama     = $this->input->post('nama');
         $ukuran     = $this->input->post('ukuran');
         $sat1     = $this->input->post('sat1');
@@ -71,6 +96,7 @@ class Master extends CI_Controller
         $kdjenis     = $this->input->post('kdjenis');
 
         $data = array(
+            'kode' => $kode,
             'nama' => $nama,
             'ukuran' => $ukuran,
             'sat1' => $sat1,
@@ -85,6 +111,15 @@ class Master extends CI_Controller
             'id' => $id
         );
 
+        $where1 = array(
+            'no' => $id
+        );
+
+        $data1 = array(
+            'kode' => $kode
+        );
+
+        $this->edit->update($where1, $data1, 'saldo');
         $this->edit->update($where, $data, 'master');
         redirect('master');
     }
@@ -92,7 +127,13 @@ class Master extends CI_Controller
     public function hapus_master($id)
     {
         $where = array('id' => $id);
-        $this->delete->hapus($where, 'master');
-        redirect('master');
+        $where1 = array('no' => $id);
+
+
+        if (isset($where) && isset($where1)) {
+            $this->delete->hapus($where1, 'saldo');
+            $this->delete->hapus($where, 'master');
+            redirect('master');
+        }
     }
 }

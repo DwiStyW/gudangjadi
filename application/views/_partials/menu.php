@@ -20,7 +20,8 @@
                     <div class="header-right-info">
                         <ul class="nav navbar-nav mai-top-nav header-right-menu">
                             <li class="nav-item">
-                                <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+                                <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+                                    class="nav-link dropdown-toggle">
                                     <i class="fa fa-user"></i>
                                     <span class="admin-name">
                                         <?= $this->session->userdata('username')  ?>
@@ -28,9 +29,10 @@
                                     <i class="fa-caret-down fa"></i>
                                 </a>
                                 <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated flipInX">
-                                    <li><a href="settings.php"><i class="fa fa-gear"></i> Settings</a>
+                                    <li><a href="<?= base_url('settings') ?>"><i class="fa fa-gear"></i> Settings</a>
                                     </li>
-                                    <li><a href="<?= base_url("auth/logout") ?>"><i class="fa fa-sign-out"></i> Log Out</a>
+                                    <li><a href="<?= base_url("auth/logout") ?>"><i class="fa fa-sign-out"></i> Log
+                                            Out</a>
                                     </li>
                                 </ul>
                             </li>
@@ -85,17 +87,17 @@
                         <li><a href="<?= base_url("home") ?>">Home</a></li>
                         <li><a href="<?= base_url("master") ?>">Master Barang</a></li>
                         <li><a href="<?= base_url("masuk") ?>">Barang Masuk</a></li>
-                        <li><a href="keluar.php">Barang Keluar</a></li>
-                        <li><a href="riwayat.php">Riwayat Keluar Masuk</a></li>
-                        <li><a href="reportgr.php">Report per Gol</a></li>
+                        <li><a href="<?= base_url("keluar") ?>">Barang Keluar</a></li>
+                        <li><a href="<?= base_url("riwayat") ?>">Riwayat Keluar Masuk</a></li>
+                        <li><a href="<?= base_url("report") ?>">Report per Gol</a></li>
                         <li><a href="report.php">Report All</a></li>
                         <?php
                         $role = $this->session->userdata('role');
                         if ($role == 'admin') {
                         ?>
-                            <li><a href="<?= base_url('user.php') ?>">Admin</a>
+                        <li><a href="<?= base_url('user.php') ?>">Admin</a>
                             <?php } ?>
-                            </li>
+                        </li>
                     </ul>
 
                 </div>

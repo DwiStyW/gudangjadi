@@ -27,7 +27,7 @@
                         <div class="sparkline8-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
                                 <div id="toolbar">
-                                    <a href="inputbahanBU.php"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Input Bahan Masuk</button></a>
+                                    <a href="<?= base_url("masuk/input_masuk") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Input Bahan Masuk</button></a>
                                     <a href="index.php"><button class="btn btn-white" type="button">Kembali</button></a>
                                 </div>
                                 <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
@@ -73,12 +73,12 @@
                                                 <td><?php echo $sats2; ?> <?php echo $m->sat2 ?></td>
                                                 <td><?php echo $sats3; ?> <?php echo $m->sat3 ?></td>
                                                 <td><?php echo $m->tanggal; ?></td>
-                                                <td><?php echo $m->username ?></td>
+                                                <td><a href="<?= base_url("penginput/user/" . $m->adm) ?>"><?php echo $m->username ?></td>
                                                 <td><?php echo $m->suplai ?></td>
                                                 <td><?php echo $m->cat ?></td>
                                                 <td>
-                                                    <a class="btn btn-sm btn-primary" href="#"><i class="fa fa-edit"></i> Edit</a>
-                                                    <a class="btn btn-sm btn-danger" href="#" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-wrench"></i> Hapus</a>
+                                                    <a class="btn btn-sm btn-primary" href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>"><i class="fa fa-edit"></i> Edit</a>
+                                                    <a class="btn btn-sm btn-danger" href="<?= base_url("masuk/hapus_masuk/" . $m->no . "/" . $m->kode) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-trash"></i> Hapus</a>
                                                 </td>
                                             </tr>
                                         <?php
@@ -93,3 +93,33 @@
         </div>
     </div>
     <!-- Data table area End-->
+
+    <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
+    <?php if ($this->session->flashdata('sukses')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                position: 'top-end',
+                title: '<?= $this->session->flashdata('sukses') ?>',
+                showConfirmButton: false,
+                timer: 3000,
+                allowOutsideClick: false,
+                timerProgressBar: true
+            })
+        </script>
+    <?php endif ?>
+
+    <?php if ($this->session->flashdata('gagal')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                position: 'top-end',
+                title: '<?= $this->session->flashdata('gagal') ?>',
+                showConfirmButton: false,
+                timer: 3000,
+                allowOutsideClick: false,
+                timerProgressBar: true
+            })
+        </script>
+    <?php
+    endif ?>
