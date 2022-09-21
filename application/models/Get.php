@@ -83,6 +83,7 @@ class get extends CI_Model
         return $this->db->get()->result();
     }
 
+    // report keluar masuk
     public function filriwayat($kode, $where, $where1)
     {
         $this->db->select("*");
@@ -94,6 +95,16 @@ class get extends CI_Model
         }
         $this->db->order_by("riwayat.tglform", "ASC");
         $this->db->order_by("riwayat.masuk", "DESC");
+        return $this->db->get();
+    }
+
+    // report per golongan
+    public function filgol($kode, $where, $where1)
+    {
+        $this->db->select("*");
+        $this->db->from("riwayat, master");
+        $this->db->where("master.id=riwayat.kode AND master.kdgol='$kode' AND riwayat.tglform between '$where' AND '$where1'");
+        $this->db->order_by("no", "ASC");
         return $this->db->get();
     }
 }
