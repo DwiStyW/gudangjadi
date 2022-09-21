@@ -52,14 +52,14 @@
                     <div class="mobile-menu">
                         <nav id="dropdown">
                             <ul class="mobile-menu-nav">
-                                <li><a href="<?= base_url("home") ?>">Home </a></li>
-                                <li><a href="master.php">Master Barang</a>
-                                <li><a href="masuk.php">Barang Masuk</a>
-                                <li><a href="keluar.php">Barang Keluar</a>
-                                <li><a href="riwayat.php">Riwayat Keluar Masuk</a>
-                                <li><a href="reportgr.php">Report per Gol</a>
-                                <li><a href="report.php">Report All</a>
-                                <li><a href="logout.php">Logout</a></li>
+                                <li><a href="<?= base_url("home") ?>">Home</a></li>
+                                <li><a href="<?= base_url("master") ?>">Master Barang</a></li>
+                                <li><a href="<?= base_url("masuk") ?>">Barang Masuk</a></li>
+                                <li><a href="<?= base_url("keluar") ?>">Barang Keluar</a></li>
+                                <li><a href="<?= base_url("riwayat") ?>">Riwayat Keluar Masuk</a></li>
+                                <li><a href="<?= base_url("golongan/filgolongan") ?>">Report per Gol</a></li>
+                                <li><a href="<?= base_url("report") ?>">Report All</a></li>
+                                <li><a href="<?= base_url("auth/logout") ?>">Logout</a></li>
                                 <!-- <?php
                                         $role = $user_login['role'];
                                         if ($role == 'admin') {
@@ -88,7 +88,7 @@
                         <li><a href="<?= base_url("keluar") ?>">Barang Keluar</a></li>
                         <li><a href="<?= base_url("riwayat") ?>">Riwayat Keluar Masuk</a></li>
                         <li><a href="<?= base_url("golongan/filgolongan") ?>">Report per Gol</a></li>
-                        <li><a href="report.php">Report All</a></li>
+                        <li><a href="<?= base_url("report") ?>">Report All</a></li>
                         <?php
                         $role = $this->session->userdata('role');
                         if ($role == 'admin') {

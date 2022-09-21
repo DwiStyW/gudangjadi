@@ -28,7 +28,7 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="all-form-element-inner">
-                                                <form enctype="multipart/form-data" action="tampilreportgr.php" method="post">
+                                                <form enctype="multipart/form-data" id="cari" action="<?= base_url("golongan/tampilreportgr") ?>" method="post">
                                                     <div class="form-group-inner">
                                                         <div class="row">
                                                             <div class="col-lg-3">
@@ -37,9 +37,9 @@
                                                             <div class="col-lg-9">
 
                                                                 <div class="input-daterange input-group" id="datepicker">
-                                                                    <input type="date" class="form-control" name="start" required />
+                                                                    <input type="date" class="form-control" id="start" name="start" required />
                                                                     <span class="input-group-addon">to</span>
-                                                                    <input type="date" class="form-control" name="end" required />
+                                                                    <input type="date" class="form-control" id="end" name="end" required />
                                                                 </div>
                                                             </div>
 
@@ -52,7 +52,7 @@
                                                             </div>
                                                             <div class="col-lg-9">
                                                                 <div class="form-select-list">
-                                                                    <select id="kode" name="kode" class="form-control">
+                                                                    <select id="kode" name="kode" class="form-control" required>
                                                                         <option value=""></option>
                                                                         <?php
                                                                         // ambil data dari database
@@ -71,7 +71,7 @@
                                                                 <div class="col-lg-9">
                                                                     <div class="login-horizental cancel-wp pull-left">
                                                                         <a href="index.php"><button class="btn btn-white" type="button">Kembali</button></a>
-                                                                        <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Cari</button>
+                                                                        <button class="btn btn-sm btn-primary login-submit-cs" type="button" onclick="mendal()">Cari</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -99,4 +99,27 @@
                 placeholder: "Please Select"
             });
         });
+    </script>
+    <script>
+        function mendal() {
+            var start = document.getElementById("start").value;
+            var end = document.getElementById("end").value;
+            const s = new Date(start);
+            const e = new Date(end);
+            if (s.getTime() > e.getTime() || start == "" || end == "") {
+                Swal.fire(
+                    'Peingatan!',
+                    'Pastikan anda memasukkan tanggal dengan benar.',
+                    'error'
+                )
+            } else if (document.getElementById("kode").value == "") {
+                Swal.fire(
+                    'Peingatan!',
+                    'Pastikan anda mengisi kode barang terlebih dahulu.',
+                    'error'
+                )
+            } else {
+                document.getElementById("cari").submit();
+            }
+        }
     </script>
