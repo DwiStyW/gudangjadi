@@ -1,62 +1,47 @@
-<body class="sign-in-illustration">
-    <section class="layarlebar"
-        style="background-image: url('<?= base_url()?>assets/img/background.jpg');background-size: 100% ;background-repeat:no-repeat;background-min-width:100%">
-        <div class="page-header min-vh-100">
-            <img src="<?= base_url()?>assets/img/shapes/waves-gray.svg" alt="waves-gray"
-                class="position-absolute opacity-10 start-0">
+<?php $this->load->view('_partials/header_log');?>
 
-            <div style="display:flex;flex-wrap:wrap">
-                <div class="justify-content-start">
-                    <div
-                        class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 text-center justify-content-center flex-column ">
-                        <div class="position-relative bg-gradient-custome h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center"
-                            style="box-shadow: 5px 10px 20px black;">
-                            <img src="<?= base_url()?>assets/img/shapes/waves-white.svg" alt="waves-white"
-                                class="position-absolute opacity-10 start-0">
-                            <div class="position-relative">
-                                <img src="<?= base_url()?>assets/img/logo/log.png"
-                                    style="margin-bottom:-40px;margin-top:-40px;filter: drop-shadow(5px 10px 5px #000);">
-                                <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js">
-                                </script>
-                                <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_L4w8VH.json"
-                                    style="left:0px; top:0px" background="transparent" speed="1"
-                                    style="width: 500px; height: 500px;" hover loop autoplay>
-                                </lottie-player>
+<body class="sign-in-illustration" style="background-color:whitesmoke">
+
+    <section>
+        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+        <lottie-player src="https://lottie.host/96cce79d-e4a6-48db-891e-0d4e7e1ea732/DRx37PkYza.json"
+            background="transparent" speed="1"
+            style="position:fixed;width: 900px; height: 900px;z-index:-1;top:-200px;left:-50px;opacity:0.03" loop
+            autoplay>
+        </lottie-player>
+
+        <lottie-player src="https://lottie.host/96cce79d-e4a6-48db-891e-0d4e7e1ea732/DRx37PkYza.json"
+            background="transparent" speed="1"
+            style="position:fixed;width: 900px; height: 900px;z-index:-1;top:90px;left:400px;opacity:0.03" loop
+            autoplay>
+        </lottie-player>
+        <div class="form-bg">
+            <div class="container">
+                <div class="d-flex justify-content-center" style="margin-top:10%">
+                    <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8">
+                        <div class="form-container">
+                            <div class="form-icon">
+                                <img src="<?= base_url()?>assets/img/logo/log.png" style="padding-bottom:10%">
+                                <img src="<?= base_url()?>assets/img/box.png"
+                                    style="width:140px;height:140px;background:white;object-fit: cover;border-radius: 50%;filter:drop-shadow()">
                             </div>
-                            <div style="  position: absolute;left: 0;right: 0;bottom: 0;margin: auto;">
-                                <h5 class="mb-2 text-white font-weight-bolder">
-                                    Copyright &#169; <?php echo date("Y") ?></h5>
-                                <p class="text-white"> All rights reserved.
-                                    Designed by <i>IT Dept INDOSAR</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="col-xl-4 col-lg-5 col-md-7 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-7 text-center justify-content-center flex-column">
-                    <div class="card card-plain" style="background-color:white;box-shadow: 5px 10px 20px black;">
-                        <div class="card-header pb-0">
-                            <h4 class="font-weight-bolder text-center">Sistem Informasi</h4>
-                            <p class="mb-2 text-center"><b>Gudang Bahan Jadi</b></p>
-                        </div>
-                        <div class="card-body">
-                            <form id="adminpro-form" class="adminpro-form" action="<?= base_url('auth/login') ?>"
+                            <form id="adminpro-form" class="form-horizontal blur" action="<?= base_url('auth/login') ?>"
                                 method="post">
-                                <?= $this->session->flashdata('pesan') ?>
-
-                                <div class="mb-3">
-                                    <input type="text" class="form-custome form-control-lg" id="username"
-                                        name="username" placeholder="Username" aria-label="Username"
-                                        aria-describedby="username-addon" />
+                                <h3>Sistem Informasi</h3>
+                                <p>Gudang Bahan Jadi</p>
+                                <div class="form-group">
+                                    <span class="input-icon"><i class="fa fa-user"></i></span>
+                                    <input class="form-control" type="text" id="username" name="username"
+                                        placeholder="Username" aria-label="Username" aria-describedby="username-addon">
                                 </div>
-                                <div class="mb-3">
-                                    <input type="password" class="form-custome form-control-lg" id="password"
-                                        name="password" placeholder="Password" aria-label="Password"
-                                        aria-describedby="password-addon" />
+                                <div class="form-group">
+                                    <span class="input-icon"><i class="fa fa-lock"></i></span>
+                                    <input class="form-control" type="password" id="password" name="password"
+                                        placeholder="Password" aria-label="Password" aria-describedby="password-addon">
                                 </div>
-                                <div class="text-center">
-                                    <button type="sumbit"
-                                        class="btn btn-lg bg-gradient-custome btn-lg w-100 mt-4 mb-0 text-white">Login</button>
+                                <div style="padding-top:20%;padding-bottom:-20%">
+                                    <button class="btn signin">Login</button>
                                 </div>
                             </form>
                         </div>
@@ -65,100 +50,164 @@
             </div>
         </div>
     </section>
-    <section class="layarkecil"
-        style="background-image: url('<?= base_url()?>assets/img/background.jpg');background-repeat:no-repeat;object-fit: contain;">
-        <div class="page-header min-vh-100">
-            <div style="margin-left:auto;margin-right:auto;">
-                <div class="row">
-                    <div>
-                        <div class="card card-plain"
-                            style="background-color:white;box-shadow: 5px 10px 20px black;min-width:250px">
-                            <div class="card-header">
-                                <img src="<?= base_url()?>assets/img/logo/logo.png" class="center"
-                                    style="width: 200px;filter: drop-shadow(3px 5px 3px #353535);">
-                                <br>
-                                <h4 class="font-weight-bolder text-center" style="min-width: 250px;">Sistem Informasi
-                                </h4>
-                                <p class="mb-2 text-center"><b>Gudang Bahan Jadi</b></p>
-                            </div>
-                            <div class="card-body">
-                                <form id="adminpro-form" class="adminpro-form" action="<?= base_url('auth/login') ?>"
-                                    method="post">
-                                    <?= $this->session->flashdata('pesan') ?>
 
-                                    <div class="mb-3">
-                                        <input type="text" class="form-custome form-control-lg" id="username"
-                                            name="username" placeholder="Username" aria-label="Username"
-                                            aria-describedby="username-addon" />
-                                    </div>
-                                    <div class="mb-3">
-                                        <input type="password" class="form-custome form-control-lg" id="password"
-                                            name="password" placeholder="Password" aria-label="Password"
-                                            aria-describedby="password-addon" />
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="sumbit"
-                                            class="btn btn-lg bg-gradient-custome btn-lg w-100 mt-4 mb-0 text-white">Login</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <style>
-    .bg-gradient-custome {
-        background-image: linear-gradient(310deg, #000 0%, #fbcf33 100%);
+    <?php $this->load->view('_partials/footer_log');?>
+</body>
+
+</html>
+
+<style>
+.form-container {
+    background: linear-gradient(310deg, #141727 0%, #3A416F 100%);
+    font-family: 'Roboto', sans-serif;
+    font-size: 0;
+    padding: 0 15px;
+    border: 1px solid linear-gradient(310deg, #141727 0%, #3A416F 100%);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.form-container .form-icon {
+    color: #fff;
+    font-size: 13px;
+    text-align: center;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    width: 50%;
+    padding: 70px 0;
+    vertical-align: top;
+    display: inline-block;
+}
+
+.form-container .form-icon i {
+    font-size: 124px;
+    margin: 0 0 15px;
+    display: block;
+}
+
+.form-container .form-icon .signup a {
+    color: #fff;
+    text-transform: capitalize;
+    transition: all 0.3s ease;
+}
+
+.form-container .form-icon .signup a:hover {
+    text-decoration: underline;
+}
+
+.form-container .form-horizontal {
+    background: rgba(255, 255, 255, 0.99);
+    width: 50%;
+    padding: 30px 30px;
+    margin: -20px 0;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+}
+
+.form-container .title {
+    color: #454545;
+    font-size: 23px;
+    font-weight: 900;
+    text-align: center;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    margin: 0 0 30px 0;
+}
+
+.form-horizontal .form-group {
+    background-color: rgba(255, 255, 255);
+    margin: 0 0 15px;
+    border: 1px solid #b5b5b5;
+    border-radius: 20px;
+}
+
+.form-horizontal .input-icon {
+    color: #b5b5b5;
+    font-size: 15px;
+    text-align: center;
+    line-height: 38px;
+    height: 35px;
+    width: 40px;
+    vertical-align: top;
+    display: inline-block;
+}
+
+.form-horizontal .form-control {
+    color: #b5b5b5;
+    background-color: transparent;
+    font-size: 14px;
+    letter-spacing: 1px;
+    width: calc(100% - 55px);
+    height: 33px;
+    padding: 2px 10px 0 0;
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    display: inline-block;
+    transition: all 0.3s;
+}
+
+.form-horizontal .form-control:focus {
+    box-shadow: none;
+    border: none;
+}
+
+.form-horizontal .form-control::placeholder {
+    color: #b5b5b5;
+    font-size: 13px;
+    text-transform: capitalize;
+}
+
+.form-horizontal .btn {
+    color: rgba(255, 255, 255, 0.8);
+    background: linear-gradient(310deg, #141727 0%, #3A416F 100%);
+    font-size: 15px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 100%;
+    margin: 0 0 10px 0;
+    border: none;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.form-horizontal .btn:hover,
+.form-horizontal .btn:focus {
+    color: #fff;
+    background-color: #D31128;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.form-horizontal .forgot-pass {
+    font-size: 12px;
+    text-align: center;
+    display: block;
+}
+
+.form-horizontal .forgot-pass a {
+    color: #999;
+    transition: all 0.3s ease;
+}
+
+.form-horizontal .forgot-pass a:hover {
+    color: #777;
+    text-decoration: underline;
+}
+
+@media only screen and (max-width:576px) {
+    .form-container {
+        padding-bottom: 15px;
     }
 
-    .form-custome:focus {
-        color: #495057;
-        background-color: #fff;
-        border-color: #fbcf33;
-        outline: 0;
-        box-shadow: 0 0 0 2px #fbcf33;
-    }
-
-    .form-custome {
-        display: block;
+    .form-container .form-icon {
         width: 100%;
-        padding: 0.5rem 0.75rem;
-        font-size: 0.875rem;
-        font-weight: 400;
-        line-height: 1.4rem;
-        color: #495057;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid #d2d6da;
-        appearance: none;
-        border-radius: 0.5rem;
-        transition: box-shadow 0.15s ease, border-color 0.15s ease;
+        padding: 20px 0;
     }
 
-    body {
-        -webkit-background-size: 100% 100%;
-        -moz-background-size: 100% 100%;
-        -o-background-size: 100% 100%;
-        background-size: 100% 100%;
+    .form-container .form-horizontal {
+        width: 100%;
+        margin: 0;
     }
-
-    .center {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    @media screen and (max-width:995px) {
-        .layarlebar {
-            display: none
-        }
-    }
-
-    @media screen and (min-width:995px) {
-        .layarkecil {
-            display: none
-        }
-    }
-    </style>
+}
+</style>

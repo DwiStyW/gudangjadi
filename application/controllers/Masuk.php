@@ -113,7 +113,7 @@ class Masuk extends CI_Controller
     public function edit_masuk($no)
     {
         $where = array('no' => $no);
-        $data['riwayat'] = $this->get->edit_masuk($where, 'riwayat')->result();
+        $data['riwayat'] = $this->get->get_where($where, 'riwayat')->result();
         $this->load->view('_partials/header');
         $this->load->view('_partials/menu');
         $this->load->view('masuk/editmasuk', $data);

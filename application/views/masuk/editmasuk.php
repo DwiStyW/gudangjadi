@@ -2,16 +2,16 @@
     ini_set('date.timezone', 'Asia/Jakarta');
     ?>
 
-<div class="basic-form-area mg-b-15">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="sparkline12-list shadow-reset mg-t-30">
-                    <div class="sparkline12-hd">
-                        <div class="main-sparkline12-hd">
-                            <h1>Edit Input Bahan</h1>
-                        </div>
+<div class="layarlebar">
+    <div class="admin-dashone-data-table-area mg-b-40">
+        <div class="container" style="position:relative;margin-top:-250px;padding-bottom:32px;z-index: 1">
+            <div class="d-flex">
+                <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
+                    <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
+                        <h1>Edit Input Bahan<h1>
                     </div>
+                </div>
+                <div style="background-color:#fff">
                     <div class="sparkline12-graph">
                         <div class="basic-login-form-ad">
                             <div class="row">
@@ -82,9 +82,13 @@
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Satuan 1</label>
                                                     </div>
-                                                    <div class="col-lg-9">
-                                                        <input name="sats1" type="text" class="form-control" id="sats1"
-                                                            value="<?php echo $sats1; ?>" required />
+                                                    <div class="col-lg-7">
+                                                        <input name="sats1" type="number" class="form-control"
+                                                            value="<?= $sats1 ?>" placeholder="Satuan 1">
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <input readonly id=sat1 class="form-control"
+                                                            value="<?= $master->sat1 ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -93,9 +97,13 @@
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Satuan 2</label>
                                                     </div>
-                                                    <div class="col-lg-9">
-                                                        <input name="sats2" type="text" class="form-control" id="sats2"
-                                                            value="<?php echo $sats2; ?>" required />
+                                                    <div class="col-lg-7">
+                                                        <input name="sats2" type="number" class="form-control"
+                                                            value="<?= $sats2 ?>" placeholder="Satuan 2">
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <input readonly id=sat2 class="form-control"
+                                                            value="<?= $master->sat2 ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -104,9 +112,13 @@
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Satuan 3</label>
                                                     </div>
-                                                    <div class="col-lg-9">
-                                                        <input name="sats3" type="text" class="form-control" id="sats3"
-                                                            value="<?php echo $sats3; ?>" required />
+                                                    <div class="col-lg-7">
+                                                        <input name="sats3" type="number" class="form-control"
+                                                            value="<?= $sats3 ?>" placeholder="Satuan 3">
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <input readonly id=sat3 class="form-control"
+                                                            value="<?= $master->sat3 ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -163,10 +175,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </form>
                                         <?php endforeach; ?>
-
                                     </div>
                                 </div>
                             </div>

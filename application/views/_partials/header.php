@@ -79,7 +79,7 @@
         title="color-nine" media="screen" />
     <link rel="alternate stylesheet" type="text/css" href="<?= base_url() ?>assets/css/switcher/color-ten.css"
         title="color-ten" media="screen" />
-
+    <link rel="stylesheet" href="<?= base_url() ?>assets/select2-master/dist/css/select2.min.css" />
     <!-- <link id="pagestyle" href="<?= base_url()?>assets/css/soft-design-system-no-tb.css" rel="stylesheet" /> -->
 
 </head>

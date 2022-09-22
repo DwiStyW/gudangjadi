@@ -1,42 +1,119 @@
 <body style="background-color:whitesmoke;">
     <!-- Header top area start-->
-    <div class="container position-sticky z-index-sticky layarlebar"
-        style="position: fixed;top: 0px;width: 100%; z-index: 10000;max-width:900px;margin-left:auto;margin-right:auto;">
+    <div class="containerr position-sticky z-index-sticky" style="position: fixed;top: 0px; z-index: 10000;">
         <div style="display:flex;flex-wrap:wrap;">
-            <div class="">
-                <nav class="navbar navbar-expand-lg  blur blur-rounded shadow position-absolute w-100"
-                    style="height:60px;margin-top: 30px;">
-                    <div class="w-100 justify-content-between">
-                        <div>
-                            <a class="navbar-brand font-weight-bolder ms-sm-3" href="#" rel="tooltip">
-                                <img src="<?= base_url() ?>assets/img/logo/logo.png" style="width: 100px;" alt="" />
-                            </a>
-                        </div>
-                        <ul class="nav navbar-nav mai-top-nav header-right-menu">
-                            <li class="nav-item btn bg-gradient-dark" style="display:block;border-radius:50px;position:absolute;height: 50px;right:
-                        0;margin-right:6px">
-                                <a href="#" data-toggle="dropdown" aria-expanded="false"
-                                    class=" dropdown-toggle text-white"
-                                    style="display:block;margin-top:-8px;border-radius:50px;height: 50px;margin-left:-15px;margin-right:-15px;">
-                                    <i class="fa fa-lg fa-user"></i>
-                                    <span class="admin-name">
-                                        <?= $this->session->userdata('username')  ?>
-                                    </span>
-                                    <i class="fa-caret-down fa"></i>
-                                </a>
-                                <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated flipInX">
-                                    <li><a href="settings.php"><i class="fa fa-gear"></i> Settings</a>
-                                    </li>
-                                    <li><a href="<?= base_url("auth/logout") ?>"><i class="fa fa-sign-out"></i> Log
-                                            Out</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+            <nav class="form-container blur blur-rounded shadow">
+                <div class="justify-content-between" style="margin-top:5px">
+                    <div>
+                        <a class="navbar-brand font-weight-bolder ms-sm-3" href="#" rel="tooltip">
+                            <img src="<?= base_url() ?>assets/img/logo/logo.png" style="width: 100px;margin-top:5px"
+                                alt="" />
+                        </a>
                     </div>
-                </nav>
-                <!-- End Navbar -->
-            </div>
+                    <ul style="margin-top:-5px">
+                        <li class="nav-item btn bg-gradient-dark" style="border-radius:50px;position:absolute;height: 50px;right:
+                        0;margin-right:6px">
+                            <a href="#" data-toggle="dropdown" aria-expanded="false" class=" dropdown-toggle text-white"
+                                style="display:block;margin-top:8px;border-radius:50px;height: 50px;width: 100px;margin-left:-15px;margin-right:-15px;">
+                                <i class="fa fa-lg fa-user"></i>
+                                <span class="admin-name">
+                                    <?= $this->session->userdata('username')  ?>
+                                </span>
+                                <i class="fa-caret-down fa"></i>
+                            </a>
+                            <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated flipInX">
+                                <li><a href="<?= base_url("settings") ?>"><i class="fa fa-gear"></i> Settings</a>
+                                </li>
+                                <li><a href="<?= base_url("auth/logout") ?>"><i class="fa fa-sign-out"></i> Log
+                                        Out</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- mobile -->
+            <nav class="form-container-kecil blur blur-rounded shadow">
+                <div class="justify-content-between" style="margin-top:5px;">
+                    <div>
+                        <a class="navbar-brand font-weight-bolder ms-sm-3" href="#" rel="tooltip">
+                            <img src="<?= base_url() ?>assets/img/logo/logo.png" style="width: 100px;margin-top:5px"
+                                alt="" />
+
+                        </a>
+                    </div>
+                    <ul style="margin-top:-5px">
+                        <li class="nav-item btn bg-gradient-dark" style="border-radius:50%;position:absolute;width: 46px;height: 46px;right:
+                        0;margin-right:6px">
+                            <a href="#" data-toggle="dropdown" aria-expanded="false" class=" dropdown-toggle text-white"
+                                style="display:block;border-radius:50%;height: 46px;width: 46px;position:fixed;right:0;margin-right:6px;margin-top:6px">
+                                <i class="fa-bars fa"></i>
+                            </a>
+                            <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated flipInX"
+                                style="position:fixed; margin-left:auto;margin-right:auto;width:100%;z-index:1000;background-color:whitesmoke">
+
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("home") ?>"><b><i class="fa-home fa fa-lg"></i> Home</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("master") ?>"><b><i class="fa-database fa "></i>
+                                            Master
+                                            Barang</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("masuk") ?>"><b><i class="fa-archive fa"></i> Barang
+                                            Masuk</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("keluar") ?>"><b><i class="fa-calendar-o fa"></i> Barang
+                                            Keluar</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("riwayat") ?>"><b><i class=" fa-calendar fa"></i> Riwayat
+                                            Keluar Masuk</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("report/filgolongan") ?>"><b><i class=" fa-table fa"></i>
+                                            Report per
+                                            Gol</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("report") ?>"><b><i class="fa-history fa"></i> Report
+                                            All</b></a>
+                                </li>
+                                <?php
+                                $role = $this->session->userdata('role');
+                                if ($role == 'admin') {
+                                ?>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url('user.php') ?>"><b> Admin</b></a>
+                                    <?php } ?>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("settings") ?>"><b><i class="fa-gear fa"></i> Settings</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("auth/logout") ?>"><b><i class="fa-sign-out fa"></i> Log
+                                            Out</b></a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- end mobile -->
+            <!-- End Navbar -->
         </div>
     </div>
 
@@ -45,15 +122,17 @@
         <div class="page-header min-vh-80 main-menu-area">
             <!-- web menu -->
             <div class="position-relative contentt layarlebar" style="margin-top:-100px">
-                <ul class="nav nav-tabs d-flex justify-content-between custom-menu-wrap">
+                <ul class="nav nav-tabs d-flex justify-content-start custom-menu-wrap">
                     <li><a href="<?= base_url("home") ?>" class="btn btn-lg tekan text-white">Home</a></li>
                     <li><a href="<?= base_url("master") ?>" class="btn btn-lg tekan text-white">Master Barang</a>
                     </li>
                     <li><a href="<?= base_url("masuk") ?>" class="btn btn-lg tekan text-white">Barang Masuk</a></li>
                     <li><a href="<?= base_url("keluar") ?>" class="btn btn-lg tekan text-white">Barang Keluar</a></li>
-                    <li><a href="riwayat.php" class="btn btn-lg tekan text-white">Riwayat Keluar Masuk</a></li>
-                    <li><a href="reportgr.php" class="btn btn-lg tekan text-white">Report per Gol</a></li>
-                    <li><a href="report.php" class="btn btn-lg tekan text-white">Report All</a></li>
+                    <li><a href="<?= base_url("riwayat") ?>" class="btn btn-lg tekan text-white">Riwayat Keluar
+                            Masuk</a></li>
+                    <li><a href="<?= base_url("report/filgolongan") ?>" class="btn btn-lg tekan text-white">Report per
+                            Gol</a></li>
+                    <li><a href="<?= base_url("report") ?>" class="btn btn-lg tekan text-white">Report All</a></li>
                     <?php
                         $role = $this->session->userdata('role');
                         if ($role == 'admin') {
@@ -63,6 +142,7 @@
                     </li>
                 </ul>
             </div>
+
             <div class="position-absolute w-100 z-index-1 " style="top: 430px;">
                 <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
@@ -83,100 +163,57 @@
         </div>
     </header>
 
-    <div class="layarkecil blur" style="position: fixed;top: 0px;width: 100%; z-index: 10000;">
-        <div class="container">
-            <div style="display:flex;flex-wrap:wrap">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="admin-logo justify-content-between">
-                        <a href="#"><img src="<?= base_url() ?>assets/img/logo/logo.png" alt=""
-                                style="width: 100px; margin-bottom:30px;margin-top:20px" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <ul class="nav nav-tabs custom-menu-wrap">
-            <li><a href="<?= base_url("home") ?>" style="color:#0a1324"><b>Home</b></a></li>
-            <li><a href="<?= base_url("master") ?>" style="color:#0a1324"><b>Master Barang</b></a>
-            </li>
-            <li><a href="<?= base_url("masuk") ?>" style="color:#0a1324"><b>Barang Masuk</b></a></li>
-            <li><a href="<?= base_url("keluar") ?>" style="color:#0a1324"><b>Barang Keluar</b></a>
-            </li>
-            <li><a href="riwayat.php" style="color:#0a1324"><b>Riwayat Keluar Masuk</b></a></li>
-            <li><a href="reportgr.php" style="color:#0a1324"><b>Report per Gol</b></a></li>
-            <li><a href="report.php" style="color:#0a1324"><b>Report All</b></a></li>
-            <?php
-                        $role = $this->session->userdata('role');
-                        if ($role == 'admin') {
-                        ?>
-            <li><a href="<?= base_url('user.php') ?>" style="color:#0a1324"><b>Admin</b></a>
-                <?php } ?>
-            </li>
-        </ul>
-    </div>
+    <style>
+    @media only screen and (min-width:1200px) {
 
-    <div class="mg-b-40 layarkuecil blur" style="position: fixed;top: 0px;width: 100%; z-index: 10000;">
-        <div class="container">
-            <div style="display:flex;flex-wrap:wrap">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="admin-logo">
-                        <a href="#"><img src="<?= base_url() ?>assets/img/logo/logo.png" alt="" style="width: 100px;" />
-                        </a>
-                        <a href="#" data-toggle="dropdown" aria-expanded="false" class="dropdown-toggle"
-                            style="color:grey">
-                            <h6 style="margin-bottom:-10px">menu</h6>
-                            <i class="fa-chevron-down fa fa-lg"></i>
-                        </a>
-                        <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated flipInX"
-                            style="position:fixed; margin-left:auto;margin-right:auto;width:100%;">
+        .form-container {
+            position: absolute;
+            width: 98%;
+            height: 60px;
+            margin-top: 50px;
+            margin-left: auto;
+            margin-right: auto;
+            display: inline-block;
+        }
 
-                            <li class="nav-tabs text-left" style="margin-left:20px;margin-right:20px;margin-top:20px;">
-                                <a href="<?= base_url("home") ?>"><b><i class="fa-home fa fa-lg"></i> Home</b></a>
-                            </li>
-                            <li class="nav-tabs text-left" style="margin-left:20px;margin-right:20px;margin-top:20px;">
-                                <a href="<?= base_url("master") ?>"><b><i class="fa-database fa "></i>
-                                        Master
-                                        Barang</b></a>
-                            </li>
-                            <li class="nav-tabs text-left" style="margin-left:20px;margin-right:20px;margin-top:20px;">
-                                <a href="<?= base_url("masuk") ?>"><b><i class="fa-archive fa"></i> Barang
-                                        Masuk</b></a>
-                            </li>
-                            <li class="nav-tabs text-left" style="margin-left:20px;margin-right:20px;margin-top:20px;">
-                                <a href="<?= base_url("keluar") ?>"><b><i class="fa-calendar-o fa"></i> Barang
-                                        Keluar</b></a>
-                            </li>
-                            <li class="nav-tabs text-left" style="margin-left:20px;margin-right:20px;margin-top:20px;">
-                                <a href="riwayat.php"><b><i class="fa-calendar fa"></i> Riwayat
-                                        Keluar Masuk</b></a>
-                            </li>
-                            <li class="nav-tabs text-left" style="margin-left:20px;margin-right:20px;margin-top:20px;">
-                                <a href="reportgr.php"><b><i class="fa-table fa"></i> Report per
-                                        Gol</b></a>
-                            </li>
-                            <li class="nav-tabs text-left" style="margin-left:20px;margin-right:20px;margin-top:20px;">
-                                <a href="report.php"><b><i class="fa-history fa"></i> Report
-                                        All</b></a>
-                            </li>
-                            <?php
-                        $role = $this->session->userdata('role');
-                        if ($role == 'admin') {
-                        ?>
-                            <li class="nav-tabs text-left" style="margin-left:20px;margin-right:20px;margin-top:20px;">
-                                <a href="<?= base_url('user.php') ?>"><b> Admin</b></a>
-                                <?php } ?>
-                            </li>
+        .form-container-kecil {
+            display: none
+        }
 
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-5 col-md-5 col-sm-0 col-xs-12">
-                    <div class="header-top-menu">
-                        <ul class="nav navbar-nav mai-top-nav">
+        .containerr {
+            --bs-gutter-x: 1.5rem;
+            --bs-gutter-y: 0;
+            width: 85%;
+            padding-right: calc(var(--bs-gutter-x) * 1.5);
+            padding-left: calc(var(--bs-gutter-x) * 1);
+            margin-right: auto;
+            margin-left: auto;
+        }
 
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    }
+
+    @media only screen and (max-width:1200px) {
+        .containerr {
+            width: 95%;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .form-container {
+            display: none
+        }
+
+        .form-container-kecil {
+            display: block;
+            position: absolute;
+            margin-top: 2%;
+            width: 100%;
+        }
+
+        p {
+            margin-top: 10px;
+            text-align: left;
+            font-size: 16px;
+        }
+    }
+    </style>

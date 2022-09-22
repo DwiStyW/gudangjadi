@@ -2,9 +2,9 @@
     ini_set('date.timezone', 'Asia/Jakarta');
     date_default_timezone_set('Asia/Jakarta');
     ?>
-<div class="layarlebar">
+<div class="">
     <div class="admin-dashone-data-table-area mg-b-40">
-        <div class="container" style="position:relative;top:-250px;z-index: 1">
+        <div class="container" style="position:relative;margin-top:-250px;padding-bottom:32px;z-index: 1">
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
                     <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
@@ -53,7 +53,7 @@
                                                         <label class="login2 pull-right pull-right-pro">Kode
                                                             Barang</label>
                                                     </div>
-                                                    <div class="col-lg-8" style="width:73%">
+                                                    <div class="col-lg-9">
                                                         <div class="form-select-list">
                                                             <select id="kode" name="kode" class="form-control"
                                                                 onchange="filSatuan()" required>
@@ -75,9 +75,12 @@
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Satuan 1</label>
                                                     </div>
-                                                    <div class="col-lg-9">
-                                                        <input id="sat1" name="sat1" type="number" class="form-control"
-                                                            id="sat1" placeholder="Satuan 1">
+                                                    <div class="col-lg-7">
+                                                        <input name="sat1" type="number" class="form-control"
+                                                            placeholder="Satuan 1">
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <input readonly id=sat1 class="form-control" value="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -86,9 +89,12 @@
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Satuan 2</label>
                                                     </div>
-                                                    <div class="col-lg-9">
-                                                        <input name="sat2" type="number" class="form-control" id="sat2"
+                                                    <div class="col-lg-7">
+                                                        <input name="sat2" type="number" class="form-control"
                                                             placeholder="Satuan 2">
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <input readonly id=sat2 class="form-control" value="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -97,9 +103,12 @@
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Satuan 3</label>
                                                     </div>
-                                                    <div class="col-lg-9">
-                                                        <input name="sat3" type="number" class="form-control" id="sat3"
+                                                    <div class="col-lg-7">
+                                                        <input name="sat3" type="number" class="form-control"
                                                             placeholder="Satuan 3">
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <input readonly id=sat3 class="form-control" value="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -154,49 +163,47 @@
                                                 </div>
                                             </div>
                                         </form>
+                                        <br>
                                         <!-- Start Form -->
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="sparkline8-hd">
-                                                        <div class="main-sparkline8-hd">
-                                                            <h1>Form sudah input</h1>
-                                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="sparkline8-hd">
+                                                    <div class="main-sparkline8-hd">
+                                                        <h1>Form sudah input</h1>
                                                     </div>
-                                                    <div class="sparkline8-graph">
-                                                        <div class="datatable-dashv1-list custom-datatable-overright">
-                                                            <table data-toggle="table">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th data-field="no">No</th>
-                                                                        <th data-field="tglform">Tgl Form</th>
-                                                                        <th data-field="noform">No Form</th>
-                                                                        <th data-field="id">id</th>
-                                                                        <th data-field="kode">Kode Barang</th>
-                                                                        <th data-field="nama">Nama Barang</th>
-                                                                        <th data-field="satuan1">Satuan 1</th>
-                                                                        <th data-field="satuan2">Satuan 2</th>
-                                                                        <th data-field="satuan3">Satuan 3</th>
-                                                                        <th data-field="satuan3">ket</th>
-                                                                        <th data-field="tanggal">Tgl Input</th>
-                                                                        <th data-field="aksi" colspan=2>Aksi</th>
+                                                </div>
+                                                <div class="sparkline8-graph">
+                                                    <div class="datatable-dashv1-list custom-datatable-overright">
+                                                        <table data-toggle="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th data-field="no">No</th>
+                                                                    <th data-field="tglform">Tgl Form</th>
+                                                                    <th data-field="noform">No Form</th>
+                                                                    <th data-field="kode">Kode Barang</th>
+                                                                    <th data-field="nama">Nama Barang</th>
+                                                                    <th data-field="satuan1">Satuan 1</th>
+                                                                    <th data-field="satuan2">Satuan 2</th>
+                                                                    <th data-field="satuan3">Satuan 3</th>
+                                                                    <th data-field="satuan3">ket</th>
+                                                                    <th data-field="tanggal">Tgl Input</th>
+                                                                    <th data-field="aksi" colspan=2>Aksi</th>
 
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody id="list">
-                                                                    <?php
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="list">
+                                                                <?php
                                                                         $no = 1;
                                                                         foreach ($masuk as $m) {
                                                                         ?>
-                                                                    <tr>
-                                                                        <td><?php echo $no++; ?></td>
-                                                                        <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?>
-                                                                        </td>
-                                                                        <td><?php echo $m->noform; ?></td>
-                                                                        <td><?php echo $m->no; ?></td>
-                                                                        <td><?php echo $m->kode; ?></td>
-                                                                        <td><?php echo $m->nama; ?></td>
-                                                                        <?php
+                                                                <tr>
+                                                                    <td><?php echo $no++; ?></td>
+                                                                    <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?>
+                                                                    </td>
+                                                                    <td><?php echo $m->noform; ?></td>
+                                                                    <td><?php echo $m->kode; ?></td>
+                                                                    <td><?php echo $m->nama; ?></td>
+                                                                    <?php
                                                                                 if ($m->masuk == 0) {
 
                                                                                     //Perhitungan 3 Satuan
@@ -213,25 +220,42 @@
                                                                                     $sats3  = $sisa - $sats2 * $m->max2;
                                                                                 }
                                                                                 ?>
-                                                                        <td><?php echo $sats1; ?> <?php echo $m->sat1 ?>
-                                                                        </td>
-                                                                        <td><?php echo $sats2; ?> <?php echo $m->sat2 ?>
-                                                                        </td>
-                                                                        <td><?php echo $sats3; ?> <?php echo $m->sat3 ?>
-                                                                        </td>
-                                                                        <td><?php echo $m->ket; ?></td>
-                                                                        <td><?php echo $m->tanggal; ?></td>
-                                                                        <td><a href="#"> Edit </a></td>
-                                                                        <td><a href="#"
-                                                                                onclick="javascript: return confirm('Anda yakin hapus ?')">Hapus</a>
-                                                                        </td>
+                                                                    <td><?php echo $sats1; ?> <?php echo $m->sat1 ?>
+                                                                    </td>
+                                                                    <td><?php echo $sats2; ?> <?php echo $m->sat2 ?>
+                                                                    </td>
+                                                                    <td><?php echo $sats3; ?> <?php echo $m->sat3 ?>
+                                                                    </td>
+                                                                    <td><?php echo $m->ket; ?></td>
+                                                                    <td><?php echo $m->tanggal; ?></td>
+                                                                    <?php if ($m->ket == "Output") { ?>
+                                                                    <td><a href="<?= base_url("keluar/edit_keluar/" . $m->no) ?>"
+                                                                            class="btn btn-primary btn-sm"><i
+                                                                                class="fa fa-edit"></i>
+                                                                            Edit </a></td>
+                                                                    <td><a href="<?= base_url("keluar/hapus_keluar/" . $m->no . "/" . $m->kode) ?>"
+                                                                            onclick="javascript: return confirm('Anda yakin hapus ?')"
+                                                                            class="btn btn-danger btn-sm"><i
+                                                                                class="fa fa-trash"></i> Hapus</a>
+                                                                    </td>
+                                                                    <?php } else { ?>
+                                                                    <td><a href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>"
+                                                                            class="btn btn-primary btn-sm"><i
+                                                                                class="fa fa-edit"></i>
+                                                                            Edit </a></td>
+                                                                    <td><a href="<?= base_url("masuk/hapus_masuk/" . $m->no . "/" . $m->kode) ?>"
+                                                                            onclick="javascript: return confirm('Anda yakin hapus ?')"
+                                                                            class="btn btn-danger btn-sm">
+                                                                            <i class="fa fa-trash"></i> Hapus
+                                                                        </a>
+                                                                    </td>
+                                                                    <?php } ?>
 
-                                                                    </tr>
-                                                                    <?php
+                                                                </tr>
+                                                                <?php
                                                                         } ?>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
