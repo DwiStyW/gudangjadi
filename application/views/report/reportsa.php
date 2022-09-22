@@ -20,7 +20,7 @@
                         <div class="sparkline12-list shadow-reset mg-t-30">
                             <div class="sparkline12-hd">
                                 <div class="main-sparkline12-hd">
-                                    <h1>Report All</h1>
+                                    <h1>Report Saldo Akhir</h1>
                                 </div>
                             </div>
                             <div class="sparkline12-graph">
@@ -28,7 +28,7 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="all-form-element-inner">
-                                                <form enctype="multipart/form-data" id="cari" action="<?= base_url("report/tampilreport") ?>" method="post">
+                                                <form enctype="multipart/form-data" id="cari" action="<?= base_url("report/tampilsalakhir") ?>" method="post">
                                                     <div class="form-group-inner">
                                                         <div class="row">
                                                             <div class="col-lg-3">
@@ -49,9 +49,8 @@
                                                                 <div class="col-lg-3"></div>
                                                                 <div class="col-lg-9">
                                                                     <div class="login-horizental cancel-wp pull-left">
-                                                                        <a href="<?= base_url() ?>"><button class="btn btn-white" type="button">Kembali</button></a>
-                                                                        <button class="btn btn-sm btn-primary login-submit-cs" onclick="mendal()" type="button">Cari</button>
-                                                                        <a href="<?= base_url("report/report_saldo_akhir") ?>"><button class="btn btn-sm btn-warning" type="button">Saldo Akhir Stock </button></a>
+                                                                        <a href="report.php"><button class="btn btn-white" type="button">Kembali</button></a>
+                                                                        <button class="btn btn-sm btn-primary login-submit-cs" type="button" onclick="mendal()">Cari</button>
                                                                     </div>
                                                                 </div>
                                                             </div>

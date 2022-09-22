@@ -28,7 +28,7 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="all-form-element-inner">
-                                                <form enctype="multipart/form-data" id="cari" action="<?= base_url("golongan/tampilreportgr") ?>" method="post">
+                                                <form enctype="multipart/form-data" id="cari" action="<?= base_url("report/tampilreportgr") ?>" method="post">
                                                     <div class="form-group-inner">
                                                         <div class="row">
                                                             <div class="col-lg-3">
@@ -70,7 +70,7 @@
                                                                 <div class="col-lg-3"></div>
                                                                 <div class="col-lg-9">
                                                                     <div class="login-horizental cancel-wp pull-left">
-                                                                        <a href="index.php"><button class="btn btn-white" type="button">Kembali</button></a>
+                                                                        <a href="<?= base_url() ?>"><button class="btn btn-white" type="button">Kembali</button></a>
                                                                         <button class="btn btn-sm btn-primary login-submit-cs" type="button" onclick="mendal()">Cari</button>
                                                                     </div>
                                                                 </div>

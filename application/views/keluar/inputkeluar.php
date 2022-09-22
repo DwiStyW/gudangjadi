@@ -168,7 +168,6 @@
                                                             <th data-field="no">No</th>
                                                             <th data-field="tglform">Tgl Form</th>
                                                             <th data-field="noform">No Form</th>
-                                                            <th data-field="id">id</th>
                                                             <th data-field="kode">Kode Barang</th>
                                                             <th data-field="nama">Nama Barang</th>
                                                             <th data-field="satuan1">Satuan 1</th>
@@ -189,7 +188,6 @@
                                                                 <td><?php echo $no++; ?></td>
                                                                 <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?></td>
                                                                 <td><?php echo $m->noform; ?></td>
-                                                                <td><?php echo $m->no; ?></td>
                                                                 <td><?php echo $m->kode; ?></td>
                                                                 <td><?php echo $m->nama; ?></td>
                                                                 <?php
@@ -214,9 +212,13 @@
                                                                 <td><?php echo $sats3; ?> <?php echo $m->sat3 ?></td>
                                                                 <td><?php echo $m->ket; ?></td>
                                                                 <td><?php echo $m->tanggal; ?></td>
-                                                                <td><a href="#"> Edit </a></td>
-                                                                <td><a href="#" onclick="javascript: return confirm('Anda yakin hapus ?')">Hapus</a></td>
-
+                                                                <?php if ($m->ket == "Output") { ?>
+                                                                    <td><a href="<?= base_url("keluar/edit_keluar/" . $m->no) ?>"> Edit </a></td>
+                                                                    <td><a href="<?= base_url("keluar/hapus_keluar/" . $m->no . "/" . $m->kode) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')">Hapus</a></td>
+                                                                <?php } else { ?>
+                                                                    <td><a href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>"> Edit </a></td>
+                                                                    <td><a href="<?= base_url("masuk/hapus_masuk/" . $m->no . "/" . $m->kode) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')">Hapus</a></td>
+                                                                <?php } ?>
                                                             </tr>
                                                         <?php
                                                         } ?>

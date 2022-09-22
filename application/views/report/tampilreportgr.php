@@ -32,9 +32,9 @@
                             </div>
                         </div>
                         <div id="toolbar">
-                            <a target="_blank" href="<?= base_url("golongan/printrepgr/" . $start . "/" . $end . "/" . $kode) ?>">
+                            <a target="_blank" href="<?= base_url("report/printrepgr/" . $start . "/" . $end . "/" . $kode) ?>">
                                 <button class="btn btn-sm btn-success login-submit-cs" type="submit">Print</button></a>
-                            <a href="<?= base_url("golongan/filgolongan") ?>"><button class="btn btn-sm btn-white" type="button">Kembali</button></a>
+                            <a href="<?= base_url("report/filgolongan") ?>"><button class="btn btn-sm btn-white" type="button">Kembali</button></a>
                         </div>
                         <div class="sparkline8-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">

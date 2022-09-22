@@ -208,10 +208,13 @@
                                                                                 <td><?php echo $sats2; ?> <?php echo $m->sat2 ?></td>
                                                                                 <td><?php echo $sats3; ?> <?php echo $m->sat3 ?></td>
                                                                                 <td><?php echo $m->ket; ?></td>
-                                                                                <td><?php echo $m->tanggal; ?></td>
-                                                                                <td><a href="#"> Edit </a></td>
-                                                                                <td><a href="#" onclick="javascript: return confirm('Anda yakin hapus ?')">Hapus</a></td>
-
+                                                                                <td><?php echo $m->tanggal; ?></td><?php if ($m->ket == "Output") { ?>
+                                                                                    <td><a href="<?= base_url("keluar/edit_keluar/" . $m->no) ?>"> Edit </a></td>
+                                                                                    <td><a href="<?= base_url("keluar/hapus_keluar/" . $m->no . "/" . $m->kode) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')">Hapus</a></td>
+                                                                                <?php } else { ?>
+                                                                                    <td><a href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>"> Edit </a></td>
+                                                                                    <td><a href="<?= base_url("masuk/hapus_masuk/" . $m->no . "/" . $m->kode) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')">Hapus</a></td>
+                                                                                <?php } ?>
                                                                             </tr>
                                                                         <?php
                                                                         } ?>

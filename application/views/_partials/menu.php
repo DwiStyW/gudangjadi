@@ -57,7 +57,7 @@
                                 <li><a href="<?= base_url("masuk") ?>">Barang Masuk</a></li>
                                 <li><a href="<?= base_url("keluar") ?>">Barang Keluar</a></li>
                                 <li><a href="<?= base_url("riwayat") ?>">Riwayat Keluar Masuk</a></li>
-                                <li><a href="<?= base_url("golongan/filgolongan") ?>">Report per Gol</a></li>
+                                <li><a href="<?= base_url("report/filgolongan") ?>">Report per Gol</a></li>
                                 <li><a href="<?= base_url("report") ?>">Report All</a></li>
                                 <li><a href="<?= base_url("auth/logout") ?>">Logout</a></li>
                                 <!-- <?php
@@ -87,7 +87,7 @@
                         <li><a href="<?= base_url("masuk") ?>">Barang Masuk</a></li>
                         <li><a href="<?= base_url("keluar") ?>">Barang Keluar</a></li>
                         <li><a href="<?= base_url("riwayat") ?>">Riwayat Keluar Masuk</a></li>
-                        <li><a href="<?= base_url("golongan/filgolongan") ?>">Report per Gol</a></li>
+                        <li><a href="<?= base_url("report/filgolongan") ?>">Report per Gol</a></li>
                         <li><a href="<?= base_url("report") ?>">Report All</a></li>
                         <?php
                         $role = $this->session->userdata('role');
