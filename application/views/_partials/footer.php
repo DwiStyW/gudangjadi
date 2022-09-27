@@ -1,11 +1,14 @@
 <button onclick="topFunction()" id="myBtn" title="Go to top"><img style="height: 50px;"
         src="<?= base_url()?>/assets/img/top.png" alt=""></button>
 <!-- Footer Start-->
-<div style="height: 80px;background-image: linear-gradient(310deg, #141727 0%, #3A416F 100%);color:#fff;">
-    <p style="display:block;margin-left:auto;margin-right:auto;text-align: center;padding-top:20px"> Copyright &#169;
+
+<div style="height: 80px; background-image: linear-gradient(310deg, #141727 0%, #3A416F 100%);color:#fff;">
+    <p style="display:block;margin-left:auto;margin-right:auto;text-align: center;padding-top:20px"> Copyright
+        &#169;
         <?php echo date("Y") ?>
         All rights reserved. Designed by <i>IT Dept INDOSAR</p>
 </div>
+
 
 <script>
 // Get the button
@@ -645,6 +648,7 @@ a.tekan:active {
     padding-left: calc(var(--bs-gutter-x) * 1);
     margin-right: auto;
     margin-left: auto;
+    margin-bottom: 50px;
 }
 
 @media (min-width: 576px) {
@@ -713,6 +717,7 @@ a.tekan:active {
     .layarlebar {
         display: none
     }
+
 }
 
 @media screen and (min-width:1200px),
@@ -731,6 +736,20 @@ a.tekan:active {
 @media screen and (min-width:765px) {
     .layarkuecil {
         display: none
+    }
+}
+
+@media (min-width: 1920px) {
+    .container {
+        width: 1700px;
+        margin-top: -190px;
+        padding-bottom: 100px
+    }
+
+    .contentt {
+        width: 1700px;
+        position: absolute;
+        top: -100px;
     }
 }
 </style>

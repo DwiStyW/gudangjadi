@@ -1,6 +1,6 @@
 <body style="background-color:whitesmoke;">
     <!-- Header top area start-->
-    <div class="containerr position-sticky z-index-sticky" style="position: fixed;top: 0px; z-index: 10000;">
+    <div class="containerr position-sticky z-index-sticky">
         <div style="display:flex;flex-wrap:wrap;">
             <nav class="form-container blur blur-rounded shadow">
                 <div class="justify-content-between" style="margin-top:5px">
@@ -121,8 +121,8 @@
         style="background-image: url('<?= base_url()?>/assets/img/curved-images/curvedd.jpg');display:block;z-index: -1 !important;display:block;margin-top:-100px">
         <div class="page-header min-vh-80 main-menu-area">
             <!-- web menu -->
-            <div class="position-relative contentt layarlebar" style="margin-top:-100px">
-                <ul class="nav nav-tabs d-flex justify-content-start custom-menu-wrap">
+            <div class="position-relative contentt layarlebar">
+                <ul class="nav nav-tabs d-flex justify-content-between custom-menu-wrap">
                     <li><a href="<?= base_url("home") ?>" class="btn btn-lg tekan text-white">Home</a></li>
                     <li><a href="<?= base_url("master") ?>" class="btn btn-lg tekan text-white">Master Barang</a>
                     </li>
@@ -143,7 +143,7 @@
                 </ul>
             </div>
 
-            <div class="position-absolute w-100 z-index-1 " style="top: 430px;">
+            <div class="position-absolute w-100 z-index-1" style="bottom:0">
                 <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
                     <defs>
