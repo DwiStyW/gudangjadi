@@ -72,7 +72,7 @@
                                             <a class="btn btn-sm btn-danger"
                                                 href="<?= base_url("keluar/hapus_keluar/" . $k->no . "/" . $k->kode) ?>"
                                                 onclick="javascript: return confirm('Anda yakin hapus ?')"><i
-                                                    class="fa fa-wrench"></i> Hapus</a>
+                                                    class="fa fa-trash"></i> Hapus</a>
                                         </td>
                                     </tr>
                                     <?php
@@ -162,7 +162,7 @@
                                             <a class="btn btn-sm btn-danger"
                                                 href="<?= base_url("keluar/hapus_keluar/" . $m->no . "/" . $m->kode) ?>"
                                                 onclick="javascript: return confirm('Anda yakin hapus ?')"><i
-                                                    class="fa fa-wrench"></i> Hapus</a>
+                                                    class="fa fa-trash"></i> Hapus</a>
                                             <!-- <a class="btn btn-sm btn-primary" href="editkeluar.php?hal=edit&kd=<?php echo $data['no']; ?>"><i class="fa fa-edit"></i> Edit</a>
                                                     <a class="btn btn-sm btn-danger" href="hapuskeluar.php?hal=<?php echo $data['kode']; ?>&kd=<?php echo $data['no']; ?>" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-wrench"></i> Hapus</a> -->
                                         </td>
@@ -178,3 +178,31 @@
         </div>
     </div>
 </div>
+<?php if ($this->session->flashdata('sukses')) : ?>
+<script>
+Swal.fire({
+    icon: 'success',
+    position: 'top-end',
+    title: '<?= $this->session->flashdata('sukses') ?>',
+    showConfirmButton: false,
+    timer: 3000,
+    allowOutsideClick: false,
+    timerProgressBar: true
+})
+</script>
+<?php endif ?>
+
+<?php if ($this->session->flashdata('gagal')) : ?>
+<script>
+Swal.fire({
+    icon: 'error',
+    position: 'top-end',
+    title: '<?= $this->session->flashdata('gagal') ?>',
+    showConfirmButton: false,
+    timer: 3000,
+    allowOutsideClick: false,
+    timerProgressBar: true
+})
+</script>
+<?php
+    endif ?>

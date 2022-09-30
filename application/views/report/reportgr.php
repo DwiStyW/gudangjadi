@@ -19,7 +19,7 @@
                                     <div class="col-lg-12">
                                         <div class="all-form-element-inner">
                                             <form enctype="multipart/form-data"
-                                                action="<?= base_url("golongan/tampilreportgr") ?>" method="post">
+                                                action="<?= base_url("report/tampilreportgr") ?>" method="post">
                                                 <div class="form-group-inner">
                                                     <div class="row">
                                                         <div class="col-lg-3">

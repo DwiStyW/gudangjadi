@@ -56,16 +56,18 @@
                                                     <div class="col-lg-9">
                                                         <div class="form-select-list">
                                                             <select id="kode" name="kode" class="form-control"
-                                                                onchange="filSatuan()" required>
+                                                                type="sumbit" onchange="filSatuan()" required>
                                                                 <option type="search"></option>
                                                                 <?php
                                                                     $no = 1;
                                                                     foreach ($master as $mter) { ?>
-                                                                <option value="<?= $mter->id ?>"><?= $mter->nama ?> -|
+                                                                <option value="<?= $mter->kode ?>">
+                                                                    <?= $mter->nama ?> -|
                                                                     <?= $mter->sat1 ?> |-| <?= $mter->sat2 ?> |-|
-                                                                    <?= $mter->sat3 ?> |- <?= $mter->kode ?></option>
-                                                                <?php }
-                                                                    echo "<script>var satuan1 =$mter->sat1 </script>"; ?>
+                                                                    <?= $mter->sat3 ?> |-
+                                                                    <?= $mter->kode?>
+                                                                </option>
+                                                                <?php } ?>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -280,8 +282,10 @@ function search() {
 
 function filSatuan() {
     var kode = document.getElementById('kode').options;
+    var val = document.getElementById('kode').value;
     var index = document.getElementById('kode').selectedIndex;
     var text = kode[index].text;
+    document.getElementById('kod').placeholder = val;
 
     var potong1 = text.slice(text.search("-") + 3, text.length);
     var sat1 = potong1.slice(0, potong1.search("-") - 1);

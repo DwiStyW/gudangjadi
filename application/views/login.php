@@ -32,13 +32,15 @@
                                 <p>Gudang Bahan Jadi</p>
                                 <div class="form-group">
                                     <span class="input-icon"><i class="fa fa-user"></i></span>
-                                    <input class="form-control" type="text" id="username" name="username"
-                                        placeholder="Username" aria-label="Username" aria-describedby="username-addon">
+                                    <input class="form-control" style="color:black" type="text" id="username"
+                                        name="username" placeholder="Username" aria-label="Username"
+                                        aria-describedby="username-addon">
                                 </div>
                                 <div class="form-group">
                                     <span class="input-icon"><i class="fa fa-lock"></i></span>
-                                    <input class="form-control" type="password" id="password" name="password"
-                                        placeholder="Password" aria-label="Password" aria-describedby="password-addon">
+                                    <input class="form-control" style="color:black" type="password" id="password"
+                                        name="password" placeholder="Password" aria-label="Password"
+                                        aria-describedby="password-addon">
                                 </div>
                                 <div style="padding-top:20%;padding-bottom:-20%">
                                     <button class="btn signin">Login</button>
@@ -209,5 +211,6 @@
         width: 100%;
         margin: 0;
     }
+
 }
 </style>

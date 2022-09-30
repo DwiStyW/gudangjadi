@@ -82,7 +82,7 @@
         const e = new Date(end);
         if (s.getTime() > e.getTime() || start == "" || end == "") {
             Swal.fire(
-                'Peingatan!',
+                'peringatan!',
                 'Pastikan anda memasukkan tanggal dengan benar.',
                 'error'
             )

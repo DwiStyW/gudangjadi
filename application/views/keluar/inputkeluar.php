@@ -19,7 +19,8 @@
                                     <div class="all-form-element-inner">
 
                                         <form enctype="multipart/form-data"
-                                            action="<?= base_url("masuk/barang_masuk") ?>" method="post" class="form">
+                                            action="<?= base_url("keluar/tambah_barang_keluar") ?>" method="post"
+                                            class="form">
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -317,3 +318,31 @@ $(document).ready(function() {
     });
 });
 </script>
+<?php if ($this->session->flashdata('sukses')) : ?>
+<script>
+Swal.fire({
+    icon: 'success',
+    position: 'top-end',
+    title: '<?= $this->session->flashdata('sukses') ?>',
+    showConfirmButton: false,
+    timer: 3000,
+    allowOutsideClick: false,
+    timerProgressBar: true
+})
+</script>
+<?php endif ?>
+
+<?php if ($this->session->flashdata('gagal')) : ?>
+<script>
+Swal.fire({
+    icon: 'error',
+    position: 'top-end',
+    title: '<?= $this->session->flashdata('gagal') ?>',
+    showConfirmButton: false,
+    timer: 3000,
+    allowOutsideClick: false,
+    timerProgressBar: true
+})
+</script>
+<?php
+    endif ?>

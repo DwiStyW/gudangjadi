@@ -36,7 +36,7 @@
                                                 </div>
                                             </div>
                                             <?php
-                                                    $query = $this->db->query("SELECT * FROM master WHERE id = '$r->kode'");
+                                                    $query = $this->db->query("SELECT * FROM master WHERE kode = '$r->kode'");
                                                     foreach ($query->result() as $master) {
                                                         $nama = $master->nama;
                                                         $max1 = $master->max1;

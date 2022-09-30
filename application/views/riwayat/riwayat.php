@@ -54,7 +54,7 @@
                                                                 <option value=""></option>
                                                                 <?php
                                                                         foreach ($master as $m) { ?>
-                                                                <option value="<?php echo $m->id ?>">
+                                                                <option value="<?php echo $m->kode ?>">
                                                                     <?php echo $m->nama ?> | <?php echo $m->kode ?>
                                                                 </option>
                                                                 <?php } ?>
@@ -106,7 +106,7 @@ $(document).ready(function() {
 <script>
 Swal.fire({
     icon: 'warning',
-    title: 'Peingatan!',
+    title: 'peringatan!',
     text: '<?= $this->session->flashdata('kosong') ?>',
     allowOutsideClick: false,
     customClass: 'swal-wide',
@@ -121,14 +121,14 @@ function mendal() {
     const e = new Date(end);
     if (s.getTime() > e.getTime() || start == "" || end == "") {
         Swal.fire({
-            title: 'Peingatan!',
+            title: 'peringatan!',
             text: 'Pastikan anda memasukkan tanggal dengan benar.',
             icon: 'error',
             customClass: 'swal-wide',
         })
     } else if (document.getElementById("kode").value == "") {
         Swal.fire({
-            title: 'Peingatan!',
+            title: 'peringatan!',
             text: 'Pastikan anda mengisi kode barang terlebih dahulu.',
             icon: 'error',
             customClass: 'swal-wide',
