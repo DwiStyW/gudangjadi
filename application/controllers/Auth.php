@@ -10,16 +10,15 @@ class Auth extends CI_Controller
             'required' => 'password harus di isi!'
         ]);
         if ($this->form_validation->run() == FALSE) {
+            $this->load->view('_partials/header_log.php');
             $this->load->view('login');
-            $this->load->view('_partials/footer.php');
+            $this->load->view('_partials/footer_log.php');
+            
         } else {
             $auth = $this->auth_model->cek_login();
             if ($auth == FALSE) {
-                $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                $this->session->set_flashdata('pesan', '<div class="" role="">
   Username atau Password Anda Salah!
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
 </div>');
                 redirect('auth/login');
             } else {
@@ -50,9 +49,6 @@ class Auth extends CI_Controller
         $this->session->sess_destroy();
         $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
   Anda Berhasil Logout
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
 </div>');
         redirect('auth/login');
     }

@@ -169,7 +169,7 @@
 
 									// hide current navigation and reveal mean nav link
 									jQuery(meanMenu).hide();
-									jQuery(".meanmenu-reveal").show();
+									jquery($conn,".meanmenu-reveal").show();
 
 									// turn 'X' on or off
 									jQuery(meanRevealClass).html(meanMenuOpen);

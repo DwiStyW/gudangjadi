@@ -147,7 +147,7 @@ $_SESSION['start_time'] = time();
                   </thead>
                   <tbody>
                     <?php
-                    $tampil = mysqli_query($conn, "SELECT * FROM master, riwayat  WHERE master.id=riwayat.kode && riwayat.tglform between '$mulai' AND '$end' ORDER BY kdgol ASC, kode ASC");
+                    $tampil = mysqli_query($conn, "SELECT * FROM master, riwayat  WHERE master.kode=riwayat.kode && riwayat.tglform between '$mulai' AND '$end' ORDER BY kdgol ASC, kode ASC");
                     $tampil1 = mysqli_query($conn, "SELECT * FROM master ORDER BY kdgol ASC, nama ASC");
 
                     $no = 1;

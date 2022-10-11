@@ -55,7 +55,7 @@
             </thead>
             <tbody>
                 <?php
-                $tampil = $this->db->query("SELECT * FROM master, riwayat  WHERE master.id=riwayat.kode && master.kdgol='$kode' && riwayat.tglform between '$mulai' AND '$end' ORDER BY no ASC");
+                $tampil = $this->db->query("SELECT * FROM master, riwayat  WHERE master.kode=riwayat.kode && master.kdgol='$kode' && riwayat.tglform between '$mulai' AND '$end' ORDER BY no ASC");
                 $tampil1 = $this->db->query("SELECT * FROM master WHERE kdgol='$kode' ORDER BY kode ASC");
 
 

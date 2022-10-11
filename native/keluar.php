@@ -140,7 +140,7 @@ $_SESSION['start_time'] = time();
                   </thead>
                   <tbody>
                     <?php
-                    $tampil = mysqli_query($conn, "select * from riwayat, master, tb_user WHERE master.id=riwayat.kode && riwayat.masuk='0' && riwayat.adm=tb_user.user_id ORDER BY riwayat.no DESC ");
+                    $tampil = mysqli_query($conn, "select * from riwayat, master, tb_user WHERE master.kode=riwayat.kode && riwayat.masuk='0' && riwayat.adm=tb_user.user_id ORDER BY riwayat.no DESC ");
 
                     $no = 1;
                     while ($data = mysqli_fetch_array($tampil)) {

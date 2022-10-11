@@ -1,42 +1,43 @@
-<?php 
-include "koneksi.php" ;
-include "cek-login.php" ;
+<?php
+include "koneksi.php";
+include "cek-login.php";
 $tglform            = $_POST['tglform'];
-$tgl            	= $_POST['tgl'];
-$noform	 		    = $_POST['noform'];
-$kode    	 		= $_POST['kode'];
-$jumlah	    	    = $_POST['jumlah'];
-$adm	    	    = $_POST['adm'];
-$suplai	    	    = $_POST['suplai'];
-$cat	    	    = $_POST['cat'];
+$tgl              = $_POST['tgl'];
+$noform           = $_POST['noform'];
+$kode           = $_POST['kode'];
+$jumlah            = $_POST['jumlah'];
+$adm            = $_POST['adm'];
+$suplai            = $_POST['suplai'];
+$cat            = $_POST['cat'];
 
-$tampil=mysql_query("SELECT * FROM riwayat WHERE noform='$noform'");
+$tampil = mysql_query("SELECT * FROM riwayat WHERE noform='$noform'");
 $cek = mysql_num_rows($tampil);
 
-if ($cek>0){	
-	
-
-$timeout = 10; // Set timeout menit
-$logout_redirect_url = "logout.php"; // Set logout URL
+if ($cek > 0) {
 
 
- 
-$timeout = $timeout * 60; // Ubah menit ke detik
-if (isset($_SESSION['start_time'])) {
+  $timeout = 10; // Set timeout menit
+  $logout_redirect_url = "logout.php"; // Set logout URL
+
+
+
+  $timeout = $timeout * 60; // Ubah menit ke detik
+  if (isset($_SESSION['start_time'])) {
     $elapsed_time = time() - $_SESSION['start_time'];
     if ($elapsed_time >= $timeout) {
-        session_destroy();
-        echo "<script>alert('Session Anda Telah Habis!'); window.location = '$logout_redirect_url'</script>";
+      session_destroy();
+      echo "<script>alert('Session Anda Telah Habis!'); window.location = '$logout_redirect_url'</script>";
     }
-}
-$_SESSION['start_time'] = time();
+  }
+  $_SESSION['start_time'] = time();
 ?>
 
-<!doctype html>
-<html class="no-js" lang="en">
+  <!doctype html>
+  <html class="no-js" lang="en">
 
-<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-    
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Validate| SI Gudang</title>
     <meta name="description" content="">
@@ -102,105 +103,106 @@ $_SESSION['start_time'] = time();
     <link rel="alternate stylesheet" type="text/css" href="css/switcher/color-eight.css" title="color-eight" media="screen" />
     <link rel="alternate stylesheet" type="text/css" href="css/switcher/color-nine.css" title="color-nine" media="screen" />
     <link rel="alternate stylesheet" type="text/css" href="css/switcher/color-ten.css" title="color-ten" media="screen" />
-</head>
+  </head>
 
-<body>
-<?php
-  $username = $_SESSION['username'];
-  $query_user_login = mysql_query("select * from tb_user where username='$username'");
-  $user_login = mysql_fetch_array($query_user_login);
-  $iduser = $user_login['user_id'];
-  ini_set('date.timezone', 'Asia/Jakarta');
-?>
-    
+  <body>
+    <?php
+    $username = $_SESSION['username'];
+    $query_user_login = mysql_query("select * from tb_user where username='$username'");
+    $user_login = mysql_fetch_array($query_user_login);
+    $iduser = $user_login['user_id'];
+    ini_set('date.timezone', 'Asia/Jakarta');
+    ?>
+
     <!-- Data table area Start-->
     <div class="admin-dashone-data-table-area mg-b-40">
-	<br/>	
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-					<div class="alert alert-danger alert-mg-b alert-st-four alert-st-bg3 alert-st-bg14" role="alert">						
-						<p class="message-mg-rt"><strong>No Form Duplicate!</strong> Mohon cek kembali. No form sudah di masukkan sebelumnya. Lanjutkan jika setuju. Batalkan jika ragu-ragu.</p>
-					</div>
-                    <div class="sparkline8-list shadow-reset">
-                        <div class="sparkline8-hd">
-                            <div class="main-sparkline8-hd">
-                                <h1>NO FORM DUPLICATE !!!</h1>                               
-                            </div>
-                        </div>
-                        <div class="sparkline8-graph">
-                            <div class="datatable-dashv1-list custom-datatable-overright">
-                                <div id="toolbar">								
-										<a href="insertbahan.php?tglform=<?php echo $tglform;?>&tgl=<?php echo $tgl;?>&noform=<?php echo $noform;?>&kode=<?php echo $kode;?>&jumlah=<?php echo $jumlah;?>&adm=<?php echo $adm;?>&suplai=<?php echo $suplai;?>&cat=<?php echo $cat;?>"><button type="button" class="btn btn-custon-four btn-primary btn-lg"><span class="adminpro-icon adminpro-check-icon"></span> Lanjutkan</button></a>
-										<a href="masuk.php"><button type="button" class="btn btn-custon-four btn-danger btn-lg"><span class="adminpro-icon adminpro-danger-error"></span> Batalkan</button></a>                                                                        
-								</div>
-                                <table id="table" data-toggle="table" data-pagination="true" data-toolbar="#toolbar">
-									<thead>
-										<tr>                                                    
-											<th data-field="no">No</th>
-											<th data-field="tglform">Tgl Form</th>
-											<th data-field="noform">No Form</th>
-											<th data-field="kode">Kode Barang</th>
-											<th data-field="nama">Nama Barang</th>
-											<th data-field="masuk">Masuk</th>
-											<th data-field="keluar">Keluar</th>
-											<th data-field="saldo">Ket</th>
-											<th data-field="sup">Suplai</th>
-											<th data-field="cat">Catatan</th>
-											<th data-field="tanggal">Tgl Input</th>
-											<th data-field="oleh">Oleh</th>																					
-										</tr>
-									</thead>
-									<tbody>
-										<?php					
-										$tampil=mysql_query("select * from riwayat, master, tb_user WHERE riwayat.noform='$noform' && master.id=riwayat.kode && riwayat.adm=tb_user.user_id ORDER BY riwayat.no DESC ");
-										
-										$no=1;
-										while($data=mysql_fetch_array($tampil)){												 												
-										 ?>
-										<tr>												                                                  
-											<td><?php echo $no;?></td>											
-											<td><?php echo date("d-m-Y",strtotime($data['tglform'])) ?></td>
-											<td><?php echo $data['noform']; ?></td>											
-											<td><?php echo $data['kode']; ?></td>
-											<td><?php echo $data['nama']; ?></td>
-											<td><?php echo $data['masuk']+0;?> <?php echo $data['satuan']; ?></td>
-											<td><?php echo $data['keluar']+0;?> <?php echo $data['satuan']; ?></td>
-											<td><?php echo $data['ket'];?></td>
-											<td><?php echo $data['suplai'];?></td>
-											<td><?php echo $data['cat'];?></td>
-											<td><?php echo $data['tanggal']; ?></td>
-											<td><a href="penginput.php?user=<?php echo $data['user_id'];?>"><?php echo $data['username']; ?><a/></td>											
-										</tr>
-										<?php $no++;} ?>                                                
-									</tbody>
-                                 </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <br />
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="alert alert-danger alert-mg-b alert-st-four alert-st-bg3 alert-st-bg14" role="alert">
+              <p class="message-mg-rt"><strong>No Form Duplicate!</strong> Mohon cek kembali. No form sudah di masukkan sebelumnya. Lanjutkan jika setuju. Batalkan jika ragu-ragu.</p>
             </div>
+            <div class="sparkline8-list shadow-reset">
+              <div class="sparkline8-hd">
+                <div class="main-sparkline8-hd">
+                  <h1>NO FORM DUPLICATE !!!</h1>
+                </div>
+              </div>
+              <div class="sparkline8-graph">
+                <div class="datatable-dashv1-list custom-datatable-overright">
+                  <div id="toolbar">
+                    <a href="insertbahan.php?tglform=<?php echo $tglform; ?>&tgl=<?php echo $tgl; ?>&noform=<?php echo $noform; ?>&kode=<?php echo $kode; ?>&jumlah=<?php echo $jumlah; ?>&adm=<?php echo $adm; ?>&suplai=<?php echo $suplai; ?>&cat=<?php echo $cat; ?>"><button type="button" class="btn btn-custon-four btn-primary btn-lg"><span class="adminpro-icon adminpro-check-icon"></span> Lanjutkan</button></a>
+                    <a href="masuk.php"><button type="button" class="btn btn-custon-four btn-danger btn-lg"><span class="adminpro-icon adminpro-danger-error"></span> Batalkan</button></a>
+                  </div>
+                  <table id="table" data-toggle="table" data-pagination="true" data-toolbar="#toolbar">
+                    <thead>
+                      <tr>
+                        <th data-field="no">No</th>
+                        <th data-field="tglform">Tgl Form</th>
+                        <th data-field="noform">No Form</th>
+                        <th data-field="kode">Kode Barang</th>
+                        <th data-field="nama">Nama Barang</th>
+                        <th data-field="masuk">Masuk</th>
+                        <th data-field="keluar">Keluar</th>
+                        <th data-field="saldo">Ket</th>
+                        <th data-field="sup">Suplai</th>
+                        <th data-field="cat">Catatan</th>
+                        <th data-field="tanggal">Tgl Input</th>
+                        <th data-field="oleh">Oleh</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      $tampil = mysql_query("select * from riwayat, master, tb_user WHERE riwayat.noform='$noform' && master.kode=riwayat.kode && riwayat.adm=tb_user.user_id ORDER BY riwayat.no DESC ");
+
+                      $no = 1;
+                      while ($data = mysql_fetch_array($tampil)) {
+                      ?>
+                        <tr>
+                          <td><?php echo $no; ?></td>
+                          <td><?php echo date("d-m-Y", strtotime($data['tglform'])) ?></td>
+                          <td><?php echo $data['noform']; ?></td>
+                          <td><?php echo $data['kode']; ?></td>
+                          <td><?php echo $data['nama']; ?></td>
+                          <td><?php echo $data['masuk'] + 0; ?> <?php echo $data['satuan']; ?></td>
+                          <td><?php echo $data['keluar'] + 0; ?> <?php echo $data['satuan']; ?></td>
+                          <td><?php echo $data['ket']; ?></td>
+                          <td><?php echo $data['suplai']; ?></td>
+                          <td><?php echo $data['cat']; ?></td>
+                          <td><?php echo $data['tanggal']; ?></td>
+                          <td><a href="penginput.php?user=<?php echo $data['user_id']; ?>"><?php echo $data['username']; ?><a /></td>
+                        </tr>
+                      <?php $no++;
+                      } ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
     <!-- Data table area End-->
     <!-- Footer Start-->
     <div class="footer-copyright-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">                        
-                    <div class="footer-copy-right">
-						<p> Copyright &#169; <?php echo date("Y")?> All rights reserved. Designed by <i>IT Dept INDOSAR</p>						
-                    </div>
-                </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="footer-copy-right">
+              <p> Copyright &#169; <?php echo date("Y") ?> All rights reserved. Designed by <i>IT Dept INDOSAR</p>
             </div>
+          </div>
         </div>
+      </div>
     </div>
     <!-- Footer End-->
     <!-- Color Switcher -->
 
     <!-- Color Switcher end -->
     <!-- Chat Box Start-->
-    
+
     <!-- Chat Box End-->
     <!-- jquery
 		============================================ -->
@@ -267,14 +269,14 @@ $_SESSION['start_time'] = time();
     <!-- main JS
 		============================================ -->
     <script src="js/main.js"></script>
-</body>
+  </body>
 
-</html>
+  </html>
 
-<?php 
+<?php
 } else {
-	?>
-	<meta http-equiv="Refresh" content="0; URL=insertbahan.php?tglform=<?php echo $tglform;?>&tgl=<?php echo $tgl;?>&noform=<?php echo $noform;?>&kode=<?php echo $kode;?>&jumlah=<?php echo $jumlah;?>&adm=<?php echo $adm;?>&suplai=<?php echo $suplai;?>&cat=<?php echo $cat;?>">
-	<?php
+?>
+  <meta http-equiv="Refresh" content="0; URL=insertbahan.php?tglform=<?php echo $tglform; ?>&tgl=<?php echo $tgl; ?>&noform=<?php echo $noform; ?>&kode=<?php echo $kode; ?>&jumlah=<?php echo $jumlah; ?>&adm=<?php echo $adm; ?>&suplai=<?php echo $suplai; ?>&cat=<?php echo $cat; ?>">
+<?php
 }
 ?>

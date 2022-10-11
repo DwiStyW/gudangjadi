@@ -47,5 +47,6 @@ class Riwayat extends CI_Controller
         $data['riwayat'] = $this->get->filriwayat($code, $start, $end)->result();
         $this->load->view("_partials/header");
         $this->load->view("riwayat/printriw", $data);
+        $this->load->view("_partials/footer");
     }
 }
