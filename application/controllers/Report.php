@@ -45,7 +45,7 @@ class Report extends CI_Controller
 
     public function filgolongan()
     {
-        $data['golongan'] = $this->get->tampil_golongan();
+        $data['golongan'] = $this->report_model->tampil_golongan();
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("report/reportgr", $data);
@@ -64,7 +64,7 @@ class Report extends CI_Controller
             'kode'  => $kdgol
         );
 
-        $data["riwayat"] = $this->get->filgol($kdgol, $start, $end);
+        $data["riwayat"] = $this->report_model->filgol($kdgol, $start, $end);
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("report/tampilreportgr", $data);

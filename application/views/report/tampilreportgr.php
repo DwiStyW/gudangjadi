@@ -18,9 +18,10 @@ foreach ($tampil2->result() as $gol) {
                     </div>
                 </div>
                 <div id="toolbar">
-                    <a target="_blank" href="<?= base_url("golongan/printrepgr/" . $start . "/" . $end . "/" . $kode) ?>">
+                    <a target="_blank" href="<?= base_url("Report/printrepgr/" . $start . "/" . $end . "/" . $kode) ?>">
                         <button class="btn btn-sm btn-success login-submit-cs" type="submit">Print</button></a>
-                    <a href="<?= base_url("golongan/filgolongan") ?>"><button class="btn btn-sm btn-white" type="button">Kembali</button></a>
+                    <a href="<?= base_url("golongan/filgolongan") ?>"><button class="btn btn-sm btn-white"
+                            type="button">Kembali</button></a>
                 </div>
                 <div style="background-color:#fff">
                     <div class="sparkline8-graph">
@@ -30,7 +31,11 @@ foreach ($tampil2->result() as $gol) {
                                 <b><?php echo date('d F Y', strtotime($start)); ?></b> hingga
                                 <b><?php echo date('d F Y', strtotime($end)); ?></b>
                             </div>
-                            <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
+                            <table id="table" data-toggle="table" data-pagination="true" data-search="true"
+                                data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true"
+                                data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
+                                data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true"
+                                data-toolbar="#toolbar">
                                 <thead>
                                     <tr>
                                         <th rowspan="2">No</th>
@@ -66,13 +71,13 @@ foreach ($tampil2->result() as $gol) {
                                     foreach ($tampil1->result() as $data) {
                                         $code = $data->kode;
                                     ?>
-                                        <tr>
-                                            <td><?php echo $no++; ?></td>
-                                            <td><?php echo $data->kode; ?></td>
-                                            <td><?php echo $data->nama; ?> </td>
+                                    <tr>
+                                        <td><?php echo $no++; ?></td>
+                                        <td><?php echo $data->kode; ?></td>
+                                        <td><?php echo $data->nama; ?> </td>
 
-                                            <!-- Sal Awal -->
-                                            <?php
+                                        <!-- Sal Awal -->
+                                        <?php
                                             $in = $this->db->query("SELECT SUM(masuk) AS salIn FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
                                             $out = $this->db->query("SELECT SUM(keluar) AS salOut FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
 
@@ -85,12 +90,12 @@ foreach ($tampil2->result() as $gol) {
                                                     $ts2  = floor($its / $data->max2);
                                                     $ts3  = $its - $ts2 * $data->max2;
                                             ?>
-                                                    <td> <?php echo $ts1; ?></td>
-                                                    <td><?php echo $ts2; ?> </td>
-                                                    <td><?php echo $ts3; ?> </td>
+                                        <td> <?php echo $ts1; ?></td>
+                                        <td><?php echo $ts2; ?> </td>
+                                        <td><?php echo $ts3; ?> </td>
 
-                                                    <!-- Masuk -->
-                                                    <?php
+                                        <!-- Masuk -->
+                                        <?php
                                                     $masuk = $this->db->query("SELECT SUM(masuk) AS mas FROM riwayat  WHERE kode='$code' && tglform between '$mulai' AND '$end'");
                                                     foreach ($masuk->result() as $ambi) {
                                                         //konvert 3 satuan
@@ -99,12 +104,12 @@ foreach ($tampil2->result() as $gol) {
                                                         $tas2  = floor($itas / $data->max2);
                                                         $tas3  = $itas - $tas2 * $data->max2;
                                                     } ?>
-                                                    <td><?php echo  $tas1; ?></td>
-                                                    <td><?php echo  $tas2; ?></td>
-                                                    <td><?php echo  $tas3; ?></td>
+                                        <td><?php echo  $tas1; ?></td>
+                                        <td><?php echo  $tas2; ?></td>
+                                        <td><?php echo  $tas3; ?></td>
 
-                                                    <!-- Keluar -->
-                                                    <?php
+                                        <!-- Keluar -->
+                                        <?php
                                                     $keluar = $this->db->query("SELECT SUM(keluar) AS kel FROM riwayat  WHERE kode='$code' && tglform between '$mulai' AND '$end'");
                                                     foreach ($keluar->result() as $amb) {
                                                         //konvert 3 satuan
@@ -113,12 +118,12 @@ foreach ($tampil2->result() as $gol) {
                                                         $sat2  = floor($sis / $data->max2);
                                                         $sat3  = $sis - $sat2 * $data->max2;
                                                     ?>
-                                                        <td><?php echo $sat1; ?> </td>
-                                                        <td><?php echo $sat2; ?> </td>
-                                                        <td><?php echo $sat3; ?> </td>
+                                        <td><?php echo $sat1; ?> </td>
+                                        <td><?php echo $sat2; ?> </td>
+                                        <td><?php echo $sat3; ?> </td>
 
-                                                        <!-- Sal Akhir -->
-                                                        <?php
+                                        <!-- Sal Akhir -->
+                                        <?php
                                                         $akhirr = $saldo + $ambi->mas - $amb->kel;
                                                         //konvert 3 satuan
                                                         $st1  = floor($akhirr / ($data->max1 * $data->max2));
@@ -126,13 +131,13 @@ foreach ($tampil2->result() as $gol) {
                                                         $st2  = floor($ss / $data->max2);
                                                         $st3  = $ss - $st2 * $data->max2;
                                                         ?>
-                                                        <td><?php echo $st1; ?> </td>
-                                                        <td><?php echo $st2; ?> </td>
-                                                        <td><?php echo $st3; ?> </td>
-                                            <?php    }
+                                        <td><?php echo $st1; ?> </td>
+                                        <td><?php echo $st2; ?> </td>
+                                        <td><?php echo $st3; ?> </td>
+                                        <?php    }
                                                 }
                                             } ?>
-                                        </tr>
+                                    </tr>
                                     <?php
                                     } ?>
                                 </tbody>

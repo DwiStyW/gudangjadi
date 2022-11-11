@@ -1,6 +1,6 @@
 <?php
-  ini_set('date.timezone', 'Asia/Jakarta');
-  ?>
+ini_set('date.timezone', 'Asia/Jakarta');
+?>
 <div class="layarlebar">
     <div class="admin-dashone-data-table-area mg-b-40">
         <div class="container" style="position:relative;top:-250px;z-index: 1">
@@ -12,26 +12,30 @@
                 </div>
                 <div style="background-color:#fff">
                     <div class="sparkline8-graph shadow">
-                        <div class="datatable-dashv1-list custom-datatable-overright"
-                            style="margin-left:10px;margin-right:10px;padding-bottom:10px">
-                            <div id="toolbar">
-                                <button class="btn btn-sm btn-primary login-submit-cs" data-toggle="modal"
-                                    data-target="#exampleModal">Input Master</button></a>
-                                <a href="<?= base_url("golongan") ?>"><button
-                                        class="btn btn-sm btn-primary login-submit-cs" type="submit">Master
-                                        Golongan</button></a>
-                                <a href="<?= base_url("jenis") ?>"><button
-                                        class="btn btn-sm btn-primary login-submit-cs" type="submit">Master
-                                        Jenis</button></a>
-                                <!-- <a target="_blank" href="printmaster.php"><button class="btn btn-sm btn-success login-submit-cs" type="submit">Print Master</button></a> -->
-                                <a href="index.php"><button class="btn btn-white" type="button">Kembali</button></a>
+                        <div class="datatable-dashv1-list custom-datatable-overright" style="margin-left:10px;margin-right:10px;padding-bottom:10px">
+                            <div class="col-md">
+                                <div class="col-md-2">
+                                    <form action="<?= base_url('master') ?>" id="go" method="post">
+                                        <select class="form-control btn btn-sm btn-white" name="range" onchange="go()">
+                                            <option disabled selected value>Row</option>
+                                            <option value="15">15</option>
+                                            <option value="30">30</option>
+                                            <option value="50">50</option>
+                                            <option value="all">Show All</option>
+                                        </select>
+                                    </form>
+                                </div>
+                                <div id="toolbar">
+                                    <button class="btn btn-sm btn-primary login-submit-cs" data-toggle="modal" data-target="#exampleModal">Input Master</button></a>
+                                    <a href="<?= base_url("golongan") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master
+                                            Golongan</button></a>
+                                    <a href="<?= base_url("jenis") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master
+                                            Jenis</button></a>
+                                    <!-- <a target="_blank" href="printmaster.php"><button class="btn btn-sm btn-success login-submit-cs" type="submit">Print Master</button></a> -->
+                                    <a href="index.php"><button class="btn btn-white" type="button">Kembali</button></a>
+                                </div>
                             </div>
-
-                            <table id="table" data-toggle="table" data-pagination="true" data-search="true"
-                                data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true"
-                                data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
-                                data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true"
-                                data-toolbar="#toolbar">
+                            <table id="table" data-toggle="table" data-pagination="false" data-search="true" data-show-columns="true" data-show-pagination-switch="false" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                 <thead>
                                     <tr>
                                         <th data-field="no">No</th>
@@ -51,36 +55,34 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                    $no = 1;
-                    foreach ($master as $m) {
-                    ?>
-                                    <tr>
-                                        <td><?php echo $no++; ?></td>
-                                        <td><?php echo $m->kode ?></td>
-                                        <td><?php echo $m->nama; ?></td>
-                                        <td><?php echo $m->ukuran ?></td>
-                                        <td><?php echo $m->sat1 ?></td>
-                                        <td><?php echo $m->max1 ?></td>
-                                        <td><?php echo $m->sat2 ?></td>
-                                        <td><?php echo $m->max2 ?></td>
-                                        <td><?php echo $m->sat3 ?></td>
-                                        <td><?php echo $m->namagol ?></td>
-                                        <td><?php echo $m->namajenis ?></td>
-                                        <td>
-                                            <a class="btn btn-sm btn-primary"
-                                                href="<?= base_url("master/editmas/$m->id/" ) ?>"><i
-                                                    class="fa fa-edit"></i>
-                                                Edit</a>
-                                            <a class="btn btn-sm btn-danger"
-                                                href="<?= base_url("master/hapus_master/" . $m->id) ?>"
-                                                onclick="javascript: return confirm('Anda yakin hapus ?')"><i
-                                                    class="fa fa-trash"></i> Hapus</a>
-                                        </td>
-                                    </tr>
-                                    <?php $no++;
-                    } ?>
+                                    foreach ($master as $m) {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo ++$start; ?></td>
+                                            <td><?php echo $m->kode ?></td>
+                                            <td><?php echo $m->nama; ?></td>
+                                            <td><?php echo $m->ukuran ?></td>
+                                            <td><?php echo $m->sat1 ?></td>
+                                            <td><?php echo $m->max1 ?></td>
+                                            <td><?php echo $m->sat2 ?></td>
+                                            <td><?php echo $m->max2 ?></td>
+                                            <td><?php echo $m->sat3 ?></td>
+                                            <td><?php echo $m->namagol ?></td>
+                                            <td><?php echo $m->namajenis ?></td>
+                                            <td>
+                                                <a class="btn btn-sm btn-primary" href="<?= base_url("master/editmas/$m->id/") ?>"><i class="fa fa-edit"></i>
+                                                    Edit</a>
+                                                <a class="btn btn-sm btn-danger" href="<?= base_url("master/hapus_master/" . $m->id) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-trash"></i> Hapus</a>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                    } ?>
                                 </tbody>
                             </table>
+                            <?=
+                            $this->pagination->create_links();
+                            ?>
+
                         </div>
                     </div>
                 </div>
@@ -103,25 +105,17 @@
                 </div>
                 <div style="background-color:#fff">
                     <div class="sparkline8-graph shadow">
-                        <div class="datatable-dashv1-list custom-datatable-overright"
-                            style="margin-left:10px;margin-right:10px;padding-bottom:10px">
+                        <div class="datatable-dashv1-list custom-datatable-overright" style="margin-left:10px;margin-right:10px;padding-bottom:10px">
                             <div id="toolbarr">
-                                <button class="btn btn-sm btn-primary login-submit-cs" data-toggle="modal"
-                                    data-target="#exampleModal">Input Master</button></a>
-                                <a href="<?= base_url("golongan") ?>"><button
-                                        class="btn btn-sm btn-primary login-submit-cs" type="submit">Master
+                                <button class="btn btn-sm btn-primary login-submit-cs" data-toggle="modal" data-target="#exampleModal">Input Master</button></a>
+                                <a href="<?= base_url("golongan") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master
                                         Golongan</button></a>
-                                <a href="<?= base_url("jenis") ?>"><button
-                                        class="btn btn-sm btn-primary login-submit-cs" type="submit">Master
+                                <a href="<?= base_url("jenis") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master
                                         Jenis</button></a>
                                 <!-- <a target="_blank" href="printmaster.php"><button class="btn btn-sm btn-success login-submit-cs" type="submit">Print Master</button></a> -->
                                 <a href="index.php"><button class="btn btn-white" type="button">Kembali</button></a>
                             </div>
-                            <table id="table" data-toggle="table" data-pagination="true" data-search="true"
-                                data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true"
-                                data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
-                                data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true"
-                                data-toolbar="#toolbarr">
+                            <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbarr">
                                 <thead>
                                     <tr>
                                         <th data-field="no">No</th>
@@ -141,34 +135,29 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                    $no = 1;
-                    foreach ($master as $m) {
-                    ?>
-                                    <tr>
-                                        <td><?php echo $no++; ?></td>
-                                        <td><?php echo $m->kode ?></td>
-                                        <td><?php echo $m->nama; ?></td>
-                                        <td><?php echo $m->ukuran ?></td>
-                                        <td><?php echo $m->sat1 ?></td>
-                                        <td><?php echo $m->max1 ?></td>
-                                        <td><?php echo $m->sat2 ?></td>
-                                        <td><?php echo $m->max2 ?></td>
-                                        <td><?php echo $m->sat3 ?></td>
-                                        <td><?php echo $m->namagol ?></td>
-                                        <td><?php echo $m->namajenis ?></td>
-                                        <td>
-                                            <a class="btn btn-sm btn-primary"
-                                                href="<?= base_url("master/editmas/$m->id/" ) ?>"><i
-                                                    class="fa fa-edit"></i>
-                                                Edit</a>
-                                            <a class="btn btn-sm btn-danger"
-                                                href="<?= base_url("master/hapus_master/" . $m->id) ?>"
-                                                onclick="javascript: return confirm('Anda yakin hapus ?')"><i
-                                                    class="fa fa-trash"></i> Hapus</a>
-                                        </td>
-                                    </tr>
+                                    $no = 1;
+                                    foreach ($master as $m) {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $no++; ?></td>
+                                            <td><?php echo $m->kode ?></td>
+                                            <td><?php echo $m->nama; ?></td>
+                                            <td><?php echo $m->ukuran ?></td>
+                                            <td><?php echo $m->sat1 ?></td>
+                                            <td><?php echo $m->max1 ?></td>
+                                            <td><?php echo $m->sat2 ?></td>
+                                            <td><?php echo $m->max2 ?></td>
+                                            <td><?php echo $m->sat3 ?></td>
+                                            <td><?php echo $m->namagol ?></td>
+                                            <td><?php echo $m->namajenis ?></td>
+                                            <td>
+                                                <a class="btn btn-sm btn-primary" href="<?= base_url("master/editmas/$m->id/") ?>"><i class="fa fa-edit"></i>
+                                                    Edit</a>
+                                                <a class="btn btn-sm btn-danger" href="<?= base_url("master/hapus_master/" . $m->id) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-trash"></i> Hapus</a>
+                                            </td>
+                                        </tr>
                                     <?php $no++;
-                    } ?>
+                                    } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -180,8 +169,7 @@
 </div>
 
 <!-- Modal Tambah Master -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-    style="z-index: 200000;">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 200000;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -191,63 +179,63 @@
             <div class="modal-body">
                 <form action="<?= base_url('') . 'master/tambah_master' ?>" method="post">
 
-                    <input type="text" name="id" class="form-control">
+                    <input type="hidden" name="id" class="form-control">
                     <div class="form group">
                         <label>kode Barang</label>
-                        <input type="text" name="kode" class="form-control">
+                        <input type="text" name="kode" class="form-control" required>
                     </div>
 
                     <div class="form group">
                         <label>Nama barang</label>
-                        <input type="text" name="nama" class="form-control">
+                        <input type="text" name="nama" class="form-control" required>
                     </div>
 
                     <div class="form group">
                         <label>Ukuran</label>
-                        <input type="text" name="ukuran" class="form-control">
+                        <input type="text" name="ukuran" class="form-control" required>
                     </div>
 
                     <div class="form group">
                         <label>Satuan 1</label>
-                        <input type="text" name="sat1" class="form-control">
+                        <input type="text" name="sat1" class="form-control" required>
                     </div>
 
                     <div class="form group">
                         <label>Isi Satuan 1</label>
-                        <input type="text" name="max1" class="form-control">
+                        <input type="text" name="max1" class="form-control" required>
                     </div>
 
                     <div class="form group">
                         <label>Satuan 2</label>
-                        <input type="text" name="sat2" class="form-control">
+                        <input type="text" name="sat2" class="form-control" required>
                     </div>
 
                     <div class="form group">
                         <label>Isi Satuan 2</label>
-                        <input type="text" name="max2" class="form-control">
+                        <input type="text" name="max2" class="form-control" required>
                     </div>
 
                     <div class="form group">
                         <label>Satuan 3</label>
-                        <input type="text" name="sat3" class="form-control">
+                        <input type="text" name="sat3" class="form-control" required>
                     </div>
 
                     <div class="form group">
                         <label>Golongan</label>
-                        <select type="select" name="kdgol" class="form-control">
+                        <select type="select" name="kdgol" class="form-control" required>
                             <option disabled selected value hidden>Pilih Golongan</option>
                             <?php foreach ($golongan as $g) { ?>
-                            <option value="<?= $g->id ?>"><?= $g->namagol ?></option>
+                                <option value="<?= $g->id ?>"><?= $g->namagol ?></option>
                             <?php } ?>
                         </select>
                     </div>
 
                     <div class="form group">
                         <label>Jenis</label>
-                        <select type="select" name="kdjenis" class="form-control">
+                        <select type="select" name="kdjenis" class="form-control" required>
                             <option disabled selected value hidden>Pilih Jenis</option>
                             <?php foreach ($jenis as $j) { ?>
-                            <option value="<?= $j->id ?>"><?= $j->namajenis ?></option>
+                                <option value="<?= $j->id ?>"><?= $j->namajenis ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -262,3 +250,37 @@
     </div>
 </div>
 <!-- END Modal -->
+<script>
+    function go() {
+        document.getElementById('go').submit();
+    }
+</script>
+<script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
+<?php if ($this->session->flashdata('berhasil')) : ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            position: 'top-end',
+            title: '<?= $this->session->flashdata('berhasil') ?>',
+            showConfirmButton: false,
+            timer: 1500,
+            allowOutsideClick: false,
+            timerProgressBar: true
+        })
+    </script>
+<?php endif ?>
+
+<?php if ($this->session->flashdata('gagal')) : ?>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            position: 'top-end',
+            title: '<?= $this->session->flashdata('gagal') ?>',
+            showConfirmButton: false,
+            timer: 1500,
+            allowOutsideClick: false,
+            timerProgressBar: true
+        })
+    </script>
+<?php
+endif ?>

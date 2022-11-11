@@ -13,9 +13,25 @@ class Master extends CI_Controller
     }
     public function index()
     {
-        $data['master'] = $this->get->tampil_master();
-        $data['golongan'] = $this->get->tampil_golongan();
-        $data['jenis'] = $this->get->tampil_jenis();
+        //load library
+        $this->load->library('pagination');
+
+        //set config
+        $config['base_url'] = 'http://localhost/gudangjadi/master/index';
+        $config['total_rows'] = $this->master_model->total_master();
+        $range = $this->input->post('range');
+        $config['per_page'] = $range;
+        if ($range == null) {
+            $config['per_page'] = 15;
+        } elseif ($range == "all") {
+            $config['per_page'] = null;
+        }
+        $this->pagination->initialize($config);
+
+        $data['start'] = $this->uri->segment(3);
+        $data['master'] = $this->master_model->tampil_master($config['per_page'], $data['start']);
+        $data['golongan'] = $this->golongan_model->tampil_golongan();
+        $data['jenis'] = $this->master_model->tampil_jenis();
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("master/master", $data);
@@ -50,17 +66,31 @@ class Master extends CI_Controller
             'kdjenis' => $kdjenis
         );
 
+        $data1 = array(
+            'no' => '',
+            'kode' => $kode,
+            'saldo' => 0,
+            'tglform' => date("Y-m-d"),
+            'tanggal' => date("Y-m-d H:i:s")
+        );
 
-        $this->insert->tambah($data, 'master');
-        redirect('master');
+        if (isset($data) && isset($data1)) {
+            $this->master_model->tambah($data, 'master');
+            $this->master_model->tambah($data1, 'saldo');
+            $this->session->set_flashdata("berhasil", "Input Master Success");
+            redirect('master');
+        } else {
+            $this->session->set_flashdata("gagal", "Input Master Error");
+            redirect('master');
+        }
     }
 
     public function editmas($id)
     {
         $where = array('id' => $id);
-        $data['golongan'] = $this->get->tampil_golongan();
-        $data['jenis'] = $this->get->tampil_jenis();
-        $data['master'] = $this->get->get_where($where, 'master')->result();
+        $data['golongan'] = $this->golongan_model->tampil_golongan();
+        $data['jenis'] = $this->master_model->tampil_jenis();
+        $data['master'] = $this->master_model->get_where($where, 'master')->result();
         $this->load->view('_partials/header');
         $this->load->view('_partials/menu');
         $this->load->view('master/editmas', $data);
@@ -95,14 +125,26 @@ class Master extends CI_Controller
             'id' => $id
         );
 
-        $this->edit->update($where, $data, 'master');
+        $this->master_model->update($where, $data, 'master');
         redirect('master');
     }
 
     public function hapus_master($id)
     {
         $where = array('id' => $id);
-        $this->delete->hapus($where, 'master');
-        redirect('master');
+        $saldo = $this->db->query("SELECT kode from master where id = '$id'");
+        foreach ($saldo->result() as $data) {
+            $kode = $data->kode;
+        }
+        $where1 = array('kode' => $kode);
+        if (isset($where) && isset($where1)) {
+            $this->master_model->hapus($where1, 'saldo');
+            $this->master_model->hapus($where, 'master');
+            $this->session->set_flashdata("berhasil", "Hapus Master Success");
+            redirect('master');
+        } else {
+            $this->session->set_flashdata("gagal", "Hapus Master Error");
+            redirect('master');
+        }
     }
 }

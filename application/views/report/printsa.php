@@ -30,7 +30,7 @@
 
             $no = 1;
             foreach ($tampil1->result() as $data) {
-                $code = $data->id;
+                $code = $data->kode;
 
                 //SaldoAwal
                 $in = $this->db->query("SELECT SUM(masuk) AS salIn FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");

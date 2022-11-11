@@ -87,15 +87,15 @@ $mulai = date('Y-m-d', strtotime('-1 days', strtotime($start)));
 
                                     ?>
                                                 <tr>
-                                                    <td><?php echo $no; ?></td>
+                                                    <td rowspan="4"><?php echo $no; ?></td>
                                                     <?php
                                                     $kdgrup = $data->kdgol;
                                                     //Mastergrup        
                                                     $tampil2 = $this->db->query("select * from golongan WHERE id='$kdgrup'");
                                                     foreach ($tampil2->result() as $data2); ?>
                                                     <!-- <td><?php echo $data2->kdgol; ?> <?php echo $data2->namagol; ?></td> -->
-                                                    <td><?php echo $data->kode; ?></td>
-                                                    <td><?php echo $data->nama; ?></td>
+                                                    <td rowspan="4"><?php echo $data->kode; ?></td>
+                                                    <td rowspan="4"><?php echo $data->nama; ?></td>
                                                     <td>Saldo Awal </td>
                                                     <!-- Saldo Awal -->
                                                     <td><?php echo $ts1; ?> </td>
@@ -104,10 +104,6 @@ $mulai = date('Y-m-d', strtotime('-1 days', strtotime($start)));
                                                 </tr>
                                                 <tr>
                                                     <!-- MASUK -->
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
                                                     <td>Masuk</td>
                                                     <td><?php echo  $tas1; ?></td>
                                                     <td><?php echo  $tas2; ?></td>
@@ -115,20 +111,12 @@ $mulai = date('Y-m-d', strtotime('-1 days', strtotime($start)));
                                                 </tr>
                                                 <tr>
                                                     <!-- KELUAR -->
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
                                                     <td>Keluar</td>
                                                     <td><?php echo $sat1; ?> </td>
                                                     <td><?php echo $sat2; ?> </td>
                                                     <td><?php echo $sat3; ?> </td>
                                                 </tr>
                                                 <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
                                                     <td>Saldo Akhir</td>
                                                     <td><?php echo $st1; ?> </td>
                                                     <td><?php echo $st2; ?> </td>

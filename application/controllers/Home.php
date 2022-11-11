@@ -13,8 +13,8 @@ class Home extends CI_Controller
     }
     public function index()
     {
-        $data['saldo'] = $this->get->tampil_saldo();
-        $data['riwayat'] = $this->get->tampil_riwayat();
+        $data['saldo'] = $this->home_model->tampil_saldo();
+        $data['riwayat'] = $this->home_model->tampil_riwayat();
         $this->load->view('_partials/header');
         $this->load->view('_partials/menu');
         $this->load->view('home', $data);
