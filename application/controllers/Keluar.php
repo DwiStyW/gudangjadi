@@ -44,17 +44,15 @@ class Keluar extends CI_Controller
         $sat3               = $this->input->post('sat3');
         $adm                = $this->input->post('adm');
 
-        $tampil1 = $this->db->query("SELECT * FROM master WHERE id='$koder'");
+        $tampil1 = $this->db->query("SELECT * FROM master WHERE kode='$koder'");
         foreach ($tampil1->result() as $data1) {
-            $kode = $data1->kode;
+            //konvert 3 Satuan
+            $sats1    = $sat1 * $data1->max1 * $data1->max2;
+            $sats2    = $sat2 * $data1->max2;
+            $jumlah = $sats1 + $sats2 + $sat3;
         }
 
-        //konvert 3 Satuan
-        $sats1    = $sat1 * $data1->max1 * $data1->max2;
-        $sats2    = $sat2 * $data1->max2;
-        $jumlah = $sats1 + $sats2 + $sat3;
-
-        $tampil = $this->db->query("SELECT * FROM saldo WHERE kode='$kode'");
+        $tampil = $this->db->query("SELECT * FROM saldo WHERE kode='$koder'");
         foreach ($tampil->result() as $data) {
             $hasil = $data->saldo - $jumlah;
         }
@@ -70,7 +68,7 @@ class Keluar extends CI_Controller
                 'tanggal' => $tgl
             );
             $where = array(
-                'kode' => $kode
+                'kode' => $koder
             );
 
             //insert riwayat
@@ -99,7 +97,7 @@ class Keluar extends CI_Controller
                 'adm' => $adm
             );
 
-            if (isset($data4) && isset($where) && isset($data2) && isset($data3) && $jumlah > 0) {
+            if ((isset($data4) && isset($where) && isset($data2) && isset($data3)) && $jumlah > 0) {
                 $this->edit->update($where, $data2, 'saldo');
                 $this->insert->tambah($data3, 'riwayat');
                 $this->insert->tambah($data4, 'keluar');
@@ -136,7 +134,7 @@ class Keluar extends CI_Controller
         $cat        = $this->input->post('cat');
         $ket        = "revisiOUT";
 
-        $tampil2 = $this->db->query("SELECT * FROM master WHERE id='$kode'");
+        $tampil2 = $this->db->query("SELECT * FROM master WHERE kode='$kode'");
         foreach ($tampil2->result() as $data2) {
             $max1 = $data2->max1;
             $max2 = $data2->max2;
@@ -149,7 +147,7 @@ class Keluar extends CI_Controller
         $tampil1 = $this->db->query("SELECT * FROM riwayat WHERE no='$no'");
         foreach ($tampil1->result() as $data1) {
         }
-        $tampil = $this->db->query("SELECT * FROM saldo WHERE no='$kode'");
+        $tampil = $this->db->query("SELECT * FROM saldo WHERE kode='$kode'");
         foreach ($tampil->result() as $data) {
         }
         $awal = $data1->keluar;
@@ -167,7 +165,7 @@ class Keluar extends CI_Controller
             );
 
             $where1 = array(
-                'no' => $kode
+                'kode' => $kode
             );
 
             //update riwayat

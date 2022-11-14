@@ -63,31 +63,4 @@ class Golongan extends CI_Controller
         $this->delete->hapus($where, 'golongan');
         redirect('golongan');
     }
-
-    public function filgolongan()
-    {
-        $data['golongan'] = $this->get->tampil_golongan();
-        $this->load->view("_partials/header");
-        $this->load->view("_partials/menu");
-        $this->load->view("report/reportgr", $data);
-        $this->load->view("_partials/footer");
-    }
-
-    public function tampilreportgr()
-    {
-        $start = $this->input->post("start");
-        $end   = $this->input->post("end");
-        $kode = $this->input->post("kode");
-
-        $data['golongan'] = $this->get->filreportgr($kode, $start, $end)->result();
-        $this->load->view("_partials/header");
-        $this->load->view("_partials/menu");
-        if ($this->get->filreportgr($kode, $start, $end)->num_rows() > 0) {
-            $this->load->view("report/tampilreportgr", $data);
-        } else {
-            $this->session->set_flashdata("kosong", "Riwayat Barang Masuk dan Keluar Kosong!");
-            redirect("golongan/filgolongan");
-        }
-        $this->load->view("_partials/footer");
-    }
 }

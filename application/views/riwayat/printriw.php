@@ -1,47 +1,43 @@
-<body>
-    <?php
-    // $username = $_SESSION['username'];
-    // $query_user_login = mysqli_query($conn, "select * from tb_user where username='$username'");
-    // $user_login = mysqli_fetch_array($query_user_login);
+<?php
     ini_set('date.timezone', 'Asia/Jakarta');
     ?>
 
-    <h3>Riwayat Bahan Kemas Keluar Masuk</h3>
+<h3>Riwayat Bahan Kemas Keluar Masuk</h3>
 
-    <?php $mulai = date('Y-m-d', strtotime('-1 days', strtotime($start))); ?>
-    Periode :
-    <?php echo date('d F Y', strtotime($start)); ?> hingga <?php echo date('d F Y', strtotime($end)); ?>
+<?php $mulai = date('Y-m-d', strtotime('-1 days', strtotime($start))); ?>
+Periode :
+<?php echo date('d F Y', strtotime($start)); ?> hingga <?php echo date('d F Y', strtotime($end)); ?>
 
-    <table border="1" width="100%" style="text-align: center">
-        <thead>
-            <tr>
-                <th rowspan="2">No</th>
-                <th rowspan="2">Tgl Form</th>
-                <th rowspan="2">No Form</th>
-                <th rowspan="2">Kode Barang</th>
-                <th rowspan="2">Nama Barang</th>
-                <th colspan="3">Masuk</th>
-                <th colspan="3">Keluar</th>
-                <th colspan="3">Saldo</th>
-                <th rowspan="2">Keterangan</th>
-                <th rowspan="2">Tanggal input</th>
-            </tr>
-            <?php
+<table border="1" width="100%">
+    <thead>
+        <tr>
+            <th rowspan="2" style="text-align: center">No</th>
+            <th rowspan="2" style="text-align: center">Tgl Form</th>
+            <th rowspan="2" style="text-align: center">No Form</th>
+            <th rowspan="2" style="text-align: center">Kode Barang</th>
+            <th rowspan="2" style="text-align: center">Nama Barang</th>
+            <th colspan="3" style="text-align: center">Masuk</th>
+            <th colspan="3" style="text-align: center">Keluar</th>
+            <th colspan="3" style="text-align: center">Saldo</th>
+            <th rowspan="2" style="text-align: center">Keterangan</th>
+            <th rowspan="2" style="text-align: center">Tanggal input</th>
+        </tr>
+        <?php
             $in = $this->db->query("SELECT SUM(masuk) AS salIn FROM riwayat WHERE kode='$kode' && tglform between '0001-01-01' AND '$mulai'");
             $out = $this->db->query("SELECT SUM(keluar) AS salOut FROM riwayat WHERE kode='$kode' && tglform between '0001-01-01' AND '$mulai'");
             ?>
-            <tr>
-                <th>Sat 1</th>
-                <th>Sat 2</th>
-                <th>Sat 3</th>
-                <th>Sat 1</th>
-                <th>Sat 2</th>
-                <th>Sat 3</th>
-                <th>Sat 1</th>
-                <th>Sat 2</th>
-                <th>Sat 3</th>
-            </tr>
-            <?php foreach ($in->result() as $datin) {
+        <tr>
+            <th style="text-align: center">Sat 1</th>
+            <th style="text-align: center">Sat 2</th>
+            <th style="text-align: center">Sat 3</th>
+            <th style="text-align: center">Sat 1</th>
+            <th style="text-align: center">Sat 2</th>
+            <th style="text-align: center">Sat 3</th>
+            <th style="text-align: center">Sat 1</th>
+            <th style="text-align: center">Sat 2</th>
+            <th style="text-align: center">Sat 3</th>
+        </tr>
+        <?php foreach ($in->result() as $datin) {
                 $dataIn = $datin->salIn;
             }
             foreach ($out->result() as $datout) {
@@ -55,45 +51,45 @@
             $sat2  = floor($sisa / $r->max2);
             $sat3  = $sisa - $sat2 * $r->max2;
             ?>
-        </thead>
-        <tbody>
-            <tr>
-                <td colspan="11">Saldo</td>
-                <td><?= $sat1 ?></td>
-                <td><?= $sat2 ?></td>
-                <td><?= $sat3 ?></td>
-                <td>Saldo Awal</td>
-                <td><?= $mulai ?></td>
-            </tr>
-            <?php
+    </thead>
+    <tbody>
+        <tr>
+            <td colspan="11" style="text-align: center">Saldo</td>
+            <td style="text-align: center"><?= $sat1 ?></td>
+            <td style="text-align: center"><?= $sat2 ?></td>
+            <td style="text-align: center"><?= $sat3 ?></td>
+            <td style="text-align: center">Saldo Awal</td>
+            <td style="text-align: center"><?= $mulai ?></td>
+        </tr>
+        <?php
             $no = 1;
             foreach ($riwayat as $r) { ?>
-                <tr>
-                    <?php if ($no == 1) { ?>
-                        <td><?= $no++ ?></td>
-                        <td><?= $r->tglform ?></td>
-                        <td><?= $r->noform ?></td>
-                        <td><?= $r->kode ?></td>
-                        <td><?= $r->nama ?></td>
-                        <?php
+        <tr>
+            <?php if ($no == 1) { ?>
+            <td style="text-align: center"><?= $no++ ?></td>
+            <td><?= $r->tglform ?></td>
+            <td><?= $r->noform ?></td>
+            <td><?= $r->kode ?></td>
+            <td><?= $r->nama ?></td>
+            <?php
                         $satss1  = floor($r->masuk / ($r->max1 * $r->max2));
                         $sisa   = $r->masuk - ($satss1 * $r->max1 * $r->max2);
                         $satss2  = floor($sisa / $r->max2);
                         $satss3  = $sisa - $satss2 * $r->max2;
                         ?>
-                        <td><?= $satss1 ?></td>
-                        <td><?= $satss2 ?></td>
-                        <td><?= $satss3 ?></td>
-                        <?php
+            <td style="text-align: center"><?= $satss1 ?></td>
+            <td style="text-align: center"><?= $satss2 ?></td>
+            <td style="text-align: center"><?= $satss3 ?></td>
+            <?php
                         $sats1  = floor($r->keluar / ($r->max1 * $r->max2));
                         $sis   = $r->keluar - ($sats1 * $r->max1 * $r->max2);
                         $sats2  = floor($sis / $r->max2);
                         $sats3  = $sis - $sats2 * $r->max2;
                         ?>
-                        <td><?= $sats1 ?></td>
-                        <td><?= $sats2 ?></td>
-                        <td><?= $sats3 ?></td>
-                        <?php
+            <td style="text-align: center"><?= $sats1 ?></td>
+            <td style="text-align: center"><?= $sats2 ?></td>
+            <td style="text-align: center"><?= $sats3 ?></td>
+            <?php
                         $saldo_mutasi = $sals + $r->masuk - $r->keluar;
                         if ($r->masuk > 0) {
                             $saldo_mutasi1 = $saldo_mutasi + $r->keluar;
@@ -106,37 +102,37 @@
                         $st2  = floor($sissa / $r->max2);
                         $st3  = $sissa - $st2 * $r->max2;
                         ?>
-                        <td><?= $st1 ?></td>
-                        <td><?= $st2 ?></td>
-                        <td><?= $st3 ?></td>
-                        <td><?= $r->ket ?></td>
-                        <td><?= $r->tanggal ?></td>
-                    <?php } else { ?>
+            <td style="text-align: center"><?= $st1 ?></td>
+            <td style="text-align: center"><?= $st2 ?></td>
+            <td style="text-align: center"><?= $st3 ?></td>
+            <td style="text-align: center"><?= $r->ket ?></td>
+            <td style="text-align: center"><?= $r->tanggal ?></td>
+            <?php } else { ?>
 
-                        <td><?= $no++ ?></td>
-                        <td><?= $r->tglform ?></td>
-                        <td><?= $r->noform ?></td>
-                        <td><?= $r->kode ?></td>
-                        <td><?= $r->nama ?></td>
-                        <?php
+            <td style="text-align: center"><?= $no++ ?></td>
+            <td><?= $r->tglform ?></td>
+            <td><?= $r->noform ?></td>
+            <td><?= $r->kode ?></td>
+            <td><?= $r->nama ?></td>
+            <?php
                         $stn1  = floor($r->masuk / ($r->max1 * $r->max2));
                         $ssa   = $r->masuk - ($stn1 * $r->max1 * $r->max2);
                         $stn2  = floor($ssa / $r->max2);
                         $stn3  = $ssa - $stn2 * $r->max2;
                         ?>
-                        <td><?= $stn1 ?></td>
-                        <td><?= $stn2 ?></td>
-                        <td><?= $stn3 ?></td>
-                        <?php
+            <td style="text-align: center"><?= $stn1 ?></td>
+            <td style="text-align: center"><?= $stn2 ?></td>
+            <td style="text-align: center"><?= $stn3 ?></td>
+            <?php
                         $satn1  = floor($r->keluar / ($r->max1 * $r->max2));
                         $siss   = $r->keluar - ($satn1 * $r->max1 * $r->max2);
                         $satn2  = floor($siss / $r->max2);
                         $satn3  = $siss - $satn2 * $r->max2;
                         ?>
-                        <td><?= $satn1 ?></td>
-                        <td><?= $satn2 ?></td>
-                        <td><?= $satn3 ?></td>
-                        <?php if ($no == 2) {
+            <td style="text-align: center"><?= $satn1 ?></td>
+            <td style="text-align: center"><?= $satn2 ?></td>
+            <td style="text-align: center"><?= $satn3 ?></td>
+            <?php if ($no == 2) {
 
                             //konvert 3 satuan
                             $satu1   = floor($saldo_mutasi1 / ($r->max1 * $r->max2));
@@ -144,10 +140,10 @@
                             $satu2  = floor($sia / $r->max2);
                             $satu3  = $sia - $satu2 * $r->max2;
                         ?>
-                            <td><?= $satu1 ?></td>
-                            <td><?= $satu2 ?></td>
-                            <td><?= $satu3 ?></td>
-                        <?php } else {
+            <td style="text-align: center"><?= $satu1 ?></td>
+            <td style="text-align: center"><?= $satu2 ?></td>
+            <td style="text-align: center"><?= $satu3 ?></td>
+            <?php } else {
                             $sals1 = $saldo_mutasi1;
                             $saldo_mutasi1 = $sals1 + $r->masuk - $r->keluar;
                             $ss1   = floor($saldo_mutasi1 / ($r->max1 * $r->max2));
@@ -155,15 +151,15 @@
                             $ss2  = floor($sisas / $r->max2);
                             $ss3  = $sisas - $ss2 * $r->max2;
                         ?>
-                            <td><?= $ss1 ?></td>
-                            <td><?= $ss2 ?></td>
-                            <td><?= $ss3 ?></td>
-                        <?php } ?>
-                        <td><?= $r->ket ?></td>
-                        <td><?= $r->tanggal ?></td>
-                    <?php } ?>
-                </tr>
-            <?php }
+            <td style="text-align: center"><?= $ss1 ?></td>
+            <td style="text-align: center"><?= $ss2 ?></td>
+            <td style="text-align: center"><?= $ss3 ?></td>
+            <?php } ?>
+            <td style="text-align: center"><?= $r->ket ?></td>
+            <td><?= $r->tanggal ?></td>
+            <?php } ?>
+        </tr>
+        <?php }
             $allin = $this->db->query("SELECT SUM(masuk) AS sumIn FROM riwayat WHERE  keluar='0'&& kode='$kode' && tglform between '$start' AND '$end'");
             $allout = $this->db->query("SELECT SUM(keluar) AS sumOut FROM riwayat WHERE masuk='0' && kode='$kode' && tglform between '$start' AND '$end'");
             foreach ($allin->result() as $m) {
@@ -172,37 +168,37 @@
             foreach ($allout->result() as $k) {
                 $totalK = $k->sumOut;
             } ?>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Total</td>
-                <?php
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Total</td>
+            <?php
                 $stts1  = floor($totalM / ($r->max1 * $r->max2));
                 $sit = $totalM - ($stts1 * $r->max1 * $r->max2);
                 $stts2  = floor($sit / $r->max2);
                 $stts3  = $sit - $stts2 * $r->max2;
                 ?>
-                <td><?= $stts1 ?></td>
-                <td><?= $stts2 ?></td>
-                <td><?= $stts3 ?></td>
-                <?php
+            <td style="text-align: center"><?= $stts1 ?></td>
+            <td style="text-align: center"><?= $stts2 ?></td>
+            <td style="text-align: center"><?= $stts3 ?></td>
+            <?php
                 $satuan1  = floor($totalK / ($r->max1 * $r->max2));
                 $susuk = $totalK - ($satuan1 * $r->max1 * $r->max2);
                 $satuan2  = floor($susuk / $r->max2);
                 $satuan3  = $susuk - $satuan2 * $r->max2;
                 ?>
-                <td><?= $satuan1 ?></td>
-                <td><?= $satuan2 ?></td>
-                <td><?= $satuan3 ?></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-        </tbody>
-    </table>
-    <script>
-        window.print();
-    </script>
+            <td style="text-align: center"><?= $satuan1 ?></td>
+            <td style="text-align: center"><?= $satuan2 ?></td>
+            <td style="text-align: center"><?= $satuan3 ?></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+    </tbody>
+</table>
+<script>
+window.print();
+</script>

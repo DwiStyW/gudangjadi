@@ -16,6 +16,35 @@ class Report extends CI_Controller
     }
     public function index()
     {
+        $this->load->view("_partials/header");
+        $this->load->view("_partials/menu");
+        $this->load->view("report/report");
+        $this->load->view("_partials/footer");
+    }
+
+    public function tampilreport()
+    {
+        $start = $this->input->post("start");
+        $end   = $this->input->post("end");
+
+        $data = array('start' => $start, 'end' => $end);
+
+        $this->load->view("_partials/header");
+        $this->load->view("_partials/menu");
+        $this->load->view("report/tampilreport", $data);
+        $this->load->view("_partials/footer");
+    }
+
+    public function printrep($start, $end)
+    {
+        $data = array('start' => $start, 'end' => $end);
+
+        $this->load->view("_partials/header");
+        $this->load->view("report/printrep", $data);
+    }
+
+    public function filgolongan()
+    {
         $data['golongan'] = $this->get->tampil_golongan();
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
@@ -27,26 +56,58 @@ class Report extends CI_Controller
     {
         $start = $this->input->post("start");
         $end   = $this->input->post("end");
-        $kode = $this->input->post("kode");
+        $kdgol = $this->input->post("kode");
 
-        $data['riwayat'] = $this->get->filreportgr($kode, $start, $end)->result();
+        $data = array(
+            'start' => $start,
+            'end'   => $end,
+            'kode'  => $kdgol
+        );
+
+        $data["riwayat"] = $this->get->filgol($kdgol, $start, $end);
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
-        if ($this->get->filreportgr($kode, $start, $end)->num_rows() > 0) {
-            $this->load->view("report/tampilreportgr", $data);
-        } else {
-            $this->session->set_flashdata("kosong", "Report Per Golongan Kosong!");
-            redirect("report");
-        }
+        $this->load->view("report/tampilreportgr", $data);
         $this->load->view("_partials/footer");
     }
 
-    public function print($start, $end, $code)
+    public function printrepgr($start, $end, $kode)
     {
-        $data = array('start' => $start, 'end' => $end, 'kode' => $code);
-        $data['report'] = $this->get->filreportgr($code, $start, $end)->result();
+        $data = array(
+            'start' => $start,
+            'end'  => $end,
+            'kode' => $kode
+        );
+
         $this->load->view("_partials/header");
-        $this->load->view("report/printriw", $data);
+        $this->load->view("report/printrepgr", $data);
+    }
+
+    public function report_saldo_akhir()
+    {
+        $this->load->view("_partials/header");
+        $this->load->view("_partials/menu");
+        $this->load->view("report/reportsa");
         $this->load->view("_partials/footer");
+    }
+
+    public function tampilsalakhir()
+    {
+        $start = $this->input->post("start");
+        $end = $this->input->post("end");
+
+        $data = array('start' => $start, 'end' => $end);
+
+        $this->load->view("_partials/header");
+        $this->load->view("_partials/menu");
+        $this->load->view("report/tampilsalakhir", $data);
+        $this->load->view("_partials/footer");
+    }
+
+    public function printsa($start, $end)
+    {
+        $data = array('start' => $start, 'end' => $end);
+        $this->load->view("_partials/header");
+        $this->load->view("report/printsa", $data);
     }
 }

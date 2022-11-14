@@ -5,12 +5,9 @@ class Masuk extends CI_Controller
     {
         parent::__construct();
         if ($this->session->userdata('role') != 'user' && $this->session->userdata('role') != 'admin' && $this->session->userdata('role') != 'manager') {
-            $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            $this->session->set_flashdata('pesan', '<div class="fade show" style="color:red" role="alert">
   Anda Belum Login!
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>');
+</div><br>');
             redirect('auth/login');
         }
     }
@@ -37,6 +34,7 @@ class Masuk extends CI_Controller
     // tambah barang masuk
     public function barang_masuk()
     {
+        error_reporting(0);
         $tglform = $this->input->post('tglform');
         $noform = $this->input->post('noform');
         $koder = $this->input->post('kode');
@@ -47,7 +45,7 @@ class Masuk extends CI_Controller
         $cat = $this->input->post('cat');
         $adm = $this->input->post('adm');
 
-        $tampil1 = $this->db->query("SELECT * FROM master WHERE id='$koder'");
+        $tampil1 = $this->db->query("SELECT * FROM master WHERE kode='$koder'");
         foreach ($tampil1->result() as $data1) {
             $kode = $data1->kode;
         }
@@ -97,17 +95,17 @@ class Masuk extends CI_Controller
             'tanggal' => $tgl
         );
         $where1 = array(
-            'kode' => $kode
+            'kode' => $koder
         );
 
-        if ((isset($data4) && isset($where1) && isset($data3) && isset($data2)) && ($jumlah > 0)) {
+        if (isset($data4) && isset($where1) && isset($data3) && isset($data2) && $jumlah > 0) {
             $this->edit->update($where1, $data4, "saldo");
             $this->insert->tambah($data3, "masuk");
             $this->insert->tambah($data2, "riwayat");
-            $this->session->set_flashdata('sukses', 'Data Masuk Berhasil di simpan!');
+            $this->session->set_flashdata('sukses', 'Data Berhasil di Update!');
             redirect("masuk/input_masuk");
         } else {
-            $this->session->set_flashdata('gagal', 'Data Masuk Gagal di simpan');
+            $this->session->set_flashdata('gagal', 'Data Gagal di Update!');
             redirect("masuk/input_masuk");
         }
     }
@@ -122,12 +120,15 @@ class Masuk extends CI_Controller
         $this->load->view('_partials/footer');
     }
 
+    //updateMasuk
     public function update_masuk()
     {
         $no         = $this->input->post('no');
         $date       = $this->input->post('tgl');
         $kode       = $this->input->post('kode');
         $noform     = $this->input->post('noform');
+        $nobatch     = $this->input->post('nobatch');
+        $nopallet     = $this->input->post('nopallet');
         $sat1       = $this->input->post('sats1');
         $sat2       = $this->input->post('sats2');
         $sat3       = $this->input->post('sats3');
@@ -136,7 +137,7 @@ class Masuk extends CI_Controller
         $cat        = $this->input->post('cat');
         $ket        = "revisiIN";
 
-        $tampil2 = $this->db->query("select * from master WHERE id='$kode'");
+        $tampil2 = $this->db->query("select * from master WHERE kode ='$kode'");
         foreach ($tampil2->result() as $data2) {
             $sats1    = $sat1 * $data2->max1 * $data2->max2;
             $sats2    = $sat2 * $data2->max2;
@@ -146,7 +147,7 @@ class Masuk extends CI_Controller
         foreach ($tampil1->result() as $data1) {
             $awal = $data1->masuk;
         }
-        $tampil = $this->db->query("select * from saldo WHERE no='$kode'");
+        $tampil = $this->db->query("select * from saldo WHERE kode ='$kode'");
         foreach ($tampil->result() as $data) {
             $update = $data->saldo - $awal + $jumlah;
         }
@@ -162,12 +163,14 @@ class Masuk extends CI_Controller
                 'tglform' => $tglform
             );
             $where = array(
-                'no' => $kode
+                'kode' => $kode
             );
 
             //update riwayat
             $data1 = array(
                 'noform' => $noform,
+                'nobatch' => $nobatch,
+                'nopallet' => $nopallet,
                 'kode' => $kode,
                 'masuk' => $jumlah,
                 'tglform' => $tglform,
@@ -201,10 +204,10 @@ class Masuk extends CI_Controller
                 $this->edit->update($where, $data, 'saldo');
                 $this->edit->update($where1, $data1, 'riwayat');
                 $this->edit->update($where2, $data2, 'masuk');
-                $this->session->set_flashdata('sukses', 'Data Masuk Berhasil di Update!');
+                $this->session->set_flashdata('sukses', 'Data Berhasil di Update!');
                 redirect("masuk");
             } else {
-                $this->session->set_flashdata('gagal', 'Data Masuk Gagal di Update!');
+                $this->session->set_flashdata('gagal', 'Data gagal di Update!');
                 redirect("masuk");
             }
         }
@@ -215,6 +218,8 @@ class Masuk extends CI_Controller
         $tampil1 = $this->db->query("select * from riwayat WHERE no='$no'");
         foreach ($tampil1->result() as $riw) {
             $awal = $riw->masuk;
+            $tglform = $riw->tglform;
+            $tglform = $riw->noform;
         }
         $tampil = $this->db->query("select * from saldo WHERE kode='$kode'");
         foreach ($tampil->result() as $sal) {
@@ -236,12 +241,23 @@ class Masuk extends CI_Controller
                 $this->edit->update($where1, $data1, 'saldo');
                 $this->delete->hapus($where, 'riwayat');
                 $this->delete->hapus($where, 'masuk');
-                $this->session->set_flashdata('sukses', 'Data Masuk Berhasil di Hapus!');
+                $this->session->set_flashdata('sukses', 'Data Berhasil di Update!');
                 redirect("masuk");
             } else {
-                $this->session->set_flashdata('gagal', 'Data Masuk Gagal di Hapus!');
+                $this->session->set_flashdata('gagal', 'Data Gagal di Update!');
                 redirect("masuk");
             }
+        }
+    }
+
+    // Cek Duplicate
+    public function cekduplicate()
+    {
+        $noform  = $this->input->post('q');
+        $sql     = $this->db->query("select * from riwayat where noform = '$noform'");
+
+        if ($sql->num_rows() > 0) {
+            echo " &#10060; No Form Duplicate!!! Cek tabel di bawah.";
         }
     }
 }
