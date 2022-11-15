@@ -3,8 +3,32 @@
         <div class="container " style="position:relative;top:-250px;z-index: 1">
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
-                    <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
-                        <h1>Saldo Barang Jadi</h1>
+                <div class="main-sparkline8-hd justify-content-between" style="display:flex; flex:wrap;padding-top:20px;padding-bottom:20px;padding-left:20px;">
+                        <h1>Saldo Barang Jadi<h1>
+                        <div style="width:100%; padding-right:20px">
+                                    <form action="<?= base_url('home/index')?>" method="post">
+                                    <div style="display:flex; flex:wrap">
+                                        <div style="width:100%">
+                                            <?php if(isset($keyword)){?>
+                                                <input type="text" name="keyword" value="<?= $keyword?>" placeholder="Cari Barang Keluar..." class="form-control">
+                                            <?php }else{ ?>
+                                                <input type="text" name="keyword" placeholder="Cari Barang Keluar..." class="form-control">
+                                                <?php } ?>
+                                        </div>
+                                        <div style="width:auto">
+                                            <button type="submit" name="submit" class="btn btn-primary">Cari</button>
+                                        </div>
+                                    </form>
+                                    <?php if($keyword != null){?>
+                                    <form action="<?=base_url('home/index')?>" method="post">
+                                    <input type="hidden" name="keyword" value="">
+                                        <div style="width:auto">
+                                        <button class="btn btn-light" type="submit">Reset</button>
+                                        </div>
+                                    </form>
+                                    <?php } ?>
+                                </div>
+                                </div>
                     </div>
                 </div>
                 <div style="background-color:#fff">
@@ -12,8 +36,8 @@
                         <div class="datatable-dashv1-list custom-datatable-overright"
                             style="margin-left:10px;margin-right:10px;padding-bottom:10px">
 
-                            <table id="table" data-toggle="table" data-pagination="true" data-search="true"
-                                data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true"
+                            <table id="table" data-toggle="table" data-pagination="false" data-search="false"
+                                data-show-columns="true" data-show-pagination-switch="false" data-show-refresh="true"
                                 data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
                                 data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true"
                                 data-toolbar="#toolbar">
@@ -63,13 +87,27 @@
                                     <?php } ?>
                                 </tbody>
                             </table>
+                            <div style="width:100%;margin-top:20px; display:flex; flex:wrap" class="justify-content-between">
+                                <form action="<?= base_url('home') ?>" id="go" method="post">
+                                <div style="width:100px">
+                                    <select class="form-control" name="range" onchange="go()">
+                                        <option disabled selected value>Row</option>
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="all">Show All</option>
+                                    </select>
+                                    </div>
+                                </form>
+                                <?=$this->pagination->create_links();?>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="admin-dashone-data-table-area mg-b-40">
+    <!-- <div class="admin-dashone-data-table-area mg-b-40">
         <div class="container" style="position:relative;top:-150px;z-index: 1">
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
@@ -102,40 +140,40 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $no = 1;
-                                    foreach ($riwayat as $r) {
+                                    // $no = 1;
+                                    // foreach ($riwayat as $r) {
                                     ?>
                                     <tr>
-                                        <td><?php echo $no++; ?></td>
-                                        <td><?php echo date("d-m-Y", strtotime($r->tglform)); ?></td>
-                                        <td><?php echo $r->noform; ?></td>
-                                        <td><?php echo $r->nama; ?></td>
+                                        <td><?php //echo $no++; ?></td>
+                                        <td><?php //echo date("d-m-Y", strtotime($r->tglform)); ?></td>
+                                        <td><?php //echo $r->noform; ?></td>
+                                        <td><?php //echo $r->nama; ?></td>
                                         <?php
-                                            if ($r->masuk == 0) {
-                                                $total = $r->keluar;
-                                            } else {
-                                                $total = $r->masuk;
-                                            }
+                                            //if ($r->masuk == 0) {
+                                            //    $total = $r->keluar;
+                                            //} else {
+                                            //    $total = $r->masuk;
+                                            //}
 
                                             //Perhitungan 3 Satuan
-                                            $sats1  = floor($total / ($r->max1 * $r->max2));
-                                            $sisa   = $total - ($sats1 * $r->max1 * $r->max2);
-                                            $sats2  = floor($sisa / $r->max2);
-                                            $sats3  = $sisa - $sats2 * $r->max2;
+                                            //$sats1  = floor($total / ($r->max1 * $r->max2));
+                                            //$sisa   = $total - ($sats1 * $r->max1 * $r->max2);
+                                            //$sats2  = floor($sisa / $r->max2);
+                                            //$sats3  = $sisa - $sats2 * $r->max2;
                                             ?>
-                                        <td><?php echo $sats1; ?> <?php echo $r->sat1; ?></td>
-                                        <td><?php echo $sats2; ?> <?php echo $r->sat2; ?></td>
-                                        <td><?php echo $sats3; ?> <?php echo $r->sat3; ?></td>
-                                        <td><?php echo $r->ket; ?></td>
-                                        <td><?php echo $r->tanggal; ?></td>
+                                        <td><?php //echo $sats1; ?> <?php //echo $r->sat1; ?></td>
+                                        <td><?php //echo $sats2; ?> <?php //echo $r->sat2; ?></td>
+                                        <td><?php //echo $sats3; ?> <?php //echo $r->sat3; ?></td>
+                                        <td><?php //echo $r->ket; ?></td>
+                                        <td><?php //echo $r->tanggal; ?></td>
                                         <td>
                                             <!-- <a href="<?php //echo base_url('penginput/user/').$r->user_id; ?>"> -->
-                                            <?php echo $r->username; ?>
+                                            <?php //echo $r->username; ?>
                                         <!-- </a> -->
-                                        </td>
+                                        <!-- </td>
                                     </tr>
                                     <?php
-                                    } ?>
+                                    //} ?>
                                 </tbody>
                             </table>
                         </div>
@@ -145,7 +183,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- Data mobile-->
 <div class="layarsedangmengecil">
     <div class="admin-dashone-data-table-area mg-b-40">
@@ -295,3 +333,8 @@
         </div>
     </div>
 </div>
+<script>
+    function go() {
+        document.getElementById('go').submit();
+    }
+</script>
