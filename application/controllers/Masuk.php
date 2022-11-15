@@ -14,19 +14,28 @@ class Masuk extends CI_Controller
     public function index()
     {
         $this->load->library('pagination');
+        //untuk search
+        $keyword=$this->input->post('keyword');
+        if(isset($keyword)){
+            $data['keyword']=$this->input->post('keyword');
+            $this->session->set_userdata('keyword_masuk',$data['keyword']);
+        }else{
+            $data['keyword']=$this->session->userdata('keyword_masuk');
+        }
+        //untuk pagination
         $config['base_url'] = 'http://localhost/gudangjadi/masuk/index';
-        $config['total_rows'] = $this->masuk_model->total_barang_masuk();
+        $config['total_rows'] = $this->masuk_model->total_barang_masuk($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
         if ($range == null) {
-            $config['per_page'] = 15;
+            $config['per_page'] = 10;
         } elseif ($range == "all") {
             $config['per_page'] = null;
         }
         $this->pagination->initialize($config);
 
         $data['start'] = $this->uri->segment(3);
-        $data['masuk'] = $this->masuk_model->tampil_barang_masuk($config['per_page'], $data['start']);
+        $data['masuk'] = $this->masuk_model->tampil_barang_masuk($config['per_page'], $data['start'], $data['keyword']);
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("masuk/masuk", $data);
@@ -36,7 +45,8 @@ class Masuk extends CI_Controller
     // load view input barang masuk
     public function input_masuk()
     {
-        $data['masuk'] = $this->masuk_model->riwayat_all();
+        $noform=$this->input->post('p');
+        $data['masuk'] = $this->masuk_model->riwayat_all($noform);
         $data['master'] = $this->masuk_model->tampil_master();
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
@@ -266,6 +276,7 @@ class Masuk extends CI_Controller
 
         if ($sql->num_rows() > 0) {
             echo " &#10060; No Form Duplicate!!! Cek tabel di bawah.";
+            $noform;
         }
     }
 }

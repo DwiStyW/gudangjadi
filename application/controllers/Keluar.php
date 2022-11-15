@@ -17,19 +17,29 @@ class Keluar extends CI_Controller
     public function index()
     {
         $this->load->library('pagination');
+        //untuk search
+        $keyword=$this->input->post('keyword');
+        if(isset($keyword)){
+            $data['keyword']=$this->input->post('keyword');
+            $this->session->set_userdata('keyword',$data['keyword']);
+        }else{
+            $data['keyword']=$this->session->userdata('keyword');
+        }
+        
+        //untuk pagination
         $config['base_url'] = 'http://localhost/gudangjadi/keluar/index';
-        $config['total_rows'] = $this->keluar_model->total_barang_keluar();
+        $config['total_rows'] = $this->keluar_model->total_barang_keluar($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
         if ($range == null) {
-            $config['per_page'] = 15;
+            $config['per_page'] = 10;
         } elseif ($range == "all") {
             $config['per_page'] = null;
         }
         $this->pagination->initialize($config);
 
         $data['start'] = $this->uri->segment(3);
-        $data["keluar"] = $this->keluar_model->tampil_barang_keluar($config['per_page'], $data['start']);
+        $data["keluar"] = $this->keluar_model->tampil_barang_keluar($config['per_page'], $data['start'],$data['keyword']);
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("keluar/keluar", $data);
@@ -111,9 +121,9 @@ class Keluar extends CI_Controller
             );
 
             if ((isset($data4) && isset($where) && isset($data2) && isset($data3)) && $jumlah > 0) {
-                $this->edit->update($where, $data2, 'saldo');
-                $this->insert->tambah($data3, 'riwayat');
-                $this->insert->tambah($data4, 'keluar');
+                $this->keluar_model->tambah($data3, 'riwayat');
+                $this->keluar_model->update($where, $data2, 'saldo');
+                $this->keluar_model->tambah($data4, 'keluar');
                 $this->session->set_flashdata('sukses', 'Input Barang Keluar Success!');
                 redirect('keluar/input_keluar');
             } else {

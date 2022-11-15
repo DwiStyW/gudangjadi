@@ -317,6 +317,15 @@ date_default_timezone_set('Asia/Jakarta');
                 }
             })
 
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url('masuk/input_masuk') ?>',
+                data: 'q=' + q,
+                success: function(data) {
+                    $('#pesan').html(data);
+                }
+            })
+
         });
     });
 </script>

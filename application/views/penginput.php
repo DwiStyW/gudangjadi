@@ -40,11 +40,10 @@
                                         $no = 1;
                                         foreach ($penginput as $p) {
                                             $query = $this->db->query("SELECT * FROM master WHERE master.id = '$p->kode'");
-                                            foreach ($query->result() as $m) {
-                                                $kode = $m->kode;
+                                            foreach ($query->result() as $m) {}
+                                            $kode = $m->kode;
                                                 $nama = $m->nama;
                                                 $sat3 = $m->sat3;
-                                            }
                                             $query1 = $this->db->query("SELECT * FROM tb_user WHERE tb_user.user_id = '$p->adm'");
                                             foreach ($query1->result() as $u) {
                                                 $username = $u->username;

@@ -6,25 +6,37 @@ ini_set('date.timezone', 'Asia/Jakarta');
         <div class="container" style="position:relative;top:-250px;z-index: 1">
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
-                    <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
+                <div class="main-sparkline8-hd justify-content-between" style="display:flex; flex:wrap;padding-top:20px;padding-bottom:20px;padding-left:20px;">
                         <h1>Master Barang Gudang<h1>
+                        <div style="width:100%; padding-right:20px">
+                                    <form action="<?= base_url('master/index')?>" method="post">
+                                    <div style="display:flex; flex:wrap">
+                                        <div style="width:100%">
+                                            <?php if(isset($keyword)){?>
+                                                <input type="text" name="keyword" value="<?= $keyword?>" placeholder="Cari Barang Keluar..." class="form-control">
+                                            <?php }else{ ?>
+                                                <input type="text" name="keyword" placeholder="Cari Barang Keluar..." class="form-control">
+                                                <?php } ?>
+                                        </div>
+                                        <div style="width:auto">
+                                            <button type="submit" name="submit" class="btn btn-primary">Cari</button>
+                                        </div>
+                                    </form>
+                                    <?php if($keyword != null){?>
+                                    <form action="<?=base_url('master/index')?>" method="post">
+                                    <input type="hidden" name="keyword" value="">
+                                        <div style="width:auto">
+                                        <button class="btn btn-light" type="submit">Reset</button>
+                                        </div>
+                                    </form>
+                                    <?php } ?>
+                                </div>
+                                </div>
                     </div>
                 </div>
                 <div style="background-color:#fff">
                     <div class="sparkline8-graph shadow">
                         <div class="datatable-dashv1-list custom-datatable-overright" style="margin-left:10px;margin-right:10px;padding-bottom:10px">
-                            <div class="col-md">
-                                <div class="col-md-2">
-                                    <form action="<?= base_url('master') ?>" id="go" method="post">
-                                        <select class="form-control btn btn-sm btn-white" name="range" onchange="go()">
-                                            <option disabled selected value>Row</option>
-                                            <option value="15">15</option>
-                                            <option value="30">30</option>
-                                            <option value="50">50</option>
-                                            <option value="all">Show All</option>
-                                        </select>
-                                    </form>
-                                </div>
                                 <div id="toolbar">
                                     <button class="btn btn-sm btn-primary login-submit-cs" data-toggle="modal" data-target="#exampleModal">Input Master</button></a>
                                     <a href="<?= base_url("golongan") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master
@@ -34,7 +46,6 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                     <!-- <a target="_blank" href="printmaster.php"><button class="btn btn-sm btn-success login-submit-cs" type="submit">Print Master</button></a> -->
                                     <a href="index.php"><button class="btn btn-white" type="button">Kembali</button></a>
                                 </div>
-                            </div>
                             <table id="table" data-toggle="table" data-pagination="false" data-search="true" data-show-columns="true" data-show-pagination-switch="false" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                 <thead>
                                     <tr>
@@ -79,10 +90,20 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                     } ?>
                                 </tbody>
                             </table>
-                            <?=
-                            $this->pagination->create_links();
-                            ?>
-
+                            <div style="width:100%;margin-top:20px; display:flex; flex:wrap" class="justify-content-between">
+                                <form action="<?= base_url('master') ?>" id="go" method="post">
+                                <div style="width:100px">
+                                    <select class="form-control" name="range" onchange="go()">
+                                        <option disabled selected value>Row</option>
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="all">Show All</option>
+                                    </select>
+                                    </div>
+                                </form>
+                                <?=$this->pagination->create_links();?>
+                            </div>
                         </div>
                     </div>
                 </div>

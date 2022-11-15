@@ -1,7 +1,7 @@
 <?php
 $config['num_links'] = 3;
 
-$config['full_tag_open'] = '<nav><ul class="pagination">';
+$config['full_tag_open'] = '<nav><ul style="display:flex;justify-content:flex-end; margin:0 0;padding:0 0; margin-bottom:20px" class="pagination">';
 $config['full_tag_close'] = '</ul></nav>';
 
 $config['first_link'] = 'First';
