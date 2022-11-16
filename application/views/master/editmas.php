@@ -155,6 +155,16 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                 <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">ExpDate</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="expdate" type="text" class="form-control" id="expdate" value="<?php echo $m->expdate; ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                                 <div class="form-group-inner" style="margin-top:10px;">
                                                     <div class="login-btn-inner">

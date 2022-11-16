@@ -6,7 +6,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
         <div class="container" style="position:relative;top:-250px;z-index: 1">
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
-                    <div class="main-sparkline8-hd justify-content-between" style="display:flex; flex:wrap;padding-top:20px;padding-bottom:20px;padding-left:20px;">
+                <div class="main-sparkline8-hd justify-content-between" style="display:flex; flex:wrap;padding-top:20px;padding-bottom:20px;padding-left:20px;">
                         <h1>Barang Jadi Keluar<h1>
                         <div style="width:100%; padding-right:20px">
                                     <form action="<?= base_url('keluar/index')?>" method="post">
@@ -39,7 +39,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
                         <div class="datatable-dashv1-list custom-datatable-overright">
                             <div id="toolbar">
                                 <a href="<?= base_url("keluar/input_keluar") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Input Bahan
-                                            Keluar</button></a>
+                                        Keluar</button></a>
                                 <a href="<?= base_url("home")?>"><button class="btn btn-white" type="button">Kembali</button></a>
                             </div>
                             <table id="table" data-toggle="table" data-pagination="false" data-search="false" data-show-columns="true" data-show-pagination-switch="false" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">

@@ -37,15 +37,15 @@ ini_set('date.timezone', 'Asia/Jakarta');
                 <div style="background-color:#fff">
                     <div class="sparkline8-graph shadow">
                         <div class="datatable-dashv1-list custom-datatable-overright" style="margin-left:10px;margin-right:10px;padding-bottom:10px">
-                                <div id="toolbar">
-                                    <button class="btn btn-sm btn-primary login-submit-cs" data-toggle="modal" data-target="#exampleModal">Input Master</button></a>
-                                    <a href="<?= base_url("golongan") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master
-                                            Golongan</button></a>
-                                    <a href="<?= base_url("jenis") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master
-                                            Jenis</button></a>
-                                    <!-- <a target="_blank" href="printmaster.php"><button class="btn btn-sm btn-success login-submit-cs" type="submit">Print Master</button></a> -->
-                                    <a href="<?= base_url("home")?>"><button class="btn btn-white" type="button">Kembali</button></a>
-                                </div>
+                            <div id="toolbar">
+                                <button class="btn btn-sm btn-primary login-submit-cs" data-toggle="modal" data-target="#exampleModal">Input Master</button></a>
+                                <a href="<?= base_url("golongan") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master
+                                        Golongan</button></a>
+                                <a href="<?= base_url("jenis") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master
+                                        Jenis</button></a>
+                                <!-- <a target="_blank" href="printmaster.php"><button class="btn btn-sm btn-success login-submit-cs" type="submit">Print Master</button></a> -->
+                                <a href="<?= base_url("home")?>"><button class="btn btn-white" type="button">Kembali</button></a>
+                            </div>
                             <table id="table" data-toggle="table" data-pagination="false" data-search="false" data-show-columns="true" data-show-pagination-switch="false" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                 <thead>
                                     <tr>
@@ -60,6 +60,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                         <th data-field="sat3">Sat 3</th>
                                         <th data-field="kdgol">Golongan</th>
                                         <th data-field="jenis">Jenis</th>
+                                        <th data-field="exp">ExpDate</th>
                                         <th data-field="aksi">Aksi</th>
 
                                     </tr>
@@ -80,6 +81,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                             <td><?php echo $m->sat3 ?></td>
                                             <td><?php echo $m->namagol ?></td>
                                             <td><?php echo $m->namajenis ?></td>
+                                            <td><?php echo $m->expdate ?></td>
                                             <td>
                                                 <a class="btn btn-sm btn-primary" href="<?= base_url("master/editmas/$m->id/") ?>"><i class="fa fa-edit"></i>
                                                     Edit</a>

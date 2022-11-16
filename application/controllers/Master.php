@@ -88,7 +88,20 @@ class Master extends CI_Controller
             $this->master_model->tambah($data1, 'saldo');
             $this->session->set_flashdata("berhasil", "Input Master Success");
             redirect('master');
-        } else {
+        }
+        // $query1 = $this->insert->tambah($data, 'master');
+        // if ($query1) {
+        //     $query2 = $this->insert->tambah($data1, 'saldo');
+        //     if ($query2) {
+        //         $this->session->set_flashdata("berhasil", "Input Master Success");
+        //         redirect('master');
+        //     } else {
+        //         $where = array('kode' => $kode);
+        //         $this->delete->hapus($where, 'master');
+        //         $this->session->set_flashdata("gagal", "Input Master Error");
+        //         redirect('master');
+        //     }
+        else {
             $this->session->set_flashdata("gagal", "Input Master Error");
             redirect('master');
         }
@@ -118,6 +131,7 @@ class Master extends CI_Controller
         $sat3     = $this->input->post('sat3');
         $kdgol     = $this->input->post('kdgol');
         $kdjenis     = $this->input->post('kdjenis');
+        $expdate     = $this->input->post('expdate');
 
         $data = array(
             'nama' => $nama,
@@ -128,7 +142,8 @@ class Master extends CI_Controller
             'max2' => $max2,
             'sat3' => $sat3,
             'kdgol' => $kdgol,
-            'kdjenis' => $kdjenis
+            'kdjenis' => $kdjenis,
+            'expdate' => $expdate
         );
         $where = array(
             'id' => $id

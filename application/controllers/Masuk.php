@@ -143,12 +143,15 @@ class Masuk extends CI_Controller
         $this->load->view('_partials/footer');
     }
 
+    //updateMasuk
     public function update_masuk()
     {
         $no         = $this->input->post('no');
         $date       = $this->input->post('tgl');
         $kode       = $this->input->post('kode');
         $noform     = $this->input->post('noform');
+        $nobatch     = $this->input->post('nobatch');
+        $nopallet     = $this->input->post('nopallet');
         $sat1       = $this->input->post('sats1');
         $sat2       = $this->input->post('sats2');
         $sat3       = $this->input->post('sats3');
@@ -189,6 +192,8 @@ class Masuk extends CI_Controller
             //update riwayat
             $data1 = array(
                 'noform' => $noform,
+                'nobatch' => $nobatch,
+                'nopallet' => $nopallet,
                 'kode' => $kode,
                 'masuk' => $jumlah,
                 'tglform' => $tglform,
@@ -276,7 +281,6 @@ class Masuk extends CI_Controller
 
         if ($sql->num_rows() > 0) {
             echo " &#10060; No Form Duplicate!!! Cek tabel di bawah.";
-            $noform;
         }
     }
 }
