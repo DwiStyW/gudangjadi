@@ -46,13 +46,10 @@ class Masuk_model extends CI_Model
         return $this->db->get('master')->result();
     }
 
-    public function riwayat_all($noform=null)
+    public function riwayat_all()
     {
         $this->db->select('*');
         $this->db->from('riwayat');
-        if($noform){
-            $this->db->where('noform',$noform);
-        }
         $this->db->join('master', 'master.kode=riwayat.kode');
         $this->db->order_by('riwayat.no', 'DESC')->limit(20);
         return $this->db->get()->result();

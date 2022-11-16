@@ -45,8 +45,7 @@ class Masuk extends CI_Controller
     // load view input barang masuk
     public function input_masuk()
     {
-        $noform=$this->input->post('p');
-        $data['masuk'] = $this->masuk_model->riwayat_all($noform);
+        $data['masuk'] = $this->masuk_model->riwayat_all();
         $data['master'] = $this->masuk_model->tampil_master();
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
