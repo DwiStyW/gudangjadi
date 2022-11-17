@@ -8,7 +8,7 @@ class Jenis extends CI_Controller
             $this->session->set_flashdata('pesan', '<div class="fade show" style="color:red" role="alert">
   Anda Belum Login!
 </div><br>');
-            redirect('auth/login');
+            redirect('auth/logout');
         }
     }
     public function index()

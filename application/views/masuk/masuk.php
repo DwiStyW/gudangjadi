@@ -52,7 +52,6 @@
                                         <th data-field="kode">Kode Barang</th>
                                         <th data-field="nama">Nama Barang</th>
                                         <th data-field="batch">NoBatch</th>
-                                        <th data-field="pallet">NoPallet</th>
                                         <th data-field="satuan1">Satuan 1</th>
                                         <th data-field="satuan2">Satuan 2</th>
                                         <th data-field="satuan3">Satuan 3</th>
@@ -73,7 +72,6 @@
                                         <td><?php echo $m->kode; ?></td>
                                         <td><?php echo $m->nama; ?></td>
                                         <td><?php echo $m->nobatch; ?></td>
-                                        <td><?php echo $m->nopallet; ?></td>
                                         <?php
                                                 //Perhitungan 3 Satuan
 

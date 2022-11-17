@@ -11,7 +11,7 @@ class Riwayat extends CI_Controller
     <span aria-hidden="true">&times;</span>
   </button>
 </div>');
-            redirect('auth/login');
+            redirect('auth/logout');
         }
     }
     public function index()

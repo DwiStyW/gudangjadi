@@ -80,17 +80,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">No Pallet</label>
-                                                    </div>
-                                                    <div class="col-lg-9">
-                                                        <input name="nopallet" type="text" class="form-control"
-                                                            id="nopallet" value="<?php echo $r->nopallet; ?>" />
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <?php
                                                     // Perhitungan 3 Satuan
                                                     $sats1  = floor($r->masuk / ($max1 * $max2));

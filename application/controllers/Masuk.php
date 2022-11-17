@@ -8,7 +8,7 @@ class Masuk extends CI_Controller
             $this->session->set_flashdata('pesan', '<div class="fade show" style="color:red" role="alert">
   Anda Belum Login!
 </div><br>');
-            redirect('auth/login');
+            redirect('auth/logout');
         }
     }
     public function index()
@@ -150,7 +150,6 @@ class Masuk extends CI_Controller
         $kode       = $this->input->post('kode');
         $noform     = $this->input->post('noform');
         $nobatch     = $this->input->post('nobatch');
-        $nopallet     = $this->input->post('nopallet');
         $sat1       = $this->input->post('sats1');
         $sat2       = $this->input->post('sats2');
         $sat3       = $this->input->post('sats3');
@@ -192,7 +191,6 @@ class Masuk extends CI_Controller
             $data1 = array(
                 'noform' => $noform,
                 'nobatch' => $nobatch,
-                'nopallet' => $nopallet,
                 'kode' => $kode,
                 'masuk' => $jumlah,
                 'tglform' => $tglform,
