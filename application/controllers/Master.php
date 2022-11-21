@@ -47,6 +47,15 @@ class Master extends CI_Controller
         $this->load->view("_partials/footer");
     }
 
+    public function input_master(){
+        $data['golongan'] = $this->golongan_model->tampil_golongan();
+        $data['jenis'] = $this->master_model->tampil_jenis();
+        $this->load->view('_partials/header');
+        $this->load->view('_partials/menu');
+        $this->load->view('master/inputmaster',$data);
+        $this->load->view('_partials/footer');
+    }
+
     public function tambah_master()
     {
         $id     = $this->input->post('id');
@@ -60,6 +69,7 @@ class Master extends CI_Controller
         $sat3     = $this->input->post('sat3');
         $kdgol     = $this->input->post('kdgol');
         $kdjenis     = $this->input->post('kdjenis');
+        $expdate     = $this->input->post('expdate');
 
         $data = array(
             'id' => $id,
@@ -72,38 +82,42 @@ class Master extends CI_Controller
             'max2' => $max2,
             'sat3' => $sat3,
             'kdgol' => $kdgol,
-            'kdjenis' => $kdjenis
-        );
-
-        $data1 = array(
-            'no' => '',
-            'kode' => $kode,
+            'kdjenis' => $kdjenis,
             'saldo' => 0,
-            'tglform' => date("Y-m-d"),
-            'tanggal' => date("Y-m-d H:i:s")
+            'tgl_dibuat'=>date("Y-m-d"),
+            'tglform'=>'',
+            'tgl_update'=>date('Y-m-d'),
+            'saldo_track'=>0,
+            'expdate' => $expdate
         );
 
-        if (isset($data) && isset($data1)) {
-            $this->master_model->tambah($data, 'master');
-            $this->master_model->tambah($data1, 'saldo');
-            $this->session->set_flashdata("berhasil", "Input Master Success");
-            redirect('master');
-        }
-        // $query1 = $this->insert->tambah($data, 'master');
-        // if ($query1) {
-        //     $query2 = $this->insert->tambah($data1, 'saldo');
-        //     if ($query2) {
-        //         $this->session->set_flashdata("berhasil", "Input Master Success");
-        //         redirect('master');
-        //     } else {
-        //         $where = array('kode' => $kode);
-        //         $this->delete->hapus($where, 'master');
-        //         $this->session->set_flashdata("gagal", "Input Master Error");
-        //         redirect('master');
-        //     }
-        else {
-            $this->session->set_flashdata("gagal", "Input Master Error");
-            redirect('master');
+        // $data1=array(
+        //     'no'=>'',
+        //     'kode' => $kode,
+        //     'saldo' => 0,
+        //     'tglform'=>'',
+        //     'tanggal'=> date("Y-m-d H:i:s")
+        // );
+
+        $q = $this->db->query("SELECT * FROM master where kode = '$kode'");
+        $kodem = $q->num_rows();
+        if($kodem>0){
+            $this->session->set_flashdata("peringatan", "Kode Barang $kode sudah ada sebelumnya");
+            redirect('master/input_master');
+        }else{
+            $this->db->trans_start();
+            $this->master_model->tambah($data,'master');
+            // $this->master_model->tambah($data1, 'saldo');
+            $this->db->trans_complete();
+
+            if ($this->db->trans_status() === FALSE)
+            {
+                // generate an error... or use the log_message() function to log your error
+                $this->session->set_flashdata("gagal", "Input Master Error");
+            }else{
+                $this->session->set_flashdata("berhasil", "Input Master Success");
+            }
+                redirect('master');
         }
     }
 
@@ -121,17 +135,18 @@ class Master extends CI_Controller
 
     public function update_master()
     {
-        $id     = $this->input->post('id');
+        $id       = $this->input->post('id');
         $nama     = $this->input->post('nama');
-        $ukuran     = $this->input->post('ukuran');
+        $ukuran   = $this->input->post('ukuran');
         $sat1     = $this->input->post('sat1');
         $max1     = $this->input->post('max1');
         $sat2     = $this->input->post('sat2');
         $max2     = $this->input->post('max2');
         $sat3     = $this->input->post('sat3');
-        $kdgol     = $this->input->post('kdgol');
-        $kdjenis     = $this->input->post('kdjenis');
-        $expdate     = $this->input->post('expdate');
+        $kdgol    = $this->input->post('kdgol');
+        $kdjenis  = $this->input->post('kdjenis');
+        $expdate  = $this->input->post('expdate');
+        
 
         $data = array(
             'nama' => $nama,
@@ -149,26 +164,35 @@ class Master extends CI_Controller
             'id' => $id
         );
 
-        $this->master_model->update($where, $data, 'master');
-        redirect('master');
+        $this->db->trans_start();
+            $this->master_model->update($where,$data,'master');
+            $this->db->trans_complete();
+
+            if ($this->db->trans_status() === FALSE)
+            {
+                // generate an error... or use the log_message() function to log your error
+                $this->session->set_flashdata("gagal", "Input Master Error");
+            }else{
+                $this->session->set_flashdata("berhasil", "Input Master Success");
+            }
+                redirect('master');
     }
 
     public function hapus_master($id)
     {
         $where = array('id' => $id);
-        $saldo = $this->db->query("SELECT kode from master where id = '$id'");
-        foreach ($saldo->result() as $data) {
-            $kode = $data->kode;
-        }
-        $where1 = array('kode' => $kode);
-        if (isset($where) && isset($where1)) {
-            $this->master_model->hapus($where1, 'saldo');
-            $this->master_model->hapus($where, 'master');
-            $this->session->set_flashdata("berhasil", "Hapus Master Success");
-            redirect('master');
-        } else {
-            $this->session->set_flashdata("gagal", "Hapus Master Error");
-            redirect('master');
-        }
+        $this->db->trans_start();
+            $this->master_model->hapus($where,'master');
+            // $this->master_model->tambah($data1, 'saldo');
+            $this->db->trans_complete();
+
+            if ($this->db->trans_status() === FALSE)
+            {
+                // generate an error... or use the log_message() function to log your error
+                $this->session->set_flashdata("gagal", "Input Master Error");
+            }else{
+                $this->session->set_flashdata("berhasil", "Input Master Success");
+            }
+                redirect('master');
     }
 }

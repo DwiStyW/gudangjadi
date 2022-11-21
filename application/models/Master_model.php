@@ -53,7 +53,7 @@ class Master_model extends CI_Model
     }
 
     //insert Master & Saldo
-    public function tambah($data, $table)
+    public function tambah($data,$table)
     {
         $this->db->insert($table, $data);
     }

@@ -38,7 +38,8 @@ ini_set('date.timezone', 'Asia/Jakarta');
                     <div class="sparkline8-graph shadow">
                         <div class="datatable-dashv1-list custom-datatable-overright" style="margin-left:10px;margin-right:10px;padding-bottom:10px">
                             <div id="toolbar">
-                                <button class="btn btn-sm btn-primary login-submit-cs" data-toggle="modal" data-target="#exampleModal">Input Master</button></a>
+                            <a href="<?= base_url("master/input_master") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Input
+                                        Master</button></a>
                                 <a href="<?= base_url("golongan") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master
                                         Golongan</button></a>
                                 <a href="<?= base_url("jenis") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master
@@ -190,89 +191,6 @@ ini_set('date.timezone', 'Asia/Jakarta');
         </div>
     </div>
 </div>
-
-<!-- Modal Tambah Master -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 200000;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <label class="modal-title" id="exampleModalLabel">Form Input Master</label>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="<?= base_url('') . 'master/tambah_master' ?>" method="post">
-
-                    <input type="hidden" name="id" class="form-control">
-                    <div class="form group">
-                        <label>kode Barang</label>
-                        <input type="text" name="kode" class="form-control" required>
-                    </div>
-
-                    <div class="form group">
-                        <label>Nama barang</label>
-                        <input type="text" name="nama" class="form-control" required>
-                    </div>
-
-                    <div class="form group">
-                        <label>Ukuran</label>
-                        <input type="text" name="ukuran" class="form-control" required>
-                    </div>
-
-                    <div class="form group">
-                        <label>Satuan 1</label>
-                        <input type="text" name="sat1" class="form-control" required>
-                    </div>
-
-                    <div class="form group">
-                        <label>Isi Satuan 1</label>
-                        <input type="text" name="max1" class="form-control" required>
-                    </div>
-
-                    <div class="form group">
-                        <label>Satuan 2</label>
-                        <input type="text" name="sat2" class="form-control" required>
-                    </div>
-
-                    <div class="form group">
-                        <label>Isi Satuan 2</label>
-                        <input type="text" name="max2" class="form-control" required>
-                    </div>
-
-                    <div class="form group">
-                        <label>Satuan 3</label>
-                        <input type="text" name="sat3" class="form-control" required>
-                    </div>
-
-                    <div class="form group">
-                        <label>Golongan</label>
-                        <select type="select" name="kdgol" class="form-control" required>
-                            <option disabled selected value hidden>Pilih Golongan</option>
-                            <?php foreach ($golongan as $g) { ?>
-                                <option value="<?= $g->id ?>"><?= $g->namagol ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-
-                    <div class="form group">
-                        <label>Jenis</label>
-                        <select type="select" name="kdjenis" class="form-control" required>
-                            <option disabled selected value hidden>Pilih Jenis</option>
-                            <?php foreach ($jenis as $j) { ?>
-                                <option value="<?= $j->id ?>"><?= $j->namajenis ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- END Modal -->
 <script>
     function go() {
         document.getElementById('go').submit();

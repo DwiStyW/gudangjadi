@@ -36,7 +36,7 @@ class Masuk_model extends CI_Model
             $this->db->or_like('tanggal',$keyword);
             $this->db->or_like('tb_user.username',$keyword);
             $this->db->group_end();
-            }
+        }
             return $this->db->count_all_results();
     }
 

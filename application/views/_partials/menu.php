@@ -172,13 +172,12 @@
             <div class="position-relative contentt layarlebar">
                 <ul class="nav nav-tabs d-flex justify-content-between custom-menu-wrap">
                 <li><a href="<?= base_url("home") ?>" class="btn btn-lg tekan text-white">Home</a></li>
+                <li><a href="<?= base_url("master") ?>" class="btn btn-lg tekan text-white">Master Barang</a></li>
                     <?php if($this->session->userdata('role')=="track"){?>
-                    <li><a href="<?= base_url("master_track") ?>" class="btn btn-lg tekan text-white">Master Barang</a></li>
-                    <li><a href="<?= base_url("masuk_track") ?>" class="btn btn-lg tekan text-white">Barang Masuk</a></li>
+                    <li><a href="<?= base_url("track/masuk_track") ?>" class="btn btn-lg tekan text-white">Barang Masuk</a></li>
                     
-                    <li><a href="<?= base_url("keluar_track") ?>" class="btn btn-lg tekan text-white">Barang Keluar</a></li>
+                    <li><a href="<?= base_url("track/keluar_track") ?>" class="btn btn-lg tekan text-white">Barang Keluar</a></li>
                         <?php } else{?>
-                    <li><a href="<?= base_url("master") ?>" class="btn btn-lg tekan text-white">Master Barang</a></li>
                     <li><a href="<?= base_url("masuk") ?>" class="btn btn-lg tekan text-white">Barang Masuk</a>
                     </li>
                     <li><a href="<?= base_url("keluar") ?>" class="btn btn-lg tekan text-white">Barang Keluar</a>

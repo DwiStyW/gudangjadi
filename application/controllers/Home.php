@@ -20,13 +20,13 @@ class Home extends CI_Controller
         $keyword=$this->input->post('keyword');
         if(isset($keyword)){
             $data['keyword']=$this->input->post('keyword');
-            $this->session->set_userdata('keyword',$data['keyword']);
+            $this->session->set_userdata('keyword_home',$data['keyword']);
         }else{
-            $data['keyword']=$this->session->userdata('keyword');
+            $data['keyword']=$this->session->userdata('keyword_home');
         }
 
         //set config
-        $config['base_url'] = 'http://localhost/gudangjadi/master/index';
+        $config['base_url'] = 'http://localhost/gudangjadi/home/index';
         $config['total_rows'] = $this->home_model->total_saldo($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
