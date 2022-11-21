@@ -6,14 +6,15 @@ class Report_model extends CI_Model
         $this->db->select("*");
         $this->db->from("riwayat, master");
         if ($kode != "" || $kode != 0) {
-            $this->db->where("riwayat.kode='$kode' AND master.kode=riwayat.kode AND tglform between '$where' AND '$where1'");
+            $this->db->where("riwayat.kode='$kode' AND master.kode=riwayat.kode AND riwayat.tglform between '$where' AND '$where1'");
         } else {
-            $this->db->where("master.kode=riwayat.kode AND tglform between '$where' AND '$where1'");
+            $this->db->where("master.kode=riwayat.kode AND riwayat.tglform between '$where' AND '$where1'");
         }
         $this->db->order_by("riwayat.tglform", "ASC");
         $this->db->order_by("riwayat.masuk", "DESC");
         return $this->db->get();
     }
+
     public function filgol($kode, $where, $where1)
     {
         $this->db->select("*");

@@ -88,7 +88,7 @@ class Keluar extends CI_Controller
             $data2 = array(
                 'saldo' => $hasil,
                 'tglform' => $tglform,
-                'tanggal' => $tgl
+                'tgl_update' => $tgl
             );
             $where = array(
                 'kode' => $koder
@@ -109,27 +109,38 @@ class Keluar extends CI_Controller
             );
 
             //insert keluar
-            $data4 = array(
-                'no' => '',
-                'tglform' => $tglform,
-                'noform' => $noform,
-                'kode' => $koder,
-                'jumlah' => $jumlah,
-                'tanggal' => $tgl,
-                'saldo' => $hasil,
-                'adm' => $adm
-            );
+            // $data4 = array(
+            //     'no' => '',
+            //     'tglform' => $tglform,
+            //     'noform' => $noform,
+            //     'kode' => $koder,
+            //     'jumlah' => $jumlah,
+            //     'tanggal' => $tgl,
+            //     'saldo' => $hasil,
+            //     'adm' => $adm
+            // );
 
-            if ((isset($data4) && isset($where) && isset($data2) && isset($data3)) && $jumlah > 0) {
-                $this->keluar_model->tambah($data3, 'riwayat');
-                $this->keluar_model->update($where, $data2, 'saldo');
-                $this->keluar_model->tambah($data4, 'keluar');
-                $this->session->set_flashdata('sukses', 'Input Barang Keluar Success!');
-                redirect('keluar/input_keluar');
-            } else {
+            $this->db->trans_start();
+            $this->keluar_model->tambah($data3, 'riwayat');
+            $this->keluar_model->update($where, $data2, 'master');
+            $this->db->trans_complete();
+
+            if($this->db->trans_status()===FALSE){
                 $this->session->set_flashdata('gagal', 'Input Barang Keluar Error!');
-                redirect('keluar/input_keluar');
+            }else{
+                $this->session->set_flashdata('sukses', 'Input Barang Keluar Success!');
             }
+            // if ((isset($data4) && isset($where) && isset($data2) && isset($data3)) && $jumlah > 0) {
+            //     $this->keluar_model->tambah($data3, 'riwayat');
+            //     $this->keluar_model->update($where, $data2, 'saldo');
+            //     $this->keluar_model->tambah($data4, 'keluar');
+            //     $this->session->set_flashdata('sukses', 'Input Barang Keluar Success!');
+            //     redirect('keluar/input_keluar');
+            // } else {
+            //     $this->session->set_flashdata('gagal', 'Input Barang Keluar Error!');
+            //     redirect('keluar/input_keluar');
+            // }
+            redirect('keluar/input_keluar');
         }
     }
 
@@ -219,6 +230,8 @@ class Keluar extends CI_Controller
             $where3 = array(
                 'no' => $no
             );
+
+            
 
             if (isset($data3) && isset($data4) && isset($data5) && isset($where1) && isset($where2) && isset($where3)) {
                 $this->keluar_model->update($where1, $data3, 'saldo');
