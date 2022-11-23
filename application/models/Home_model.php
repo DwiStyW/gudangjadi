@@ -27,15 +27,15 @@ class Home_model extends CI_Model
     public function total_saldo($keyword=null)
     {
         $this->db->select('*');
-        $this->db->from('saldo');
-        $this->db->join('master','master.kode = saldo.kode')->join ('golongan','master.kdgol = golongan.id')->join('jenis','master.kdjenis = jenis.id');
+        $this->db->from('master');
+        $this->db->join ('golongan','master.kdgol = golongan.id')->join('jenis','master.kdjenis = jenis.id');
         if($keyword){
             $this->db->like('namagol',$keyword);
             $this->db->or_like('namajenis',$keyword);
             $this->db->or_like('master.kode',$keyword);
             $this->db->or_like('master.nama',$keyword);
-            $this->db->or_like('saldo.tglform',$keyword);
-            $this->db->or_like('saldo.tanggal',$keyword);
+            $this->db->or_like('master.tglform',$keyword);
+            $this->db->or_like('master.tanggal',$keyword);
         }
         return $this->db->count_all_results();
     }

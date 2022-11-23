@@ -30,7 +30,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group-inner">
+                                            <!-- <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">No Form</label>
@@ -40,14 +40,24 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-left pull-right-pro" id="pesan"></label>
                                                     </div>
                                                 </div>
+                                            </div> -->
+                                            <div class="form-group-inner">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <label class="login2 pull-right pull-right-pro">No Batch</label>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <input name="nobatch" type="text" class="form-control" placeholder="Nomor Batch" required />
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">Batch Number</label>
+                                                        <label class="login2 pull-right pull-right-pro">No Pallet</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="nobatch" type="text" class="form-control" placeholder="Nomor Batch" required />
+                                                        <input name="nopallet" type="text" class="form-control" placeholder="Nomor Pallet" required />
                                                     </div>
                                                 </div>
                                             </div>

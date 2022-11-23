@@ -1,6 +1,6 @@
 <?php
 //auto logout 10 menit
-$timeout = 10; // Set timeout menit
+$timeout = 10000; // Set timeout menit
 $logout_redirect_url = base_url("auth/logout"); // Set logout URL
 
 

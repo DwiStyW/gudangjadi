@@ -13,7 +13,7 @@ class Masuk_model extends CI_Model
                 $this->db->like('noform',$keyword);
                 $this->db->or_like('riwayat.kode',$keyword);
                 $this->db->or_like('master.nama',$keyword);
-                $this->db->or_like('tglform',$keyword);
+                $this->db->or_like('riwayat.tglform',$keyword);
                 $this->db->or_like('tanggal',$keyword);
                 $this->db->or_like('tb_user.username',$keyword);
                 $this->db->group_end();
@@ -32,7 +32,7 @@ class Masuk_model extends CI_Model
             $this->db->like('noform',$keyword);
             $this->db->or_like('riwayat.kode',$keyword);
             $this->db->or_like('master.nama',$keyword);
-            $this->db->or_like('tglform',$keyword);
+            $this->db->or_like('riwayat.tglform',$keyword);
             $this->db->or_like('tanggal',$keyword);
             $this->db->or_like('tb_user.username',$keyword);
             $this->db->group_end();

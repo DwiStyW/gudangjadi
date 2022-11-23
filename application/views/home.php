@@ -73,10 +73,17 @@
                                         <td><?php echo $s->nama ?></td>
                                         <?php
                                             //Perhitungan 3 Satuan
-                                            $sats1  = floor($s->saldo / ($s->max1 * $s->max2));
-                                            $sisa   = $s->saldo - ($sats1 * $s->max1 * $s->max2);
-                                            $sats2  = floor($sisa / $s->max2);
-                                            $sats3  = $sisa - $sats2 * $s->max2;
+                                            if($this->session->userdata("role") != "track"){
+                                                $sats1  = floor($s->saldo / ($s->max1 * $s->max2));
+                                                $sisa   = $s->saldo - ($sats1 * $s->max1 * $s->max2);
+                                                $sats2  = floor($sisa / $s->max2);
+                                                $sats3  = $sisa - $sats2 * $s->max2;
+                                            }else{
+                                                $sats1  = floor($s->saldo_track / ($s->max1 * $s->max2));
+                                                $sisa   = $s->saldo_track - ($sats1 * $s->max1 * $s->max2);
+                                                $sats2  = floor($sisa / $s->max2);
+                                                $sats3  = $sisa - $sats2 * $s->max2;
+                                            }
                                             ?>
                                         <td><?php echo $sats1; ?> <?php echo $s->sat1; ?></td>
                                         <td><?php echo $sats2; ?> <?php echo $s->sat2; ?></td>

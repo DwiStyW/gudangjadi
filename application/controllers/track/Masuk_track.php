@@ -18,13 +18,13 @@ class Masuk_track extends CI_Controller
         $keyword=$this->input->post('keyword');
         if(isset($keyword)){
             $data['keyword']=$this->input->post('keyword');
-            $this->session->set_userdata('keyword_masuk',$data['keyword']);
+            $this->session->set_userdata('keyword_masuk_track',$data['keyword']);
         }else{
-            $data['keyword']=$this->session->userdata('keyword_masuk');
+            $data['keyword']=$this->session->userdata('keyword_masuk_track');
         }
         //untuk pagination
-        $config['base_url'] = 'http://localhost/gudangjadi/masuk/index';
-        $config['total_rows'] = $this->masuk_model->total_masuk_track($data['keyword']);
+        $config['base_url'] = 'http://localhost/gudangjadi/masuk_track/index';
+        $config['total_rows'] = $this->masuk_track_model->total_masuk_track($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
         if ($range == null) {
@@ -35,11 +35,19 @@ class Masuk_track extends CI_Controller
         $this->pagination->initialize($config);
 
         $data['start'] = $this->uri->segment(3);
-        $data['masuk'] = $this->masuk_model->tampil_masuk_track($config['per_page'], $data['start'], $data['keyword']);
+        $data['masuk'] = $this->masuk_track_model->tampil_masuk_track($config['per_page'], $data['start'], $data['keyword']);
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("track/masuk/masuk_track", $data);
         $this->load->view("_partials/footer");
 
+    }
+
+    public function input_masuk_track(){
+        $data['master']=$this->masuk_track_model->tampil_master();
+        $this->load->view("_partials/header");
+        $this->load->view("_partials/menu");
+        $this->load->view("track/masuk/input_masuk_track",$data);
+        $this->load->view("_partials/footer");
     }
 }
