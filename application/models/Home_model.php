@@ -35,7 +35,7 @@ class Home_model extends CI_Model
             $this->db->or_like('master.kode',$keyword);
             $this->db->or_like('master.nama',$keyword);
             $this->db->or_like('master.tglform',$keyword);
-            $this->db->or_like('master.tanggal',$keyword);
+            $this->db->or_like('master.tgl_update',$keyword);
         }
         return $this->db->count_all_results();
     }

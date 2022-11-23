@@ -122,19 +122,11 @@ class Masuk_track extends CI_Controller
        $query = $this->db->where('tgl',date("Y-m-d"))->get('utilisasi');
        $pallet = $this->db->get('pallet');
 
-       $palletstat = $this->db->where('kdpallet',$nopallet)->get('pallet');
-       foreach($palletstat->result() as $sp):
-        $stat = $sp->status;
-       endforeach;
-       if($stat == 'kosong'){
         $palletin = $query->num_rows()+1;
-       }else{
-        $palletin = $query->num_rows();
-       }
         $data3=array(
             'tgl'       => date('Y-m-d'),
             'palletin'   => $palletin,
-            'utilisasi' => $palletin/$pallet->num_rows()
+            'utilisasi' => $palletin/$pallet->num_rows()*100
         );
         $where2=array('tgl'=>date("Y-m-d"));
 
@@ -170,4 +162,5 @@ class Masuk_track extends CI_Controller
     }
         redirect('track/masuk_track/input_masuk_track');
     }
-}
+    public function hapus(){}
+    }

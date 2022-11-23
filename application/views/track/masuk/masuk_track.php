@@ -23,7 +23,7 @@
                                         </div>
                                     </form>
                                     <?php if($keyword != null){?>
-                                    <form action="<?=base_url('masuk/index')?>" method="post">
+                                    <form action="<?=base_url('track/masuk_track/index')?>" method="post">
                                     <input type="hidden" name="keyword" value="">
                                         <div style="width:auto">
                                         <button class="btn btn-light" type="submit">Reset</button>
@@ -38,7 +38,7 @@
                     <div class="sparkline8-graph">
                         <div class="datatable-dashv1-list custom-datatable-overright">
                             <div id="toolbarr">
-                                <a href="<?= base_url("track/masuk_track/input_masuk_track") ?>"><button
+                                <a href="<?= base_url("masuk/input_masuk") ?>"><button
                                         class="btn btn-sm btn-primary login-submit-cs" type="submit">Input Bahan
                                         Masuk</button></a>
                                 <a href="<?= base_url("home")?>"><button class="btn btn-white" type="button">Kembali</button></a>
@@ -48,18 +48,16 @@
                                     <tr>
                                         <th data-field="no">No</th>
                                         <th data-field="tglform">Tgl Form</th>
-                                        <th data-field="noform">No Form</th>
                                         <th data-field="kode">Kode Barang</th>
                                         <th data-field="nama">Nama Barang</th>
                                         <th data-field="batch">No Batch</th>
-                                        <th data-field="batch">No Palet</th>
-                                        <th data-field="batch">Status Palet</th>
+                                        <th data-field="nopallet">No Pallet</th>
+                                        <th data-field="statpallet">Status Pallet</th>
                                         <th data-field="satuan1">Satuan 1</th>
                                         <th data-field="satuan2">Satuan 2</th>
                                         <th data-field="satuan3">Satuan 3</th>
                                         <th data-field="tanggal">Tgl Input</th>
                                         <th data-field="oleh">Oleh</th>
-                                        <th data-field="suplai">Supplier</th>
                                         <th data-field="cat">Catatan</th>
                                         <th data-field="aksi">Aksi</th>
 
@@ -70,13 +68,11 @@
                                     <tr>
                                     <td><?php echo ++$start; ?></td>
                                         <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?></td>
-                                        <td><?php echo $m->noform; ?></td>
                                         <td><?php echo $m->kode; ?></td>
                                         <td><?php echo $m->nama; ?></td>
                                         <td><?php echo $m->nobatch; ?></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td><?php echo $m->nopallet?></td>
+                                        <td><?php echo $m->statpallet?></td>
                                         <?php
                                                 //Perhitungan 3 Satuan
 
@@ -92,7 +88,6 @@
                                         <td><?php echo $m->tanggal; ?></td>
                                         <td><a href="<?= base_url("penginput/user/" . $m->adm) ?>"><?php echo $m->username ?>
                                         </td>
-                                        <td><?php echo $m->suplai ?></td>
                                         <td><?php echo $m->cat ?></td>
                                         <td>
                                             <a class="btn btn-sm btn-primary"
