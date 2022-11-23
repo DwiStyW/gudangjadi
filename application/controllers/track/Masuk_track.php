@@ -118,10 +118,19 @@ class Masuk_track extends CI_Controller
        $query = $this->db->where('tanggal',date("Y-m-d"))->get('riwayattrack');
        $pallet = $this->db->get('pallet');
 
+       $palletstat = $this->db->where('kdpallet',$nopallet)->get('pallet');
+       foreach($palletstat->result() as $sp):
+        $stat = $sp->status;
+       endforeach;
+       if($stat == 'kosong'){
+        $palletin = $query->num_rows()+1;
+       }else{
+        $palletin = $query->num_rows();
+       }
         $data3=array(
             'tgl'       => date('Y-m-d'),
-            'palletin'   => $query->num_rows()+1,
-            'utilisasi' => $query->num_rows()/$pallet->num_rows()
+            'palletin'   => $palletin,
+            'utilisasi' => $palletin/$pallet->num_rows()
         );
         $where2=array('tgl'=>date("Y-m-d"));
 
