@@ -18,7 +18,7 @@ date_default_timezone_set('Asia/Jakarta');
                                 <div class="col-lg-12">
                                     <div class="all-form-element-inner">
 
-                                        <form enctype="multipart/form-data" action="<?= base_url("masuk/barang_masuk") ?>" method="post" class="form">
+                                        <form enctype="multipart/form-data" action="<?= base_url("track/masuk_track/tambah_masuk_track") ?>" method="post" class="form">
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -57,7 +57,13 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">No Pallet</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="nopallet" type="text" class="form-control" placeholder="Nomor Pallet" required />
+                                                        <select name="nopallet" type="select" class="form-control" required />
+                                                        <option type="search"></option>
+                                                        <?php 
+                                                        foreach($pallet as $p){ ?>
+                                                            <option value="<?= $p->kdpallet?>"><?php echo $p->kdpallet.' '. $p->status?></option>
+                                                        <?php } ?>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -193,7 +199,8 @@ date_default_timezone_set('Asia/Jakarta');
                                                                 <tr>
                                                                     <th data-field="no">No</th>
                                                                     <th data-field="tglform">Tgl Form</th>
-                                                                    <th data-field="noform">No Form</th>
+                                                                    <th data-field="noform">No batch</th>
+                                                                    <th data-field="noform">No pallet</th>
                                                                     <th data-field="kode">Kode Barang</th>
                                                                     <th data-field="nama">Nama Barang</th>
                                                                     <th data-field="satuan1">Satuan 1</th>
@@ -214,7 +221,8 @@ date_default_timezone_set('Asia/Jakarta');
                                                                     <td><?php echo $no++; ?></td>
                                                                     <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?>
                                                                     </td>
-                                                                    <td><?php echo $m->noform; ?></td>
+                                                                    <td><?php echo $m->nobatch; ?></td>
+                                                                    <td><?php echo $m->nopallet; ?></td>
                                                                     <td><?php echo $m->kode; ?></td>
                                                                     <td><?php echo $m->nama; ?></td>
                                                                     <?php
@@ -332,7 +340,7 @@ function filSatuan() {
 
 <script>
 $(document).ready(function() {
-    $("#kode").select2({
+    $("select").select2({
         placeholder: "Please Select",
     });
 });

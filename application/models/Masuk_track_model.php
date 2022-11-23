@@ -44,12 +44,17 @@ class Masuk_track_model extends CI_Model
         return $this->db->get('master')->result();
     }
 
+    public function tampil_palet()
+    {
+        return $this->db->get('pallet')->result();
+    }
+
     public function riwayat_all()
     {
         $this->db->select('*');
         $this->db->from('riwayattrack');
         $this->db->join('master', 'master.kode=riwayattrack.kode');
-        $this->db->order_by('riwayat.no', 'DESC')->limit(20);
+        $this->db->order_by('riwayattrack.no', 'DESC')->limit(20);
         return $this->db->get()->result();
     }
 
