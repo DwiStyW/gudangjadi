@@ -57,7 +57,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">No Pallet</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <select name="nopallet" type="select" class="form-control" required />
+                                                        <select id="nopallet" name="nopallet" type="select" class="form-control" required />
                                                         <option type="search"></option>
                                                         <?php 
                                                         foreach($pallet as $p){ ?>
@@ -340,7 +340,12 @@ function filSatuan() {
 
 <script>
 $(document).ready(function() {
-    $("select").select2({
+    $("#kode").select2({
+        placeholder: "Please Select",
+    });
+});
+$(document).ready(function() {
+    $("#nopallet").select2({
         placeholder: "Please Select",
     });
 });

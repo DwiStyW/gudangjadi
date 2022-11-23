@@ -79,6 +79,7 @@ class Masuk_track extends CI_Controller
         $max1  = $m->max1;
         $max2  = $m->max2;
         $saldo = $m->saldo_track;
+        $sal   = $m->saldo;
         endforeach;
         $sats1    = $sat1 * $max1 * $max2;
         $sats2    = $sat2 * $max2;
@@ -101,6 +102,7 @@ class Masuk_track extends CI_Controller
             'adm'       => $adm,
             'cat'       => $cat
         );
+
         //untuk master
         $data1=array(
             'tglform'     => $tglform,
@@ -108,14 +110,16 @@ class Masuk_track extends CI_Controller
             'saldo_track' => $saldo_track
         );
         $where=array('kode' => $kode);
+
         //untuk pallet
         $data2=array(
             'status' => 'isi',
             'qty'    => $qty+$jumlah
         );
         $where1=array('kdpallet' => $nopallet);
+
         //untuk utilisasi
-       $query = $this->db->where('tanggal',date("Y-m-d"))->get('riwayattrack');
+       $query = $this->db->where('tgl',date("Y-m-d"))->get('utilisasi');
        $pallet = $this->db->get('pallet');
 
        $palletstat = $this->db->where('kdpallet',$nopallet)->get('pallet');
@@ -134,10 +138,20 @@ class Masuk_track extends CI_Controller
         );
         $where2=array('tgl'=>date("Y-m-d"));
 
+        //untuk detailsal
+        $data4=array(
+            'tgl'       => date("Y-m-d"),
+            'nobatch'   => $nobatch,
+            'nopallet'  => $nopallet,
+            'qty'       => $jumlah
+        );
+
+        if($sal>=$jumlah){
         $this->db->trans_start();
         $this->masuk_track_model->tambah($data, 'riwayattrack');
         $this->masuk_track_model->update($where,$data1,'master');
         $this->masuk_track_model->update($where1,$data2,'pallet');
+        $this->masuk_track_model->tambah($data4, 'detailsal');
         if($query->num_rows()>0)
        {
             $this->masuk_track_model->update($where2,$data3,'utilisasi');
@@ -147,10 +161,13 @@ class Masuk_track extends CI_Controller
         $this->db->trans_complete();
 
         if($this->db->trans_status()===FALSE){
-            $this->session->set_flashdata('gagal','Input error');
+            $this->session->set_flashdata('gagal','Input error!');
         }else{
-            $this->session->set_flashdata('sukses','Input success');
+            $this->session->set_flashdata('sukses','Input success!');
         }
+    }else{
+        $this->session->set_flashdata('gagal','Saldo tidak mencukupi!');
+    }
         redirect('track/masuk_track/input_masuk_track');
     }
 }
