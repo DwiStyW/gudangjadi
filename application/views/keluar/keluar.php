@@ -48,6 +48,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                         <th data-field="no">No</th>
                                         <th data-field="tglform">Tgl Form</th>
                                         <th data-field="noform">No Form</th>
+                                        <th data-field="nobatch">No Batch</th>
                                         <th data-field="kode">Kode Barang</th>
                                         <th data-field="nama">Nama Barang</th>
                                         <th data-field="satuan1">Satuan 1</th>
@@ -67,6 +68,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                             <td><?php echo ++$start; ?></td>
                                             <td><?php echo date("d-m-Y", strtotime($k->tglform)); ?></td>
                                             <td><?php echo $k->noform ?></td>
+                                            <td><?php echo $k->nobatch ?></td>
                                             <td><?php echo $k->kode ?></td>
                                             <td><?php echo $k->nama ?></td>
                                             <?php

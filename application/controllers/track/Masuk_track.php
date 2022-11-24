@@ -81,7 +81,7 @@ class Masuk_track extends CI_Controller
         $saldo = $m->saldo_track;
         $sal   = $m->saldo;
         endforeach;
-        $sats1    = $sat1 * $max1;
+        $sats1    = $sat1 * $max1 * $max2;
         $sats2    = $sat2 * $max2;
         $jumlah = $sats1 + $sats2 + $sat3;
 
@@ -133,6 +133,7 @@ class Masuk_track extends CI_Controller
         //untuk detailsal
         $data4=array(
             'tgl'       => date("Y-m-d"),
+            'kode'      => $kode,
             'nobatch'   => $nobatch,
             'nopallet'  => $nopallet,
             'qty'       => $jumlah
