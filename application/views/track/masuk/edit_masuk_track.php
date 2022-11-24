@@ -114,7 +114,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                             placeholder="Satuan 1">
                                                     </div>
                                                     <div class="col-lg-2">
-                                                        <input readonly id=sat1 class="form-control" value="">
+                                                        <input readonly id=sat1 class="form-control" value="<?= $sat1 ?>">
                                                     </div>
                                                 </div>
                                             </div>
