@@ -9,12 +9,14 @@ class Masuk_track_model extends CI_Model
             ->order_by('riwayattrack.no', 'DESC');
             if($keyword){
                 $this->db->group_start();
-                $this->db->like('noform',$keyword);
+                $this->db->like('nobatch',$keyword);
+                $this->db->like('nopallet',$keyword);
                 $this->db->or_like('riwayattrack.kode',$keyword);
                 $this->db->or_like('master.nama',$keyword);
-                $this->db->or_like('tglform',$keyword);
+                $this->db->or_like('riwayattrack.tglform',$keyword);
                 $this->db->or_like('tanggal',$keyword);
                 $this->db->or_like('tb_user.username',$keyword);
+                $this->db->or_like('cat',$keyword);
                 $this->db->group_end();
                 }
         return $this->db->get('', $limit, $start)->result();
@@ -28,12 +30,14 @@ class Masuk_track_model extends CI_Model
         $this->db->where('keluar=0');
         if($keyword){
             $this->db->group_start();
-            $this->db->like('noform',$keyword);
+            $this->db->like('nobatch',$keyword);
+            $this->db->like('nopallet',$keyword);
             $this->db->or_like('riwayattrack.kode',$keyword);
             $this->db->or_like('master.nama',$keyword);
-            $this->db->or_like('tglform',$keyword);
+            $this->db->or_like('riwayattrack.tglform',$keyword);
             $this->db->or_like('tanggal',$keyword);
             $this->db->or_like('tb_user.username',$keyword);
+            $this->db->or_like('cat',$keyword);
             $this->db->group_end();
         }
             return $this->db->count_all_results();

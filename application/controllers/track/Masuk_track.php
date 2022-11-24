@@ -81,7 +81,7 @@ class Masuk_track extends CI_Controller
         $saldo = $m->saldo_track;
         $sal   = $m->saldo;
         endforeach;
-        $sats1    = $sat1 * $max1 * $max2;
+        $sats1    = $sat1 * $max1;
         $sats2    = $sat2 * $max2;
         $jumlah = $sats1 + $sats2 + $sat3;
 
@@ -138,7 +138,7 @@ class Masuk_track extends CI_Controller
             'qty'       => $jumlah
         );
 
-        if($sal>=$jumlah){
+        if($sal>=$jumlah && $jumlah>0){
         $this->db->trans_start();
         $this->masuk_track_model->tambah($data, 'riwayattrack');
         $this->masuk_track_model->update($where,$data1,'master');
@@ -162,5 +162,14 @@ class Masuk_track extends CI_Controller
     }
         redirect('track/masuk_track/input_masuk_track');
     }
-    public function hapus(){}
+    public function edit_masuk_track($no){
+        $where=array('no'=>$no);
+        $data['masuk'] = $this->masuk_track_model->get_where($where,'riwayattrack')->result();
+        $data['master']=$this->masuk_track_model->tampil_master();
+        $data['pallet']=$this->masuk_track_model->tampil_palet();
+        $this->load->view("_partials/header");
+        $this->load->view("_partials/menu");
+        $this->load->view("track/masuk/edit_masuk_track",$data);
+        $this->load->view("_partials/footer");
     }
+}

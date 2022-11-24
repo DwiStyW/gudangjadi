@@ -8,7 +8,7 @@ date_default_timezone_set('Asia/Jakarta');
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
                     <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
-                        <h1>Input Bahan Masuk<h1>
+                        <h1>Edit Bahan Masuk<h1>
                     </div>
                 </div>
                 <div style="background-color:#fff">
@@ -17,7 +17,7 @@ date_default_timezone_set('Asia/Jakarta');
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="all-form-element-inner">
-
+                                        <?php foreach($masuk as $m):?>
                                         <form enctype="multipart/form-data" action="<?= base_url("track/masuk_track/tambah_masuk_track") ?>" method="post" class="form">
                                             <div class="form-group-inner">
                                                 <div class="row">
@@ -26,7 +26,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                             Form</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="tglform" type="date" class="form-control" id="tglform" value="<?php echo date("Y-m-d"); ?>" required />
+                                                        <input name="tglform" type="date" class="form-control" id="tglform" value="<?php echo $m->tglform?>" required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -47,7 +47,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">No Batch</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="nobatch" type="text" class="form-control" placeholder="Nomor Batch" required />
+                                                        <input name="nobatch" type="text" class="form-control" value="<?= $m->nobatch ?>" placeholder="Nomor Batch" required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -60,9 +60,12 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <select id="nopallet" name="nopallet" type="select" class="form-control" required />
                                                         <option type="search"></option>
                                                         <?php 
-                                                        foreach($pallet as $p){ ?>
+                                                        foreach($pallet as $p){ 
+                                                            if($m->nopallet == $p->kdpallet){?>
+                                                            <option selected value="<?= $p->kdpallet?>"><?php echo $p->kdpallet.' '. $p->status?></option>
+                                                            <?php }else{ ?>
                                                             <option value="<?= $p->kdpallet?>"><?php echo $p->kdpallet.' '. $p->status?></option>
-                                                        <?php } ?>
+                                                        <?php }} ?>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -80,14 +83,22 @@ date_default_timezone_set('Asia/Jakarta');
                                                                 <option type="search"></option>
                                                                 <?php
                                                                 $no = 1;
-                                                                foreach ($master as $mter) { ?>
+                                                                foreach ($master as $mter) { 
+                                                                if($m->kode == $mter->kode){?>
+                                                                <option selected value="<?= $mter->kode ?>">
+                                                                    <?= $mter->nama ?> -|
+                                                                    <?= $mter->sat1 ?> |-| <?= $mter->sat2 ?> |-|
+                                                                    <?= $mter->sat3 ?> |-
+                                                                    <?= $mter->kode ?>
+                                                                </option>
+                                                                <?php }else{ ?>
                                                                 <option value="<?= $mter->kode ?>">
                                                                     <?= $mter->nama ?> -|
                                                                     <?= $mter->sat1 ?> |-| <?= $mter->sat2 ?> |-|
                                                                     <?= $mter->sat3 ?> |-
                                                                     <?= $mter->kode ?>
                                                                 </option>
-                                                                <?php } ?>
+                                                                <?php }} ?>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -183,6 +194,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                 </div>
                                             </div>
                                         </form>
+                                        <?php endforeach; ?>
                                         <br>
                                         <!-- Start Form -->
                                         <div class="row">

@@ -9,7 +9,7 @@
                 <div class="main-sparkline8-hd justify-content-between" style="display:flex; flex:wrap;padding-top:20px;padding-bottom:20px;padding-left:20px;">
                         <h1>Barang Jadi Masuk<h1>
                         <div style="width:100%; padding-right:20px">
-                                    <form action="<?= base_url('masuk/index')?>" method="post">
+                                    <form action="<?= base_url('track/masuk_track/index')?>" method="post">
                                     <div style="display:flex; flex:wrap">
                                         <div style="width:100%">
                                             <?php if(isset($keyword)){?>
@@ -38,7 +38,7 @@
                     <div class="sparkline8-graph">
                         <div class="datatable-dashv1-list custom-datatable-overright">
                             <div id="toolbarr">
-                                <a href="<?= base_url("masuk/input_masuk") ?>"><button
+                                <a href="<?= base_url("track/masuk_track/input_masuk_track") ?>"><button
                                         class="btn btn-sm btn-primary login-submit-cs" type="submit">Input Bahan
                                         Masuk</button></a>
                                 <a href="<?= base_url("home")?>"><button class="btn btn-white" type="button">Kembali</button></a>
@@ -91,7 +91,7 @@
                                         <td><?php echo $m->cat ?></td>
                                         <td>
                                             <a class="btn btn-sm btn-primary"
-                                                href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>"><i
+                                                href="<?= base_url("track/masuk_track/edit_masuk_track/" . $m->no) ?>"><i
                                                     class="fa fa-edit"></i> Edit</a>
                                             <a class="btn btn-sm btn-danger"
                                                 href="<?= base_url("masuk/hapus_masuk/" . $m->no . "/" . $m->kode) ?>"
