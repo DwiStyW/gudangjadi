@@ -1,4 +1,6 @@
-<?php $this->load->view('_partials/header_log');?>
+<?php $this->load->view('_partials/header_log');
+error_reporting(0);
+?>
 
 <body class="sign-in-illustration" style="background-color:whitesmoke">
 
@@ -29,12 +31,12 @@
                             <form id="adminpro-form" class="form-horizontal blur" action="<?= base_url('auth/login') ?>"
                                 method="post">
                                 <h3>Sistem Informasi</h3>
-                                <p>Gudang Bahan Jadi</p>
+                                <p>Gudang Barang Jadi</p>
                                 <div class="form-group">
                                     <span class="input-icon"><i class="fa fa-user"></i></span>
                                     <input class="form-control" style="color:black" type="text" id="username"
                                         name="username" placeholder="Username" aria-label="Username"
-                                        aria-describedby="username-addon">
+                                        aria-describedby="username-addon" autofocus>
                                 </div>
                                 <div class="form-group">
                                     <span class="input-icon"><i class="fa fa-lock"></i></span>

@@ -21,7 +21,7 @@
         <thead>
             <tr>
                 <th style="text-align: center">No</th>
-                <th style="text-align: center">Golongan</th>
+                <!-- <th style="text-align: center">Golongan</th> -->
                 <th style="text-align: center">Kode Barang</th>
                 <th style="text-align: center">Nama</th>
                 <th style="text-align: center">Urai</th>
@@ -37,7 +37,7 @@
 
             $no = 1;
             foreach ($tampil1->result() as $data) {
-                $code = $data->id;
+                $code = $data->kode;
 
                 //SaldoAwal
                 $in = $this->db->query("SELECT SUM(masuk) AS salIn FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
@@ -80,52 +80,40 @@
 
             ?>
                                 <tr>
-                                    <td> <?php echo $no; ?></td>
+                                    <td rowspan="4" class="text-center"> <?php echo $no; ?></td>
                                     <?php
                                     $kdgrup = $data->kdgol;
                                     //Mastergrup        
                                     $tampil2 = $this->db->query("select * from golongan WHERE id='$kdgrup'");
                                     foreach ($tampil2->result() as $data2); ?>
-                                    <td> <?php echo $data2->kdgol; ?> <?php echo $data2->namagol; ?></td>
-                                    <td> <?php echo $data->kode; ?></td>
-                                    <td> <?php echo $data->nama; ?></td>
-                                    <td> S.Awal </td>
+                                    <!-- <td rowspan="4" style="padding-left:7px"> <?php echo $data2->kdgol; ?> <?php echo $data2->namagol; ?></td> -->
+                                    <td rowspan="4" class="text-center"> <?php echo $data->kode; ?></td>
+                                    <td rowspan="4" style="padding-left:7px"> <?php echo $data->nama; ?></td>
+                                    <td style="padding-left:7px"> S.Awal </td>
                                     <!-- Saldo Awal -->
-                                    <td> <?php echo $ts1; ?> </td>
-                                    <td> <?php echo $ts2; ?> </td>
-                                    <td><?php echo $ts3; ?> </td>
+                                    <td class="text-center"> <?php echo $ts1; ?> </td>
+                                    <td class="text-center"> <?php echo $ts2; ?> </td>
+                                    <td class="text-center"><?php echo $ts3; ?> </td>
                                 </tr>
                                 <tr>
                                     <!-- MASUK -->
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>Masuk</td>
-                                    <td><?php echo  $tas1; ?></td>
-                                    <td><?php echo  $tas2; ?></td>
-                                    <td><?php echo  $tas3; ?></td>
+                                    <td style="padding-left:7px">Masuk</td>
+                                    <td class="text-center"><?php echo  $tas1; ?></td>
+                                    <td class="text-center"><?php echo  $tas2; ?></td>
+                                    <td class="text-center"><?php echo  $tas3; ?></td>
                                 </tr>
                                 <tr>
                                     <!-- KELUAR -->
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>Keluar</td>
-                                    <td><?php echo $sat1; ?> </td>
-                                    <td><?php echo $sat2; ?> </td>
-                                    <td><?php echo $sat3; ?> </td>
+                                    <td style="padding-left:7px">Keluar</td>
+                                    <td class="text-center"><?php echo $sat1; ?> </td>
+                                    <td class="text-center"><?php echo $sat2; ?> </td>
+                                    <td class="text-center"><?php echo $sat3; ?> </td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>S.Akhir</td>
-                                    <td><?php echo $st1; ?> </td>
-                                    <td><?php echo $st2; ?> </td>
-                                    <td><?php echo $st3; ?> </td>
+                                    <td style="padding-left:7px">S.Akhir</td>
+                                    <td class="text-center"><?php echo $st1; ?> </td>
+                                    <td class="text-center"><?php echo $st2; ?> </td>
+                                    <td class="text-center"><?php echo $st3; ?> </td>
                                 <tr>
                 <?php $no++;
                             }

@@ -1,12 +1,12 @@
 <?php
-    ini_set('date.timezone', 'Asia/Jakarta');
-    $mulai  = date('Y-m-d', strtotime('-1 days', strtotime($start)));
-    //Mastergrup        
-    $tampil2 = $this->db->query("SELECT * FROM golongan WHERE id='$kode'");
-    foreach ($tampil2->result() as $gol) {
+ini_set('date.timezone', 'Asia/Jakarta');
+$mulai  = date('Y-m-d', strtotime('-1 days', strtotime($start)));
+//Mastergrup        
+$tampil2 = $this->db->query("SELECT * FROM golongan WHERE id='$kode'");
+foreach ($tampil2->result() as $gol) {
     $namagol = $gol->namagol;
-    }
-    ?>
+}
+?>
 <div class="layarlebar">
     <div class="admin-dashone-data-table-area mg-b-40">
         <div class="container " style="position:relative;top:-250px;z-index: 1">
@@ -18,8 +18,7 @@
                     </div>
                 </div>
                 <div id="toolbar">
-                    <a target="_blank"
-                        href="<?= base_url("golongan/printrepgr/" . $start . "/" . $end . "/" . $kode) ?>">
+                    <a target="_blank" href="<?= base_url("Report/printrepgr/" . $start . "/" . $end . "/" . $kode) ?>">
                         <button class="btn btn-sm btn-success login-submit-cs" type="submit">Print</button></a>
                     <a href="<?= base_url("golongan/filgolongan") ?>"><button class="btn btn-sm btn-white"
                             type="button">Kembali</button></a>
@@ -65,13 +64,13 @@
                                 <tbody>
 
                                     <?php
-                                        // $tampil = mysqli_query($conn, "SELECT * FROM master, riwayat  WHERE master.kode=riwayat.kode && master.kdgol='$kode' && riwayat.tglform between '$mulai' AND '$end' ORDER BY no ASC");
-                                        $tampil1 = $this->db->query("SELECT * FROM master WHERE kdgol='$kode' ORDER BY kode ASC");
+                                    // $tampil = mysqli_query($conn, "SELECT * FROM master, riwayat  WHERE master.kode=riwayat.kode && master.kdgol='$kode' && riwayat.tglform between '$mulai' AND '$end' ORDER BY no ASC");
+                                    $tampil1 = $this->db->query("SELECT * FROM master WHERE kdgol='$kode' ORDER BY kode ASC");
 
-                                        $no = 1;
-                                        foreach ($tampil1->result() as $data) {
-                                            $code = $data->kode;
-                                        ?>
+                                    $no = 1;
+                                    foreach ($tampil1->result() as $data) {
+                                        $code = $data->kode;
+                                    ?>
                                     <tr>
                                         <td><?php echo $no++; ?></td>
                                         <td><?php echo $data->kode; ?></td>
@@ -79,68 +78,68 @@
 
                                         <!-- Sal Awal -->
                                         <?php
-                                                $in = $this->db->query("SELECT SUM(masuk) AS salIn FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
-                                                $out = $this->db->query("SELECT SUM(keluar) AS salOut FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
+                                            $in = $this->db->query("SELECT SUM(masuk) AS salIn FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
+                                            $out = $this->db->query("SELECT SUM(keluar) AS salOut FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
 
-                                                foreach ($in->result() as $ambil) {
-                                                    foreach ($out->result() as $ambil1) {
-                                                        $saldo = $ambil->salIn - $ambil1->salOut;
-                                                        //konvert 3 satuan
-                                                        $ts1  = floor($saldo / ($data->max1 * $data->max2));
-                                                        $its  = $saldo - ($ts1 * $data->max1 * $data->max2);
-                                                        $ts2  = floor($its / $data->max2);
-                                                        $ts3  = $its - $ts2 * $data->max2;
-                                                ?>
+                                            foreach ($in->result() as $ambil) {
+                                                foreach ($out->result() as $ambil1) {
+                                                    $saldo = $ambil->salIn - $ambil1->salOut;
+                                                    //konvert 3 satuan
+                                                    $ts1  = floor($saldo / ($data->max1 * $data->max2));
+                                                    $its  = $saldo - ($ts1 * $data->max1 * $data->max2);
+                                                    $ts2  = floor($its / $data->max2);
+                                                    $ts3  = $its - $ts2 * $data->max2;
+                                            ?>
                                         <td> <?php echo $ts1; ?></td>
                                         <td><?php echo $ts2; ?> </td>
                                         <td><?php echo $ts3; ?> </td>
 
                                         <!-- Masuk -->
                                         <?php
-                                                        $masuk = $this->db->query("SELECT SUM(masuk) AS mas FROM riwayat  WHERE kode='$code' && tglform between '$mulai' AND '$end'");
-                                                        foreach ($masuk->result() as $ambi) {
-                                                            //konvert 3 satuan
-                                                            $tas1  = floor($ambi->mas / ($data->max1 * $data->max2));
-                                                            $itas  = $ambi->mas - ($tas1 * $data->max1 * $data->max2);
-                                                            $tas2  = floor($itas / $data->max2);
-                                                            $tas3  = $itas - $tas2 * $data->max2;
-                                                        } ?>
+                                                    $masuk = $this->db->query("SELECT SUM(masuk) AS mas FROM riwayat  WHERE kode='$code' && tglform between '$mulai' AND '$end'");
+                                                    foreach ($masuk->result() as $ambi) {
+                                                        //konvert 3 satuan
+                                                        $tas1  = floor($ambi->mas / ($data->max1 * $data->max2));
+                                                        $itas  = $ambi->mas - ($tas1 * $data->max1 * $data->max2);
+                                                        $tas2  = floor($itas / $data->max2);
+                                                        $tas3  = $itas - $tas2 * $data->max2;
+                                                    } ?>
                                         <td><?php echo  $tas1; ?></td>
                                         <td><?php echo  $tas2; ?></td>
                                         <td><?php echo  $tas3; ?></td>
 
                                         <!-- Keluar -->
                                         <?php
-                                                        $keluar = $this->db->query("SELECT SUM(keluar) AS kel FROM riwayat  WHERE kode='$code' && tglform between '$mulai' AND '$end'");
-                                                        foreach ($keluar->result() as $amb) {
-                                                            //konvert 3 satuan
-                                                            $sat1  = floor($amb->kel / ($data->max1 * $data->max2));
-                                                            $sis  = $amb->kel - ($sat1 * $data->max1 * $data->max2);
-                                                            $sat2  = floor($sis / $data->max2);
-                                                            $sat3  = $sis - $sat2 * $data->max2;
-                                                        ?>
+                                                    $keluar = $this->db->query("SELECT SUM(keluar) AS kel FROM riwayat  WHERE kode='$code' && tglform between '$mulai' AND '$end'");
+                                                    foreach ($keluar->result() as $amb) {
+                                                        //konvert 3 satuan
+                                                        $sat1  = floor($amb->kel / ($data->max1 * $data->max2));
+                                                        $sis  = $amb->kel - ($sat1 * $data->max1 * $data->max2);
+                                                        $sat2  = floor($sis / $data->max2);
+                                                        $sat3  = $sis - $sat2 * $data->max2;
+                                                    ?>
                                         <td><?php echo $sat1; ?> </td>
                                         <td><?php echo $sat2; ?> </td>
                                         <td><?php echo $sat3; ?> </td>
 
                                         <!-- Sal Akhir -->
                                         <?php
-                                                            $akhirr = $saldo + $ambi->mas - $amb->kel;
-                                                            //konvert 3 satuan
-                                                            $st1  = floor($akhirr / ($data->max1 * $data->max2));
-                                                            $ss  = $akhirr - ($st1 * $data->max1 * $data->max2);
-                                                            $st2  = floor($ss / $data->max2);
-                                                            $st3  = $ss - $st2 * $data->max2;
-                                                            ?>
+                                                        $akhirr = $saldo + $ambi->mas - $amb->kel;
+                                                        //konvert 3 satuan
+                                                        $st1  = floor($akhirr / ($data->max1 * $data->max2));
+                                                        $ss  = $akhirr - ($st1 * $data->max1 * $data->max2);
+                                                        $st2  = floor($ss / $data->max2);
+                                                        $st3  = $ss - $st2 * $data->max2;
+                                                        ?>
                                         <td><?php echo $st1; ?> </td>
                                         <td><?php echo $st2; ?> </td>
                                         <td><?php echo $st3; ?> </td>
                                         <?php    }
-                                                    }
-                                                } ?>
+                                                }
+                                            } ?>
                                     </tr>
-                                    <?php $no++;
-                                        } ?>
+                                    <?php
+                                    } ?>
                                 </tbody>
                             </table>
                         </div>

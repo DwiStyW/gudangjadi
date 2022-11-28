@@ -14,7 +14,7 @@
         <thead>
             <tr>
                 <th style="text-align: center">No</th>
-                <th style="text-align: center">Golongan</th>
+                <!-- <th style="text-align: center">Golongan</th> -->
                 <th style="text-align: center">Kode Barang</th>
                 <th style="text-align: center">Nama</th>
                 <th style="text-align: center">Urai</th>
@@ -30,7 +30,7 @@
 
             $no = 1;
             foreach ($tampil1->result() as $data) {
-                $code = $data->id;
+                $code = $data->kode;
 
                 //SaldoAwal
                 $in = $this->db->query("SELECT SUM(masuk) AS salIn FROM riwayat WHERE kode='$code' && tglform between '0001-01-01' AND '$mulai'");
@@ -57,20 +57,20 @@
 
             ?>
                                 <tr>
-                                    <td><?php echo $no; ?></td>
+                                    <td class="text-center"><?php echo $no; ?></td>
                                     <?php
                                     $kdgrup = $data->kdgol;
                                     //Mastergrup        
                                     $tampil2 = $this->db->query("select * from golongan WHERE id='$kdgrup'");
                                     foreach ($tampil2->result() as $data2); ?>
-                                    <td><?php echo $data2->kdgol; ?> <?php echo $data2->namagol; ?></td>
-                                    <td><?php echo $data->kode; ?></td>
-                                    <td><?php echo $data->nama; ?></td>
-                                    <td>Saldo Akhir </td>
+                                    <!-- <td><?php echo $data2->kdgol; ?> <?php echo $data2->namagol; ?></td> -->
+                                    <td style="padding-left:10px"><?php echo $data->kode; ?></td>
+                                    <td style="padding-left:10px"><?php echo $data->nama; ?></td>
+                                    <td class="text-center">Saldo Akhir </td>
                                     <!-- Saldo Akhir -->
-                                    <td><?php echo $st1; ?> </td>
-                                    <td><?php echo $st2; ?> </td>
-                                    <td><?php echo $st3; ?> </td>
+                                    <td class="text-center"><?php echo $st1; ?> </td>
+                                    <td class="text-center"><?php echo $st2; ?> </td>
+                                    <td class="text-center"><?php echo $st3; ?> </td>
                                 </tr>
 
             <?php $no++;

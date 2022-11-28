@@ -112,6 +112,25 @@ function topFunction() {
 <!-- sweetalert2 -->
 <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="pallet" aria-hidden="true"
+    style="z-index:10000;">
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('a#lihatPallet').click(function() {
+        var url = $(this).attr('href');
+        $.ajax({
+            url: url,
+            success: function(response) {
+                $('#exampleModal').html(response);
+            }
+        });
+    });
+
+});
+</script>
 </body>
 
 </html>

@@ -49,11 +49,7 @@
                                                                     <button
                                                                         class="btn btn-sm btn-primary login-submit-cs"
                                                                         onclick="mendal()" type="button">Cari</button>
-                                                                    <a
-                                                                        href="<?= base_url("report/report_saldo_akhir") ?>"><button
-                                                                            class="btn btn-sm btn-warning"
-                                                                            type="button">Saldo Akhir Stock
-                                                                        </button></a>
+
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -47,7 +47,8 @@
                                                         </div>
                                                         <div class="col-lg-9">
                                                             <div class="form-select-list">
-                                                                <select id="kode" name="kode" class="form-control">
+                                                                <select id="kode" name="kode" class="form-control"
+                                                                    required>
                                                                     <option value=""></option>
                                                                     <?php
                                                                         // ambil data dari database

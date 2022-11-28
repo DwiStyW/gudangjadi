@@ -43,7 +43,8 @@
                                                             <div class="col-lg-3"></div>
                                                             <div class="col-lg-9">
                                                                 <div class="login-horizental cancel-wp pull-left">
-                                                                    <a href="report.php"><button class="btn btn-white"
+                                                                    <a href="<?= base_url("report") ?>"><button
+                                                                            class="btn btn-white"
                                                                             type="button">Kembali</button></a>
                                                                     <button
                                                                         class="btn btn-sm btn-primary login-submit-cs"

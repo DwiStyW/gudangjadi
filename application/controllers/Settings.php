@@ -11,7 +11,7 @@ class Settings extends CI_Controller
     <span aria-hidden="true">&times;</span>
   </button>
 </div>');
-            redirect('auth/login');
+            redirect('auth/logout');
         }
     }
     public function index()
@@ -36,7 +36,7 @@ class Settings extends CI_Controller
             'password' => md5($password)
         );
         if (isset($data) && isset($where)) {
-            $this->edit->update($where, $data, 'tb_user');
+            $this->report_model->update($where, $data, 'tb_user');
             redirect("auth/logout");
         } else {
             redirect("settings");
