@@ -41,16 +41,6 @@ date_default_timezone_set('Asia/Jakarta');
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">NO Batch</label>
-                                                    </div>
-                                                    <div class="col-lg-9">
-                                                        <input name="nobatch" type="text" class="form-control" placeholder="Nomor Batch" required />
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <!-- kode barang -->
                                             <div class="form-group-inner">
                                                 <div class="row">
@@ -74,6 +64,16 @@ date_default_timezone_set('Asia/Jakarta');
                                                                 <?php } ?>
                                                             </select>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group-inner">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <label class="login2 pull-right pull-right-pro">No Batch</label>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <input name="nobatch" type="text" class="form-control" placeholder="Nomor Batch" required />
                                                     </div>
                                                 </div>
                                             </div>

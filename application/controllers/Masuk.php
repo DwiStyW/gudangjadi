@@ -123,9 +123,44 @@ class Masuk extends CI_Controller
             'kode' => $koder
         );
 
+        //untuk detailsalqty
+        $detsal = $this->db->where('kode',$kode)->where('nobatch',$nobatch)->get('detailsalqty');
+        foreach($detsal->result() as $det){
+            $salqty[]=$det->qty;
+        }
+        $jumsalqty=0;
+        for($i=0;$i<$detsal->num_rows();$i++)
+        {
+            $jumsalqty+=$salqty[$i];
+        }
+        if($detsal->num_rows()>0){
+            $data5 = array(
+                'tglform' => $tglform,
+                'kode'    => $koder,
+                'nobatch' => $nobatch,
+                'qty'     => $jumlah+=$jumsalqty
+            );
+        }else{
+            $data5 = array(
+                'tglform' => $tglform,
+                'kode'    => $koder,
+                'nobatch' => $nobatch,
+                'qty'     => $jumlah
+            );
+        }
+        $where2 = array(
+            'kode' => $koder,
+            'nobatch'=>$nobatch
+        );
+
         $this->db->trans_start();
         $this->masuk_model->update($where1, $data4, "master");
         $this->masuk_model->tambah($data2, "riwayat");
+        if($detsal->num_rows()>0){
+            $this->masuk_model->update($where2,$data5,'detailsalqty');
+        }else{
+            $this->masuk_model->tambah($data5,'detailsalqty');
+        }
         $this->db->trans_complete();
 
         if($this->db->trans_status()===FALSE){
@@ -255,17 +290,6 @@ class Masuk extends CI_Controller
             }else{
                 $this->session->set_flashdata('sukses', 'Delete Barang Masuk Success!');
             }
-
-            // if (isset($where) && isset($where1) && isset($data1)) {
-            //     $this->masuk_model->update($where1, $data1, 'saldo');
-            //     $this->masuk_model->hapus($where, 'riwayat');
-            //     $this->masuk_model->hapus($where, 'masuk');
-            //     $this->session->set_flashdata('sukses', 'Delete Barang Masuk Success!');
-            //     redirect("masuk");
-            // } else {
-            //     $this->session->set_flashdata('gagal', 'Delete Barang Masuk Error!');
-            //     redirect("masuk");
-            // }
             redirect("masuk");
         }
     }

@@ -1,11 +1,11 @@
 <?php
-class Masuk_track_model extends CI_Model
+class Keluar_track_model extends CI_Model
 {
     public function tampil_masuk_track($limit,$start,$keyword=null)
     {
         $this->db->Select("*")
             ->from('riwayattrack,master,tb_user')
-            ->where("master.kode=riwayattrack.kode AND riwayattrack.keluar=0 AND riwayattrack.adm=tb_user.user_id")
+            ->where("master.kode=riwayattrack.kode AND riwayattrack.masuk=0 AND riwayattrack.adm=tb_user.user_id")
             ->order_by('riwayattrack.no', 'DESC');
             if($keyword){
                 $this->db->group_start();
@@ -22,12 +22,12 @@ class Masuk_track_model extends CI_Model
         return $this->db->get('', $limit, $start)->result();
     }
 
-    public function total_masuk_track($keyword=null)
+    public function total_keluar_track($keyword=null)
     {
         $this->db->select('*');
         $this->db->from('riwayattrack');
         $this->db->join('master', 'master.kode=riwayattrack.kode')->join('tb_user','tb_user.user_id=riwayattrack.adm');
-        $this->db->where('keluar=0');
+        $this->db->where('masuk=0');
         if($keyword){
             $this->db->group_start();
             $this->db->like('nobatch',$keyword);
@@ -59,12 +59,6 @@ class Masuk_track_model extends CI_Model
         $this->db->from('riwayattrack');
         $this->db->join('master', 'master.kode=riwayattrack.kode');
         $this->db->order_by('riwayattrack.no', 'DESC')->limit(20);
-        return $this->db->get()->result();
-    }
-
-    public function detsal(){
-        $this->db->select("*")->from("detailsalqty")->join("master","master.kode = detailsalqty.kode");
-        $this->db->group_by('detailsalqty.kode');
         return $this->db->get()->result();
     }
 

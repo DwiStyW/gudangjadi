@@ -44,7 +44,7 @@ class Masuk_track extends CI_Controller
     }
 
     public function input_masuk_track(){
-        $data['master']=$this->masuk_track_model->tampil_master();
+        $data['master']=$this->masuk_track_model->detsal();
         $data['masuk']=$this->masuk_track_model->riwayat_all();
         $data['pallet']=$this->masuk_track_model->tampil_palet();
         $this->load->view("_partials/header");
@@ -55,8 +55,8 @@ class Masuk_track extends CI_Controller
 
     public function tambah_masuk_track()
     {
-        $tglform = $this->input->post('tglform');
-        $nobatch = $this->input->post('nobatch');
+        $nobatch = substr($this->input->post('nobatch'),0,strpos($this->input->post('nobatch'),"-",0));
+        $qty1     = substr($this->input->post('nobatch'),strpos($this->input->post('nobatch'),'-',0)+1,strlen($this->input->post('nobatch')));
         $nopallet = $this->input->post('nopallet');
         $kode = $this->input->post('kode');
         $sat1 = $this->input->post('sat1');
@@ -65,8 +65,23 @@ class Masuk_track extends CI_Controller
         $tglinput = $this->input->post('tgl');
         $adm = $this->input->post('adm');
         $cat = $this->input->post('cat');
+        if($sat1 == ""){
+            $sat1=0;
+        }
+        if($sat2 == ""){
+            $sat2=0;
+        }
+        if($sat3 == ""){
+            $sat3=0;
+        }
+        
+        //get tglform detailsalqty
+        $quer = $this->db->where('kode',$kode)->where('nobatch',$nobatch)->get('detailsalqty');
+        foreach($quer->result() as $qu){
+            $tglform = $qu->tglform;
+        }
 
-        //get status pallet
+        // get status pallet
         $pallet = $this->db->query("SELECT * FROM pallet where kdpallet='$nopallet'");
         foreach($pallet->result() as $p):
         $status = $p->status;
@@ -103,7 +118,7 @@ class Masuk_track extends CI_Controller
             'cat'       => $cat
         );
 
-        //untuk master
+    //     //untuk master
         $data1=array(
             'tglform'     => $tglform,
             'tgl_update'  => date("Y-m-d H:i:s"),
@@ -121,13 +136,23 @@ class Masuk_track extends CI_Controller
         //untuk utilisasi
        $query = $this->db->where('tgl',date("Y-m-d"))->get('utilisasi');
        $pallet = $this->db->get('pallet');
-
-        $palletin = $query->num_rows()+1;
-        $data3=array(
-            'tgl'       => date('Y-m-d'),
-            'palletin'   => $palletin,
-            'utilisasi' => $palletin/$pallet->num_rows()*100
-        );
+       foreach($query->result()as $que){
+        $in = $que->palletin;
+       }
+        $palletin = 1+$in;
+        if($status == 'kosong'){
+            $data3=array(
+                'tgl'       => date('Y-m-d'),
+                'palletin'   => $palletin,
+                'utilisasi' => $palletin/$pallet->num_rows()*100
+            );
+        }else{
+            $data3=array(
+                'tgl'       => date('Y-m-d'),
+                'palletin'   => $palletin,
+                'utilisasi' => ($palletin-1)/$pallet->num_rows()*100
+            );
+        }
         $where2=array('tgl'=>date("Y-m-d"));
 
         //untuk detailsal
@@ -139,12 +164,27 @@ class Masuk_track extends CI_Controller
             'qty'       => $jumlah
         );
 
+        // untuk detailsalqty
+        $hitung = $qty1 - $jumlah;
+        $data5=array(
+            'qty' => $hitung,
+        );
+        $where3=array(
+            'kode'   =>$kode,
+            'nobatch'=>$nobatch
+        );
+
         if($sal>=$jumlah && $jumlah>0){
         $this->db->trans_start();
         $this->masuk_track_model->tambah($data, 'riwayattrack');
         $this->masuk_track_model->update($where,$data1,'master');
         $this->masuk_track_model->update($where1,$data2,'pallet');
         $this->masuk_track_model->tambah($data4, 'detailsal');
+        if($hitung > 0){
+            $this->masuk_track_model->update($where3,$data5,'detailsalqty');
+        }else{
+            $this->masuk_track_model->hapus($where3, 'detailsalqty');
+        }
         if($query->num_rows()>0)
        {
             $this->masuk_track_model->update($where2,$data3,'utilisasi');

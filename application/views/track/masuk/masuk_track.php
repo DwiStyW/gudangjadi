@@ -15,7 +15,7 @@
                                             <?php if(isset($keyword)){?>
                                                 <input type="text" name="keyword" value="<?= $keyword?>" placeholder="Cari Barang Masuk..." class="form-control">
                                             <?php }else{ ?>
-                                                <input type="text" name="keyword" placeholder="Cari Barang Keluar..." class="form-control">
+                                                <input type="text" name="keyword" placeholder="Cari Barang Masuk..." class="form-control">
                                                 <?php } ?>
                                         </div>
                                         <div style="width:auto">
@@ -52,7 +52,7 @@
                                         <th data-field="nama">Nama Barang</th>
                                         <th data-field="batch">No Batch</th>
                                         <th data-field="nopallet">No Pallet</th>
-                                        <th data-field="statpallet">Status Pallet</th>
+                                        <th data-field="statpallet">Status</th>
                                         <th data-field="satuan1">Satuan 1</th>
                                         <th data-field="satuan2">Satuan 2</th>
                                         <th data-field="satuan3">Satuan 3</th>
