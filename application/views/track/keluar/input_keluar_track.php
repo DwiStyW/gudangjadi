@@ -8,7 +8,7 @@ date_default_timezone_set('Asia/Jakarta');
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
                     <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
-                        <h1>Input Bahan Masuk<h1>
+                        <h1>Input Bahan keluar<h1>
                     </div>
                 </div>
                 <div style="background-color:#fff">
@@ -18,7 +18,7 @@ date_default_timezone_set('Asia/Jakarta');
                                 <div class="col-lg-12">
                                     <div class="all-form-element-inner">
 
-                                        <form enctype="multipart/form-data" id="data" action="<?= base_url("track/masuk_track/tambah_masuk_track") ?>" method="post" class="form">
+                                        <form enctype="multipart/form-data" id="data" action="<?= base_url("track/keluar_track/tambah_keluar_track") ?>" method="post" class="form">
                                             
                                             <!-- <div class="form-group-inner">
                                                 <div class="row">
@@ -40,33 +40,22 @@ date_default_timezone_set('Asia/Jakarta');
                                                     </div>
                                                     <div class="col-lg-9">
                                                         <div class="form-select-list">
-                                                            <select id="kode" name="kode" class="form-control" onchange="getkode()" required>
+                                                            <select id="kode" name="kode" onchange="showCustomer(this.value)" class="form-control" required>
                                                                 <option type="search"></option>
                                                                 <?php
-                                                                $no = 1;
                                                                 foreach ($master as $mter) { ?>
-                                                                    <?php if($this->uri->segment(4)==$mter->kode){?>
-                                                                    <option selected value="<?= $mter->kode ?>">
-                                                                    <?= $mter->kode ?> - <?= $mter->nama ?>
-                                                                </option>
-                                                                <?php }else{?>
                                                                     <option value="<?= $mter->kode ?>">
                                                                     <?= $mter->kode ?> - <?= $mter->nama ?>
                                                                 </option>
-                                                               <?php } } ?>
+                                                               <?php }?>
                                                             </select>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <script>
-                                                function getkode(){
-                                                    var kode = document.getElementById('kode').value;
-                                                    window.location = '<?=base_url()?>'+'track/masuk_track/input_masuk_track/' + kode
-                                                }
-                                            </script>
-                                            
-                                            <?php $batch = $this->db->where('kode',$this->uri->segment(4))->get('detailsalqty')?>
+                                            <div id="cek">
+                                                <?php $batch = $this->db->where('kode',$this->uri->segment(4))->get('detailsal')?>
+                                            </div>
                                             <?php 
                                             $mas = $this->db->where('kode',$this->uri->segment(4))->get('master');
                                             foreach($mas->result() as $m){
@@ -77,17 +66,6 @@ date_default_timezone_set('Asia/Jakarta');
                                                 $max2    = $m->max2;
                                             }
                                             ?>
-                                            <!-- <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">Tanggal
-                                                            Form</label>
-                                                    </div>
-                                                    <div class="col-lg-9">
-                                                        <input name="tglform" type="date" class="form-control" id="tglform" value="<?= date($tglform) ?>" required />
-                                                    </div>
-                                                </div>
-                                            </div> -->
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -97,7 +75,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <select id="batch" class="form-control" onchange="qty()" name="nobatch" type="select" required>
                                                             <option type="search"></option>
                                                             <?php foreach($batch->result() as $b){?>
-                                                                <option value="<?= $b->nobatch.'-'.$b->qty?>"> <?= $b->nobatch?></option>
+                                                                <option value="<?= $b->nobatch.'-'.$b->qty.'-'.$b->nopallet?>"> <?= $b->nobatch?></option>
                                                             <?php }?>
                                                         </select>
                                                     </div>
@@ -117,13 +95,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">No Pallet</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <select id="nopallet" name="nopallet" type="select" class="form-control" required />
-                                                        <option type="search"></option>
-                                                        <?php 
-                                                        foreach($pallet as $p){ ?>
-                                                            <option value="<?= $p->kdpallet?>"><?php echo $p->kdpallet.' '. $p->status?></option>
-                                                        <?php } ?>
-                                                        </select>
+                                                        <input id="nopallet" name="nopallet" type="text" class="form-control" required readonly/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -210,7 +182,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <div class="col-lg-3"></div>
                                                         <div class="col-lg-9">
                                                             <div class="login-horizental cancel-wp pull-left">
-                                                                <a href="<?= base_url("track/masuk_track") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
+                                                                <a href="<?= base_url("track/keluar_track") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
                                                                 <a onclick="filsalmin()" class="btn btn-sm btn-primary login-submit-cs">Save Change</a>
                                                             </div>
                                                         </div>
@@ -243,12 +215,15 @@ date_default_timezone_set('Asia/Jakarta');
 
     function qty(){
         var batch = document.getElementById('batch').value;
-        var saldo = batch.slice(batch.search("-")+1,batch.length);
+        var sald = batch.slice(batch.search("-")+1,batch.length);
+        var pallet= sald.slice(sald.search('-')+1,sald.length);
+        var saldo = sald.slice(0,sald.search('-'));
         var sat1  = Math.floor(saldo / (<?= $max1 * $max2 ?> ));
         var sisa  = saldo - (sat1 * <?= $max1 * $max2?>);
         var sat2  = Math.floor(sisa / <?= $max2?>);
         var sat3  = sisa - sat2 * <?= $max2 ?>;
         document.getElementById('qty').innerHTML = sat1+' <?= $satuan1?>, '+ sat2+' <?= $satuan2?>, '+ sat3+' <?= $satuan3?>';
+        document.getElementById('nopallet').value = pallet
         }
     function filsalmin(){
         var batch = document.getElementById('batch').value;
@@ -269,16 +244,10 @@ date_default_timezone_set('Asia/Jakarta');
         var sald2 = sal2 * <?= $max1 ?>;
         var total = parseInt(sald1)+parseInt(sald2)+parseInt(sal3);
         if(document.getElementById('nopallet').value != "" && document.getElementById('batch').value !=0){
-            if(total > saldo || total <=0){
-                Swal.fire({
-                    icon: 'warning',
-                    html: "<h1><b>Peringatan!</b><h1><h5>Saldo tidak mencukupi!</h5>",
-                    showConfirmButton: true,
-                    allowOutsideClick: false,
-                    width: 300,
-                })
-            }else{
+            if(total <= saldo){
                 document.getElementById('data').submit();
+            }else{
+                document.getElementById('cat').value = total;
             }
         }else{
             Swal.fire({
@@ -297,14 +266,8 @@ $(document).ready(function() {
         placeholder: "Please Select",
     });
 });
-$(document).ready(function() {
-    $("#nopallet").select2({
-        placeholder: "Please Select",
-    });
-});
 </script>
 
-<?php if($this->uri->segment(4)!=""){?>
 <script>
 $(document).ready(function() {
     $("#batch").select2({
@@ -312,15 +275,6 @@ $(document).ready(function() {
     });
 });
 </script>
-<?php }else{ ?>
-    <script>
-    $(document).ready(function() {
-        $("#batch").select2({
-            placeholder: "Pilih Kode barang terlebih dahulu",
-        });
-    });
-    </script>
-<?php } ?>
 
 <script>
 $(document).ready(function() {
@@ -330,7 +284,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url('masuk/cekduplicate') ?>',
+            url: '<?php echo base_url('keluar/cekduplicate') ?>',
             data: 'q=' + q,
             success: function(data) {
                 $('#pesan').html(data);
@@ -368,3 +322,17 @@ Swal.fire({
 </script>
 <?php
 endif ?>
+<script>
+function showCustomer(str) {
+if (str == "") {
+    document.getElementById("cek").innerHTML = "";
+    return;
+}
+const xhttp = new XMLHttpRequest();
+xhttp.onload = function() {
+    document.getElementById("cek").innerHTML = this.responseText;
+}
+xhttp.open("GET", "<?=base_url('track/keluar_track/bantuan/')?>"+str);
+xhttp.send();
+}
+</script>

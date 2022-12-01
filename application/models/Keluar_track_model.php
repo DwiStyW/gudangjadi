@@ -1,7 +1,7 @@
 <?php
 class Keluar_track_model extends CI_Model
 {
-    public function tampil_masuk_track($limit,$start,$keyword=null)
+    public function tampil_keluar_track($limit,$start,$keyword=null)
     {
         $this->db->Select("*")
             ->from('riwayattrack,master,tb_user')
@@ -59,6 +59,12 @@ class Keluar_track_model extends CI_Model
         $this->db->from('riwayattrack');
         $this->db->join('master', 'master.kode=riwayattrack.kode');
         $this->db->order_by('riwayattrack.no', 'DESC')->limit(20);
+        return $this->db->get()->result();
+    }
+
+    public function detsal(){
+        $this->db->select("*")->from("detailsal")->join("master","master.kode = detailsal.kode");
+        $this->db->group_by('detailsal.kode');
         return $this->db->get()->result();
     }
 

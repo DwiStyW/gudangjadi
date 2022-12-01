@@ -103,12 +103,17 @@ class Masuk_track extends CI_Controller
         $saldo_track = $saldo+$jumlah;
 
         //untuk riwayattrack
+        if($status == 'isi'){
+            $statusr = 'NONE';
+        }else{
+            $statusr = 'IN';
+        }
         $data=array(
             'tglform'   => $tglform,
             'kode'      => $kode,
             'nobatch'   => $nobatch,
             'nopallet'  => $nopallet,
-            'statpallet'=> 'IN',
+            'statpallet'=> $statusr,
             'masuk'     => $jumlah,
             'keluar'    => "",
             'saldo'     => $saldo_track,
@@ -134,23 +139,25 @@ class Masuk_track extends CI_Controller
         $where1=array('kdpallet' => $nopallet);
 
         //untuk utilisasi
+        $utilisasi = $this->db->query("SELECT * FROM pallet where status = 'isi'");
        $query = $this->db->where('tgl',date("Y-m-d"))->get('utilisasi');
        $pallet = $this->db->get('pallet');
        foreach($query->result()as $que){
         $in = $que->palletin;
        }
-        $palletin = 1+$in;
-        if($status == 'kosong'){
+       if($status == 'kosong'){
+            $palletin = 1+$in;
             $data3=array(
                 'tgl'       => date('Y-m-d'),
                 'palletin'   => $palletin,
-                'utilisasi' => $palletin/$pallet->num_rows()*100
+                'utilisasi' => $utilisasi->num_rows()/$pallet->num_rows()*100
             );
         }else{
+            $palletin = $in;
             $data3=array(
                 'tgl'       => date('Y-m-d'),
                 'palletin'   => $palletin,
-                'utilisasi' => ($palletin-1)/$pallet->num_rows()*100
+                'utilisasi' => $utilisasi->num_rows()/$pallet->num_rows()*100
             );
         }
         $where2=array('tgl'=>date("Y-m-d"));
@@ -162,6 +169,21 @@ class Masuk_track extends CI_Controller
             'nobatch'   => $nobatch,
             'nopallet'  => $nopallet,
             'qty'       => $jumlah
+        );
+
+                //get detailsal
+        $que = $this->db->where('kode',$kode)->where('nobatch',$nobatch)->where('nopallet',$nopallet)->get('detailsal');
+        foreach($que->result() as $q){
+            $qtypal = $q->qty;
+        }
+        //update detailsal
+        $data6 = array(
+            'qty' => $qtypal + $jumlah
+        );
+        $where4=array(
+            'kode'      => $kode,
+            'nobatch'   => $nobatch,
+            'nopallet'  => $nopallet,
         );
 
         // untuk detailsalqty
@@ -179,7 +201,11 @@ class Masuk_track extends CI_Controller
         $this->masuk_track_model->tambah($data, 'riwayattrack');
         $this->masuk_track_model->update($where,$data1,'master');
         $this->masuk_track_model->update($where1,$data2,'pallet');
-        $this->masuk_track_model->tambah($data4, 'detailsal');
+        if($que->num_rows()>0){
+            $this->masuk_track_model->update($where4,$data6,'detailsal');
+        }else{
+            $this->masuk_track_model->tambah($data4, 'detailsal');
+        }
         if($hitung > 0){
             $this->masuk_track_model->update($where3,$data5,'detailsalqty');
         }else{

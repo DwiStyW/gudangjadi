@@ -42,7 +42,6 @@ class Keluar_track extends CI_Controller
         $this->load->view("_partials/footer");
 
     }
-
     public function input_keluar_track(){
         $data['master']=$this->keluar_track_model->detsal();
         $data['keluar']=$this->keluar_track_model->riwayat_all();
@@ -51,6 +50,11 @@ class Keluar_track extends CI_Controller
         $this->load->view("_partials/menu");
         $this->load->view("track/keluar/input_keluar_track",$data);
         $this->load->view("_partials/footer");
+    }
+    
+    public function bantuan($kode){
+        $data['kode'] = $kode;
+        $this->load->view("track/keluar/bantuan",$data);
     }
 
     public function tambah_keluar_track()
@@ -74,11 +78,16 @@ class Keluar_track extends CI_Controller
         if($sat3 == ""){
             $sat3=0;
         }
-        
+
         //get tglform detailsalqty
         $quer = $this->db->where('kode',$kode)->where('nobatch',$nobatch)->get('detailsalqty');
         foreach($quer->result() as $qu){
             $tglform = $qu->tglform;
+        }
+        //get qty detailsal
+        $quer = $this->db->where('kode',$kode)->where('nobatch',$nobatch)->where('nopallet',$nopallet)->get('detailsalqty');
+        foreach($quer->result() as $qu){
+            $quty = $qu->qty;
         }
 
         // get status pallet
@@ -101,6 +110,7 @@ class Keluar_track extends CI_Controller
         $jumlah = $sats1 + $sats2 + $sat3;
 
         $saldo_track = $saldo-$jumlah;
+        $saldo_tot   = $sal-$jumlah;
 
         //untuk riwayattrack
         $data=array(
@@ -108,12 +118,12 @@ class Keluar_track extends CI_Controller
             'kode'      => $kode,
             'nobatch'   => $nobatch,
             'nopallet'  => $nopallet,
-            'statpallet'=> 'OUT',
-            'masuk'     => "",
+            'statpallet'=> 'IN',
+            'masuk'     => '',
             'keluar'    => $jumlah,
             'saldo'     => $saldo_track,
             'tanggal'   => date("Y-m-d H:i:s"),
-            'ket'       => 'input',
+            'ket'       => 'output',
             'adm'       => $adm,
             'cat'       => $cat
         );
@@ -122,21 +132,22 @@ class Keluar_track extends CI_Controller
         $data1=array(
             'tglform'     => $tglform,
             'tgl_update'  => date("Y-m-d H:i:s"),
-            'saldo_track' => $saldo_track
+            'saldo_track' => $saldo_track,
+            'saldo'       => $saldo_tot
         );
         $where=array('kode' => $kode);
 
         //untuk pallet
-        $hitung = $qty - $jumlah;
+        $hitung = $qty-$jumlah;
         if($hitung > 0){
             $data2=array(
                 'status' => 'isi',
-                'qty'    => $hitung
+                'qty'    => $qty-$jumlah
             );
         }else{
             $data2=array(
                 'status' => 'kosong',
-                'qty'    => $hitung
+                'qty'    => $qty-$jumlah
             );
         }
         $where1=array('kdpallet' => $nopallet);
@@ -144,22 +155,34 @@ class Keluar_track extends CI_Controller
         //untuk utilisasi
        $query = $this->db->where('tgl',date("Y-m-d"))->get('utilisasi');
        $pallet = $this->db->get('pallet');
-
-        $palletin = $query->num_rows()+1;
-        $data3=array(
-            'tgl'       => date('Y-m-d'),
-            'palletin'   => $palletin,
-            'utilisasi' => $palletin/$pallet->num_rows()*100
-        );
+       foreach($query->result()as $que){
+        $out = $que->palletout;
+        $in = $que->palletin;
+       }
+        $palletout = 1+$out;
+        if($hitung > 0){
+            $data3=array(
+                'tgl'       => date('Y-m-d'),
+                'palletout'   => $palletout,
+            );
+        }else{
+            $data3=array(
+                'tgl'       => date('Y-m-d'),
+                'palletout'   => $palletout,
+                'utilisasi' => ($in-$palletout)/$pallet->num_rows()*100
+            );
+        }
         $where2=array('tgl'=>date("Y-m-d"));
 
         //untuk detailsal
         $data4=array(
             'tgl'       => date("Y-m-d"),
+            'qty'       => $quty-$jumlah
+        );
+        $where3 = array(
             'kode'      => $kode,
             'nobatch'   => $nobatch,
             'nopallet'  => $nopallet,
-            'qty'       => $jumlah
         );
 
         if($sal>=$jumlah && $jumlah>0){
@@ -167,7 +190,11 @@ class Keluar_track extends CI_Controller
         $this->keluar_track_model->tambah($data, 'riwayattrack');
         $this->keluar_track_model->update($where,$data1,'master');
         $this->keluar_track_model->update($where1,$data2,'pallet');
-        $this->keluar_track_model->tambah($data4, 'detailsal');
+        if($quty - $jumlah > 0){
+            $this->db->keluar_track_model->update($where3,$data4,'detailsal');
+        }else{
+            $this->db->keluar_track_model->hapus($where3,'detailsal');
+        }
         if($query->num_rows()>0)
        {
             $this->keluar_track_model->update($where2,$data3,'utilisasi');
