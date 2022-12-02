@@ -46,6 +46,8 @@ class Keluar_track extends CI_Controller
         $data['master']=$this->keluar_track_model->detsal();
         $data['keluar']=$this->keluar_track_model->riwayat_all();
         $data['pallet']=$this->keluar_track_model->tampil_palet();
+        $data['kode'] = $this->input->post('kode');
+        $this->session->set_userdata('kodem',$data['kode']);
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("track/keluar/input_keluar_track",$data);
@@ -53,7 +55,7 @@ class Keluar_track extends CI_Controller
     }
     
     public function bantuan($kode){
-        $data['kode'] = $kode;
+        $data['cod']=$kode;
         $this->load->view("track/keluar/bantuan",$data);
     }
 
@@ -213,6 +215,29 @@ class Keluar_track extends CI_Controller
     }
         redirect('track/keluar_track/input_keluar_track');
     }
+
+    function get_batch(){
+		$kode = $this->input->post('id',TRUE);
+		$data = $this->keluar_track_model->get_batch($kode)->result();
+		echo json_encode($data);
+	}
+	
+    function get_pallet(){
+		$batch = $this->input->post('id',TRUE);
+		$kode = $this->input->post('kode',TRUE);
+		$data = $this->keluar_track_model->get_pallet($batch,$kode)->result();
+		echo json_encode($data);
+	}
+
+    function get_qty(){
+        $id = $this->input->post('id',TRUE);
+		$kode = $this->input->post('kode',TRUE);
+		$batch = $this->input->post('batch',TRUE);
+		$data = $this->keluar_track_model->get_qty($id,$kode,$batch)->result();
+		echo json_encode($data);
+    }
+
+
     public function edit_keluar_track($no){
         $where=array('no'=>$no);
         $data['keluar'] = $this->keluar_track_model->get_where($where,'riwayattrack')->result();

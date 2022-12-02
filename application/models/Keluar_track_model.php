@@ -93,4 +93,20 @@ class Keluar_track_model extends CI_Model
         $this->db->where($where);
         $this->db->delete($table);
     }
+
+    function get_batch($kode){
+		$query = $this->db->where('kode', $kode)->group_by('nobatch')->get('detailsal');
+		return $query;
+	}
+	function get_pallet($batch,$kode){
+		$query = $this->db->where('kode', $kode)->where('nobatch', $batch)->group_by('nopallet')->get('detailsal');
+		return $query;
+	}
+	function get_qty($id,$kode,$batch){
+		$this->db->select('sum(qty) as jumlah,max1,max2,sat1,sat2,sat3');
+        $this->db->from('detailsal');
+        $this->db->join('master','master.kode = detailsal.kode');
+        $this->db->where('detailsal.kode', $kode)->where('nopallet',$id)->where('nobatch', $batch);
+		return $this->db->get();
+	}
 }
