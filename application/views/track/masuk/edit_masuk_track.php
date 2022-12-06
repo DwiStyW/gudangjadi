@@ -8,7 +8,7 @@ date_default_timezone_set('Asia/Jakarta');
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
                     <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
-                        <h1>Input Bahan Masuk<h1>
+                        <h1>Edit Bahan Masuk<h1>
                     </div>
                 </div>
                 <div style="background-color:#fff">
@@ -17,8 +17,8 @@ date_default_timezone_set('Asia/Jakarta');
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="all-form-element-inner">
-
-                                        <form enctype="multipart/form-data" action="<?= base_url("masuk/barang_masuk") ?>" method="post" class="form">
+                                        <?php foreach($masuk as $m):?>
+                                        <form enctype="multipart/form-data" action="<?= base_url("track/masuk_track/tambah_masuk_track") ?>" method="post" class="form">
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -26,11 +26,11 @@ date_default_timezone_set('Asia/Jakarta');
                                                             Form</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="tglform" type="date" class="form-control" id="tglform" value="<?php echo date("Y-m-d"); ?>" required />
+                                                        <input name="tglform" type="date" class="form-control" id="tglform" value="<?php echo $m->tglform?>" required />
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group-inner">
+                                            <!-- <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">No Form</label>
@@ -38,6 +38,35 @@ date_default_timezone_set('Asia/Jakarta');
                                                     <div class="col-lg-9">
                                                         <input name="noform" type="text" class="form-control" id="q" onkeyup="search()" placeholder="Nomor Form" required />
                                                         <label class="login2 pull-left pull-right-pro" id="pesan"></label>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <div class="form-group-inner">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <label class="login2 pull-right pull-right-pro">No Batch</label>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <input name="nobatch" type="text" class="form-control" value="<?= $m->nobatch ?>" placeholder="Nomor Batch" required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group-inner">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <label class="login2 pull-right pull-right-pro">No Pallet</label>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <select id="nopallet" name="nopallet" type="select" class="form-control" required />
+                                                        <option type="search"></option>
+                                                        <?php 
+                                                        foreach($pallet as $p){ 
+                                                            if($m->nopallet == $p->kdpallet){?>
+                                                            <option selected value="<?= $p->kdpallet?>"><?php echo $p->kdpallet.' '. $p->status?></option>
+                                                            <?php }else{ ?>
+                                                            <option value="<?= $p->kdpallet?>"><?php echo $p->kdpallet.' '. $p->status?></option>
+                                                        <?php }} ?>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -54,26 +83,24 @@ date_default_timezone_set('Asia/Jakarta');
                                                                 <option type="search"></option>
                                                                 <?php
                                                                 $no = 1;
-                                                                foreach ($master as $mter) { ?>
+                                                                foreach ($master as $mter) { 
+                                                                if($m->kode == $mter->kode){?>
+                                                                <option selected value="<?= $mter->kode ?>">
+                                                                    <?= $mter->nama ?> -|
+                                                                    <?= $mter->sat1 ?> |-| <?= $mter->sat2 ?> |-|
+                                                                    <?= $mter->sat3 ?> |-
+                                                                    <?= $mter->kode ?>
+                                                                </option>
+                                                                <?php }else{ ?>
                                                                 <option value="<?= $mter->kode ?>">
                                                                     <?= $mter->nama ?> -|
                                                                     <?= $mter->sat1 ?> |-| <?= $mter->sat2 ?> |-|
                                                                     <?= $mter->sat3 ?> |-
                                                                     <?= $mter->kode ?>
                                                                 </option>
-                                                                <?php } ?>
+                                                                <?php }} ?>
                                                             </select>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">No Batch</label>
-                                                    </div>
-                                                    <div class="col-lg-9">
-                                                        <input name="nobatch" type="text" class="form-control" placeholder="Nomor Batch" required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -87,7 +114,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                             placeholder="Satuan 1">
                                                     </div>
                                                     <div class="col-lg-2">
-                                                        <input readonly id=sat1 class="form-control" value="">
+                                                        <input readonly id=sat1 class="form-control" value="<?= $sat1 ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -159,7 +186,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <div class="col-lg-3"></div>
                                                         <div class="col-lg-9">
                                                             <div class="login-horizental cancel-wp pull-left">
-                                                                <a href="<?= base_url("masuk") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
+                                                                <a href="<?= base_url("track/masuk_track") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
                                                                 <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Save Change</button>
                                                             </div>
                                                         </div>
@@ -167,6 +194,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                 </div>
                                             </div>
                                         </form>
+                                        <?php endforeach; ?>
                                         <br>
                                         <!-- Start Form -->
                                         <div class="row">
@@ -183,8 +211,8 @@ date_default_timezone_set('Asia/Jakarta');
                                                                 <tr>
                                                                     <th data-field="no">No</th>
                                                                     <th data-field="tglform">Tgl Form</th>
-                                                                    <th data-field="noform">No Form</th>
-                                                                    <th data-field="nobatch">No Batch</th>
+                                                                    <th data-field="noform">No batch</th>
+                                                                    <th data-field="noform">No pallet</th>
                                                                     <th data-field="kode">Kode Barang</th>
                                                                     <th data-field="nama">Nama Barang</th>
                                                                     <th data-field="satuan1">Satuan 1</th>
@@ -205,8 +233,8 @@ date_default_timezone_set('Asia/Jakarta');
                                                                     <td><?php echo $no++; ?></td>
                                                                     <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?>
                                                                     </td>
-                                                                    <td><?php echo $m->noform; ?></td>
                                                                     <td><?php echo $m->nobatch; ?></td>
+                                                                    <td><?php echo $m->nopallet; ?></td>
                                                                     <td><?php echo $m->kode; ?></td>
                                                                     <td><?php echo $m->nama; ?></td>
                                                                     <?php
@@ -325,6 +353,11 @@ function filSatuan() {
 <script>
 $(document).ready(function() {
     $("#kode").select2({
+        placeholder: "Please Select",
+    });
+});
+$(document).ready(function() {
+    $("#nopallet").select2({
         placeholder: "Please Select",
     });
 });

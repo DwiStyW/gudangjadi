@@ -36,7 +36,7 @@ error_reporting(0);
                                     <span class="input-icon"><i class="fa fa-user"></i></span>
                                     <input class="form-control" style="color:black" type="text" id="username"
                                         name="username" placeholder="Username" aria-label="Username"
-                                        aria-describedby="username-addon">
+                                        aria-describedby="username-addon" autofocus>
                                 </div>
                                 <div class="form-group">
                                     <span class="input-icon"><i class="fa fa-lock"></i></span>

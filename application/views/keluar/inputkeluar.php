@@ -18,9 +18,7 @@ date_default_timezone_set('Asia/Jakarta');
                                 <div class="col-lg-12">
                                     <div class="all-form-element-inner">
 
-                                        <form enctype="multipart/form-data"
-                                            action="<?= base_url("keluar/tambah_barang_keluar") ?>" method="post"
-                                            class="form">
+                                        <form enctype="multipart/form-data" action="<?= base_url("keluar/tambah_barang_keluar") ?>" method="post" class="form">
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -28,9 +26,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                             Form</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="tglform" type="date" class="form-control"
-                                                            id="tglform" value="<?php echo date("Y-m-d"); ?>"
-                                                            required />
+                                                        <input name="tglform" type="date" class="form-control" id="tglform" value="<?php echo date("Y-m-d"); ?>" required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -40,10 +36,18 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">No Form</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="noform" type="text" class="form-control" id="q"
-                                                            onkeyup="search()" placeholder="Nomor Form" required />
-                                                        <label class="login2 pull-left pull-right-pro"
-                                                            id="pesan"></label>
+                                                        <input name="noform" type="text" class="form-control" id="q" onkeyup="search()" placeholder="Nomor Form" required />
+                                                        <label class="login2 pull-left pull-right-pro" id="pesan"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group-inner">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <label class="login2 pull-right pull-right-pro">No Batch</label>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <input name="nobatch" type="text" class="form-control" placeholder="Nomor Form" required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -56,15 +60,14 @@ date_default_timezone_set('Asia/Jakarta');
                                                     </div>
                                                     <div class="col-lg-9">
                                                         <div class="form-select-list">
-                                                            <select id="kode" name="kode" class="form-control"
-                                                                onchange="filSatuan()" required>
+                                                            <select id="kode" name="kode" class="form-control" onchange="filSatuan()" required>
                                                                 <option type="search"></option>
                                                                 <?php
                                                                 $no = 1;
                                                                 foreach ($master as $mter) { ?>
-                                                                <option value="<?= $mter->kode ?>"><?= $mter->nama ?> -|
-                                                                    <?= $mter->sat1 ?> |-| <?= $mter->sat2 ?> |-|
-                                                                    <?= $mter->sat3 ?> |- <?= $mter->kode ?></option>
+                                                                    <option value="<?= $mter->kode ?>"><?= $mter->nama ?> -|
+                                                                        <?= $mter->sat1 ?> |-| <?= $mter->sat2 ?> |-|
+                                                                        <?= $mter->sat3 ?> |- <?= $mter->kode ?></option>
                                                                 <?php } ?>
                                                             </select>
                                                         </div>
@@ -77,8 +80,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">Satuan 1</label>
                                                     </div>
                                                     <div class="col-lg-7">
-                                                        <input name="sat1" type="number" class="form-control"
-                                                            placeholder="Satuan 1">
+                                                        <input name="sat1" type="number" class="form-control" placeholder="Satuan 1">
                                                     </div>
                                                     <div class="col-lg-2">
                                                         <input readonly id=sat1 class="form-control" value="">
@@ -91,8 +93,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">Satuan 2</label>
                                                     </div>
                                                     <div class="col-lg-7">
-                                                        <input name="sat2" type="number" class="form-control"
-                                                            placeholder="Satuan 2">
+                                                        <input name="sat2" type="number" class="form-control" placeholder="Satuan 2">
                                                     </div>
                                                     <div class="col-lg-2">
                                                         <input readonly id=sat2 class="form-control" value="">
@@ -105,8 +106,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">Satuan 3</label>
                                                     </div>
                                                     <div class="col-lg-7">
-                                                        <input name="sat3" type="number" class="form-control"
-                                                            placeholder="Satuan 3">
+                                                        <input name="sat3" type="number" class="form-control" placeholder="Satuan 3">
                                                     </div>
                                                     <div class="col-lg-2">
                                                         <input readonly id=sat3 class="form-control" value="">
@@ -121,9 +121,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                             Input</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="tgl" type="text" class="form-control" id="tgl"
-                                                            value="<?php echo date("Y-m-d h:i:s"); ?>"
-                                                            readonly="readonly" />
+                                                        <input name="tgl" type="text" class="form-control" id="tgl" value="<?php echo date("Y-m-d h:i:s"); ?>" readonly="readonly" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -134,16 +132,14 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">Catatan</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="cat" type="text" class="form-control" id="cat"
-                                                            placeholder="Catatan" />
+                                                        <input name="cat" type="text" class="form-control" id="cat" placeholder="Catatan" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-9">
-                                                        <input name="adm" type="hidden" class="form-control" id="adm"
-                                                            value="<?= $this->session->userdata('user_id'); ?>" />
+                                                        <input name="adm" type="hidden" class="form-control" id="adm" value="<?= $this->session->userdata('user_id'); ?>" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -153,11 +149,8 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <div class="col-lg-3"></div>
                                                         <div class="col-lg-9">
                                                             <div class="login-horizental cancel-wp pull-left">
-                                                                <a href="<?= base_url("keluar") ?>"><button
-                                                                        class="btn btn-white"
-                                                                        type="button">Kembali</button></a>
-                                                                <button class="btn btn-sm btn-primary login-submit-cs"
-                                                                    type="submit">Save Change</button>
+                                                                <a href="<?= base_url("keluar") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
+                                                                <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Save Change</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -181,6 +174,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                                     <th data-field="no">No</th>
                                                                     <th data-field="tglform">Tgl Form</th>
                                                                     <th data-field="noform">No Form</th>
+                                                                    <th data-field="batch">No Batch</th>
                                                                     <th data-field="kode">Kode Barang</th>
                                                                     <th data-field="nama">Nama Barang</th>
                                                                     <th data-field="satuan1">Satuan 1</th>
@@ -197,14 +191,15 @@ date_default_timezone_set('Asia/Jakarta');
                                                                 $no = 1;
                                                                 foreach ($masuk as $m) {
                                                                 ?>
-                                                                <tr>
-                                                                    <td><?php echo $no++; ?></td>
-                                                                    <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?>
-                                                                    </td>
-                                                                    <td><?php echo $m->noform; ?></td>
-                                                                    <td><?php echo $m->kode; ?></td>
-                                                                    <td><?php echo $m->nama; ?></td>
-                                                                    <?php
+                                                                    <tr>
+                                                                        <td><?php echo $no++; ?></td>
+                                                                        <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?>
+                                                                        </td>
+                                                                        <td><?php echo $m->noform; ?></td>
+                                                                        <td><?php echo $m->nobatch; ?></td>
+                                                                        <td><?php echo $m->kode; ?></td>
+                                                                        <td><?php echo $m->nama; ?></td>
+                                                                        <?php
                                                                         if ($m->masuk == 0) {
 
                                                                             //Perhitungan 3 Satuan
@@ -221,38 +216,29 @@ date_default_timezone_set('Asia/Jakarta');
                                                                             $sats3  = $sisa - $sats2 * $m->max2;
                                                                         }
                                                                         ?>
-                                                                    <td><?php echo $sats1; ?> <?php echo $m->sat1 ?>
-                                                                    </td>
-                                                                    <td><?php echo $sats2; ?> <?php echo $m->sat2 ?>
-                                                                    </td>
-                                                                    <td><?php echo $sats3; ?> <?php echo $m->sat3 ?>
-                                                                    </td>
-                                                                    <td><?php echo $m->ket; ?></td>
-                                                                    <td><?php echo $m->tanggal; ?></td>
-                                                                    <?php if ($m->ket == "Output") { ?>
-                                                                    <td><a href="<?= base_url("keluar/edit_keluar/" . $m->no) ?>"
-                                                                            class="btn btn-primary btn-sm"><i
-                                                                                class="fa fa-edit"></i>
-                                                                            Edit </a></td>
-                                                                    <td><a href="<?= base_url("keluar/hapus_keluar/" . $m->no . "/" . $m->kode) ?>"
-                                                                            onclick="javascript: return confirm('Anda yakin hapus ?')"
-                                                                            class="btn btn-danger btn-sm"><i
-                                                                                class="fa fa-trash"></i> Hapus</a>
-                                                                    </td>
-                                                                    <?php } else { ?>
-                                                                    <td><a href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>"
-                                                                            class="btn btn-primary btn-sm"><i
-                                                                                class="fa fa-edit"></i>
-                                                                            Edit </a></td>
-                                                                    <td><a href="<?= base_url("masuk/hapus_masuk/" . $m->no . "/" . $m->kode) ?>"
-                                                                            onclick="javascript: return confirm('Anda yakin hapus ?')"
-                                                                            class="btn btn-danger btn-sm">
-                                                                            <i class="fa fa-trash"></i> Hapus
-                                                                        </a>
-                                                                    </td>
-                                                                    <?php } ?>
+                                                                        <td><?php echo $sats1; ?> <?php echo $m->sat1 ?>
+                                                                        </td>
+                                                                        <td><?php echo $sats2; ?> <?php echo $m->sat2 ?>
+                                                                        </td>
+                                                                        <td><?php echo $sats3; ?> <?php echo $m->sat3 ?>
+                                                                        </td>
+                                                                        <td><?php echo $m->ket; ?></td>
+                                                                        <td><?php echo $m->tanggal; ?></td>
+                                                                        <?php if ($m->ket == "Output") { ?>
+                                                                            <td><a href="<?= base_url("keluar/edit_keluar/" . $m->no) ?>" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i>
+                                                                                    Edit </a></td>
+                                                                            <td><a href="<?= base_url("keluar/hapus_keluar/" . $m->no . "/" . $m->kode) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</a>
+                                                                            </td>
+                                                                        <?php } else { ?>
+                                                                            <td><a href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i>
+                                                                                    Edit </a></td>
+                                                                            <td><a href="<?= base_url("masuk/hapus_masuk/" . $m->no . "/" . $m->kode) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')" class="btn btn-danger btn-sm">
+                                                                                    <i class="fa fa-trash"></i> Hapus
+                                                                                </a>
+                                                                            </td>
+                                                                        <?php } ?>
 
-                                                                </tr>
+                                                                    </tr>
                                                                 <?php
                                                                 } ?>
                                                             </tbody>
@@ -276,94 +262,94 @@ date_default_timezone_set('Asia/Jakarta');
 <!-- Data table area End-->
 
 <script>
-function search() {
-    var input, filter, ul, li, a, i;
-    input = document.getElementById("q");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("list");
-    li = ul.getElementsByTagName("tr");
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("td")[2];
-        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-            li[i].style.display = "none";
+    function search() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("q");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("list");
+        li = ul.getElementsByTagName("tr");
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("td")[2];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
         }
     }
-}
 
-function filSatuan() {
-    var kode = document.getElementById('kode').options;
-    var index = document.getElementById('kode').selectedIndex;
-    var text = kode[index].text;
+    function filSatuan() {
+        var kode = document.getElementById('kode').options;
+        var index = document.getElementById('kode').selectedIndex;
+        var text = kode[index].text;
 
-    var potong1 = text.slice(text.search("-") + 3, text.length);
-    var sat1 = potong1.slice(0, potong1.search("-") - 1);
-    document.getElementById('sat1').placeholder = sat1;
+        var potong1 = text.slice(text.search("-") + 3, text.length);
+        var sat1 = potong1.slice(0, potong1.search("-") - 1);
+        document.getElementById('sat1').placeholder = sat1;
 
-    var potong2 = potong1.slice(potong1.search("-") + 3, text.length);
-    var sat2 = potong2.slice(0, potong2.search("-") - 1);
-    document.getElementById('sat2').placeholder = sat2;
+        var potong2 = potong1.slice(potong1.search("-") + 3, text.length);
+        var sat2 = potong2.slice(0, potong2.search("-") - 1);
+        document.getElementById('sat2').placeholder = sat2;
 
-    var potong3 = potong2.slice(potong2.search("-") + 3, text.length);
-    var sat3 = potong3.slice(0, potong3.search("-") - 1);
-    document.getElementById('sat3').placeholder = sat3;
-}
+        var potong3 = potong2.slice(potong2.search("-") + 3, text.length);
+        var sat3 = potong3.slice(0, potong3.search("-") - 1);
+        document.getElementById('sat3').placeholder = sat3;
+    }
 </script>
 <script src="<?= base_url() ?>assets/js/jquery-2.1.4.min.js"></script>
 <script>
-$(document).ready(function() {
-    $("#kode").select2({
-        placeholder: "Please Select",
+    $(document).ready(function() {
+        $("#kode").select2({
+            placeholder: "Please Select",
+        });
     });
-});
 </script>
 
 <script>
-$(document).ready(function() {
-    $('#q').blur(function() {
-        $('#pesan').html('<img style="margin-left:10px; width:10px" src="loading.gif">');
-        var q = $(this).val();
+    $(document).ready(function() {
+        $('#q').blur(function() {
+            $('#pesan').html('<img style="margin-left:10px; width:10px" src="loading.gif">');
+            var q = $(this).val();
 
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo base_url('masuk/cekduplicate') ?>',
-            data: 'q=' + q,
-            success: function(data) {
-                $('#pesan').html(data);
-            }
-        })
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url('masuk/cekduplicate') ?>',
+                data: 'q=' + q,
+                success: function(data) {
+                    $('#pesan').html(data);
+                }
+            })
 
+        });
     });
-});
 </script>
 
 <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
 <?php if ($this->session->flashdata('sukses')) : ?>
-<script>
-Swal.fire({
-    icon: 'success',
-    position: 'top-end',
-    title: '<?= $this->session->flashdata('sukses') ?>',
-    showConfirmButton: false,
-    timer: 3000,
-    allowOutsideClick: false,
-    timerProgressBar: true
-})
-</script>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            position: 'top-end',
+            title: '<?= $this->session->flashdata('sukses') ?>',
+            showConfirmButton: false,
+            timer: 1500,
+            allowOutsideClick: false,
+            timerProgressBar: true
+        })
+    </script>
 <?php endif ?>
 
 <?php if ($this->session->flashdata('gagal')) : ?>
-<script>
-Swal.fire({
-    icon: 'error',
-    position: 'top-end',
-    title: '<?= $this->session->flashdata('gagal') ?>',
-    showConfirmButton: false,
-    timer: 3000,
-    allowOutsideClick: false,
-    timerProgressBar: true
-})
-</script>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            position: 'top-end',
+            title: '<?= $this->session->flashdata('gagal') ?>',
+            showConfirmButton: false,
+            timer: 1500,
+            allowOutsideClick: false,
+            timerProgressBar: true
+        })
+    </script>
 <?php
 endif ?>

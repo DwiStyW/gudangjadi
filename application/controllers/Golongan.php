@@ -11,12 +11,12 @@ class Golongan extends CI_Controller
     <span aria-hidden="true">&times;</span>
   </button>
 </div>');
-            redirect('auth/login');
+            redirect('auth/logout');
         }
     }
     public function index()
     {
-        $data['golongan'] = $this->get->tampil_golongan();
+        $data['golongan'] = $this->golongan_model->tampil_golongan();
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("golongan", $data);
@@ -34,8 +34,12 @@ class Golongan extends CI_Controller
             'kdgol' => $kdgol,
             'namagol' => $namagol
         );
-
-        $this->insert->tambah($data, 'golongan');
+        if (isset($data)) {
+            $this->golongan_model->tambah($data, 'golongan');
+            $this->session->set_flashdata('berhasil', 'Input Golongan Success');
+        } else {
+            $this->session->set_flashdata('gagal', 'Input Golongan Error');
+        }
         redirect('golongan');
     }
 
@@ -53,14 +57,24 @@ class Golongan extends CI_Controller
             'id' => $id,
         );
 
-        $this->edit->update($where, $data, 'golongan');
+        if (isset($data) && isset($where)) {
+            $this->golongan_model->update($where, $data, 'golongan');
+            $this->session->set_flashdata('berhasil', 'Update Golongan Success');
+        } else {
+            $this->session->set_flashdata('gagal', 'Update Golongan Error');
+        }
         redirect('golongan');
     }
 
     public function hapus_golongan($id)
     {
         $where = array('id' => $id);
-        $this->delete->hapus($where, 'golongan');
+        if (isset($where)) {
+            $this->golongan_model->hapus($where, 'golongan');
+            $this->session->set_flashdata('berhasil', 'Delete Golongan Success');
+        } else {
+            $this->session->set_flashdata('gagal', 'Delete Golongan Error');
+        }
         redirect('golongan');
     }
 }
