@@ -156,15 +156,27 @@ class Keluar_track extends CI_Controller
 
         //untuk utilisasi
        $util = $this->db->where('tgl',date("Y-m-d"))->get('utilisasi');
+	   if($util->num_rows()==0){
+		$new=array(
+			'tgl' =>date('Y-m-d')
+		);
+		 $this->keluar_track_model->tambah($new,'utilisasi');
+	   }
        $pallet = $this->db->get('pallet');
-       foreach($util->result()as $u){
-        $out = $u->palletout;
-        if($out==null){
-            $out=1;
+       foreach($util->result_array()as $u){
+        $out[] = $u['palletout'];
+        if($out[0]==null){
+            $out[0]=1;
         }
-        $in = $u->palletin;
+        $in[] = $u['palletin'];
+	// 	echo $out[0];
+	//    echo $in[0];
        }
-        $palletout = 1+$out;
+	   if($hitung > 0){
+        $palletout = 1+$out[0];
+       }else{
+        $palletout = $out[0];
+       }
         if($hitung > 0){
             $data3=array(
                 'tgl'       => date('Y-m-d'),
@@ -174,7 +186,7 @@ class Keluar_track extends CI_Controller
             $data3=array(
                 'tgl'       => date('Y-m-d'),
                 'palletout'   => $palletout,
-                'utilisasi' => ($in-$palletout)/$pallet->num_rows()*100
+                'utilisasi' => ($in[0]-$palletout)/$pallet->num_rows()*100
             );
         }
         $where2=array('tgl'=>date("Y-m-d"));
@@ -196,9 +208,9 @@ class Keluar_track extends CI_Controller
         $this->keluar_track_model->update($where,$data1,'master');
         $this->keluar_track_model->update($where1,$data2,'pallet');
         if($quty - $jumlah > 0){
-            $this->db->keluar_track_model->update($where3,$data4,'detailsal');
+            $this->keluar_track_model->update($where3,$data4,'detailsal');
         }else{
-            $this->db->keluar_track_model->hapus($where3,'detailsal');
+            $this->keluar_track_model->hapus($where3,'detailsal');
         }
         if($util->num_rows()>0)
        {

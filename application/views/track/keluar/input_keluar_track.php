@@ -175,7 +175,6 @@ date_default_timezone_set('Asia/Jakarta');
                                                     </div>
                                                 </div>
                                             </div>
-                                            <input type="text" id="jumlah">
                                             <div class="form-group-inner">
                                                 <div class="login-btn-inner">
                                                     <div class="row">
@@ -327,6 +326,7 @@ $(document).ready(function() {
                 
                 var htmlq = '';
                 htmlq = '';
+                
                 $('#qty').html(htmlq);
             }
         });
