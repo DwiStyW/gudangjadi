@@ -61,7 +61,7 @@ class Keluar_track extends CI_Controller
 
     public function tambah_keluar_track()
     {
-        $nobatch = substr($this->input->post('nobatch'),0,strpos($this->input->post('nobatch'),"-",0));
+        $nobatch = $this->input->post('nobatch');
         $qty1     = substr($this->input->post('nobatch'),strpos($this->input->post('nobatch'),'-',0)+1,strlen($this->input->post('nobatch')));
         $nopallet = $this->input->post('nopallet');
         $kode = $this->input->post('kode');
@@ -87,7 +87,7 @@ class Keluar_track extends CI_Controller
             $tglform = $qu->tglform;
         }
         //get qty detailsal
-        $quer = $this->db->where('kode',$kode)->where('nobatch',$nobatch)->where('nopallet',$nopallet)->get('detailsalqty');
+        $quer = $this->db->where('kode',$kode)->where('nobatch',$nobatch)->where('nopallet',$nopallet)->get('detailsal');
         foreach($quer->result() as $qu){
             $quty = $qu->qty;
         }
@@ -120,7 +120,7 @@ class Keluar_track extends CI_Controller
             'kode'      => $kode,
             'nobatch'   => $nobatch,
             'nopallet'  => $nopallet,
-            'statpallet'=> 'IN',
+            'statpallet'=> 'OUT',
             'masuk'     => '',
             'keluar'    => $jumlah,
             'saldo'     => $saldo_track,
@@ -155,11 +155,14 @@ class Keluar_track extends CI_Controller
         $where1=array('kdpallet' => $nopallet);
 
         //untuk utilisasi
-       $query = $this->db->where('tgl',date("Y-m-d"))->get('utilisasi');
+       $util = $this->db->where('tgl',date("Y-m-d"))->get('utilisasi');
        $pallet = $this->db->get('pallet');
-       foreach($query->result()as $que){
-        $out = $que->palletout;
-        $in = $que->palletin;
+       foreach($util->result()as $u){
+        $out = $u->palletout;
+        if($out==null){
+            $out=1;
+        }
+        $in = $u->palletin;
        }
         $palletout = 1+$out;
         if($hitung > 0){
@@ -197,7 +200,7 @@ class Keluar_track extends CI_Controller
         }else{
             $this->db->keluar_track_model->hapus($where3,'detailsal');
         }
-        if($query->num_rows()>0)
+        if($util->num_rows()>0)
        {
             $this->keluar_track_model->update($where2,$data3,'utilisasi');
        }else{

@@ -175,6 +175,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                     </div>
                                                 </div>
                                             </div>
+                                            <input type="text" id="jumlah">
                                             <div class="form-group-inner">
                                                 <div class="login-btn-inner">
                                                     <div class="row">
@@ -182,7 +183,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <div class="col-lg-9">
                                                             <div class="login-horizental cancel-wp pull-left">
                                                                 <a href="<?= base_url("track/keluar_track") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
-                                                                <a onclick="filsalmin()" class="btn btn-sm btn-primary login-submit-cs">Save Change</a>
+                                                                <button type="submit" class="btn btn-sm btn-primary login-submit-cs">Save Change</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -220,8 +221,7 @@ date_default_timezone_set('Asia/Jakarta');
     //     document.getElementById('qty').innerHTML = sat1+' <?= $satuan1?>, '+ sat2+' <?= $satuan2?>, '+ sat3+' <?= $satuan3?>';
     //     }
     function filsalmin(){
-        var batch = document.getElementById('batch').value;
-        var saldo = batch.slice(batch.search("-")+1,batch.length);
+        var saldo = document.getElementById('jumlah').value;
         var sal1  = document.getElementById('sats1').value;
         var sal2  = document.getElementById('sats2').value;
         var sal3  = document.getElementById('sats3').value;
@@ -238,12 +238,12 @@ date_default_timezone_set('Asia/Jakarta');
         var sald2 = sal2 * <?= $max1 ?>;
         var total = parseInt(sald1)+parseInt(sald2)+parseInt(sal3);
         if(document.getElementById('nopallet').value == "" && document.getElementById('batch').value !=""){
-            if(total <= saldo){
+            if(total > saldo || total<0){
                 document.getElementById('data').submit();
             }else{
                 Swal.fire({
             icon: 'warning',
-            html: "<h1><b>Peringatan!</b><h1><h5>pastikan data yang di input sudah lengkap!</h5>",
+            html: "<h1><b>Peringatan!</b><h1><h5>Saldo tidak mencukupi!</h5>",
             showConfirmButton: true,
             allowOutsideClick: false,
             width: 300,
@@ -377,6 +377,7 @@ $(document).ready(function() {
             success: function(data) {
 
                 var html = '';
+                var html1 = '';
                 var jumlah = data[0].jumlah;
                 var max1   = data[0].max1;
                 var max2   = data[0].max2;
@@ -392,6 +393,8 @@ $(document).ready(function() {
                 if(jumlah!=null){
                 html = "<h5>"+jum1+" "+sat1+" "+jum2+" "+sat2+" "+jum3+" "+sat3+"</h5>";
                 }
+                html1 = jumlah;
+                $('#jumlah').val(html1);
                 $('#qty').html(html);
                 console.log(jumlah);
             }
