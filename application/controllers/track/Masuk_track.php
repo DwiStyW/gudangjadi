@@ -239,4 +239,16 @@ class Masuk_track extends CI_Controller
         $this->load->view("track/masuk/edit_masuk_track",$data);
         $this->load->view("_partials/footer");
     }
+    function get_batch(){
+		$kode = $this->input->post('id',TRUE);
+		$data = $this->masuk_track_model->get_batch($kode)->result();
+		echo json_encode($data);
+	}
+
+    function get_qty(){
+        $id = $this->input->post('id',TRUE);
+		$kode = $this->input->post('kode',TRUE);
+		$data = $this->masuk_track_model->get_qty($id,$kode)->result();
+		echo json_encode($data);
+    }
 }

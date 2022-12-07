@@ -40,11 +40,12 @@ date_default_timezone_set('Asia/Jakarta');
                                                     </div>
                                                     <div class="col-lg-9">
                                                         <div class="form-select-list">
-                                                            <select id="kode" name="kode" class="form-control" onchange="getkode()" required>
+                                                            <select id="kode" name="kode" class="form-control" required>
                                                                 <option type="search"></option>
                                                                 <?php
                                                                 $no = 1;
                                                                 foreach ($master as $mter) { ?>
+                                                                    <option type="search"></option>
                                                                     <?php if($this->uri->segment(4)==$mter->kode){?>
                                                                     <option selected value="<?= $mter->kode ?>">
                                                                     <?= $mter->kode ?> - <?= $mter->nama ?>
@@ -59,24 +60,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                     </div>
                                                 </div>
                                             </div>
-                                            <script>
-                                                function getkode(){
-                                                    var kode = document.getElementById('kode').value;
-                                                    window.location = '<?=base_url()?>'+'track/masuk_track/input_masuk_track/' + kode
-                                                }
-                                            </script>
-                                            
-                                            <?php $batch = $this->db->where('kode',$this->uri->segment(4))->get('detailsalqty')?>
-                                            <?php 
-                                            $mas = $this->db->where('kode',$this->uri->segment(4))->get('master');
-                                            foreach($mas->result() as $m){
-                                                $satuan1 = $m->sat1;
-                                                $satuan2 = $m->sat2;
-                                                $satuan3 = $m->sat3;
-                                                $max1    = $m->max1;
-                                                $max2    = $m->max2;
-                                            }
-                                            ?>
+                                        
                                             <!-- <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -94,11 +78,8 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">No Batch</label>
                                                     </div>
                                                     <div class="col-lg-5">
-                                                        <select id="batch" class="form-control" onchange="qty()" name="nobatch" type="select" required>
-                                                            <option type="search"></option>
-                                                            <?php foreach($batch->result() as $b){?>
-                                                                <option value="<?= $b->nobatch.'-'.$b->qty?>"> <?= $b->nobatch?></option>
-                                                            <?php }?>
+                                                        <select id="batch" class="form-control"  name="nobatch" type="select" required>
+
                                                         </select>
                                                     </div>
                                                     <div style="display:flex; flex-wrap:wrap">
@@ -236,7 +217,7 @@ date_default_timezone_set('Asia/Jakarta');
 
 <!-- mobile -->
 
-<script src="<?= base_url() ?>assets/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url().'assets/js/jquery-3.3.1.js'?>"></script>
 <script src="<?= base_url() ?>assets/select2-master/dist/js/select2.min.js"></script>
 <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
 <script>
@@ -302,40 +283,96 @@ $(document).ready(function() {
         placeholder: "Please Select",
     });
 });
-</script>
-
-<?php if($this->uri->segment(4)!=""){?>
-<script>
 $(document).ready(function() {
-    $("#batch").select2({
-        placeholder: "Please Select",
-    });
-});
-</script>
-<?php }else{ ?>
-    <script>
-    $(document).ready(function() {
         $("#batch").select2({
             placeholder: "Pilih Kode barang terlebih dahulu",
         });
     });
-    </script>
-<?php } ?>
+</script>
 
 <script>
 $(document).ready(function() {
-    $('#q').blur(function() {
-        $('#pesan').html('<img style="margin-left:10px; width:10px" src="loading.gif">');
-        var q = $(this).val();
-
+    $('#kode').change(function() {
+        var id = $(this).val();
         $.ajax({
-            type: 'POST',
-            url: '<?php echo base_url('masuk/cekduplicate') ?>',
-            data: 'q=' + q,
+            url: "<?php echo site_url('track/masuk_track/get_batch');?>",
+            method: "POST",
+            data: {
+                id: id
+            },
+            async: true,
+            dataType: 'json',
             success: function(data) {
-                $('#pesan').html(data);
+                $("#batch").select2({
+                    placeholder: "Please Select",
+                });
+
+                var html = '';
+                var i;
+                html = '<option selected type="search"></option>';
+                for (i = 0; i < data.length; i++) {
+                    html += '<option value=' + data[i].nobatch + '>' + data[i]
+                        .nobatch + '</option>';
+                }
+                $('#batch').html(html);
+
+                var htmlp = '';
+                htmlp = '<option selected type="search"></option>';
+                $('#pallet').html(htmlp);
+                
+                var htmlq = '';
+                htmlq = '';
+                
+                $('#qty').html(htmlq);
             }
-        })
+        });
+        return false;
+    });
+
+    $('#batch').change(function() {
+        var id = $(this).val();
+        var kode = document.getElementById('kode').value;
+        $.ajax({
+            url: "<?php echo site_url('track/masuk_track/get_qty');?>",
+            method: "POST",
+            data: {
+                id: id,
+                kode: kode,
+            },
+            async: true,
+            dataType: 'json',
+            success: function(data) {
+
+                var html = '';
+                var jumlah = data[0].jumlah;
+                var max1   = data[0].max1;
+                var max2   = data[0].max2;
+                var sat1   = data[0].sat1;
+                var sat2   = data[0].sat2;
+                var sat3   = data[0].sat3;
+                
+                var jum1  = Math.floor(data[0].jumlah / (max1 * max2 ));
+                var sisa  = jumlah - (jum1 * max1 * max2);
+                var jum2  = Math.floor(sisa / max2);
+                var jum3  = sisa - jum2 * max2;
+
+                if(jumlah!=null){
+                html = "<h5>"+jum1+" "+sat1+" "+jum2+" "+sat2+" "+jum3+" "+sat3+"</h5>";
+                }
+                $('#qty').html(html);
+                console.log(jumlah);
+            }
+        });
+        return false;
+    });
+
+
+});
+</script>
+<script>
+    $(function() {
+    $("#kode").change(function() {
+        $("#batch").select2('val', 'all');
     });
 });
 </script>
