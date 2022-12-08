@@ -106,6 +106,14 @@ date_default_timezone_set('Asia/Jakarta');
                                             </div>
                                             <div class="form-group-inner">
                                                 <div class="row">
+                                                    <?php 
+                                                     $satuan = $this->db->where('kode',$m->kode)->get('master');
+                                                     foreach($satuan->result() as $s){
+                                                         $sat1=$s->sat1;
+                                                         $sat2=$s->sat2;
+                                                         $sat3=$s->sat3;
+                                                     }
+                                                    ?>
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Satuan 1</label>
                                                     </div>
@@ -128,7 +136,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                             placeholder="Satuan 2">
                                                     </div>
                                                     <div class="col-lg-2">
-                                                        <input readonly id=sat2 class="form-control" value="">
+                                                        <input readonly id=sat2 class="form-control" value="<?= $sat2?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -142,7 +150,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                             placeholder="Satuan 3">
                                                     </div>
                                                     <div class="col-lg-2">
-                                                        <input readonly id=sat3 class="form-control" value="">
+                                                        <input readonly id=sat3 class="form-control" value="<?= $sat3?>">
                                                     </div>
                                                 </div>
                                             </div>

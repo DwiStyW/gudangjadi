@@ -198,22 +198,22 @@ class Masuk_track extends CI_Controller
 
         if($sal>=$jumlah && $jumlah>0){
         $this->db->trans_start();
-        $this->masuk_track_model->tambah($data, 'riwayattrack');
-        $this->masuk_track_model->update($where,$data1,'master');
-        $this->masuk_track_model->update($where1,$data2,'pallet');
+        $this->masuk_track_model->tambah($data, 'riwayattrack');//id
+        $this->masuk_track_model->update($where,$data1,'master');//kode
+        $this->masuk_track_model->update($where1,$data2,'pallet');//nopallet
         if($que->num_rows()>0 ){
-            $this->masuk_track_model->update($where4,$data6,'detailsal');
+            $this->masuk_track_model->update($where4,$data6,'detailsal');//kode & nobatch
         }else{
             $this->masuk_track_model->tambah($data4, 'detailsal');
         }
         if($hitung > 0){
-            $this->masuk_track_model->update($where3,$data5,'detailsalqty');
+            $this->masuk_track_model->update($where3,$data5,'detailsalqty');//kode nobatch nopallet
         }else{
             $this->masuk_track_model->hapus($where3, 'detailsalqty');
         }
         if($query->num_rows()>0)
        {
-            $this->masuk_track_model->update($where2,$data3,'utilisasi');
+            $this->masuk_track_model->update($where2,$data3,'utilisasi');//tgl detailsalqty
        }else{
             $this->masuk_track_model->tambah($data3,'utilisasi');
        }
@@ -239,7 +239,12 @@ class Masuk_track extends CI_Controller
         $this->load->view("track/masuk/edit_masuk_track",$data);
         $this->load->view("_partials/footer");
     }
-    function get_batch(){
+
+    public function hapus()
+    {
+        
+    }   
+     function get_batch(){
 		$kode = $this->input->post('id',TRUE);
 		$data = $this->masuk_track_model->get_batch($kode)->result();
 		echo json_encode($data);
