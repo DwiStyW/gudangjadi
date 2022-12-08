@@ -113,12 +113,9 @@ date_default_timezone_set('Asia/Jakarta');
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Satuan 1</label>
                                                     </div>
-                                                    <div class="col-lg-7">
+                                                    <div class="col-lg-9">
                                                         <input id="sats1" name="sat1" type="number" class="form-control"
                                                             placeholder="Satuan 1">
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <input readonly class="form-control" value="<?php if($this->uri->segment(4)!=""){echo $satuan1;} ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -127,12 +124,9 @@ date_default_timezone_set('Asia/Jakarta');
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Satuan 2</label>
                                                     </div>
-                                                    <div class="col-lg-7">
+                                                    <div class="col-lg-9">
                                                         <input id="sats2" name="sat2" type="number" class="form-control"
                                                             placeholder="Satuan 2">
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <input readonly class="form-control" value="<?php if($this->uri->segment(4)!=""){echo $satuan2;} ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -141,12 +135,9 @@ date_default_timezone_set('Asia/Jakarta');
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Satuan 3</label>
                                                     </div>
-                                                    <div class="col-lg-7">
+                                                    <div class="col-lg-9">
                                                         <input id="sats3" name="sat3" type="number" class="form-control"
                                                             placeholder="Satuan 3">
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <input readonly class="form-control" value="<?php if($this->uri->segment(4)!=""){echo $satuan3;} ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -173,6 +164,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                     <div class="col-lg-9">
                                                         <input name="cat" type="text" class="form-control" id="cat" value=""
                                                             placeholder="Catatan" />
+                                                        <input type="hidden" name="jumlah" id="jumlah">
                                                     </div>
                                                 </div>
                                             </div>
@@ -192,7 +184,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <div class="col-lg-9">
                                                             <div class="login-horizental cancel-wp pull-left">
                                                                 <a href="<?= base_url("track/masuk_track") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
-                                                                <a onclick="filsalmin()" class="btn btn-sm btn-primary login-submit-cs">Save Change</a>
+                                                                <button type="submit" class="btn btn-sm btn-primary login-submit-cs">Save Change</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -220,58 +212,6 @@ date_default_timezone_set('Asia/Jakarta');
 <script type="text/javascript" src="<?php echo base_url().'assets/js/jquery-3.3.1.js'?>"></script>
 <script src="<?= base_url() ?>assets/select2-master/dist/js/select2.min.js"></script>
 <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
-<script>
-
-    function qty(){
-        var batch = document.getElementById('batch').value;
-        var saldo = batch.slice(batch.search("-")+1,batch.length);
-        var sat1  = Math.floor(saldo / (<?= $max1 * $max2 ?> ));
-        var sisa  = saldo - (sat1 * <?= $max1 * $max2?>);
-        var sat2  = Math.floor(sisa / <?= $max2?>);
-        var sat3  = sisa - sat2 * <?= $max2 ?>;
-        document.getElementById('qty').innerHTML = sat1+' <?= $satuan1?>, '+ sat2+' <?= $satuan2?>, '+ sat3+' <?= $satuan3?>';
-        }
-    function filsalmin(){
-        var batch = document.getElementById('batch').value;
-        var saldo = batch.slice(batch.search("-")+1,batch.length);
-        var sal1  = document.getElementById('sats1').value;
-        var sal2  = document.getElementById('sats2').value;
-        var sal3  = document.getElementById('sats3').value;
-        if(sal1==""){
-            sal1=0;
-        }
-        if(sal2==""){
-            sal2=0;
-        }
-        if(sal3==""){
-            sal3=0;
-        }
-        var sald1 = sal1 * <?= $max1 * $max2?>;
-        var sald2 = sal2 * <?= $max1 ?>;
-        var total = parseInt(sald1)+parseInt(sald2)+parseInt(sal3);
-        if(document.getElementById('nopallet').value != "" && document.getElementById('batch').value !=0){
-            if(total > saldo || total <=0){
-                Swal.fire({
-                    icon: 'warning',
-                    html: "<h1><b>Peringatan!</b><h1><h5>Saldo tidak mencukupi!</h5>",
-                    showConfirmButton: true,
-                    allowOutsideClick: false,
-                    width: 300,
-                })
-            }else{
-                document.getElementById('data').submit();
-            }
-        }else{
-            Swal.fire({
-            icon: 'warning',
-            html: "<h1><b>Peringatan!</b><h1><h5>Kode Pallet atau No Batch Kosong!</h5>",
-            showConfirmButton: true,
-            allowOutsideClick: false,
-            width: 300,
-            })
-        }
-    }
-</script>
 <script>
 $(document).ready(function() {
     $("#kode").select2({
@@ -359,6 +299,8 @@ $(document).ready(function() {
                 if(jumlah!=null){
                 html = "<h5>"+jum1+" "+sat1+" "+jum2+" "+sat2+" "+jum3+" "+sat3+"</h5>";
                 }
+                html1 = jumlah;
+                $('#jumlah').val(html1);
                 $('#qty').html(html);
                 console.log(jumlah);
             }

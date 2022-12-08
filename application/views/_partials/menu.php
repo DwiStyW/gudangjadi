@@ -180,8 +180,8 @@
                         <?php } else{?>
                     <li><a href="<?= base_url("masuk") ?>" class="btn btn-lg tekan text-white">Barang Masuk</a>
                     </li>
-                    <li><a href="<?= base_url("keluar") ?>" class="btn btn-lg tekan text-white">Barang Keluar</a>
-                    </li>
+                    <!-- <li><a href="<?= base_url("keluar") ?>" class="btn btn-lg tekan text-white">Barang Keluar</a>
+                    </li> -->
                     
                     <div class="dropdown">
                         <button class="dropbtn">Report <i class="fa fa-chevron-down fa-xs"></i></button>

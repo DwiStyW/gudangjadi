@@ -202,7 +202,7 @@ class Keluar_track extends CI_Controller
             'nopallet'  => $nopallet,
         );
 
-        if($sal>=$jumlah && $jumlah>0){
+        if($sal<=$jumlah && $jumlah>0){
         $this->db->trans_start();
         $this->keluar_track_model->tambah($data, 'riwayattrack');
         $this->keluar_track_model->update($where,$data1,'master');

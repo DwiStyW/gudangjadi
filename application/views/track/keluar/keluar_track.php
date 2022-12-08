@@ -104,7 +104,7 @@
                                 </tbody>
                             </table>
                             <div style="width:100%;margin-top:20px; display:flex; flex:wrap" class="justify-content-between">
-                                <form action="<?= base_url('keluar') ?>" id="go" method="post">
+                                <form action="<?= base_url('track/keluar_track') ?>" id="go" method="post">
                                 <div style="width:100px">
                                     <select class="form-control" name="range" onchange="go()">
                                         <option disabled selected value>Row</option>

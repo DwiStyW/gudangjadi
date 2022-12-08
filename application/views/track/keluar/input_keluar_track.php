@@ -103,12 +103,9 @@ date_default_timezone_set('Asia/Jakarta');
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Satuan 1</label>
                                                     </div>
-                                                    <div class="col-lg-7">
+                                                    <div class="col-lg-9">
                                                         <input id="sats1" name="sat1" type="number" class="form-control"
                                                             placeholder="Satuan 1">
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <input readonly class="form-control" value="<?php if($this->uri->segment(4)!=""){echo $satuan1;} ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -117,12 +114,9 @@ date_default_timezone_set('Asia/Jakarta');
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Satuan 2</label>
                                                     </div>
-                                                    <div class="col-lg-7">
+                                                    <div class="col-lg-9">
                                                         <input id="sats2" name="sat2" type="number" class="form-control"
                                                             placeholder="Satuan 2">
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <input readonly class="form-control" value="<?php if($this->uri->segment(4)!=""){echo $satuan2;} ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -131,12 +125,9 @@ date_default_timezone_set('Asia/Jakarta');
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Satuan 3</label>
                                                     </div>
-                                                    <div class="col-lg-7">
+                                                    <div class="col-lg-9">
                                                         <input id="sats3" name="sat3" type="number" class="form-control"
                                                             placeholder="Satuan 3">
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <input readonly class="form-control" value="<?php if($this->uri->segment(4)!=""){echo $satuan3;} ?>">
                                                     </div>
                                                 </div>
                                             </div>

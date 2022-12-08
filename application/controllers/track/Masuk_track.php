@@ -55,8 +55,8 @@ class Masuk_track extends CI_Controller
 
     public function tambah_masuk_track()
     {
-        $nobatch = substr($this->input->post('nobatch'),0,strpos($this->input->post('nobatch'),"-",0));
-        $qty1     = substr($this->input->post('nobatch'),strpos($this->input->post('nobatch'),'-',0)+1,strlen($this->input->post('nobatch')));
+        $nobatch = $this->input->post('nobatch');
+        $qty1     = $this->input->post('jumlah');
         $nopallet = $this->input->post('nopallet');
         $kode = $this->input->post('kode');
         $sat1 = $this->input->post('sat1');
