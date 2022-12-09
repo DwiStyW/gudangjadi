@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 01, 2022 at 03:24 AM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.27
+-- Host: localhost
+-- Generation Time: Dec 09, 2022 at 03:55 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,16 +41,12 @@ CREATE TABLE `detailsal` (
 --
 
 INSERT INTO `detailsal` (`no`, `tgl`, `kode`, `nobatch`, `nopallet`, `qty`) VALUES
-(12, '2022-11-29', 'A.001.01', '1234', 'J02-A0-01', '1'),
 (13, '2022-11-29', 'A.003.01', '99999999', 'J02-A0-01', '1'),
 (14, '2022-11-29', 'A.003.01', '99999999', 'J02-A0-02', '1'),
-(15, '2022-11-29', 'A.001.01', '1234', 'J02-A0-01', '1'),
 (16, '2022-11-29', 'G.001.02', '788987', 'J02-A0-01', '1'),
-(17, '2022-11-29', 'A.003.01', '99999999', 'J02-A0-03', '1'),
-(18, '2022-11-29', 'A.003.01', '99999999', 'J02-A0-03', '1'),
-(19, '2022-11-30', 'A.003.01', '99999999', 'J02-A0-03', '12'),
 (20, '2022-11-30', 'G.001.02', '788987', 'J02-A0-04', '360'),
-(21, '2022-11-30', 'A.003.01', '99999999', 'J02-A0-04', '5');
+(21, '2022-11-30', 'A.003.01', '99999999', 'J02-A0-04', '5'),
+(22, '2022-12-06', 'G.001.02', '788987', 'J02-A0-04', '5');
 
 -- --------------------------------------------------------
 
@@ -73,8 +69,8 @@ CREATE TABLE `detailsalqty` (
 INSERT INTO `detailsalqty` (`id`, `tglform`, `kode`, `nobatch`, `qty`) VALUES
 (2, '2022-11-25', 'A.001.01', '1234', 3),
 (3, '2022-11-25', 'A.003.01', '99999999', 18),
-(4, '2022-11-25', 'G.001.02', '788987', 4073),
-(5, '2022-11-30', 'A.004.01', '99500376', 7226);
+(4, '2022-11-25', 'G.001.02', '788987', 4068),
+(5, '2022-11-30', 'A.004.01', '99500376', 7200);
 
 -- --------------------------------------------------------
 
@@ -2434,6 +2430,24 @@ INSERT INTO `keluar` (`no`, `tglform`, `noform`, `kode`, `jumlah`, `tanggal`, `s
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `kemasan`
+--
+
+CREATE TABLE `kemasan` (
+  `id` int(11) NOT NULL,
+  `kode` varchar(125) NOT NULL,
+  `satuan` int(11) NOT NULL,
+  `panjang` bigint(20) NOT NULL,
+  `lebar` bigint(20) NOT NULL,
+  `tinggi` bigint(20) NOT NULL,
+  `berat` bigint(20) NOT NULL,
+  `diameter` bigint(20) NOT NULL,
+  `besaran` varchar(125) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `master`
 --
 
@@ -2464,11 +2478,11 @@ CREATE TABLE `master` (
 --
 
 INSERT INTO `master` (`id`, `kode`, `nama`, `ukuran`, `sat1`, `max1`, `sat2`, `max2`, `sat3`, `kdgol`, `kdjenis`, `tgl_dibuat`, `expdate`, `saldo`, `saldo_track`, `tglform`, `tgl_update`, `min_stock`, `sisa_kemasan`) VALUES
-(1, 'A.001.01', 'KOYO CABE (KECIL)  20 Sachet', '55 mm x 45 mm', 'Karton', '50', 'Box', '20', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 7177841, 1, '2022-11-25', '2022-11-29 03:25:31', '', ''),
+(1, 'A.001.01', 'KOYO CABE (KECIL)  20 Sachet', '55 mm x 45 mm', 'Karton', '50', 'Box', '20', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 7177840, 0, '2022-11-25', '2022-12-06 09:59:23', '', ''),
 (2, 'A.001.02', 'KOYO CABE (KECIL) @ 40 Sachet', '55 mm x 45 mm', 'Karton', '30', 'Box', '40', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-26', '2022-10-04 00:00:00', '', ''),
 (3, 'A.002.01', 'KOYO CABE (BESAR)', '17 cm x 11,5 cm', 'Karton', '50', 'Box', '24', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 4173, NULL, '2022-11-23', '2022-11-23 09:52:55', '', ''),
-(4, 'A.003.01', 'GINGER PLESTER', '95 mm x 60 mm', 'Karton', '50', 'Box', '20', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 6400, 1042, '2022-11-25', '2022-11-30 09:00:04', '', ''),
-(5, 'A.004.01', 'MASTER GLUCOSAMINE PATCH', '10 cm x 7 cm', 'Karton', '60', 'Box', '12', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 13153, NULL, '2022-11-30', '2022-11-30 09:17:18', '', ''),
+(4, 'A.003.01', 'GINGER PLESTER', '95 mm x 60 mm', 'Karton', '50', 'Box', '20', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 6385, 1027, '2022-11-25', '2022-12-07 05:42:50', '', ''),
+(5, 'A.004.01', 'MASTER GLUCOSAMINE PATCH', '10 cm x 7 cm', 'Karton', '60', 'Box', '12', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 13117, -10, '2022-11-30', '2022-12-07 05:42:32', '', ''),
 (6, 'A.005.01', 'TAKAHI HOT (isi 10 lembar)', '55 mm x 45 mm', 'Karton', '100', 'Box', '12', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 129765, NULL, '2022-11-04', '2022-11-07 09:16:19', '', ''),
 (7, 'A.005.02', 'TAKAHI HOT (RENCENG isi 2 lembar)', '55 mm x 45 mm', 'Karton', '60', 'Hanger', '20', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 115960, NULL, '2022-11-07', '2022-11-16 02:29:54', '', ''),
 (8, 'A.006.01', 'KOYO YUNNAN', '80 mm x 45 mm', 'Karton', '30', 'MDS', '12', 'VDS', '1', '1', '0000-00-00 00:00:00', '', 10, NULL, '2022-08-08', '2022-08-19 12:24:50', '', ''),
@@ -2523,7 +2537,7 @@ INSERT INTO `master` (`id`, `kode`, `nama`, `ukuran`, `sat1`, `max1`, `sat2`, `m
 (57, 'F.001.02', 'SURGIN PAD SURGICAL DRESSING (UK 8 CM X 10 CM)', '80 mm x 100 mm', 'Karton', '100', 'box', '10', 'Sachet', '6', '6', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '0000-00-00 00:00:00', '', ''),
 (58, 'F.002.01', 'OKE TRENDY PLASTER FIRST AID DRESSING ', '19 mm x 64 mm', 'Karton', '100', 'Hanger', '10', 'Sachet', '6', '6', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '0000-00-00 00:00:00', '', ''),
 (59, 'G.001.01', 'CHILLI PLAST PLASTER PEREKAT (1/2 X 1)', '12,5 mm x 1 m', 'Karton', '60', 'Dozen', '12', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 264284, NULL, '2022-11-08', '2022-11-08 12:21:11', '', ''),
-(60, 'G.001.02', 'CHILLI PLAST PLASTER PEREKAT (1/2 X 5)', '12,5 mm x 4,5 m', 'Karton', '30', 'Dozen', '12', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 138842, 361, '2022-11-25', '2022-11-30 08:56:30', '', ''),
+(60, 'G.001.02', 'CHILLI PLAST PLASTER PEREKAT (1/2 X 5)', '12,5 mm x 4,5 m', 'Karton', '30', 'Dozen', '12', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 138842, 366, '2022-11-25', '2022-12-06 03:17:39', '', ''),
 (61, 'G.001.03', 'CHILLI PLAST PLASTER PEREKAT (1 X 1)', '25 mm x 1 m', 'Karton', '36', 'Dozen', '12', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 0, NULL, '2022-11-02', '2022-11-04 12:28:59', '', ''),
 (62, 'G.001.04', 'CHILLI PLAST PLASTER PEREKAT (1 X 5)', '25 mm x 4,5 m', 'Karton', '20', 'Dozen', '12', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 9606, NULL, '2022-11-08', '2022-11-08 12:21:28', '', ''),
 (63, 'G.001.05', 'CHILLI PLAST PLASTER PEREKAT (2 X 5)', '50 mm x 4,5 m', 'Karton', '24', 'Box', '6', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 2201, NULL, '2022-11-02', '2022-11-07 08:54:39', '', ''),
@@ -4233,11 +4247,11 @@ CREATE TABLE `pallet` (
 --
 
 INSERT INTO `pallet` (`no`, `kdpallet`, `status`, `qty`) VALUES
-(1, 'J02-A0-01', 'isi', '4'),
+(1, 'J02-A0-01', 'isi', '3'),
 (2, 'J02-A0-02', 'isi', '1'),
-(3, 'J02-A0-03', 'isi', '14'),
-(4, 'J02-A0-04', 'isi', '365'),
-(5, 'J02-A0-05', 'kosong', '0'),
+(3, 'J02-A0-03', 'kosong', '-1'),
+(4, 'J02-A0-04', 'isi', '370'),
+(5, 'J02-A0-05', 'kosong', '-10'),
 (6, 'J02-A0-06', 'kosong', '0'),
 (7, 'J02-A0-07', 'kosong', '0'),
 (8, 'J02-A0-08', 'kosong', '0'),
@@ -9061,7 +9075,12 @@ INSERT INTO `riwayattrack` (`no`, `tglform`, `kode`, `nobatch`, `nopallet`, `sta
 (23, '2022-11-25', 'G.001.02', '788987', 'J02-A0-04', 'IN', 360, 0, 361, 'input', '2022-11-30 08:56:30', 10, '', ''),
 (24, '2022-11-25', 'A.003.01', '99999999', 'J02-A0-04', 'IN', 2, 0, 1039, 'input', '2022-11-30 08:57:22', 10, '', ''),
 (25, '2022-11-25', 'A.003.01', '99999999', 'J02-A0-04', 'IN', 1, 0, 1040, 'input', '2022-11-30 08:58:09', 10, '', ''),
-(26, '2022-11-25', 'A.003.01', '99999999', 'J02-A0-04', 'IN', 2, 0, 1042, 'input', '2022-11-30 09:00:04', 10, '', '');
+(26, '2022-11-25', 'A.003.01', '99999999', 'J02-A0-04', 'IN', 2, 0, 1042, 'input', '2022-11-30 09:00:04', 10, '', ''),
+(37, '2022-11-25', 'G.001.02', '788987', 'J02-A0-04', 'NONE', 5, 0, 366, 'input', '2022-12-06 03:17:39', 10, '', ''),
+(41, '2022-11-25', 'A.001.01', '1234', 'J02-A0-01', 'OUT', 0, 1, 0, 'output', '2022-12-06 09:59:23', 10, '', ''),
+(42, '2022-11-30', 'A.004.01', '99500376', 'J02-A0-05', 'IN', 26, 0, 26, 'input', '2022-12-07 04:19:17', 1, '', ''),
+(43, '2022-11-30', 'A.004.01', '99500376', 'J02-A0-05', 'OUT', 0, 36, -10, 'output', '2022-12-07 05:42:32', 10, '', ''),
+(44, '2022-11-25', 'A.003.01', '99999999', 'J02-A0-03', 'OUT', 0, 15, 1027, 'output', '2022-12-07 05:42:50', 10, '', '');
 
 -- --------------------------------------------------------
 
@@ -9282,7 +9301,7 @@ CREATE TABLE `tb_user` (
   `username` varchar(30) NOT NULL,
   `password` varchar(32) NOT NULL,
   `fullname` varchar(30) NOT NULL,
-  `role` enum('admin','user','manager','track') NOT NULL
+  `role` enum('admin','user','manager','track','ppic') NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -9296,7 +9315,7 @@ INSERT INTO `tb_user` (`user_id`, `username`, `password`, `fullname`, `role`) VA
 (5, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', 'user'),
 (6, 'gudang', '7b7a53e239400a13bd6be6c91c4f6c4e', 'Admin Gudang', 'user'),
 (7, 'faustine', '21232f297a57a5a743894a0e4a801fc3', 'faustine', 'admin'),
-(8, 'karina', '21232f297a57a5a743894a0e4a801fc3', 'Karina Suherman', 'user'),
+(8, 'karina', '21232f297a57a5a743894a0e4a801fc3', 'Karina Suherman', 'ppic'),
 (10, 'track', '21232f297a57a5a743894a0e4a801fc3', 'tracking', 'track');
 
 -- --------------------------------------------------------
@@ -9319,7 +9338,9 @@ CREATE TABLE `utilisasi` (
 
 INSERT INTO `utilisasi` (`no`, `tgl`, `palletin`, `palletout`, `utilisasi`) VALUES
 (18, '2022-11-29', '7', '', '0.53859964093357'),
-(19, '2022-11-30', '4', '', '0.35906642728905');
+(19, '2022-11-30', '4', '', '0.35906642728905'),
+(20, '2022-12-06', '1', '2', '0.35906642728905'),
+(21, '2022-12-07', '2', '1', '0.089766606822262');
 
 --
 -- Indexes for dumped tables
@@ -9354,6 +9375,12 @@ ALTER TABLE `jenis`
 --
 ALTER TABLE `keluar`
   ADD PRIMARY KEY (`no`);
+
+--
+-- Indexes for table `kemasan`
+--
+ALTER TABLE `kemasan`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `master`
@@ -9411,7 +9438,7 @@ ALTER TABLE `utilisasi`
 -- AUTO_INCREMENT for table `detailsal`
 --
 ALTER TABLE `detailsal`
-  MODIFY `no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `detailsalqty`
@@ -9436,6 +9463,12 @@ ALTER TABLE `jenis`
 --
 ALTER TABLE `keluar`
   MODIFY `no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2266;
+
+--
+-- AUTO_INCREMENT for table `kemasan`
+--
+ALTER TABLE `kemasan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `master`
@@ -9465,7 +9498,7 @@ ALTER TABLE `riwayat`
 -- AUTO_INCREMENT for table `riwayattrack`
 --
 ALTER TABLE `riwayattrack`
-  MODIFY `no` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `no` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `saldo`
@@ -9483,7 +9516,7 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT for table `utilisasi`
 --
 ALTER TABLE `utilisasi`
-  MODIFY `no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

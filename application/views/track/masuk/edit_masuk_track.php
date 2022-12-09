@@ -235,7 +235,8 @@ date_default_timezone_set('Asia/Jakarta');
                                                             <tbody id="list">
                                                                 <?php
                                                                 $no = 1;
-                                                                foreach ($masuk as $m) {
+                                                                $riwayat = $this->db->select('*')->from('riwayattrack')->join('master','master.kode = riwayattrack.kode')->get();
+                                                                foreach ($riwayat->result() as $m) {
                                                                 ?>
                                                                 <tr>
                                                                     <td><?php echo $no++; ?></td>
@@ -247,7 +248,6 @@ date_default_timezone_set('Asia/Jakarta');
                                                                     <td><?php echo $m->nama; ?></td>
                                                                     <?php
                                                                         if ($m->masuk == 0) {
-
                                                                             //Perhitungan 3 Satuan
                                                                             $sats1  = floor($m->keluar / ($m->max1 * $m->max2));
                                                                             $sisa   = $m->keluar - ($sats1 * $m->max1 * $m->max2);

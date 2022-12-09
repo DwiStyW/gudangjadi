@@ -5,8 +5,10 @@ class Masuk_model extends CI_Model
     public function tampil_barang_masuk($limit, $start,$keyword)
     {
         $this->db->Select("*")
-            ->from('riwayat,master,tb_user')
-            ->where("master.kode=riwayat.kode AND riwayat.keluar=0 AND riwayat.adm=tb_user.user_id")
+            ->from('riwayat,tb_user')
+            ->join("master","master.kode=riwayat.kode") 
+            ->join("tb_user", "riwayat.adm=tb_user.user_id")
+            ->where("riwayat.keluar=0")
             ->order_by('riwayat.no', 'DESC');
             if($keyword){
                 $this->db->group_start();

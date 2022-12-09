@@ -177,12 +177,14 @@
                     <li><a href="<?= base_url("track/masuk_track") ?>" class="btn btn-lg tekan text-white">Barang Masuk</a></li>
                     
                     <li><a href="<?= base_url("track/keluar_track") ?>" class="btn btn-lg tekan text-white">Barang Keluar</a></li>
-                        <?php } else{?>
+                        <?php } elseif($this->session->userdata('role')=="user" || $this->session->userdata('role')=="admin" || $this->session->userdata('role')=="manager"){?>
                     <li><a href="<?= base_url("masuk") ?>" class="btn btn-lg tekan text-white">Barang Masuk</a>
                     </li>
                     <!-- <li><a href="<?= base_url("keluar") ?>" class="btn btn-lg tekan text-white">Barang Keluar</a>
                     </li> -->
+                    <?php } ?>
                     
+                    <?php if($this->session->userdata('role') != "track"){?>
                     <div class="dropdown">
                         <button class="dropbtn">Report <i class="fa fa-chevron-down fa-xs"></i></button>
                         <div class="dropdown-content">

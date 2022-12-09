@@ -40,6 +40,9 @@ class Auth extends CI_Controller
                     case 'track':
                         redirect('home');
                         break;
+                    case 'ppic':
+                        redirect('home');
+                        break;
                     default:
                         break;
                 }

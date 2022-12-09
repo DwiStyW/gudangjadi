@@ -198,24 +198,24 @@ class Masuk_track extends CI_Controller
 
         if($sal>=$jumlah && $jumlah>0){
         $this->db->trans_start();
-        $this->masuk_track_model->tambah($data, 'riwayattrack');//id
-        $this->masuk_track_model->update($where,$data1,'master');//kode
-        $this->masuk_track_model->update($where1,$data2,'pallet');//nopallet
+        $this->masuk_track_model->tambah($data, 'riwayattrack');//id hapus riwayat
+        $this->masuk_track_model->update($where,$data1,'master');//kode kurangi saldo dengan jumlah masuk
+        $this->masuk_track_model->update($where1,$data2,'pallet');//nopallet kurangi qty pallet dengan jumlah masuk
         if($que->num_rows()>0 ){
-            $this->masuk_track_model->update($where4,$data6,'detailsal');//kode & nobatch
+            $this->masuk_track_model->update($where4,$data6,'detailsal');//kode & nobatch kurangi qty detailsal dengan jumlah masuk
         }else{
-            $this->masuk_track_model->tambah($data4, 'detailsal');
+            $this->masuk_track_model->tambah($data4, 'detailsal');//ketika qty = 0 hapus
         }
         if($hitung > 0){
-            $this->masuk_track_model->update($where3,$data5,'detailsalqty');//kode nobatch nopallet
+            $this->masuk_track_model->update($where3,$data5,'detailsalqty');//kode nobatch nopallet ditambah jumlah masuk
         }else{
-            $this->masuk_track_model->hapus($where3, 'detailsalqty');
+            $this->masuk_track_model->hapus($where3, 'detailsalqty'); // insert dengan qty jumlah masuk
         }
         if($query->num_rows()>0)
        {
-            $this->masuk_track_model->update($where2,$data3,'utilisasi');//tgl detailsalqty
+            $this->masuk_track_model->update($where2,$data3,'utilisasi');//tgl detailsalqty && num rows>0 if pallet status berubah jadi kosong maka pallet in -1
        }else{
-            $this->masuk_track_model->tambah($data3,'utilisasi');
+            $this->masuk_track_model->tambah($data3,'utilisasi');//insert tgl detailsalqty ubah pallet kosong menjadi isi
        }
         $this->db->trans_complete();
 
@@ -244,6 +244,8 @@ class Masuk_track extends CI_Controller
     {
         
     }   
+
+    //untuk AJAX
      function get_batch(){
 		$kode = $this->input->post('id',TRUE);
 		$data = $this->masuk_track_model->get_batch($kode)->result();
