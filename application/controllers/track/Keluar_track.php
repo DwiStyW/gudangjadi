@@ -113,14 +113,19 @@ class Keluar_track extends CI_Controller
 
         $saldo_track = $saldo-$jumlah;
         $saldo_tot   = $sal-$jumlah;
-
+        $hitung = $qty-$jumlah;
         //untuk riwayattrack
+        if ($hitung > 0) {
+            $statusr = 'NONE';
+        } else {
+            $statusr = 'OUT';
+        }
         $data=array(
             'tglform'   => $tglform,
             'kode'      => $kode,
             'nobatch'   => $nobatch,
             'nopallet'  => $nopallet,
-            'statpallet'=> 'OUT',
+            'statpallet'=> $statusr,
             'masuk'     => '',
             'keluar'    => $jumlah,
             'saldo'     => $saldo_track,
@@ -140,7 +145,6 @@ class Keluar_track extends CI_Controller
         $where=array('kode' => $kode);
 
         //untuk pallet
-        $hitung = $qty-$jumlah;
         if($hitung > 0){
             $data2=array(
                 'status' => 'isi',

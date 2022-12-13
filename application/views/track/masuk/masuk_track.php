@@ -94,7 +94,7 @@
                                                 href="<?= base_url("track/masuk_track/edit_masuk_track/" . $m->no) ?>"><i
                                                     class="fa fa-edit"></i> Edit</a>
                                             <a class="btn btn-sm btn-danger"
-                                                href="<?= base_url("masuk/hapus_masuk/" . $m->no . "/" . $m->kode."/".$m->nopallet."/".$m->nobatch) ?>"
+                                                href="<?= base_url("track/masuk_track/hapus/" . $m->no . "/" . $m->kode."/".$m->nopallet."/".$m->nobatch."/".$m->masuk) ?>"
                                                 onclick="javascript: return confirm('Anda yakin hapus ?')"><i
                                                     class="fa fa-trash"></i> Hapus</a>
                                         </td>
