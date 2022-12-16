@@ -74,6 +74,8 @@ $_SESSION['start_time'] = time(); ?>
     <!-- modernizr JS
 		============================================ -->
     <script src="<?= base_url() ?>assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="<?= base_url() ?>assets/js/jquery-1.3.2.min.js"></script>
+    <script src="<?= base_url() ?>assets/js/jquery-ui-1.7.2.custom.min.js"></script>
     <!-- Color Css Files
 		============================================ -->
     <link rel="alternate stylesheet" type="text/css" href="<?= base_url() ?>assets/css/switcher/color-one.css"

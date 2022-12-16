@@ -104,7 +104,7 @@ function topFunction() {
 		============================================ -->
 <script src="<?= base_url() ?>assets/js/main.js"></script>
 <!-- jquery JS -->
-<script src="<?= base_url() ?>assets/js/jquery-3.2.1.min.js"></script>
+
 <script src="<?= base_url() ?>assets/js/counterup/jquery.waypoints.min.js"></script>
 <script src="<?= base_url() ?>assets/js/counterup/jquery.counterup.min.js"></script>
 <!-- select2 -->
@@ -128,6 +128,23 @@ $(document).ready(function() {
             }
         });
     });
+
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+
+    $(function() {
+        $(".unstyled").sortable({
+            opacity: 0.6,
+            cursor: 'move',
+            update: function() {
+                var order = $(this).sortable("serialize") + '&action=updateRecordsListings';
+                $.post("#updateDB", order, function(theResponse) {});
+            }
+        });
+    });
+
 
 });
 </script>
