@@ -131,7 +131,7 @@ $(document).ready(function() {
 
 });
 </script>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 $(document).ready(function() {
 
     $(function() {
@@ -147,7 +147,7 @@ $(document).ready(function() {
 
 
 });
-</script>
+</script> -->
 </body>
 
 </html>

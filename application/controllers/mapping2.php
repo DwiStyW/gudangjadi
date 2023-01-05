@@ -13,7 +13,10 @@ class mapping2 extends CI_Controller
 		$pallet2 = $this->input->post('pallet2',TRUE);
 		$posisi1 = $this->input->post('posisi1',TRUE);
 		$posisi2 = $this->input->post('posisi2',TRUE);
+
 		if($pallet2!=null){
+			$cekpallet=$this->db->query("SELECT * From pallet where kdpallet='$pallet2'");
+			$cekkondisi=$this->db->query("SELECT * From kondisi_gudang where ket=''")
 			$this->db->query("UPDATE pallet SET posisi='$posisi1' WHERE kdpallet='$pallet2'");
 		}
 		if($pallet1!=null){

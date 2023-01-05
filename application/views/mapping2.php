@@ -136,6 +136,21 @@ SPDX-License-Identifier: Apache-2.0 -->
         border: 1px dotted #666;
     }
 
+    .new-pallet {
+        height: 200px;
+        border: 1px solid #666;
+        border-radius: .5em;
+        padding: 10px;
+        margin-top: 5px;
+        width: auto;
+    }
+
+    .kotak {
+        width: 100%;
+        margin-top: 10px;
+        margin: 10px;
+    }
+
     [draggable] {
         user-select: none;
     }
@@ -144,7 +159,7 @@ SPDX-License-Identifier: Apache-2.0 -->
 
 <body>
     <div class="card shadow border-0 "
-        style="z-index:10;position:relative;top:-250px;width:auto;margin-left:5%;margin-right:5%">
+        style="z-index:10;position:relative;top:-250px;width:auto;margin-left:3%;margin-right:3%">
         <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
             <div class="main-sparkline8-hd justify-content-between"
                 style="display:flex; flex:wrap;padding-top:20px;padding-bottom:20px;padding-left:20px;">
@@ -166,8 +181,14 @@ SPDX-License-Identifier: Apache-2.0 -->
 									foreach($pallet->result_array() as $data){
 										$kdpallet=$data['kdpallet'];
 									}
+                                    $kondisi=$this->db->query("SELECT * FROM kondisi_gudang WHERE posisi='$a'");
+                                    foreach($kondisi->result_array() as $dat){
+										$ketkondisi=$dat['ket'];
+									}
 									if($pallet->num_rows()!=0){
 									echo '<div id="'.$kdpallet.'" draggable="true" data="'.$a.'" class="box" style="border: 1px solid #666;background-color: #ddd;"><b>'.$kdpallet.'</b></div>';
+									}elseif($kondisi->num_rows()!=0){
+									echo '<div id="'.$kondisi.'" draggable="true" data="'.$a.'" class="box" style="border: 1px solid #666;background-color: #ddd;"><b>'.$kondisi.'</b></div>';
 									}else{
 									echo '<div id="null" draggable="true" data="'.$a.'" class="box" style="border: 1px solid #666;background-color: #ddd;"></div>';
 									}
@@ -177,10 +198,57 @@ SPDX-License-Identifier: Apache-2.0 -->
 							?>
                     </div>
                 </div>
+                <div class="justify-content-between" style="display:flex">
+                    <div class="kotak">
+                        <button class="btn btn-sm btn-primary" style="display:flex">Tambah</button>
+                        <div class="new-pallet">
+                            <div style="color:#ddd;margin-left:11%;position:absolute">
+                                <h4>Pallet Tidak Dalam Map</h4>
+                            </div>
+                            <?php 
+								$pallet=$this->db->query("SELECT * FROM pallet WHERE posisi=''");
+									foreach($pallet->result_array() as $data){
+										$kdpallet=$data['kdpallet'];
+										echo '<div id="'.$kdpallet.'" draggable="true" data="" class="box" style="border: 1px solid #666;background-color: #ddd;"><b>'.$kdpallet.'</b></div>';
+									}
+							?>
+                        </div>
+                    </div>
+                    <div class="kotak">
+                        <button class="btn btn-sm btn-primary" style="display:flex">Tambah</button>
+                        <div class="new-pallet">
+                            <div style="color:#ddd;margin-left:14%;position:absolute">
+                                <h4>Kondisi Gudang</h4>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="kotak" style="max-width:200px">
+                        <div class="new-pallet" style="height: 100%">
+                            <div style="color:#ddd;margin-left:5%;position:absolute;margin-top:7%">
+                                <h4>Sampah</h4>
+                            </div>
+                            <div style="overflow:auto;margin-top:10px">
+                                <div style="width:800px">
+                                    <?php 
+										for($i=1;$i<=6;$i++){
+										echo '<div style="display:flex">';
+										for($j=1;$j<=10;$j++){
+											echo '<div id="null" draggable="true" data="" class="box"
+												style="border: 1px solid #ddd;background-color: whitesmoke;">
+												</div>';	
+										}
+										echo '</div>';
+									}
+									?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </body>
-
 
 </html>
