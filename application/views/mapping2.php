@@ -16,7 +16,7 @@ SPDX-License-Identifier: Apache-2.0 -->
         var dragSrcEl = null;
 
         function handleDragStart(e) {
-            this.style.opacity = '0.4';
+            // this.style.opacity = '0.4';
 
             dragSrcEl = this;
             // console.log(dragSrcEl);
@@ -24,6 +24,8 @@ SPDX-License-Identifier: Apache-2.0 -->
             e.dataTransfer.setData('text/html', this.innerHTML);
             e.dataTransfer.setData('id', this.id);
             e.dataTransfer.setData('data', this.getAttribute('data'));
+            e.dataTransfer.setData('style', this.getAttribute('style'));
+            console.log(this.getAttribute('style'))
         }
 
         function handleDragOver(e) {
@@ -54,9 +56,11 @@ SPDX-License-Identifier: Apache-2.0 -->
                 dragSrcEl.innerHTML = this.innerHTML;
                 dragSrcEl.id = this.id;
                 dragSrcEl.data = this.getAttribute('data');
+                dragSrcEl.style = this.getAttribute('style');
                 this.innerHTML = e.dataTransfer.getData('text/html');
                 this.id = e.dataTransfer.getData('id');
                 this.data = e.dataTransfer.getData('data');
+                this.style = e.dataTransfer.getData('style');
                 // console.log(dragSrcEl.id)
 
 
@@ -84,15 +88,7 @@ SPDX-License-Identifier: Apache-2.0 -->
                     },
                     async: true,
                     dataType: 'json',
-                    success: function(data) {
-                        // dragSrcEl.innerHTML = this.innerHTML;
-                        // dragSrcEl.id = this.id;
-                        // dragSrcEl.data = this.data;
-                        // this.innerHTML = e.dataTransfer.getData('text/html');
-                        // this.id = e.dataTransfer.getData('id');
-                        // this.data = e.dataTransfer.getData('data');
-                        // console.log('id', this.id)
-                    }
+                    success: function(data) {}
                 });
                 return false;
             }
@@ -184,11 +180,12 @@ SPDX-License-Identifier: Apache-2.0 -->
                                     $kondisi=$this->db->query("SELECT * FROM kondisi_gudang WHERE posisi='$a'");
                                     foreach($kondisi->result_array() as $dat){
 										$ketkondisi=$dat['ket'];
+										$warna=$dat['warna'];
 									}
 									if($pallet->num_rows()!=0){
 									echo '<div id="'.$kdpallet.'" draggable="true" data="'.$a.'" class="box" style="border: 1px solid #666;background-color: #ddd;"><b>'.$kdpallet.'</b></div>';
 									}elseif($kondisi->num_rows()!=0){
-									echo '<div id="'.$kondisi.'" draggable="true" data="'.$a.'" class="box" style="border: 1px solid #666;background-color: #ddd;"><b>'.$kondisi.'</b></div>';
+									echo '<div id="'.$ketkondisi.'" draggable="true" data="'.$a.'" class="box" style="border: 1px solid #666;background-color: '.$warna.';"><b>'.$ketkondisi.'</b></div>';
 									}else{
 									echo '<div id="null" draggable="true" data="'.$a.'" class="box" style="border: 1px solid #666;background-color: #ddd;"></div>';
 									}
@@ -220,7 +217,14 @@ SPDX-License-Identifier: Apache-2.0 -->
                             <div style="color:#ddd;margin-left:14%;position:absolute">
                                 <h4>Kondisi Gudang</h4>
                             </div>
-
+                            <?php 
+								$kondisi=$this->db->query("SELECT * FROM kondisi_gudang WHERE posisi=''");
+									foreach($kondisi->result_array() as $datak){
+										$ketkondisi=$datak['ket'];
+										$color=$datak['warna'];
+										echo '<div id="'.$ketkondisi.'" draggable="true" data="" class="box" style="border: 1px solid #666;background-color:'.$color.';"><b>'.$ketkondisi.'</b></div>';
+									}
+							?>
                         </div>
                     </div>
                     <div class="kotak" style="max-width:200px">
