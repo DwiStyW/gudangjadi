@@ -138,17 +138,39 @@ SPDX-License-Identifier: Apache-2.0 -->
         border-radius: .5em;
         padding: 10px;
         margin-top: 5px;
-        width: auto;
     }
 
     .kotak {
-        width: 100%;
         margin-top: 10px;
         margin: 10px;
     }
 
+    .sampah {
+        width: 200px;
+        border: 1px solid #666;
+        border-radius: .5em;
+        padding: 10px;
+        margin-top: 10px;
+        max-width: 100%;
+    }
+
     [draggable] {
         user-select: none;
+    }
+
+    .cardd {
+        min-width: 180px;
+        height: auto;
+        border: 1px solid;
+        padding: 10px;
+        border-radius: .5em;
+        max-width: 100%;
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+
+    .texte {
+        text-align: left;
     }
     </style>
 </head>
@@ -176,16 +198,17 @@ SPDX-License-Identifier: Apache-2.0 -->
 									$pallet=$this->db->query("SELECT * FROM pallet WHERE posisi='$a'");
 									foreach($pallet->result_array() as $data){
 										$kdpallet=$data['kdpallet'];
+										$warnap=$data['warna'];
 									}
                                     $kondisi=$this->db->query("SELECT * FROM kondisi_gudang WHERE posisi='$a'");
                                     foreach($kondisi->result_array() as $dat){
-										$ketkondisi=$dat['ket'];
-										$warna=$dat['warna'];
+										$ketkondisi=$dat['id'];
+										$warnak=$dat['warna'];
 									}
 									if($pallet->num_rows()!=0){
-									echo '<div id="'.$kdpallet.'" draggable="true" data="'.$a.'" class="box" style="border: 1px solid #666;background-color: #ddd;"><b>'.$kdpallet.'</b></div>';
+									echo '<div id="'.$kdpallet.'" draggable="true" data="'.$a.'" class="box" style="border: 1px solid #666;background-color: '.$warnap.';"><b>'.$kdpallet.'</b></div>';
 									}elseif($kondisi->num_rows()!=0){
-									echo '<div id="'.$ketkondisi.'" draggable="true" data="'.$a.'" class="box" style="border: 1px solid #666;background-color: '.$warna.';"><b>'.$ketkondisi.'</b></div>';
+									echo '<div id="'.$ketkondisi.'" draggable="true" data="'.$a.'" class="box" style="border: 1px solid #666;background-color: '.$warnak.';"><b></b></div>';
 									}else{
 									echo '<div id="null" draggable="true" data="'.$a.'" class="box" style="border: 1px solid #666;background-color: #ddd;"></div>';
 									}
@@ -195,48 +218,69 @@ SPDX-License-Identifier: Apache-2.0 -->
 							?>
                     </div>
                 </div>
-                <div class="justify-content-between" style="display:flex">
-                    <div class="kotak">
-                        <button class="btn btn-sm btn-primary" style="display:flex">Tambah</button>
-                        <div class="new-pallet">
-                            <div style="color:#ddd;margin-left:11%;position:absolute">
-                                <h4>Pallet Tidak Dalam Map</h4>
-                            </div>
-                            <?php 
+                <div style="display: flex;flex-wrap:wrap;" class="justify-content-center">
+                    <div style="max-width:100%;width:82%">
+                        <div class="kotak">
+                            <button class="btn btn-sm btn-primary" style="display:flex">Tambah</button>
+                            <div class="new-pallet">
+                                <?php 
 								$pallet=$this->db->query("SELECT * FROM pallet WHERE posisi=''");
 									foreach($pallet->result_array() as $data){
 										$kdpallet=$data['kdpallet'];
 										echo '<div id="'.$kdpallet.'" draggable="true" data="" class="box" style="border: 1px solid #666;background-color: #ddd;"><b>'.$kdpallet.'</b></div>';
 									}
 							?>
+                            </div>
+                        </div>
+                        <div class="kotak">
+                            <button class="btn btn-sm btn-primary" style="display:flex">Tambah</button>
+                            <div class="new-pallet">
+                                <?php 
+									$q1=$this->db->query("SELECT * FROM kondisi_gudang  WHERE posisi=''");
+									foreach($q1->result_array() as $dq1){
+										$warnadq1[]=$dq1['warna'];
+										$ketdq1[]=$dq1['id'];
+
+									}
+									$q2=$this->db->query("SELECT * FROM kondisi_gudang group by warna");
+									$rq2=$q2->num_rows();
+									echo '<div style="display: flex;flex-wrap:wrap;justify-content: start;">';
+									foreach ($q2->result_array() as $dq2){
+										$vwar=$dq2['warna'];
+										$vket=$dq2['id'];
+										echo '<div><div class="cardd"><h6 class="texte">'.$dq2['ket'].'</h6></div>';
+
+										$q3=$this->db->query("SELECT * FROM kondisi_gudang where warna='$vwar' and posisi=''");
+										foreach ($q3->result_array() as $dq3){
+											echo '<div style="margin-left:10px;"><div id="'.$dq3['id'].'" draggable="true" data="" class="box" style="border: 1px solid #666;background-color:'.$dq3['warna'].';"><b></b></div></div>';
+										}
+										echo '</div>';
+									}
+									echo '</div>';
+									$angka=1;
+									for($i=1;$i<=5;$i++){
+										echo '<div style="display:flex">';
+										for($j=1;$j<=6;$j++){
+											$a=$angka++;
+											if (isset($warnadq1[$a-1])!=null){
+												// echo $warnadq1[$a-1];
+												// echo '<div id="'.$ketdq1[$a-1].'" draggable="true" data="" class="box" style="border: 1px solid #666;background-color:'.$warnadq1[$a-1].';"><b></b></div>';
+											}
+										}
+											echo '</div>';
+									}
+									?>
+                            </div>
                         </div>
                     </div>
                     <div class="kotak">
-                        <button class="btn btn-sm btn-primary" style="display:flex">Tambah</button>
-                        <div class="new-pallet">
-                            <div style="color:#ddd;margin-left:14%;position:absolute">
-                                <h4>Kondisi Gudang</h4>
-                            </div>
-                            <?php 
-								$kondisi=$this->db->query("SELECT * FROM kondisi_gudang WHERE posisi=''");
-									foreach($kondisi->result_array() as $datak){
-										$ketkondisi=$datak['ket'];
-										$color=$datak['warna'];
-										echo '<div id="'.$ketkondisi.'" draggable="true" data="" class="box" style="border: 1px solid #666;background-color:'.$color.';"><b>'.$ketkondisi.'</b></div>';
-									}
-							?>
-                        </div>
-                    </div>
-                    <div class="kotak" style="max-width:200px">
-                        <div class="new-pallet" style="height: 100%">
-                            <div style="color:#ddd;margin-left:5%;position:absolute;margin-top:7%">
-                                <h4>Sampah</h4>
-                            </div>
+                        <h5>Sampah</h5>
+                        <div class="sampah">
                             <div style="overflow:auto;margin-top:10px">
                                 <div style="width:800px">
                                     <?php 
 										for($i=1;$i<=6;$i++){
-										echo '<div style="display:flex">';
+										echo '<div style="display: flex;flex-wrap:wrap;">';
 										for($j=1;$j<=10;$j++){
 											echo '<div id="null" draggable="true" data="" class="box"
 												style="border: 1px solid #ddd;background-color: whitesmoke;">
@@ -254,5 +298,7 @@ SPDX-License-Identifier: Apache-2.0 -->
         </div>
     </div>
 </body>
+
+
 
 </html>
