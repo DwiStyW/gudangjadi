@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 21, 2022 at 05:02 AM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.27
+-- Host: localhost
+-- Generation Time: Dec 09, 2022 at 03:55 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,6 +35,42 @@ CREATE TABLE `detailsal` (
   `nopallet` varchar(100) NOT NULL,
   `qty` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `detailsal`
+--
+
+INSERT INTO `detailsal` (`no`, `tgl`, `kode`, `nobatch`, `nopallet`, `qty`) VALUES
+(13, '2022-11-29', 'A.003.01', '99999999', 'J02-A0-01', '1'),
+(14, '2022-11-29', 'A.003.01', '99999999', 'J02-A0-02', '1'),
+(16, '2022-11-29', 'G.001.02', '788987', 'J02-A0-01', '1'),
+(20, '2022-11-30', 'G.001.02', '788987', 'J02-A0-04', '360'),
+(21, '2022-11-30', 'A.003.01', '99999999', 'J02-A0-04', '5'),
+(22, '2022-12-06', 'G.001.02', '788987', 'J02-A0-04', '5');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `detailsalqty`
+--
+
+CREATE TABLE `detailsalqty` (
+  `id` int(11) NOT NULL,
+  `tglform` date DEFAULT NULL,
+  `kode` varchar(255) DEFAULT NULL,
+  `nobatch` varchar(255) DEFAULT NULL,
+  `qty` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `detailsalqty`
+--
+
+INSERT INTO `detailsalqty` (`id`, `tglform`, `kode`, `nobatch`, `qty`) VALUES
+(2, '2022-11-25', 'A.001.01', '1234', 3),
+(3, '2022-11-25', 'A.003.01', '99999999', 18),
+(4, '2022-11-25', 'G.001.02', '788987', 4068),
+(5, '2022-11-30', 'A.004.01', '99500376', 7200);
 
 -- --------------------------------------------------------
 
@@ -2394,6 +2430,24 @@ INSERT INTO `keluar` (`no`, `tglform`, `noform`, `kode`, `jumlah`, `tanggal`, `s
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `kemasan`
+--
+
+CREATE TABLE `kemasan` (
+  `id` int(11) NOT NULL,
+  `kode` varchar(125) NOT NULL,
+  `satuan` int(11) NOT NULL,
+  `panjang` bigint(20) NOT NULL,
+  `lebar` bigint(20) NOT NULL,
+  `tinggi` bigint(20) NOT NULL,
+  `berat` bigint(20) NOT NULL,
+  `diameter` bigint(20) NOT NULL,
+  `besaran` varchar(125) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `master`
 --
 
@@ -2414,202 +2468,204 @@ CREATE TABLE `master` (
   `saldo` bigint(20) DEFAULT NULL,
   `saldo_track` bigint(20) DEFAULT NULL,
   `tglform` date DEFAULT NULL,
-  `tgl_update` datetime DEFAULT NULL
+  `tgl_update` datetime DEFAULT NULL,
+  `min_stock` varchar(225) NOT NULL,
+  `sisa_kemasan` varchar(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `master`
 --
 
-INSERT INTO `master` (`id`, `kode`, `nama`, `ukuran`, `sat1`, `max1`, `sat2`, `max2`, `sat3`, `kdgol`, `kdjenis`, `tgl_dibuat`, `expdate`, `saldo`, `saldo_track`, `tglform`, `tgl_update`) VALUES
-(1, 'A.001.01', 'KOYO CABE (KECIL)  20 Sachet', '55 mm x 45 mm', 'Karton', '50', 'Box', '20', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 7176827, NULL, '2022-11-07', '2022-11-08 12:24:35'),
-(2, 'A.001.02', 'KOYO CABE (KECIL) @ 40 Sachet', '55 mm x 45 mm', 'Karton', '30', 'Box', '40', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-26', '2022-10-04 00:00:00'),
-(3, 'A.002.01', 'KOYO CABE (BESAR)', '17 cm x 11,5 cm', 'Karton', '50', 'Box', '24', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 4173, NULL, '2022-09-06', '2022-09-07 08:47:54'),
-(4, 'A.003.01', 'GINGER PLESTER', '95 mm x 60 mm', 'Karton', '50', 'Box', '20', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 6380, NULL, '2022-10-28', '2022-11-01 03:48:08'),
-(5, 'A.004.01', 'MASTER GLUCOSAMINE PATCH', '10 cm x 7 cm', 'Karton', '60', 'Box', '12', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 5927, NULL, '2022-11-04', '2022-11-07 09:11:36'),
-(6, 'A.005.01', 'TAKAHI HOT (isi 10 lembar)', '55 mm x 45 mm', 'Karton', '100', 'Box', '12', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 129765, NULL, '2022-11-04', '2022-11-07 09:16:19'),
-(7, 'A.005.02', 'TAKAHI HOT (RENCENG isi 2 lembar)', '55 mm x 45 mm', 'Karton', '60', 'Hanger', '20', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 115960, NULL, '2022-11-07', '2022-11-16 02:29:54'),
-(8, 'A.006.01', 'KOYO YUNNAN', '80 mm x 45 mm', 'Karton', '30', 'MDS', '12', 'VDS', '1', '1', '0000-00-00 00:00:00', '', 10, NULL, '2022-08-08', '2022-08-19 12:24:50'),
-(9, 'A.007.01', 'SICIE PLASTER (TIPE SACHET)', '90 mm x 60 mm', 'Karton', '30', 'Box', '20', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 6107, NULL, '2022-08-26', '2022-08-26 02:47:34'),
-(10, 'A.007.02', 'SICIE PLASTER (TIPE KALENG)', '10 cm x 40 cm', 'Karton', '6', 'Shrink', '6', 'Kaleng', '1', '1', '0000-00-00 00:00:00', '', 327, NULL, '2022-06-23', '2022-06-28 11:29:52'),
-(11, 'A.008.01', 'KOYO TAKAHI', '65 mm x 42 mm', 'Karton', '100', 'Box', '12', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 649715, NULL, '2022-11-08', '2022-11-08 12:19:58'),
-(12, 'A.008.02', 'KOYO TAKAHI (RENCENG isi 2 lembar)', '65 mm x 42 mm', 'Karton', '60', 'Hanger', '20', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 168071, NULL, '2022-11-08', '2022-11-08 12:22:27'),
-(13, 'A.009.01', 'TAKAHI PLASTER PENGHANGAT LEHER', '50 mm x 75 mm', 'Karton', '50', 'Box', '12', 'Kantong', '1', '1', '0000-00-00 00:00:00', '', 6558, NULL, '2022-11-04', '2022-11-07 09:16:42'),
-(14, 'B.001.01', 'BALSEM JAHE', '20 gram', 'Karton', '20', 'MDS', '12', 'VDS', '2', '1', '0000-00-00 00:00:00', '', 5484, NULL, '2022-10-26', '2022-11-01 03:31:48'),
-(15, 'B.002.01', 'BALSEM SI CIE', '20 gram', 'Karton', '20', 'MDS', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '13', 4379, NULL, '2022-11-02', '2022-11-04 12:24:21'),
-(16, 'B.003.01', 'BALSEM STICK CAP BUNGA CABE', '15 gram', 'Karton', '20', 'MDS', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 4528, NULL, '2022-10-26', '2022-11-01 03:28:25'),
-(17, 'B.004.01', 'BALSEM CABE ', '20 gram', 'Karton', '20', 'MDS', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 3063, NULL, '2022-10-26', '2022-11-01 03:28:09'),
-(18, 'B.005.01', 'KRIM CABE (HOT CREAM)', '30 gram', 'Karton', '12', 'MDS', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 1236, NULL, '2022-11-02', '2022-11-07 08:58:13'),
-(19, 'B.006.01', 'MASTER REFRESHING OIL (Aroma Therapy) (10 ml)', '10 ml', 'Karton', '24', 'Dozen', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 444, NULL, '2022-05-13', '2022-06-09 04:43:31'),
-(20, 'B.006.02', 'MASTER REFRESHING OIL (Aroma Therapy) (5 ml)', '5 ml', 'Karton', '24', 'Dozen', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-26', '2022-10-26 00:00:00'),
-(21, 'B.007.01', 'MINYAK ANGIN CAP CABE (50 ml)', '50 ml', 'Karton', '6', 'MDS', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 709, NULL, '2022-08-31', '2022-08-31 11:40:24'),
-(22, 'B.007.02', 'MINYAK ANGIN CAP CABE (10 ml)', '10 ml', 'Karton', '20', 'MDS', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 2014, NULL, '2022-11-03', '2022-11-07 09:03:05'),
-(23, 'B.007.03', 'MINYAK ANGIN CAP CABE (3 ml)', '3 ml', 'Karton', '50', 'MDS', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 6274, NULL, '2022-11-08', '2022-11-08 12:19:43'),
-(24, 'B.007.04', 'MINYAK ANGIN CAP CABE (3 ml Blister)', '3 ml', 'Karton', '20', 'MDS', '12', 'Pack', '2', '2', '0000-00-00 00:00:00', '', 0, NULL, '2022-03-30', '2022-05-13 10:05:54'),
-(25, 'B.008.01', 'MINYAK ANGIN JAHE (10 ml)', '10 ml', 'Karton', '20', 'Dozen', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 1930, NULL, '2022-11-03', '2022-11-07 09:03:35'),
-(26, 'B.008.02', 'MINYAK ANGIN JAHE (3 ml)', '3 ml', 'Karton', '50', 'Dozen', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 6273, NULL, '2022-08-19', '2022-08-30 03:06:27'),
-(27, 'B.008.03', 'MINYAK ANGIN JAHE (3 ml Blister)', '3 ml', 'Karton', '20', 'Dozen', '12', 'Pack', '2', '2', '0000-00-00 00:00:00', '', 4442, NULL, '2022-08-19', '2022-08-30 03:07:19'),
-(28, 'B.008.04', 'MINYAK ANGIN JAHE (50 ml)', '50 ml', 'Karton', '6', 'Dozen', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 247, NULL, '2022-10-26', '2022-11-01 03:24:59'),
-(29, 'B.009.01', 'MAMI MINYAK KAYU PUTIH HANGAT (100 ml)', '100 ml', 'Karton', '12', 'Dozen', '12', 'Botol', '2', '2', '0000-00-00 00:00:00', '', 3015, NULL, '2022-10-26', '2022-11-01 02:59:17'),
-(30, 'B.009.02', 'MAMI MINYAK KAYU PUTIH HANGAT (60 ml)', '60 ml', 'Karton', '20', 'Dozen', '12', 'Botol', '2', '2', '0000-00-00 00:00:00', '', 54, NULL, '2022-03-30', '2022-06-14 04:44:30'),
-(31, 'B.009.03', 'MAMI MINYAK KAYU PUTIH HANGAT (30 ml)', '30 ml', 'Karton', '30', 'Dozen', '12', 'Botol', '2', '2', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-26', '2022-10-27 00:00:00'),
-(32, 'B.009.04', 'MAMI MINYAK KAYU PUTIH HANGAT (15 ml)', '15 ml', 'Karton', '50', 'Dozen', '12', 'Botol', '2', '2', '0000-00-00 00:00:00', '', 0, NULL, '2022-06-02', '2022-06-15 03:14:40'),
-(33, 'B.010.01', 'SICIE OIL (Botol Pendek)', '40 ml', 'Karton', '12', 'Dozen', '12', 'Botol', '2', '2', '0000-00-00 00:00:00', '', 12559, NULL, '2022-10-26', '2022-11-01 03:25:59'),
-(34, 'B.010.02', 'SICIE OIL (Botol Tinggi)', '40 ml', 'CARTON', '6', 'Dozen', '12', 'Botol', '2', '2', '0000-00-00 00:00:00', '', 34663, NULL, '2022-11-08', '2022-11-08 12:22:42'),
-(35, 'B.010.03', 'SICIE OIL (Kaleng)', '40 ml', 'Outer Karton', '6', 'Inner Karton', '10', 'Cans', '2', '2', '0000-00-00 00:00:00', '', 2916, NULL, '2022-06-10', '2022-06-14 09:53:26'),
-(36, 'B.011.01', 'SICIE OIL MILD', '40 ml', 'Outer Karton', '6', 'Dozen', '12', 'Botol', '2', '2', '0000-00-00 00:00:00', '', 1950, NULL, '2022-09-08', '2022-09-09 09:24:31'),
-(37, 'C.001.01', 'SEJUK SARI JERUK NIPIS (Hanger)', 'Hanger', 'Karton', '24', 'Hanger', '24', 'sachet', '3', '3', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '2022-10-27 00:00:00'),
-(38, 'C.001.02', 'SEJUK SARI JERUK NIPIS (Box)', 'Box', 'Karton', '12', 'MDS', '12', 'VDS', '3', '3', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '0000-00-00 00:00:00'),
-(39, 'C.001.03', 'SEJUK SARI JERUK NIPIS (Topples)', 'Topples', 'Karton', '12', 'toples', '60', 'sachet', '3', '3', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '0000-00-00 00:00:00'),
-(40, 'D.001.01', 'OKE FANCY PLASTER (EMOTICON)', '19 mm x 64 mm', 'Karton', '120', 'Hgr', '10', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 0, NULL, '2022-09-30', '2022-10-10 15:54:48'),
-(41, 'D.002.01', 'OKE FANCY PLASTER (BOX)', '19 mm x 64 mm', 'Karton', '100', 'Box', '100', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 1499600, NULL, '2022-10-26', '2022-11-01 03:36:21'),
-(42, 'D.002.02', 'OKE FANCY PLASTER (HANGER)', '19 mm x 64 mm', 'Karton', '120', 'Hgr', '10', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 766700, NULL, '2022-10-31', '2022-11-01 03:57:47'),
-(43, 'D.003.01', 'OKE PLAST FIRST AID DRESSING ', '19 mm x 64 mm', 'Karton', '100', 'Box', '100', 'STRIP', '4', '4', '0000-00-00 00:00:00', '', 62764100, NULL, '2022-11-07', '2022-11-08 12:24:11'),
-(44, 'D.003.02', 'OKE PLAST FIRST AID DRESSING (SUPERMARKET)', '19 mm x 64 mm', 'Karton', '36', 'Box', '30', 'Amplop', '4', '4', '0000-00-00 00:00:00', '', 0, NULL, '2022-06-13', '2022-06-22 11:59:03'),
-(45, 'D.003.03', 'OKE PLAST FIRST AID DRESSING (RENCENG isi 5 Strip)', '19 mm x 64 mm', 'Karton', '60', 'Hgr', '30', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 18006, NULL, '2022-11-04', '2022-11-07 09:19:36'),
-(46, 'D.004.01', 'OKE PLAST FIRST AID DRESSING (SPIDER)', '19 mm x 64 mm', 'Karton', '120', 'Hgr', '10', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 292609, NULL, '2022-11-03', '2022-11-07 09:04:21'),
-(47, 'D.005.01', 'OKE PLAST FIRST AID DRESSING (BATIK)', '19 mm x 64 mm', 'Karton', '120', 'Hgr', '10', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 417491, NULL, '2022-10-26', '2022-11-01 03:33:57'),
-(48, 'D.005.02', 'OKE PLAST FIRST AID DRESSING (BATIK SUPERMARKET)', '19 mm x 64 mm', 'Karton', '36', 'Box', '30', 'Amplop', '4', '4', '0000-00-00 00:00:00', '', 0, NULL, '2022-06-13', '2022-06-22 12:00:25'),
-(49, 'D.006.01', 'OKE PLAST FIRST AID DRESSING (COLOR)', '19 mm x 64 mm', 'Karton', '120', 'Hgr', '10', 'Amplop', '4', '4', '0000-00-00 00:00:00', '', 7806, NULL, '2022-10-26', '2022-11-01 03:25:17'),
-(50, 'D.007.01', 'MAMI PLAST', '19 mm x 64 mm', 'Karton', '100', 'Box', '100', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 15100, NULL, '2022-03-30', '2022-05-13 09:00:42'),
-(51, 'D.008.01', 'BAYPLAST ELASTIC STRIP', '19 mm x 64 mm', 'Karton', '100', 'Box', '100', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 9400, NULL, '2022-06-10', '2022-06-17 11:50:42'),
-(52, 'D.009.01', 'CROSS BRAND FIRST AID DRESSING ', '19 mm x 64 mm', 'Karton', '100', 'Box', '100', 'STRIP', '4', '4', '0000-00-00 00:00:00', '', 16600, NULL, '2022-09-08', '2022-09-12 03:43:15'),
-(53, 'D.010.01', 'FIRSTRIP FRIST AID DRESSING ', '19 mm x 64 mm', 'Karton', '100', 'Box', '100', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 1900, NULL, '2022-03-30', '2022-05-13 09:00:04'),
-(54, 'E.001.01', 'OK PLAST PLASTIC BANDAGE', '25 mm', 'Karton', '100', 'Box', '100', 'STRIP', '5', '5', '0000-00-00 00:00:00', '', 2260000, NULL, '2022-11-04', '2022-11-07 09:09:32'),
-(55, 'E.002.01', 'OKEPLAST ASSORTED PLASTER', ' 10 Amplop', 'Karton', '10', 'Box', '9', 'Pack', '5', '5', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '0000-00-00 00:00:00'),
-(56, 'F.001.01', 'SURGIN PAD SURGICAL DRESSING (UK 5 CM X 7,5 CM)', '50 mm x 75 mm', 'Karton', '200', 'box', '10', 'Sachet', '6', '6', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '0000-00-00 00:00:00'),
-(57, 'F.001.02', 'SURGIN PAD SURGICAL DRESSING (UK 8 CM X 10 CM)', '80 mm x 100 mm', 'Karton', '100', 'box', '10', 'Sachet', '6', '6', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '0000-00-00 00:00:00'),
-(58, 'F.002.01', 'OKE TRENDY PLASTER FIRST AID DRESSING ', '19 mm x 64 mm', 'Karton', '100', 'Hanger', '10', 'Sachet', '6', '6', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '0000-00-00 00:00:00'),
-(59, 'G.001.01', 'CHILLI PLAST PLASTER PEREKAT (1/2 X 1)', '12,5 mm x 1 m', 'Karton', '60', 'Dozen', '12', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 264284, NULL, '2022-11-08', '2022-11-08 12:21:11'),
-(60, 'G.001.02', 'CHILLI PLAST PLASTER PEREKAT (1/2 X 5)', '12,5 mm x 4,5 m', 'Karton', '30', 'Dozen', '12', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 134408, NULL, '2022-11-07', '2022-11-08 12:23:12'),
-(61, 'G.001.03', 'CHILLI PLAST PLASTER PEREKAT (1 X 1)', '25 mm x 1 m', 'Karton', '36', 'Dozen', '12', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 0, NULL, '2022-11-02', '2022-11-04 12:28:59'),
-(62, 'G.001.04', 'CHILLI PLAST PLASTER PEREKAT (1 X 5)', '25 mm x 4,5 m', 'Karton', '20', 'Dozen', '12', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 9606, NULL, '2022-11-08', '2022-11-08 12:21:28'),
-(63, 'G.001.05', 'CHILLI PLAST PLASTER PEREKAT (2 X 5)', '50 mm x 4,5 m', 'Karton', '24', 'Box', '6', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 2201, NULL, '2022-11-02', '2022-11-07 08:54:39'),
-(64, 'G.001.06', 'CHILLI PLAST PLASTER PEREKAT (3 X 5)', '75 mm x 4,5 m', 'Karton', '24', 'Box', '6', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 3474, NULL, '2022-11-02', '2022-11-07 08:55:04'),
-(65, 'H.001.01', 'MASTER PLAST PLASTIC ADHESIVE PLASTER (0,5 X 10 YR)', '12,5 mm x 10 yard', 'Karton', '12', 'Shrink', '6', 'Box', '8', '8', '0000-00-00 00:00:00', '', 0, NULL, '2022-03-30', '2022-06-16 02:34:51'),
-(66, 'H.001.02', 'MASTER PLAST PLASTIC ADHESIVE PLASTER (1,0 X 10 YR)', '25 mm x 10 yard', 'Karton', '8', 'Shrink', '6', 'Box', '8', '8', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '0000-00-00 00:00:00'),
-(67, 'I.001.01', 'MASTER PLAST NON WOVEN ADHESIVE PLASTER (0,5 X 10)', '0,5 inch x 10 yard', 'Karton', '12', 'Shrink', '6', 'Box', '9', '9', '0000-00-00 00:00:00', '', 1300, NULL, '2022-10-11', '2022-10-11 03:36:23'),
-(68, 'I.001.02', 'MASTER PLAST NON WOVEN ADHESIVE PLASTER (0,5 X 10 DB)', '0,5 inch x 10 yard', 'Karton', '12', 'Box', '12', 'Roll', '9', '9', '0000-00-00 00:00:00', '', 2776, NULL, '2022-11-03', '2022-11-07 09:00:40'),
-(69, 'I.001.03', 'MASTER PLAST NON WOVEN ADHESIVE PLASTER (1 X 10)', '1 inch x 10 yard', 'Karton', '8', 'Shrink', '6', 'Bh', '9', '9', '0000-00-00 00:00:00', '', 3531, NULL, '2022-11-03', '2022-11-07 09:00:16'),
-(70, 'I.002.01', 'MAMI FIX ADHESIVE MESH BANDAGE (10 X 5)', '10 cm x 5 m', 'Karton', '75', 'Box', '1', 'Roll', '9', '9', '0000-00-00 00:00:00', '', 675, NULL, '2022-10-26', '2022-10-26 12:35:54'),
-(71, 'I.002.02', 'MAMI FIX ADHESIVE MESH BANDAGE (15 X 5)', '15 cm x 5 m', 'Karton', '50', 'Box', '1', 'Roll', '9', '9', '0000-00-00 00:00:00', '', 450, NULL, '2022-10-19', '2022-10-19 02:16:19'),
-(72, 'I.002.03', 'MAMI FIX ADHESIVE MESH BANDAGE (5 X 5)', '5 cm x 5 m', 'Karton', '125', 'Box', '1', 'Roll', '9', '9', '0000-00-00 00:00:00', '', 1612, NULL, '2022-10-19', '2022-10-19 02:16:32'),
-(73, 'J.001.01', 'MAMI NON WOVEN PADS STERIL ', '12 mm x 10 cm', 'Karton', '60', 'Box', '10', 'Ktg', '10', '10', '0000-00-00 00:00:00', '', 1628, NULL, '2022-11-02', '2022-11-07 08:55:26'),
-(74, 'J.002.01', 'MAMI PLESTER KOMPRES TIPE LEMON (BOX)', ' 1 lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 8265, NULL, '2022-11-08', '2022-11-08 12:18:24'),
-(75, 'J.002.02', 'MAMI PLESTER KOMPRES TIPE LEMON (HANGER)', ' 12 Sachet', 'Karton', '42', 'Hanger', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 1, NULL, '2022-11-02', '2022-11-07 08:56:19'),
-(76, 'J.003.01', 'MAMI PLESTER KOMPRES (BOX)', ' 1 lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 30980, NULL, '2022-11-07', '2022-11-08 12:23:50'),
-(77, 'J.003.02', 'MAMI PLESTER KOMPRES (HANGER)', ' 12 Sachet', 'Karton', '42', 'Hanger', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 40772, NULL, '2022-10-18', '2022-10-18 03:23:41'),
-(78, 'J.004.01', 'MAMI PLESTER KOMPRES TIPE STRAWBERRY (BOX)', ' 1 lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 5501, NULL, '2022-11-08', '2022-11-08 12:19:07'),
-(79, 'J.004.02', 'MAMI PLESTER KOMPRES TIPE STRAWBERRY (HANGER)', ' 12 Sachet', 'Karton', '42', 'Hanger', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 3528, NULL, '2022-11-02', '2022-11-04 12:29:16'),
-(80, 'J.005.01', 'MAMI PLESTER KOMPRES TIPE APPLE (BOX)', ' 1 lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 7852, NULL, '2022-11-08', '2022-11-08 12:19:28'),
-(81, 'J.005.02', 'MAMI PLESTER KOMPRES TIPE APPLE (HANGER)', ' 12 Sachet', 'Karton', '42', 'Hanger', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 3024, NULL, '2022-11-02', '2022-11-04 12:29:45'),
-(82, 'J.006.01', 'MASTER XTRA COOL PLESTER KOMPRES (JASMINE)', ' 2 Lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 0, NULL, '2022-11-03', '2022-11-07 09:05:25'),
-(83, 'J.006.02', 'MASTER XTRA COOL PLESTER KOMPRES (SANDAL WOOD)', ' 2 Lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 1440, NULL, '2022-11-07', '2022-11-07 09:34:04'),
-(84, 'J.006.03', 'MASTER XTRA COOL PLESTER KOMPRES (TEA)', ' 2 Lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 0, NULL, '2022-11-03', '2022-11-07 09:05:46'),
-(85, 'J.007.01', 'SAVANA PLESTER KOMPRES (SANDALWOOD)', ' 2 Lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 1800, NULL, '2022-10-06', '2022-10-10 04:23:59'),
-(86, 'J.007.02', 'SAVANA PLESTER KOMPRES (JASMINE)', ' 2 Lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 2160, NULL, '2022-10-06', '2022-10-10 04:24:17'),
-(87, 'J.007.03', 'SAVANA PLESTER KOMPRES (TEA)', ' 2 Lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 792, NULL, '2022-10-31', '2022-11-01 03:51:44'),
-(88, 'K.001.01', 'MAMI BREAST PUMP', '12 VDS', 'Karton', '12', 'MDS', '12', 'VDS', '11', '11', '0000-00-00 00:00:00', '', 90000, NULL, '2022-11-07', '2022-11-08 12:23:29'),
-(89, 'K.001.02', 'MAMI BREAST PUMP (TANPA DUS)', 'TANPA DUS', 'Karton', '12', 'MDS', '15', 'Pcs', '11', '11', '0000-00-00 00:00:00', '', 0, NULL, '2022-11-01', '2022-11-07 09:34:23'),
-(90, 'K.002.01', 'MAMI SILICONE BREAST PUMP', '12 Box', 'Outer Karton', '12', 'Dozen', '12', 'Box', '11', '12', '0000-00-00 00:00:00', '', 9936, NULL, '2022-11-03', '2022-11-07 09:06:10'),
-(91, 'K.003.01', 'MAMI FEEDING BOTTLE (60 ML)', '60 ml', 'Karton', '8', 'Shrink', '6', 'Botol', '11', '11', '0000-00-00 00:00:00', '', 541, NULL, '2022-11-04', '2022-11-07 09:17:02'),
-(92, 'K.003.02', 'MAMI FEEDING BOTTLE (120 ML)', '120 ml', 'Karton', '8', 'Shrink', '6', 'Botol', '11', '11', '0000-00-00 00:00:00', '', 827, NULL, '2022-10-31', '2022-11-01 03:52:29'),
-(93, 'K.003.03', 'MAMI FEEDING BOTTLE (250 ML) ', '250 ml', 'Karton', '8', 'Shrink', '6', 'Botol', '11', '11', '0000-00-00 00:00:00', '', 697, NULL, '2022-10-31', '2022-11-01 03:52:47'),
-(94, 'K.004.01', 'MAMI SILICON NIPPLE (S)', 'size S', 'Karton', '8', 'Dozen', '12', 'Box', '11', '11', '0000-00-00 00:00:00', '', 1320, NULL, '2022-10-27', '2022-10-27 02:58:35'),
-(95, 'K.004.02', 'MAMI SILICON NIPPLE (M)', 'size M', 'Karton', '8', 'Dozen', '12', 'Box', '11', '11', '0000-00-00 00:00:00', '', 810, NULL, '2022-10-27', '2022-10-27 02:58:47'),
-(96, 'K.004.03', 'MAMI SILICON NIPPLE (L)', 'size L', 'Karton', '8', 'Dozen', '12', 'Box', '11', '11', '0000-00-00 00:00:00', '', 818, NULL, '2022-10-27', '2022-10-27 02:59:00'),
-(97, 'K.005.01', 'MAMI NEW BREAST PUMP WITH BOTTLE', '1 set', 'Karton', '12', 'Dozen', '1', 'Set', '11', '11', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-06', '2022-10-10 04:28:30'),
-(98, 'K.006.01', 'MAMI HANDSANITIZER (60 ML)', ' 60 ml', 'Karton', '24', 'Shrink', '6', 'Botol', '11', '11', '0000-00-00 00:00:00', '', 2009, NULL, '2022-10-26', '2022-11-01 03:32:38'),
-(99, 'K.006.02', 'MAMI HANDSANITIZER (100 ML)', ' 100 ml', 'Karton', '24', 'Shrink', '6', 'Botol', '11', '11', '0000-00-00 00:00:00', '', 7425, NULL, '2022-10-26', '2022-11-01 03:32:55'),
-(100, 'K.006.03', 'MAMI HANDSANITIZER (500 ML)', ' 500 ml', 'Karton', '24', 'SHRINK', '1', 'Botol', '11', '11', '0000-00-00 00:00:00', '', 447, NULL, '2022-10-26', '2022-11-01 03:33:18'),
-(101, 'K.006.04', 'MAMI HANDSANITIZER (1 L)', ' 1 Liter', 'Karton', '12', 'Jerigen', '1', 'Jerigen', '11', '11', '0000-00-00 00:00:00', '', 939, NULL, '2022-10-26', '2022-11-01 03:33:36'),
-(102, 'K.006.05', 'MAMI HANDSANITIZER (5 L)', ' 5 Liter', 'Karton', '2', 'Jerigen', '1', 'Jerigen', '11', '11', '0000-00-00 00:00:00', '', 47, NULL, '2022-10-04', '2022-10-11 03:46:07'),
-(103, 'L.001.01', 'HUNDREDPLAST 100s', '64 mm x 19 mm', 'Karton', '2', 'IC', '100', 'Box', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '2022-09-02', '2022-09-02 02:16:39'),
-(104, 'L.001.02', 'HUNDREDPLAST 100 + 20%', '64 mm x 19 mm', 'Karton', '2', 'IC', '100', 'Box', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(105, 'L.001.03', 'HUNDREDPLAST 200 + BONUS', '64 mm x 19 mm', 'Karton', '2', 'IC', '50', 'Box', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(106, 'L.002.01', 'MAMI PLAST (HYGEIAN)', '64 mm x 19 mm', 'Karton', '100', 'box', '100', 'strip', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '2022-06-22', '2022-06-22 11:03:46'),
-(107, 'L.003.01', 'SAPL ADHESIVE PLASTER UK. 25 MM X 5 M', '25 mm x 5 m', 'Karton', '10', 'Box', '12', 'Roll', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '2022-05-17', '2022-06-09 04:53:53'),
-(108, 'L.003.02', 'SAPL ADHESIVE PLASTER UK. 50 MM X 5 M', '50 mm x 5 m', 'Karton', '10', 'Box', '6', 'Roll', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(109, 'L.003.03', 'SAPL ADHESIVE PLASTER UK. 75 MM X 5 M', '75 mm x 5 m', 'Karton', '8', 'Box', '6', 'Roll', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '2022-05-17', '2022-06-09 04:54:12'),
-(110, 'L.004.01', 'TOPPLAST 100', '64 mm x 19 mm', 'Karton', '2', 'IC', '100', 'Box', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '2022-09-02', '2022-09-02 02:15:50'),
-(111, 'L.004.02', 'TOPPLAST 100 + 20%', '64 mm x 19 mm', 'Karton', '2', 'IC', '100', 'Box', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(112, 'L.004.03', 'TOPPLAST 200 + BONUS', '64 mm x 19 mm', 'Karton', '2', 'IC', '50', 'Box', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(113, 'L.004.04', 'TOPPLAST 300', '64 mm x 19 mm', 'Karton', '36', 'Box', '30', 'Amplop', '13', '12', '0000-00-00 00:00:00', '', 0, NULL, '2022-09-02', '2022-09-02 02:16:09'),
-(114, 'M.001.01', 'COSMOPLAST First Aid Dressing', '19 x 72 mm', 'Karton', '100', 'box', '100', 'strip', '13', '13', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(115, 'N.001.01', 'BALLYETON GINGER PLASTER ', '17 cm x 11,5 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(116, 'N.002.01', 'BALLYETON MEDICATED PLASTER', '65 mm x 42 mm', 'Karton', '25', 'MDS', '20', 'VDS', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-20', '2022-10-20 11:47:24'),
-(117, 'N.003.01', 'BALLYETON POROUS CAPSICUM PLASTER', '17 cm x 11,5 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-04-05', '2022-05-20 01:39:07'),
-(118, 'N.004.01', 'COSMOPAS MEDICATED PLASTER ', '65 mm x 42 mm', 'Karton', '45', 'MDS', '20', 'VDS', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-06-17', '2022-06-17 12:16:57'),
-(119, 'N.005.01', 'COSMOS CAPSICUM PLASTER DUOPHARMA', '17 cm x 11,5 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(120, 'N.006.01', 'KOYO TAKAHI HOT MEDICATED PLASTER BESAR PKM', '17 cm x 11,5 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-08-16', '2022-08-30 08:32:07'),
-(121, 'N.007.01', 'KOYO TAKAHI HOT BESAR (MACAU)', '17 cm x 11,5 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-04-05', '2022-05-20 01:39:24'),
-(122, 'N.008.01', 'KOYOK HUNDREDPLAST', '65 mm x 42 mm', 'Karton', '2', 'IC', '25', 'MDS', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(123, 'N.009.01', 'NEOBUN CAPSICUM PLASTER KECIL', '65 mm x 42 mm', 'Karton', '2', 'IC', '25', 'MDS', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(124, 'N.009.02', 'NEOBUN CAPSICUM PLASTER BESAR', '11 cm x 18 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(125, 'N.010.01', 'NEOBUN MEDICATED PLASTER WITH GINGER AND LEMONGRASS', '9 cm x 6 cm', 'Karton', '50', 'Box', '20', 'Kantong', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-28', '2022-11-01 03:44:54'),
-(126, 'N.011.01', 'OOPAS MEDICATED PLASTER', '65 mm x 42 mm', 'Karton', '25', 'MDS', '20', 'VDS', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(127, 'N.012.01', 'OOPAS HOT PLASTER ', '17 cm x 11,5 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(128, 'N.013.01', 'PLASTER BERUBAT NEOBUN PLUS KECIL', '65 mm x 42 mm', 'Karton', '2', 'IC', '25', 'MDS', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-28', '2022-11-01 03:44:26'),
-(129, 'N.013.02', 'PLASTER BERUBAT NEOBUN PLUS BESAR', '11 cm x 18 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(130, 'N.013.03', 'PLASTER BERUBAT NEOBUN PLUS KECIL ZIP & LOCK', '65 mm x 42 mm', 'Karton', '50', 'Box', '20', 'Kantong', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(131, 'N.014.01', 'PISHUHO MEDICATED PLASTER ', '65 mm x 42 mm', 'Karton', '2', 'IC', '25', 'MDS', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-05-24', '2022-06-21 04:40:42'),
-(132, 'N.015.01', 'PAK LI MEDICATED PLASTER ', '10 cm x 7 cm', 'Karton', '36', 'MDS', '20', 'VDS', '14', '14', '0000-00-00 00:00:00', '', 12600, NULL, '2022-03-30', '2022-05-13 08:37:18'),
-(133, 'N.016.01', 'SAIBOONS POROUS CAPSICUM PLASTER ', '17 cm x 11,5 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-06-16', '2022-06-16 04:42:47'),
-(134, 'N.017.01', 'SHANGSHI KOYOK ZIP & LOCK', '7 cm x 5 cm', 'Karton', '50', 'Box', '20', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(135, 'N.018.01', 'SICIE PLASTER (MACAU)', '90 mm x 60 mm ', 'Karton', '30', 'Box', '20', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00'),
-(136, 'N.019.01', 'TAKAHI HANGAT PUI KIAN MING', '65 mm x 42 mm', 'Karton', '50', 'MDS', '20', 'VDS', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-18', '2022-10-18 03:17:06'),
-(137, 'N.020.01', 'TAKAHI HOT (MEDIUM isi 6 lembar)', '85 mm x 55 mm', 'Karton', '75', 'Box', '25', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '2022-10-27 00:00:00'),
-(138, 'O.001.01', 'BALLYETON MENTHOL OINTMENT 23 GR', '23 gram', 'Karton', '24', 'Plastik Shrink', '12', 'Box', '15', '15', '0000-00-00 00:00:00', '', 0, NULL, '2022-06-02', '2022-07-15 08:47:00'),
-(139, 'O.001.02', 'BALLYETON MENTHOL OINTMENT 85 GR', '85 gram', 'Karton', '24', 'Plastik Shrink', '6', 'Box', '15', '15', '0000-00-00 00:00:00', '', 0, NULL, '2022-06-02', '2022-07-15 08:46:32'),
-(140, 'O.002.01', 'SICIE OIL BOTOL PANJANG (MACAU)', '40 ml', 'Karton', '6', 'IC', '12', 'Box', '2', '3', '0000-00-00 00:00:00', '', 0, NULL, '2022-05-27', '2022-06-16 03:46:16'),
-(141, 'K.003.02R', 'MAMI FEEDING BOTTLE (120 ML)R', '120 ML', 'Karton', '8', 'Shrink', '6', 'Botol', '11', '11', '0000-00-00 00:00:00', '', 40, NULL, '2022-04-11', '2022-05-20 02:31:20'),
-(142, 'K.003.03R', 'MAMI FEEDING BOTTLE (250 ML ) R', '250 ML', 'Karton', '8', 'Shrink', '6', 'Botol', '11', '11', '0000-00-00 00:00:00', '', 35, NULL, '2022-07-11', '2022-08-08 04:29:01'),
-(143, 'L.006.01', 'OKE PLAST FIRST AID DRESSING PUI KIAN MING', '19mm x 64mm', 'Karton', '100', 'Box', '100', 'Strip', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-18', '2022-10-18 03:22:00'),
-(144, 'L.005.01', 'CHILLI PLAST PLASTER PEREKAT (1x 5) Pui Kian Ming', '2.5 mm x 4.5 m', 'Karton', '20', 'Dozen', '12', 'Roll', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '2022-04-04', '2022-06-16 12:03:55'),
-(145, 'A.005.01R', 'TAKAHI HOT (ISI 10 LEMBAR)(R)', '55 MM X 45 MM', 'CARTON', '100', 'BOX', '12', 'SACHET', '1', '1', '0000-00-00 00:00:00', '', 96, NULL, '2022-10-24', '2022-10-26 12:23:43'),
-(146, 'A.008.01R', 'KOYO TAKAHI (R)', '65 MM X 42 MM', 'CARTON', '100', 'BOX', '12', 'SACHET', '1', '1', '0000-00-00 00:00:00', '', 26, NULL, '2022-08-24', '2022-08-24 11:46:53'),
-(147, 'A.005.02R', 'TAKAHI HOT (RENCENG ISI 2 LEMBAR) (R)', '55 MM X 45 MM', 'CARTON', '60', 'HANGER', '20', 'SACHET', '1', '1', '0000-00-00 00:00:00', '', 169, NULL, '2022-08-31', '2022-09-01 02:38:44'),
-(148, 'A.005.03', 'TAKAHI HOT (MEDIUM)', '85 MM X 45 MM', 'CARTON', '75', 'BOX', '25', 'SACHET', '1', '1', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '2022-06-13 04:27:24'),
-(149, 'A.005.04', 'TAKAHI HOT (BESAR)', '17 CM X 11,5 CM', 'CARTON', '50', 'BOX', '24', 'SACHET', '1', '1', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '2022-06-13 04:28:56'),
-(150, 'B.012.01', 'MAMI CALACYN LOTION', '100 ML', 'CARTON', '4', 'DOZEN', '12', 'BOTOL', '2', '2', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '2022-06-13 04:34:12'),
-(151, 'D.005.03', 'OKE PLAST FIRST AID DRESSING (BATIK BOX)', '19 MM X 64 MM', 'CARTON', '100', 'BOX', '100', 'STRIP', '4', '4', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '2022-06-13 04:35:46'),
-(152, 'I.001.04', 'MASTER PLAST NON WOVEN ADHESIVE PLASTER (1X10 DB)', '1 INCH X 10 YARD', 'CARTON', '4', 'DOZEN', '12', 'PCS', '9', '9', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '2022-06-13 04:39:00'),
-(153, 'J.008.01', 'MAMI INFUSION', '12 MM X 10 CM', 'CARTON', '48', 'BOX', '50', 'SACHET', '10', '10', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '2022-06-13 04:42:42'),
-(154, 'A.008.02R', 'KOYO TAKAHI (RENCENG ISI 2 LEMBAR) (R)', '65 MM X 42 MM', 'CARTON', '60', 'HANGER', '20', 'SACHET', '1', '1', '0000-00-00 00:00:00', '', 50, NULL, '2022-07-26', '2022-07-28 03:59:53'),
-(155, 'D.003.01R', 'OKE PLAST FIRST AID DRESSING (R)', '19 MM X 64 MM', 'CARTON', '100', 'BOX', '100', 'STRIP', '4', '4', '0000-00-00 00:00:00', '', 9900, NULL, '2022-07-26', '2022-08-08 04:06:46'),
-(156, 'G.001.06R', 'CHILLI PLAST PLASTER PEREKAT (3X5)(R)', '75 MM X 4,5 M', 'CARTON', '24', 'BOX', '6', 'ROLL', '7', '7', '0000-00-00 00:00:00', '', 284, NULL, '2022-03-31', '2022-06-21 04:42:56'),
-(157, 'G.001.05R', 'CHILLI PLAST PLASTER PEREKAT (2X5)(R)', '50 MM X 4,5 M', 'CARTON', '24', 'BOX', '6', 'ROLL', '7', '7', '0000-00-00 00:00:00', '', 101, NULL, '2022-10-26', '2022-10-27 03:14:46'),
-(158, 'B.010.02R', 'SICIE OIL (BOTOL TINGGI) (R)', '40 ML', 'CARTON', '6', 'DOZEN', '12', 'BOTOL', '2', '2', '0000-00-00 00:00:00', '', 0, NULL, '2022-08-03', '2022-08-19 12:26:06'),
-(159, 'K.001.01R', 'MAMI BREAST PUMP (R)', '12VDS', 'CARTON', '12', 'DOZEN', '12', 'PCS', '11', '11', '0000-00-00 00:00:00', '', 151, NULL, '2022-07-26', '2022-08-08 04:10:52'),
-(160, 'N.006.02', 'TAKAHI HOT MEDICATED PLASTER KECIL PKM', '55 mm X 4,5 m', 'CARTON', '50', 'Box', '12', 'Sachet', '14', '14', '2022-06-22 10:54:48', '', 0, NULL, '2022-08-30', '2022-08-30 02:56:03'),
-(161, 'J.001.02', 'MAMI NON WOVEN PADS (NON STERIL)', '12 mm X 10 cm', 'CARTON', '60', 'Box', '10', 'PADS', '10', '10', '2022-06-22 10:57:21', '', 172800, NULL, '2022-10-10', '2022-10-10 04:36:18'),
-(162, 'K.005.01R', 'MAMI NEW BREAST PUMP WITH BOTTLE ( R )', 'SET', 'CARTON', '1', 'DOZEN', '12', 'SET', '11', '11', '2022-07-22 10:07:54', '', 0, NULL, '2022-08-23', '2022-08-29 02:08:02'),
-(163, 'K.004.03R', 'MAMI SILICONE NIPPLE (L) (R)', 'SMALL', 'CARTON', '8', 'Dozen', '12', 'Box', '11', '11', '2022-07-28 03:25:00', '', 17, NULL, '2022-07-11', '2022-08-08 04:36:01'),
-(164, 'K.004.02R', 'MAMI SILICONE NIPPLE (M) (R)', 'MEDIUM', 'CARTON', '8', 'Dozen', '12', 'Box', '11', '11', '2022-07-28 03:30:32', '', 2, NULL, '2022-07-11', '2022-08-08 04:33:37'),
-(165, 'I.002.03R', 'MAMI FIX ADHESIVE MESH BANDAGE (5x5) (R)', '5 cm X 5 m', 'CARTON', '125', 'Box', '1', 'Roll', '9', '9', '2022-07-28 03:39:41', '', 21, NULL, '2022-07-26', '2022-07-28 03:43:32'),
-(166, 'I.002.01R', 'MAMI FIX ADHESIVE MESH BANDAGE (10x5) (R)', '10 cm x 5 m', 'CARTON', '75', 'Box', '1', 'Roll', '9', '9', '2022-07-28 03:41:57', '', 4, NULL, '2022-07-26', '2022-07-28 03:44:08'),
-(167, 'I.002.02R', 'MAMI FIX ADHESIVE MESH BANDAGE (15x5) (R)', '15 cm x 5 m', 'CARTON', '50', 'Box', '1', 'Roll', '9', '9', '2022-07-28 03:43:20', '', 19, NULL, '2022-10-26', '2022-10-27 03:07:30'),
-(168, 'D.008.01R', 'BAYPLAST ELASTIC STRIP (R)', '19mm x 64mm', 'CARTON', '100', 'Box', '100', 'Strip', '4', '4', '2022-07-28 03:46:51', '', 400, NULL, '2022-07-26', '2022-07-28 03:49:53'),
-(169, 'D.009.01R', 'CROSS BRAND FIRST AID DRESSING (R)', '19mm x 64mm', 'CARTON', '100', 'Box', '100', 'Strip', '4', '4', '2022-07-28 03:48:16', '', 3500, NULL, '2022-07-26', '2022-08-08 04:07:44'),
-(170, 'E.001.01R', 'OK PLAST PLASTIC BANDAGE (R)', '25 MM', 'CARTON', '100', 'Box', '100', 'Strip', '5', '5', '2022-07-28 03:49:34', '', 700, NULL, '2022-09-08', '2022-09-13 08:18:03'),
-(171, 'A.009.01R', 'TAKAHI PLASTER PENGHANGAT LEHER (R)', '50 mm x 75 m', 'CARTON', '50', 'Box', '12', 'Sachet', '1', '1', '2022-07-28 03:55:50', '', 12, NULL, '2022-07-26', '2022-07-28 03:58:03'),
-(172, 'A.001.01R', 'KOYO CABE (KECIL)  20 Sachet (R)', '55 mm x 45 m', 'CARTON', '50', 'Box', '20', 'Sachet', '1', '1', '2022-07-28 03:57:06', '', 0, NULL, '2022-08-09', '2022-08-09 03:45:02'),
-(173, 'B.007.02R', 'MINYAK ANGIN CAP CABE (10 ml) (R)', '10 ml', 'Carton', '20', 'Dozen', '12', 'Pcs', '2', '2', '2022-08-01 10:29:28', '', 84, NULL, '2022-10-19', '2022-10-21 03:53:21'),
-(174, 'J.003.01R', 'MAMI PLESTER KOMPRES (BOX) (R)', '1 Lembar', 'Carton', '30', 'Box', '12', 'Sachet', '10', '10', '2022-08-01 11:17:09', '', 96, NULL, '2022-07-28', '2022-08-01 11:20:08'),
-(175, 'J.004.01R', 'MAMI PLESTER KOMPRES TIPE STRAWBERRY (BOX) (R)', '1 Lembar', 'Carton', '30', 'Box', '12', 'Sachet', '10', '10', '2022-08-01 11:19:20', '', 24, NULL, '2022-07-28', '2022-08-01 11:21:17'),
-(176, 'J.001.01R', 'MAMI NON WOVEN PADS STERIL (R)', '12 mm x 10 cm', 'Carton', '60', 'Box', '10', 'Pads', '10', '10', '2022-08-01 02:54:03', '', 1240, NULL, '2022-10-26', '2022-11-01 02:56:15'),
-(177, 'L.010.01', 'CROSS BRAND FIRST AID DRESSING LOOSE', '19 mm X 64 mm', 'Carton', '100', 'Pack', '100', 'Strip', '12', '12', '2022-08-18 12:03:03', '', 0, NULL, '2022-08-25', '2022-08-26 02:43:39'),
-(178, 'L.011.02', 'TOP-UKO UNIVERSAL SURGICAL TAPE (UK 25 cm x 5 m)', '2,5 cm x 5 m', 'Carton', '48', 'Box', '10', 'Roll', '12', '12', '2022-08-23 03:26:18', '', 24000, NULL, '2022-09-14', '2022-09-16 09:17:21'),
-(179, 'L.001.04', 'HUNDREDPLAST 200', '19 mm X 64 mm', 'Carton', '100', 'Box', '200', 'Lembar', '12', '12', '2022-08-26 02:56:24', '', 0, NULL, '2022-09-02', '2022-09-02 02:16:52'),
-(180, 'L.011.01', 'TOP-UKO UNIVERSAL SURGICAL TAPE (UK 125 cm x 5 m)', '1,25 cm x 5 m', 'Carton', '48', 'Box', '10', 'Roll', '12', '12', '2022-09-01 09:56:33', '', 24000, NULL, '2022-09-16', '2022-09-19 08:32:07'),
-(181, 'L.008.01', 'OKE PLAST FIRST AID DRESSING (BATIK) PUI KIAN MING', '19 MM X 64 MM', 'CARTON', '120', 'HANGER', '10', 'SACHET', '12', '12', '2022-09-26 04:38:48', '', 0, NULL, '2022-10-18', '2022-10-18 03:17:47'),
-(182, 'L.007.01', 'OKE PLAST FIRST AID DRESSING (SPIDER) PUI KIAN MING', '19 MM X 64 MM', 'CARTON', '120', 'HANGER', '10', 'SACHET', '12', '12', '2022-09-26 04:40:13', '', 0, NULL, '2022-10-18', '2022-10-18 03:17:32'),
-(183, 'L.009.01', 'OKE PLAST FIRST AID DRESSING (COLOR) PUI KIAN MING', '19 MM x 64 MM', 'Carton', '120', 'Hanger', '10', 'Sachet', '12', '12', '2022-09-28 02:40:37', '', 0, NULL, '2022-10-18', '2022-10-18 03:17:59'),
-(184, 'D.001.01R', 'OKE FANCY PLASTER (EMOTICON) ( R )', '19 MM X 64 MM', 'Carton', '120', 'HANGER', '10', 'SACHET', '4', '4', '0000-00-00 00:00:00', '', 4, NULL, '2022-10-18', '2022-10-18 11:02:15'),
-(185, 'B.001.01R', 'BALSEM JAHE (R)', '20 Gr', 'Carton', '20', 'DOZEN', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-26', '2022-10-26 16:58:07'),
-(186, 'G.001.04R', 'CHILLI PLAST PLASTER PEREKAT (1X5)(R)', '25 mm x 4,5 m', 'CARTON', '20', 'DOZEN', '12', 'ROLL', '7', '7', '0000-00-00 00:00:00', '', 24, NULL, '2022-10-26', '2022-11-04 12:18:08'),
-(187, 'B.002.01R', 'BALSEM SICIE (R)', '20 Gr', 'CARTON', '20', 'DOZEN', '12', 'PCS', '2', '2', '0000-00-00 00:00:00', '24', 240, NULL, '2022-10-26', '2022-11-01 02:58:40'),
-(200, 'A.111.9R', 'barang abot', 'XL', 'CARTON ', '20', 'BOX ', '25', 'Butir', '6', '5', '0000-00-00 00:00:00', '10', 0, 0, '0000-00-00', '2022-11-18 04:47:42');
+INSERT INTO `master` (`id`, `kode`, `nama`, `ukuran`, `sat1`, `max1`, `sat2`, `max2`, `sat3`, `kdgol`, `kdjenis`, `tgl_dibuat`, `expdate`, `saldo`, `saldo_track`, `tglform`, `tgl_update`, `min_stock`, `sisa_kemasan`) VALUES
+(1, 'A.001.01', 'KOYO CABE (KECIL)  20 Sachet', '55 mm x 45 mm', 'Karton', '50', 'Box', '20', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 7177840, 0, '2022-11-25', '2022-12-06 09:59:23', '', ''),
+(2, 'A.001.02', 'KOYO CABE (KECIL) @ 40 Sachet', '55 mm x 45 mm', 'Karton', '30', 'Box', '40', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-26', '2022-10-04 00:00:00', '', ''),
+(3, 'A.002.01', 'KOYO CABE (BESAR)', '17 cm x 11,5 cm', 'Karton', '50', 'Box', '24', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 4173, NULL, '2022-11-23', '2022-11-23 09:52:55', '', ''),
+(4, 'A.003.01', 'GINGER PLESTER', '95 mm x 60 mm', 'Karton', '50', 'Box', '20', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 6385, 1027, '2022-11-25', '2022-12-07 05:42:50', '', ''),
+(5, 'A.004.01', 'MASTER GLUCOSAMINE PATCH', '10 cm x 7 cm', 'Karton', '60', 'Box', '12', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 13117, -10, '2022-11-30', '2022-12-07 05:42:32', '', ''),
+(6, 'A.005.01', 'TAKAHI HOT (isi 10 lembar)', '55 mm x 45 mm', 'Karton', '100', 'Box', '12', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 129765, NULL, '2022-11-04', '2022-11-07 09:16:19', '', ''),
+(7, 'A.005.02', 'TAKAHI HOT (RENCENG isi 2 lembar)', '55 mm x 45 mm', 'Karton', '60', 'Hanger', '20', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 115960, NULL, '2022-11-07', '2022-11-16 02:29:54', '', ''),
+(8, 'A.006.01', 'KOYO YUNNAN', '80 mm x 45 mm', 'Karton', '30', 'MDS', '12', 'VDS', '1', '1', '0000-00-00 00:00:00', '', 10, NULL, '2022-08-08', '2022-08-19 12:24:50', '', ''),
+(9, 'A.007.01', 'SICIE PLASTER (TIPE SACHET)', '90 mm x 60 mm', 'Karton', '30', 'Box', '20', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 6107, NULL, '2022-08-26', '2022-08-26 02:47:34', '', ''),
+(10, 'A.007.02', 'SICIE PLASTER (TIPE KALENG)', '10 cm x 40 cm', 'Karton', '6', 'Shrink', '6', 'Kaleng', '1', '1', '0000-00-00 00:00:00', '', 327, NULL, '2022-06-23', '2022-06-28 11:29:52', '', ''),
+(11, 'A.008.01', 'KOYO TAKAHI', '65 mm x 42 mm', 'Karton', '100', 'Box', '12', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 649715, NULL, '2022-11-08', '2022-11-08 12:19:58', '', ''),
+(12, 'A.008.02', 'KOYO TAKAHI (RENCENG isi 2 lembar)', '65 mm x 42 mm', 'Karton', '60', 'Hanger', '20', 'Sachet', '1', '1', '0000-00-00 00:00:00', '', 168071, NULL, '2022-11-08', '2022-11-08 12:22:27', '', ''),
+(13, 'A.009.01', 'TAKAHI PLASTER PENGHANGAT LEHER', '50 mm x 75 mm', 'Karton', '50', 'Box', '12', 'Kantong', '1', '1', '0000-00-00 00:00:00', '', 6558, NULL, '2022-11-04', '2022-11-07 09:16:42', '', ''),
+(14, 'B.001.01', 'BALSEM JAHE', '20 gram', 'Karton', '20', 'MDS', '12', 'VDS', '2', '1', '0000-00-00 00:00:00', '', 5484, NULL, '2022-10-26', '2022-11-01 03:31:48', '', ''),
+(15, 'B.002.01', 'BALSEM SI CIE', '20 gram', 'Karton', '20', 'MDS', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '13', 4379, NULL, '2022-11-02', '2022-11-04 12:24:21', '', ''),
+(16, 'B.003.01', 'BALSEM STICK CAP BUNGA CABE', '15 gram', 'Karton', '20', 'MDS', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 4528, NULL, '2022-10-26', '2022-11-01 03:28:25', '', ''),
+(17, 'B.004.01', 'BALSEM CABE ', '20 gram', 'Karton', '20', 'MDS', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 3063, NULL, '2022-10-26', '2022-11-01 03:28:09', '', ''),
+(18, 'B.005.01', 'KRIM CABE (HOT CREAM)', '30 gram', 'Karton', '12', 'MDS', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 1236, NULL, '2022-11-02', '2022-11-07 08:58:13', '', ''),
+(19, 'B.006.01', 'MASTER REFRESHING OIL (Aroma Therapy) (10 ml)', '10 ml', 'Karton', '24', 'Dozen', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 444, NULL, '2022-05-13', '2022-06-09 04:43:31', '', ''),
+(20, 'B.006.02', 'MASTER REFRESHING OIL (Aroma Therapy) (5 ml)', '5 ml', 'Karton', '24', 'Dozen', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-26', '2022-10-26 00:00:00', '', ''),
+(21, 'B.007.01', 'MINYAK ANGIN CAP CABE (50 ml)', '50 ml', 'Karton', '6', 'MDS', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 709, NULL, '2022-08-31', '2022-08-31 11:40:24', '', ''),
+(22, 'B.007.02', 'MINYAK ANGIN CAP CABE (10 ml)', '10 ml', 'Karton', '20', 'MDS', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 2014, NULL, '2022-11-03', '2022-11-07 09:03:05', '', ''),
+(23, 'B.007.03', 'MINYAK ANGIN CAP CABE (3 ml)', '3 ml', 'Karton', '50', 'MDS', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 6274, NULL, '2022-11-08', '2022-11-08 12:19:43', '', ''),
+(24, 'B.007.04', 'MINYAK ANGIN CAP CABE (3 ml Blister)', '3 ml', 'Karton', '20', 'MDS', '12', 'Pack', '2', '2', '0000-00-00 00:00:00', '', 0, NULL, '2022-03-30', '2022-05-13 10:05:54', '', ''),
+(25, 'B.008.01', 'MINYAK ANGIN JAHE (10 ml)', '10 ml', 'Karton', '20', 'Dozen', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 1930, NULL, '2022-11-03', '2022-11-07 09:03:35', '', ''),
+(26, 'B.008.02', 'MINYAK ANGIN JAHE (3 ml)', '3 ml', 'Karton', '50', 'Dozen', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 6273, NULL, '2022-08-19', '2022-08-30 03:06:27', '', ''),
+(27, 'B.008.03', 'MINYAK ANGIN JAHE (3 ml Blister)', '3 ml', 'Karton', '20', 'Dozen', '12', 'Pack', '2', '2', '0000-00-00 00:00:00', '', 4442, NULL, '2022-08-19', '2022-08-30 03:07:19', '', ''),
+(28, 'B.008.04', 'MINYAK ANGIN JAHE (50 ml)', '50 ml', 'Karton', '6', 'Dozen', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 247, NULL, '2022-10-26', '2022-11-01 03:24:59', '', ''),
+(29, 'B.009.01', 'MAMI MINYAK KAYU PUTIH HANGAT (100 ml)', '100 ml', 'Karton', '12', 'Dozen', '12', 'Botol', '2', '2', '0000-00-00 00:00:00', '', 3015, NULL, '2022-10-26', '2022-11-01 02:59:17', '', ''),
+(30, 'B.009.02', 'MAMI MINYAK KAYU PUTIH HANGAT (60 ml)', '60 ml', 'Karton', '20', 'Dozen', '12', 'Botol', '2', '2', '0000-00-00 00:00:00', '', 54, NULL, '2022-03-30', '2022-06-14 04:44:30', '', ''),
+(31, 'B.009.03', 'MAMI MINYAK KAYU PUTIH HANGAT (30 ml)', '30 ml', 'Karton', '30', 'Dozen', '12', 'Botol', '2', '2', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-26', '2022-10-27 00:00:00', '', ''),
+(32, 'B.009.04', 'MAMI MINYAK KAYU PUTIH HANGAT (15 ml)', '15 ml', 'Karton', '50', 'Dozen', '12', 'Botol', '2', '2', '0000-00-00 00:00:00', '', 0, NULL, '2022-06-02', '2022-06-15 03:14:40', '', ''),
+(33, 'B.010.01', 'SICIE OIL (Botol Pendek)', '40 ml', 'Karton', '12', 'Dozen', '12', 'Botol', '2', '2', '0000-00-00 00:00:00', '', 12559, NULL, '2022-10-26', '2022-11-01 03:25:59', '', ''),
+(34, 'B.010.02', 'SICIE OIL (Botol Tinggi)', '40 ml', 'CARTON', '6', 'Dozen', '12', 'Botol', '2', '2', '0000-00-00 00:00:00', '', 34663, NULL, '2022-11-08', '2022-11-08 12:22:42', '', ''),
+(35, 'B.010.03', 'SICIE OIL (Kaleng)', '40 ml', 'Outer Karton', '6', 'Inner Karton', '10', 'Cans', '2', '2', '0000-00-00 00:00:00', '', 2916, NULL, '2022-06-10', '2022-06-14 09:53:26', '', ''),
+(36, 'B.011.01', 'SICIE OIL MILD', '40 ml', 'Outer Karton', '6', 'Dozen', '12', 'Botol', '2', '2', '0000-00-00 00:00:00', '', 1950, NULL, '2022-09-08', '2022-09-09 09:24:31', '', ''),
+(37, 'C.001.01', 'SEJUK SARI JERUK NIPIS (Hanger)', 'Hanger', 'Karton', '24', 'Hanger', '24', 'sachet', '3', '3', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '2022-10-27 00:00:00', '', ''),
+(38, 'C.001.02', 'SEJUK SARI JERUK NIPIS (Box)', 'Box', 'Karton', '12', 'MDS', '12', 'VDS', '3', '3', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '0000-00-00 00:00:00', '', ''),
+(39, 'C.001.03', 'SEJUK SARI JERUK NIPIS (Topples)', 'Topples', 'Karton', '12', 'toples', '60', 'sachet', '3', '3', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '0000-00-00 00:00:00', '', ''),
+(40, 'D.001.01', 'OKE FANCY PLASTER (EMOTICON)', '19 mm x 64 mm', 'Karton', '120', 'Hgr', '10', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 0, NULL, '2022-09-30', '2022-10-10 15:54:48', '', ''),
+(41, 'D.002.01', 'OKE FANCY PLASTER (BOX)', '19 mm x 64 mm', 'Karton', '100', 'Box', '100', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 1499600, NULL, '2022-10-26', '2022-11-01 03:36:21', '', ''),
+(42, 'D.002.02', 'OKE FANCY PLASTER (HANGER)', '19 mm x 64 mm', 'Karton', '120', 'Hgr', '10', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 766700, NULL, '2022-10-31', '2022-11-01 03:57:47', '', ''),
+(43, 'D.003.01', 'OKE PLAST FIRST AID DRESSING ', '19 mm x 64 mm', 'Karton', '100', 'Box', '100', 'STRIP', '4', '4', '0000-00-00 00:00:00', '', 62764100, NULL, '2022-11-07', '2022-11-08 12:24:11', '', ''),
+(44, 'D.003.02', 'OKE PLAST FIRST AID DRESSING (SUPERMARKET)', '19 mm x 64 mm', 'Karton', '36', 'Box', '30', 'Amplop', '4', '4', '0000-00-00 00:00:00', '', 0, NULL, '2022-06-13', '2022-06-22 11:59:03', '', ''),
+(45, 'D.003.03', 'OKE PLAST FIRST AID DRESSING (RENCENG isi 5 Strip)', '19 mm x 64 mm', 'Karton', '60', 'Hgr', '30', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 18006, NULL, '2022-11-04', '2022-11-07 09:19:36', '', ''),
+(46, 'D.004.01', 'OKE PLAST FIRST AID DRESSING (SPIDER)', '19 mm x 64 mm', 'Karton', '120', 'Hgr', '10', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 292609, NULL, '2022-11-03', '2022-11-07 09:04:21', '', ''),
+(47, 'D.005.01', 'OKE PLAST FIRST AID DRESSING (BATIK)', '19 mm x 64 mm', 'Karton', '120', 'Hgr', '10', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 417491, NULL, '2022-10-26', '2022-11-01 03:33:57', '', ''),
+(48, 'D.005.02', 'OKE PLAST FIRST AID DRESSING (BATIK SUPERMARKET)', '19 mm x 64 mm', 'Karton', '36', 'Box', '30', 'Amplop', '4', '4', '0000-00-00 00:00:00', '', 0, NULL, '2022-06-13', '2022-06-22 12:00:25', '', ''),
+(49, 'D.006.01', 'OKE PLAST FIRST AID DRESSING (COLOR)', '19 mm x 64 mm', 'Karton', '120', 'Hgr', '10', 'Amplop', '4', '4', '0000-00-00 00:00:00', '', 7806, NULL, '2022-10-26', '2022-11-01 03:25:17', '', ''),
+(50, 'D.007.01', 'MAMI PLAST', '19 mm x 64 mm', 'Karton', '100', 'Box', '100', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 15100, NULL, '2022-03-30', '2022-05-13 09:00:42', '', ''),
+(51, 'D.008.01', 'BAYPLAST ELASTIC STRIP', '19 mm x 64 mm', 'Karton', '100', 'Box', '100', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 9400, NULL, '2022-06-10', '2022-06-17 11:50:42', '', ''),
+(52, 'D.009.01', 'CROSS BRAND FIRST AID DRESSING ', '19 mm x 64 mm', 'Karton', '100', 'Box', '100', 'STRIP', '4', '4', '0000-00-00 00:00:00', '', 16600, NULL, '2022-09-08', '2022-09-12 03:43:15', '', ''),
+(53, 'D.010.01', 'FIRSTRIP FRIST AID DRESSING ', '19 mm x 64 mm', 'Karton', '100', 'Box', '100', 'Sachet', '4', '4', '0000-00-00 00:00:00', '', 1900, NULL, '2022-03-30', '2022-05-13 09:00:04', '', ''),
+(54, 'E.001.01', 'OK PLAST PLASTIC BANDAGE', '25 mm', 'Karton', '100', 'Box', '100', 'STRIP', '5', '5', '0000-00-00 00:00:00', '', 2260000, NULL, '2022-11-04', '2022-11-07 09:09:32', '', ''),
+(55, 'E.002.01', 'OKEPLAST ASSORTED PLASTER', ' 10 Amplop', 'Karton', '10', 'Box', '9', 'Pack', '5', '5', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '0000-00-00 00:00:00', '', ''),
+(56, 'F.001.01', 'SURGIN PAD SURGICAL DRESSING (UK 5 CM X 7,5 CM)', '50 mm x 75 mm', 'Karton', '200', 'box', '10', 'Sachet', '6', '6', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '0000-00-00 00:00:00', '', ''),
+(57, 'F.001.02', 'SURGIN PAD SURGICAL DRESSING (UK 8 CM X 10 CM)', '80 mm x 100 mm', 'Karton', '100', 'box', '10', 'Sachet', '6', '6', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '0000-00-00 00:00:00', '', ''),
+(58, 'F.002.01', 'OKE TRENDY PLASTER FIRST AID DRESSING ', '19 mm x 64 mm', 'Karton', '100', 'Hanger', '10', 'Sachet', '6', '6', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '0000-00-00 00:00:00', '', ''),
+(59, 'G.001.01', 'CHILLI PLAST PLASTER PEREKAT (1/2 X 1)', '12,5 mm x 1 m', 'Karton', '60', 'Dozen', '12', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 264284, NULL, '2022-11-08', '2022-11-08 12:21:11', '', ''),
+(60, 'G.001.02', 'CHILLI PLAST PLASTER PEREKAT (1/2 X 5)', '12,5 mm x 4,5 m', 'Karton', '30', 'Dozen', '12', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 138842, 366, '2022-11-25', '2022-12-06 03:17:39', '', ''),
+(61, 'G.001.03', 'CHILLI PLAST PLASTER PEREKAT (1 X 1)', '25 mm x 1 m', 'Karton', '36', 'Dozen', '12', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 0, NULL, '2022-11-02', '2022-11-04 12:28:59', '', ''),
+(62, 'G.001.04', 'CHILLI PLAST PLASTER PEREKAT (1 X 5)', '25 mm x 4,5 m', 'Karton', '20', 'Dozen', '12', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 9606, NULL, '2022-11-08', '2022-11-08 12:21:28', '', ''),
+(63, 'G.001.05', 'CHILLI PLAST PLASTER PEREKAT (2 X 5)', '50 mm x 4,5 m', 'Karton', '24', 'Box', '6', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 2201, NULL, '2022-11-02', '2022-11-07 08:54:39', '', ''),
+(64, 'G.001.06', 'CHILLI PLAST PLASTER PEREKAT (3 X 5)', '75 mm x 4,5 m', 'Karton', '24', 'Box', '6', 'Roll', '7', '7', '0000-00-00 00:00:00', '', 3474, NULL, '2022-11-02', '2022-11-07 08:55:04', '', ''),
+(65, 'H.001.01', 'MASTER PLAST PLASTIC ADHESIVE PLASTER (0,5 X 10 YR)', '12,5 mm x 10 yard', 'Karton', '12', 'Shrink', '6', 'Box', '8', '8', '0000-00-00 00:00:00', '', 0, NULL, '2022-03-30', '2022-06-16 02:34:51', '', ''),
+(66, 'H.001.02', 'MASTER PLAST PLASTIC ADHESIVE PLASTER (1,0 X 10 YR)', '25 mm x 10 yard', 'Karton', '8', 'Shrink', '6', 'Box', '8', '8', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '0000-00-00 00:00:00', '', ''),
+(67, 'I.001.01', 'MASTER PLAST NON WOVEN ADHESIVE PLASTER (0,5 X 10)', '0,5 inch x 10 yard', 'Karton', '12', 'Shrink', '6', 'Box', '9', '9', '0000-00-00 00:00:00', '', 1300, NULL, '2022-10-11', '2022-10-11 03:36:23', '', ''),
+(68, 'I.001.02', 'MASTER PLAST NON WOVEN ADHESIVE PLASTER (0,5 X 10 DB)', '0,5 inch x 10 yard', 'Karton', '12', 'Box', '12', 'Roll', '9', '9', '0000-00-00 00:00:00', '', 2776, NULL, '2022-11-03', '2022-11-07 09:00:40', '', ''),
+(69, 'I.001.03', 'MASTER PLAST NON WOVEN ADHESIVE PLASTER (1 X 10)', '1 inch x 10 yard', 'Karton', '8', 'Shrink', '6', 'Bh', '9', '9', '0000-00-00 00:00:00', '', 3531, NULL, '2022-11-03', '2022-11-07 09:00:16', '', ''),
+(70, 'I.002.01', 'MAMI FIX ADHESIVE MESH BANDAGE (10 X 5)', '10 cm x 5 m', 'Karton', '75', 'Box', '1', 'Roll', '9', '9', '0000-00-00 00:00:00', '', 675, NULL, '2022-10-26', '2022-10-26 12:35:54', '', ''),
+(71, 'I.002.02', 'MAMI FIX ADHESIVE MESH BANDAGE (15 X 5)', '15 cm x 5 m', 'Karton', '50', 'Box', '1', 'Roll', '9', '9', '0000-00-00 00:00:00', '', 450, NULL, '2022-10-19', '2022-10-19 02:16:19', '', ''),
+(72, 'I.002.03', 'MAMI FIX ADHESIVE MESH BANDAGE (5 X 5)', '5 cm x 5 m', 'Karton', '125', 'Box', '1', 'Roll', '9', '9', '0000-00-00 00:00:00', '', 1612, NULL, '2022-10-19', '2022-10-19 02:16:32', '', ''),
+(73, 'J.001.01', 'MAMI NON WOVEN PADS STERIL ', '12 mm x 10 cm', 'Karton', '60', 'Box', '10', 'Ktg', '10', '10', '0000-00-00 00:00:00', '', 1628, NULL, '2022-11-02', '2022-11-07 08:55:26', '', ''),
+(74, 'J.002.01', 'MAMI PLESTER KOMPRES TIPE LEMON (BOX)', ' 1 lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 8265, NULL, '2022-11-08', '2022-11-08 12:18:24', '', ''),
+(75, 'J.002.02', 'MAMI PLESTER KOMPRES TIPE LEMON (HANGER)', ' 12 Sachet', 'Karton', '42', 'Hanger', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 1, NULL, '2022-11-02', '2022-11-07 08:56:19', '', ''),
+(76, 'J.003.01', 'MAMI PLESTER KOMPRES (BOX)', ' 1 lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 30980, NULL, '2022-11-07', '2022-11-08 12:23:50', '', ''),
+(77, 'J.003.02', 'MAMI PLESTER KOMPRES (HANGER)', ' 12 Sachet', 'Karton', '42', 'Hanger', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 40772, NULL, '2022-10-18', '2022-10-18 03:23:41', '', ''),
+(78, 'J.004.01', 'MAMI PLESTER KOMPRES TIPE STRAWBERRY (BOX)', ' 1 lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 5501, NULL, '2022-11-08', '2022-11-08 12:19:07', '', ''),
+(79, 'J.004.02', 'MAMI PLESTER KOMPRES TIPE STRAWBERRY (HANGER)', ' 12 Sachet', 'Karton', '42', 'Hanger', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 3528, NULL, '2022-11-02', '2022-11-04 12:29:16', '', ''),
+(80, 'J.005.01', 'MAMI PLESTER KOMPRES TIPE APPLE (BOX)', ' 1 lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 7852, NULL, '2022-11-08', '2022-11-08 12:19:28', '', ''),
+(81, 'J.005.02', 'MAMI PLESTER KOMPRES TIPE APPLE (HANGER)', ' 12 Sachet', 'Karton', '42', 'Hanger', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 3024, NULL, '2022-11-02', '2022-11-04 12:29:45', '', ''),
+(82, 'J.006.01', 'MASTER XTRA COOL PLESTER KOMPRES (JASMINE)', ' 2 Lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 0, NULL, '2022-11-03', '2022-11-07 09:05:25', '', ''),
+(83, 'J.006.02', 'MASTER XTRA COOL PLESTER KOMPRES (SANDAL WOOD)', ' 2 Lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 1440, NULL, '2022-11-07', '2022-11-07 09:34:04', '', ''),
+(84, 'J.006.03', 'MASTER XTRA COOL PLESTER KOMPRES (TEA)', ' 2 Lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 0, NULL, '2022-11-03', '2022-11-07 09:05:46', '', ''),
+(85, 'J.007.01', 'SAVANA PLESTER KOMPRES (SANDALWOOD)', ' 2 Lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 1800, NULL, '2022-10-06', '2022-10-10 04:23:59', '', ''),
+(86, 'J.007.02', 'SAVANA PLESTER KOMPRES (JASMINE)', ' 2 Lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 2160, NULL, '2022-10-06', '2022-10-10 04:24:17', '', ''),
+(87, 'J.007.03', 'SAVANA PLESTER KOMPRES (TEA)', ' 2 Lembar', 'Karton', '30', 'Box', '12', 'Sachet', '10', '10', '0000-00-00 00:00:00', '', 792, NULL, '2022-10-31', '2022-11-01 03:51:44', '', ''),
+(88, 'K.001.01', 'MAMI BREAST PUMP', '12 VDS', 'Karton', '12', 'MDS', '12', 'VDS', '11', '11', '0000-00-00 00:00:00', '', 90000, NULL, '2022-11-07', '2022-11-08 12:23:29', '', ''),
+(89, 'K.001.02', 'MAMI BREAST PUMP (TANPA DUS)', 'TANPA DUS', 'Karton', '12', 'MDS', '15', 'Pcs', '11', '11', '0000-00-00 00:00:00', '', 0, NULL, '2022-11-01', '2022-11-07 09:34:23', '', ''),
+(90, 'K.002.01', 'MAMI SILICONE BREAST PUMP', '12 Box', 'Outer Karton', '12', 'Dozen', '12', 'Box', '11', '12', '0000-00-00 00:00:00', '', 9936, NULL, '2022-11-03', '2022-11-07 09:06:10', '', ''),
+(91, 'K.003.01', 'MAMI FEEDING BOTTLE (60 ML)', '60 ml', 'Karton', '8', 'Shrink', '6', 'Botol', '11', '11', '0000-00-00 00:00:00', '', 541, NULL, '2022-11-04', '2022-11-07 09:17:02', '', ''),
+(92, 'K.003.02', 'MAMI FEEDING BOTTLE (120 ML)', '120 ml', 'Karton', '8', 'Shrink', '6', 'Botol', '11', '11', '0000-00-00 00:00:00', '', 827, NULL, '2022-10-31', '2022-11-01 03:52:29', '', ''),
+(93, 'K.003.03', 'MAMI FEEDING BOTTLE (250 ML) ', '250 ml', 'Karton', '8', 'Shrink', '6', 'Botol', '11', '11', '0000-00-00 00:00:00', '', 697, NULL, '2022-10-31', '2022-11-01 03:52:47', '', ''),
+(94, 'K.004.01', 'MAMI SILICON NIPPLE (S)', 'size S', 'Karton', '8', 'Dozen', '12', 'Box', '11', '11', '0000-00-00 00:00:00', '', 1320, NULL, '2022-10-27', '2022-10-27 02:58:35', '', ''),
+(95, 'K.004.02', 'MAMI SILICON NIPPLE (M)', 'size M', 'Karton', '8', 'Dozen', '12', 'Box', '11', '11', '0000-00-00 00:00:00', '', 810, NULL, '2022-10-27', '2022-10-27 02:58:47', '', ''),
+(96, 'K.004.03', 'MAMI SILICON NIPPLE (L)', 'size L', 'Karton', '8', 'Dozen', '12', 'Box', '11', '11', '0000-00-00 00:00:00', '', 818, NULL, '2022-10-27', '2022-10-27 02:59:00', '', ''),
+(97, 'K.005.01', 'MAMI NEW BREAST PUMP WITH BOTTLE', '1 set', 'Karton', '12', 'Dozen', '1', 'Set', '11', '11', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-06', '2022-10-10 04:28:30', '', ''),
+(98, 'K.006.01', 'MAMI HANDSANITIZER (60 ML)', ' 60 ml', 'Karton', '24', 'Shrink', '6', 'Botol', '11', '11', '0000-00-00 00:00:00', '', 2009, NULL, '2022-10-26', '2022-11-01 03:32:38', '', ''),
+(99, 'K.006.02', 'MAMI HANDSANITIZER (100 ML)', ' 100 ml', 'Karton', '24', 'Shrink', '6', 'Botol', '11', '11', '0000-00-00 00:00:00', '', 7425, NULL, '2022-10-26', '2022-11-01 03:32:55', '', ''),
+(100, 'K.006.03', 'MAMI HANDSANITIZER (500 ML)', ' 500 ml', 'Karton', '24', 'SHRINK', '1', 'Botol', '11', '11', '0000-00-00 00:00:00', '', 447, NULL, '2022-10-26', '2022-11-01 03:33:18', '', ''),
+(101, 'K.006.04', 'MAMI HANDSANITIZER (1 L)', ' 1 Liter', 'Karton', '12', 'Jerigen', '1', 'Jerigen', '11', '11', '0000-00-00 00:00:00', '', 939, NULL, '2022-10-26', '2022-11-01 03:33:36', '', ''),
+(102, 'K.006.05', 'MAMI HANDSANITIZER (5 L)', ' 5 Liter', 'Karton', '2', 'Jerigen', '1', 'Jerigen', '11', '11', '0000-00-00 00:00:00', '', 47, NULL, '2022-10-04', '2022-10-11 03:46:07', '', ''),
+(103, 'L.001.01', 'HUNDREDPLAST 100s', '64 mm x 19 mm', 'Karton', '2', 'IC', '100', 'Box', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '2022-09-02', '2022-09-02 02:16:39', '', ''),
+(104, 'L.001.02', 'HUNDREDPLAST 100 + 20%', '64 mm x 19 mm', 'Karton', '2', 'IC', '100', 'Box', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(105, 'L.001.03', 'HUNDREDPLAST 200 + BONUS', '64 mm x 19 mm', 'Karton', '2', 'IC', '50', 'Box', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(106, 'L.002.01', 'MAMI PLAST (HYGEIAN)', '64 mm x 19 mm', 'Karton', '100', 'box', '100', 'strip', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '2022-06-22', '2022-06-22 11:03:46', '', ''),
+(107, 'L.003.01', 'SAPL ADHESIVE PLASTER UK. 25 MM X 5 M', '25 mm x 5 m', 'Karton', '10', 'Box', '12', 'Roll', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '2022-05-17', '2022-06-09 04:53:53', '', ''),
+(108, 'L.003.02', 'SAPL ADHESIVE PLASTER UK. 50 MM X 5 M', '50 mm x 5 m', 'Karton', '10', 'Box', '6', 'Roll', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(109, 'L.003.03', 'SAPL ADHESIVE PLASTER UK. 75 MM X 5 M', '75 mm x 5 m', 'Karton', '8', 'Box', '6', 'Roll', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '2022-05-17', '2022-06-09 04:54:12', '', ''),
+(110, 'L.004.01', 'TOPPLAST 100', '64 mm x 19 mm', 'Karton', '2', 'IC', '100', 'Box', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '2022-09-02', '2022-09-02 02:15:50', '', ''),
+(111, 'L.004.02', 'TOPPLAST 100 + 20%', '64 mm x 19 mm', 'Karton', '2', 'IC', '100', 'Box', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(112, 'L.004.03', 'TOPPLAST 200 + BONUS', '64 mm x 19 mm', 'Karton', '2', 'IC', '50', 'Box', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(113, 'L.004.04', 'TOPPLAST 300', '64 mm x 19 mm', 'Karton', '36', 'Box', '30', 'Amplop', '13', '12', '0000-00-00 00:00:00', '', 0, NULL, '2022-09-02', '2022-09-02 02:16:09', '', ''),
+(114, 'M.001.01', 'COSMOPLAST First Aid Dressing', '19 x 72 mm', 'Karton', '100', 'box', '100', 'strip', '13', '13', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(115, 'N.001.01', 'BALLYETON GINGER PLASTER ', '17 cm x 11,5 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(116, 'N.002.01', 'BALLYETON MEDICATED PLASTER', '65 mm x 42 mm', 'Karton', '25', 'MDS', '20', 'VDS', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-20', '2022-10-20 11:47:24', '', ''),
+(117, 'N.003.01', 'BALLYETON POROUS CAPSICUM PLASTER', '17 cm x 11,5 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-04-05', '2022-05-20 01:39:07', '', ''),
+(118, 'N.004.01', 'COSMOPAS MEDICATED PLASTER ', '65 mm x 42 mm', 'Karton', '45', 'MDS', '20', 'VDS', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-06-17', '2022-06-17 12:16:57', '', ''),
+(119, 'N.005.01', 'COSMOS CAPSICUM PLASTER DUOPHARMA', '17 cm x 11,5 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(120, 'N.006.01', 'KOYO TAKAHI HOT MEDICATED PLASTER BESAR PKM', '17 cm x 11,5 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-08-16', '2022-08-30 08:32:07', '', ''),
+(121, 'N.007.01', 'KOYO TAKAHI HOT BESAR (MACAU)', '17 cm x 11,5 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-04-05', '2022-05-20 01:39:24', '', ''),
+(122, 'N.008.01', 'KOYOK HUNDREDPLAST', '65 mm x 42 mm', 'Karton', '2', 'IC', '25', 'MDS', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(123, 'N.009.01', 'NEOBUN CAPSICUM PLASTER KECIL', '65 mm x 42 mm', 'Karton', '2', 'IC', '25', 'MDS', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(124, 'N.009.02', 'NEOBUN CAPSICUM PLASTER BESAR', '11 cm x 18 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(125, 'N.010.01', 'NEOBUN MEDICATED PLASTER WITH GINGER AND LEMONGRASS', '9 cm x 6 cm', 'Karton', '50', 'Box', '20', 'Kantong', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-28', '2022-11-01 03:44:54', '', ''),
+(126, 'N.011.01', 'OOPAS MEDICATED PLASTER', '65 mm x 42 mm', 'Karton', '25', 'MDS', '20', 'VDS', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(127, 'N.012.01', 'OOPAS HOT PLASTER ', '17 cm x 11,5 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(128, 'N.013.01', 'PLASTER BERUBAT NEOBUN PLUS KECIL', '65 mm x 42 mm', 'Karton', '2', 'IC', '25', 'MDS', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-28', '2022-11-01 03:44:26', '', ''),
+(129, 'N.013.02', 'PLASTER BERUBAT NEOBUN PLUS BESAR', '11 cm x 18 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(130, 'N.013.03', 'PLASTER BERUBAT NEOBUN PLUS KECIL ZIP & LOCK', '65 mm x 42 mm', 'Karton', '50', 'Box', '20', 'Kantong', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(131, 'N.014.01', 'PISHUHO MEDICATED PLASTER ', '65 mm x 42 mm', 'Karton', '2', 'IC', '25', 'MDS', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-05-24', '2022-06-21 04:40:42', '', ''),
+(132, 'N.015.01', 'PAK LI MEDICATED PLASTER ', '10 cm x 7 cm', 'Karton', '36', 'MDS', '20', 'VDS', '14', '14', '0000-00-00 00:00:00', '', 12600, NULL, '2022-03-30', '2022-05-13 08:37:18', '', ''),
+(133, 'N.016.01', 'SAIBOONS POROUS CAPSICUM PLASTER ', '17 cm x 11,5 cm ', 'Karton', '50', 'Box', '24', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-06-16', '2022-06-16 04:42:47', '', ''),
+(134, 'N.017.01', 'SHANGSHI KOYOK ZIP & LOCK', '7 cm x 5 cm', 'Karton', '50', 'Box', '20', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(135, 'N.018.01', 'SICIE PLASTER (MACAU)', '90 mm x 60 mm ', 'Karton', '30', 'Box', '20', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '0000-00-00', '0000-00-00 00:00:00', '', ''),
+(136, 'N.019.01', 'TAKAHI HANGAT PUI KIAN MING', '65 mm x 42 mm', 'Karton', '50', 'MDS', '20', 'VDS', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-18', '2022-10-18 03:17:06', '', ''),
+(137, 'N.020.01', 'TAKAHI HOT (MEDIUM isi 6 lembar)', '85 mm x 55 mm', 'Karton', '75', 'Box', '25', 'Sachet', '14', '14', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '2022-10-27 00:00:00', '', ''),
+(138, 'O.001.01', 'BALLYETON MENTHOL OINTMENT 23 GR', '23 gram', 'Karton', '24', 'Plastik Shrink', '12', 'Box', '15', '15', '0000-00-00 00:00:00', '', 0, NULL, '2022-06-02', '2022-07-15 08:47:00', '', ''),
+(139, 'O.001.02', 'BALLYETON MENTHOL OINTMENT 85 GR', '85 gram', 'Karton', '24', 'Plastik Shrink', '6', 'Box', '15', '15', '0000-00-00 00:00:00', '', 0, NULL, '2022-06-02', '2022-07-15 08:46:32', '', ''),
+(140, 'O.002.01', 'SICIE OIL BOTOL PANJANG (MACAU)', '40 ml', 'Karton', '6', 'IC', '12', 'Box', '2', '3', '0000-00-00 00:00:00', '', 0, NULL, '2022-05-27', '2022-06-16 03:46:16', '', ''),
+(141, 'K.003.02R', 'MAMI FEEDING BOTTLE (120 ML)R', '120 ML', 'Karton', '8', 'Shrink', '6', 'Botol', '11', '11', '0000-00-00 00:00:00', '', 40, NULL, '2022-04-11', '2022-05-20 02:31:20', '', ''),
+(142, 'K.003.03R', 'MAMI FEEDING BOTTLE (250 ML ) R', '250 ML', 'Karton', '8', 'Shrink', '6', 'Botol', '11', '11', '0000-00-00 00:00:00', '', 35, NULL, '2022-07-11', '2022-08-08 04:29:01', '', ''),
+(143, 'L.006.01', 'OKE PLAST FIRST AID DRESSING PUI KIAN MING', '19mm x 64mm', 'Karton', '100', 'Box', '100', 'Strip', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-18', '2022-10-18 03:22:00', '', ''),
+(144, 'L.005.01', 'CHILLI PLAST PLASTER PEREKAT (1x 5) Pui Kian Ming', '2.5 mm x 4.5 m', 'Karton', '20', 'Dozen', '12', 'Roll', '12', '12', '0000-00-00 00:00:00', '', 0, NULL, '2022-04-04', '2022-06-16 12:03:55', '', ''),
+(145, 'A.005.01R', 'TAKAHI HOT (ISI 10 LEMBAR)(R)', '55 MM X 45 MM', 'CARTON', '100', 'BOX', '12', 'SACHET', '1', '1', '0000-00-00 00:00:00', '', 96, NULL, '2022-10-24', '2022-10-26 12:23:43', '', ''),
+(146, 'A.008.01R', 'KOYO TAKAHI (R)', '65 MM X 42 MM', 'CARTON', '100', 'BOX', '12', 'SACHET', '1', '1', '0000-00-00 00:00:00', '', 26, NULL, '2022-08-24', '2022-08-24 11:46:53', '', ''),
+(147, 'A.005.02R', 'TAKAHI HOT (RENCENG ISI 2 LEMBAR) (R)', '55 MM X 45 MM', 'CARTON', '60', 'HANGER', '20', 'SACHET', '1', '1', '0000-00-00 00:00:00', '', 169, NULL, '2022-08-31', '2022-09-01 02:38:44', '', ''),
+(148, 'A.005.03', 'TAKAHI HOT (MEDIUM)', '85 MM X 45 MM', 'CARTON', '75', 'BOX', '25', 'SACHET', '1', '1', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '2022-06-13 04:27:24', '', ''),
+(149, 'A.005.04', 'TAKAHI HOT (BESAR)', '17 CM X 11,5 CM', 'CARTON', '50', 'BOX', '24', 'SACHET', '1', '1', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '2022-06-13 04:28:56', '', ''),
+(150, 'B.012.01', 'MAMI CALACYN LOTION', '100 ML', 'CARTON', '4', 'DOZEN', '12', 'BOTOL', '2', '2', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '2022-06-13 04:34:12', '', ''),
+(151, 'D.005.03', 'OKE PLAST FIRST AID DRESSING (BATIK BOX)', '19 MM X 64 MM', 'CARTON', '100', 'BOX', '100', 'STRIP', '4', '4', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '2022-06-13 04:35:46', '', ''),
+(152, 'I.001.04', 'MASTER PLAST NON WOVEN ADHESIVE PLASTER (1X10 DB)', '1 INCH X 10 YARD', 'CARTON', '4', 'DOZEN', '12', 'PCS', '9', '9', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '2022-06-13 04:39:00', '', ''),
+(153, 'J.008.01', 'MAMI INFUSION', '12 MM X 10 CM', 'CARTON', '48', 'BOX', '50', 'SACHET', '10', '10', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-27', '2022-06-13 04:42:42', '', ''),
+(154, 'A.008.02R', 'KOYO TAKAHI (RENCENG ISI 2 LEMBAR) (R)', '65 MM X 42 MM', 'CARTON', '60', 'HANGER', '20', 'SACHET', '1', '1', '0000-00-00 00:00:00', '', 50, NULL, '2022-07-26', '2022-07-28 03:59:53', '', ''),
+(155, 'D.003.01R', 'OKE PLAST FIRST AID DRESSING (R)', '19 MM X 64 MM', 'CARTON', '100', 'BOX', '100', 'STRIP', '4', '4', '0000-00-00 00:00:00', '', 9900, NULL, '2022-07-26', '2022-08-08 04:06:46', '', ''),
+(156, 'G.001.06R', 'CHILLI PLAST PLASTER PEREKAT (3X5)(R)', '75 MM X 4,5 M', 'CARTON', '24', 'BOX', '6', 'ROLL', '7', '7', '0000-00-00 00:00:00', '', 284, NULL, '2022-03-31', '2022-06-21 04:42:56', '', ''),
+(157, 'G.001.05R', 'CHILLI PLAST PLASTER PEREKAT (2X5)(R)', '50 MM X 4,5 M', 'CARTON', '24', 'BOX', '6', 'ROLL', '7', '7', '0000-00-00 00:00:00', '', 101, NULL, '2022-10-26', '2022-10-27 03:14:46', '', ''),
+(158, 'B.010.02R', 'SICIE OIL (BOTOL TINGGI) (R)', '40 ML', 'CARTON', '6', 'DOZEN', '12', 'BOTOL', '2', '2', '0000-00-00 00:00:00', '', 0, NULL, '2022-08-03', '2022-08-19 12:26:06', '', ''),
+(159, 'K.001.01R', 'MAMI BREAST PUMP (R)', '12VDS', 'CARTON', '12', 'DOZEN', '12', 'PCS', '11', '11', '0000-00-00 00:00:00', '', 151, NULL, '2022-07-26', '2022-08-08 04:10:52', '', ''),
+(160, 'N.006.02', 'TAKAHI HOT MEDICATED PLASTER KECIL PKM', '55 mm X 4,5 m', 'CARTON', '50', 'Box', '12', 'Sachet', '14', '14', '2022-06-22 10:54:48', '', 0, NULL, '2022-08-30', '2022-08-30 02:56:03', '', ''),
+(161, 'J.001.02', 'MAMI NON WOVEN PADS (NON STERIL)', '12 mm X 10 cm', 'CARTON', '60', 'Box', '10', 'PADS', '10', '10', '2022-06-22 10:57:21', '', 172800, NULL, '2022-10-10', '2022-10-10 04:36:18', '', ''),
+(162, 'K.005.01R', 'MAMI NEW BREAST PUMP WITH BOTTLE ( R )', 'SET', 'CARTON', '1', 'DOZEN', '12', 'SET', '11', '11', '2022-07-22 10:07:54', '', 0, NULL, '2022-08-23', '2022-08-29 02:08:02', '', ''),
+(163, 'K.004.03R', 'MAMI SILICONE NIPPLE (L) (R)', 'SMALL', 'CARTON', '8', 'Dozen', '12', 'Box', '11', '11', '2022-07-28 03:25:00', '', 17, NULL, '2022-07-11', '2022-08-08 04:36:01', '', ''),
+(164, 'K.004.02R', 'MAMI SILICONE NIPPLE (M) (R)', 'MEDIUM', 'CARTON', '8', 'Dozen', '12', 'Box', '11', '11', '2022-07-28 03:30:32', '', 2, NULL, '2022-07-11', '2022-08-08 04:33:37', '', ''),
+(165, 'I.002.03R', 'MAMI FIX ADHESIVE MESH BANDAGE (5x5) (R)', '5 cm X 5 m', 'CARTON', '125', 'Box', '1', 'Roll', '9', '9', '2022-07-28 03:39:41', '', 21, NULL, '2022-07-26', '2022-07-28 03:43:32', '', ''),
+(166, 'I.002.01R', 'MAMI FIX ADHESIVE MESH BANDAGE (10x5) (R)', '10 cm x 5 m', 'CARTON', '75', 'Box', '1', 'Roll', '9', '9', '2022-07-28 03:41:57', '', 4, NULL, '2022-07-26', '2022-07-28 03:44:08', '', ''),
+(167, 'I.002.02R', 'MAMI FIX ADHESIVE MESH BANDAGE (15x5) (R)', '15 cm x 5 m', 'CARTON', '50', 'Box', '1', 'Roll', '9', '9', '2022-07-28 03:43:20', '', 19, NULL, '2022-10-26', '2022-10-27 03:07:30', '', ''),
+(168, 'D.008.01R', 'BAYPLAST ELASTIC STRIP (R)', '19mm x 64mm', 'CARTON', '100', 'Box', '100', 'Strip', '4', '4', '2022-07-28 03:46:51', '', 400, NULL, '2022-07-26', '2022-07-28 03:49:53', '', ''),
+(169, 'D.009.01R', 'CROSS BRAND FIRST AID DRESSING (R)', '19mm x 64mm', 'CARTON', '100', 'Box', '100', 'Strip', '4', '4', '2022-07-28 03:48:16', '', 3500, NULL, '2022-07-26', '2022-08-08 04:07:44', '', ''),
+(170, 'E.001.01R', 'OK PLAST PLASTIC BANDAGE (R)', '25 MM', 'CARTON', '100', 'Box', '100', 'Strip', '5', '5', '2022-07-28 03:49:34', '', 700, NULL, '2022-09-08', '2022-09-13 08:18:03', '', ''),
+(171, 'A.009.01R', 'TAKAHI PLASTER PENGHANGAT LEHER (R)', '50 mm x 75 m', 'CARTON', '50', 'Box', '12', 'Sachet', '1', '1', '2022-07-28 03:55:50', '', 12, NULL, '2022-07-26', '2022-07-28 03:58:03', '', ''),
+(172, 'A.001.01R', 'KOYO CABE (KECIL)  20 Sachet (R)', '55 mm x 45 m', 'CARTON', '50', 'Box', '20', 'Sachet', '1', '1', '2022-07-28 03:57:06', '', 0, NULL, '2022-08-09', '2022-08-09 03:45:02', '', ''),
+(173, 'B.007.02R', 'MINYAK ANGIN CAP CABE (10 ml) (R)', '10 ml', 'Carton', '20', 'Dozen', '12', 'Pcs', '2', '2', '2022-08-01 10:29:28', '', 84, NULL, '2022-10-19', '2022-10-21 03:53:21', '', ''),
+(174, 'J.003.01R', 'MAMI PLESTER KOMPRES (BOX) (R)', '1 Lembar', 'Carton', '30', 'Box', '12', 'Sachet', '10', '10', '2022-08-01 11:17:09', '', 96, NULL, '2022-07-28', '2022-08-01 11:20:08', '', ''),
+(175, 'J.004.01R', 'MAMI PLESTER KOMPRES TIPE STRAWBERRY (BOX) (R)', '1 Lembar', 'Carton', '30', 'Box', '12', 'Sachet', '10', '10', '2022-08-01 11:19:20', '', 24, NULL, '2022-07-28', '2022-08-01 11:21:17', '', ''),
+(176, 'J.001.01R', 'MAMI NON WOVEN PADS STERIL (R)', '12 mm x 10 cm', 'Carton', '60', 'Box', '10', 'Pads', '10', '10', '2022-08-01 02:54:03', '', 1240, NULL, '2022-10-26', '2022-11-01 02:56:15', '', ''),
+(177, 'L.010.01', 'CROSS BRAND FIRST AID DRESSING LOOSE', '19 mm X 64 mm', 'Carton', '100', 'Pack', '100', 'Strip', '12', '12', '2022-08-18 12:03:03', '', 0, NULL, '2022-08-25', '2022-08-26 02:43:39', '', ''),
+(178, 'L.011.02', 'TOP-UKO UNIVERSAL SURGICAL TAPE (UK 25 cm x 5 m)', '2,5 cm x 5 m', 'Carton', '48', 'Box', '10', 'Roll', '12', '12', '2022-08-23 03:26:18', '', 24000, NULL, '2022-09-14', '2022-09-16 09:17:21', '', ''),
+(179, 'L.001.04', 'HUNDREDPLAST 200', '19 mm X 64 mm', 'Carton', '100', 'Box', '200', 'Lembar', '12', '12', '2022-08-26 02:56:24', '', 0, NULL, '2022-09-02', '2022-09-02 02:16:52', '', ''),
+(180, 'L.011.01', 'TOP-UKO UNIVERSAL SURGICAL TAPE (UK 125 cm x 5 m)', '1,25 cm x 5 m', 'Carton', '48', 'Box', '10', 'Roll', '12', '12', '2022-09-01 09:56:33', '', 24000, NULL, '2022-09-16', '2022-09-19 08:32:07', '', ''),
+(181, 'L.008.01', 'OKE PLAST FIRST AID DRESSING (BATIK) PUI KIAN MING', '19 MM X 64 MM', 'CARTON', '120', 'HANGER', '10', 'SACHET', '12', '12', '2022-09-26 04:38:48', '', 0, NULL, '2022-10-18', '2022-10-18 03:17:47', '', ''),
+(182, 'L.007.01', 'OKE PLAST FIRST AID DRESSING (SPIDER) PUI KIAN MING', '19 MM X 64 MM', 'CARTON', '120', 'HANGER', '10', 'SACHET', '12', '12', '2022-09-26 04:40:13', '', 0, NULL, '2022-10-18', '2022-10-18 03:17:32', '', ''),
+(183, 'L.009.01', 'OKE PLAST FIRST AID DRESSING (COLOR) PUI KIAN MING', '19 MM x 64 MM', 'Carton', '120', 'Hanger', '10', 'Sachet', '12', '12', '2022-09-28 02:40:37', '', 0, NULL, '2022-10-18', '2022-10-18 03:17:59', '', ''),
+(184, 'D.001.01R', 'OKE FANCY PLASTER (EMOTICON) ( R )', '19 MM X 64 MM', 'Carton', '120', 'HANGER', '10', 'SACHET', '4', '4', '0000-00-00 00:00:00', '', 4, NULL, '2022-10-18', '2022-10-18 11:02:15', '', ''),
+(185, 'B.001.01R', 'BALSEM JAHE (R)', '20 Gr', 'Carton', '20', 'DOZEN', '12', 'VDS', '2', '2', '0000-00-00 00:00:00', '', 0, NULL, '2022-10-26', '2022-10-26 16:58:07', '', ''),
+(186, 'G.001.04R', 'CHILLI PLAST PLASTER PEREKAT (1X5)(R)', '25 mm x 4,5 m', 'CARTON', '20', 'DOZEN', '12', 'ROLL', '7', '7', '0000-00-00 00:00:00', '', 24, NULL, '2022-10-26', '2022-11-04 12:18:08', '', ''),
+(187, 'B.002.01R', 'BALSEM SICIE (R)', '20 Gr', 'CARTON', '20', 'DOZEN', '12', 'PCS', '2', '2', '0000-00-00 00:00:00', '24', 240, NULL, '2022-10-26', '2022-11-01 02:58:40', '', ''),
+(200, 'A.111.9R', 'barang abot', 'XL', 'CARTON ', '20', 'BOX ', '25', 'Butir', '6', '5', '0000-00-00 00:00:00', '10', 0, 0, '0000-00-00', '2022-11-18 04:47:42', '', '');
 
 -- --------------------------------------------------------
 
@@ -4155,6 +4211,27 @@ INSERT INTO `masuk` (`no`, `tglform`, `noform`, `kode`, `jumlah`, `tanggal`, `sa
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `movement`
+--
+
+CREATE TABLE `movement` (
+  `id` int(11) NOT NULL,
+  `kategori` varchar(125) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `movement`
+--
+
+INSERT INTO `movement` (`id`, `kategori`) VALUES
+(1, 'pareto fast moving'),
+(2, 'active pareto'),
+(3, 'menghabiskan sisa stok'),
+(4, 'ekspor');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pallet`
 --
 
@@ -4170,11 +4247,11 @@ CREATE TABLE `pallet` (
 --
 
 INSERT INTO `pallet` (`no`, `kdpallet`, `status`, `qty`) VALUES
-(1, 'J02-A0-01', 'kosong', '0'),
-(2, 'J02-A0-02', 'kosong', '0'),
-(3, 'J02-A0-03', 'kosong', '0'),
-(4, 'J02-A0-04', 'kosong', '0'),
-(5, 'J02-A0-05', 'kosong', '0'),
+(1, 'J02-A0-01', 'isi', '3'),
+(2, 'J02-A0-02', 'isi', '1'),
+(3, 'J02-A0-03', 'kosong', '-1'),
+(4, 'J02-A0-04', 'isi', '370'),
+(5, 'J02-A0-05', 'kosong', '-10'),
 (6, 'J02-A0-06', 'kosong', '0'),
 (7, 'J02-A0-07', 'kosong', '0'),
 (8, 'J02-A0-08', 'kosong', '0'),
@@ -8946,7 +9023,18 @@ INSERT INTO `riwayat` (`no`, `tglform`, `noform`, `kode`, `masuk`, `keluar`, `sa
 (3784, '2022-11-07', '581/AL22', 'J.003.01', '5760', '0', 30980, 'Input', '2022-11-08 12:23:50', 6, '', '', ''),
 (3785, '2022-11-07', '581/AL22', 'D.003.01', '200000', '0', 62764100, 'Input', '2022-11-08 12:24:11', 6, '', '', ''),
 (3786, '2022-11-07', '442/OB22', 'A.001.01', '70000', '0', 7176827, 'Input', '2022-11-08 12:24:35', 6, '', '', ''),
-(3787, '2022-11-07', '442/OB22', 'A.005.02', '8400', '0', 115960, 'revisiIN', '2022-11-16 02:29:54', 5, '', '', '149020302');
+(3787, '2022-11-07', '442/OB22', 'A.005.02', '8400', '0', 115960, 'revisiIN', '2022-11-16 02:29:54', 5, '', '', '149020302'),
+(3788, '2022-11-24', 'asasd', 'A.001.01', '1021', '', 7177848, 'Input', '2022-11-24 12:10:35', 5, '', '', ''),
+(3789, '2022-11-24', '1234321', 'A.001.01', '1', '', 7176828, 'Input', '2022-11-24 12:11:37', 5, '', '', ''),
+(3790, '2022-11-24', '1234', 'A.001.01', '1', '', 7176828, 'Input', '2022-11-24 12:14:42', 5, '', '', '123456'),
+(3791, '2022-11-24', '123411', 'A.001.01', '1000', '', 7177828, 'Input', '2022-11-24 01:05:58', 5, '', '', '1234'),
+(3792, '2022-11-25', '781089', 'A.001.01', '1', '', 7177829, 'Input', '2022-11-25 09:01:09', 5, '', '', '11111111'),
+(3793, '2022-11-25', '23432', 'A.001.01', '1', '', 7177830, 'Input', '2022-11-25 09:01:26', 5, '', '', '11111111'),
+(3794, '2022-11-25', '1234432', 'A.001.01', '4', '', 7177834, 'Input', '2022-11-25 09:04:04', 5, '', '', '1234'),
+(3795, '2022-11-25', 'asdfg', 'A.001.01', '7', '', 7177841, 'Input', '2022-11-25 09:04:33', 5, '', '', '1234'),
+(3796, '2022-11-25', 'asdf', 'A.003.01', '20', '', 6400, 'Input', '2022-11-25 11:27:15', 5, '', '', '99999999'),
+(3797, '2022-11-25', '5893467', 'G.001.02', '4434', '', 138842, 'Input', '2022-11-25 02:19:22', 5, '', '', '788987'),
+(3798, '2022-11-30', '2121212', 'A.004.01', '7226', '', 13153, 'Input', '2022-11-30 09:17:18', 5, '', '', '99500376');
 
 -- --------------------------------------------------------
 
@@ -8967,8 +9055,32 @@ CREATE TABLE `riwayattrack` (
   `ket` varchar(20) NOT NULL,
   `tanggal` datetime NOT NULL,
   `adm` int(10) NOT NULL,
-  `cat` text NOT NULL
+  `cat` text NOT NULL,
+  `utilisasi` varchar(125) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `riwayattrack`
+--
+
+INSERT INTO `riwayattrack` (`no`, `tglform`, `kode`, `nobatch`, `nopallet`, `statpallet`, `masuk`, `keluar`, `saldo`, `ket`, `tanggal`, `adm`, `cat`, `utilisasi`) VALUES
+(12, '2022-11-25', 'A.001.01', '1234', 'J02-A0-01', 'IN', 1, 0, 1, 'input', '2022-11-29 03:21:24', 10, '', ''),
+(13, '2022-11-25', 'A.003.01', '99999999', 'J02-A0-01', 'IN', 1, 0, 1022, 'input', '2022-11-29 03:21:58', 10, '', ''),
+(14, '2022-11-25', 'A.003.01', '99999999', 'J02-A0-02', 'IN', 1, 0, 1023, 'input', '2022-11-29 03:22:26', 10, '', ''),
+(15, '2022-11-25', 'A.001.01', '1234', 'J02-A0-01', 'IN', 1, 0, 1, 'input', '2022-11-29 03:25:31', 10, '', ''),
+(16, '2022-11-25', 'G.001.02', '788987', 'J02-A0-01', 'IN', 1, 0, 1, 'input', '2022-11-29 03:29:35', 10, '', ''),
+(17, '2022-11-25', 'A.003.01', '99999999', 'J02-A0-03', 'IN', 1, 0, 1024, 'input', '2022-11-29 03:30:02', 10, '', ''),
+(18, '2022-11-25', 'A.003.01', '99999999', 'J02-A0-03', 'IN', 1, 0, 1025, 'input', '2022-11-29 03:30:25', 10, '', ''),
+(19, '2022-11-25', 'A.003.01', '99999999', 'J02-A0-03', 'IN', 12, 0, 1037, 'input', '2022-11-30 08:24:28', 10, '', ''),
+(23, '2022-11-25', 'G.001.02', '788987', 'J02-A0-04', 'IN', 360, 0, 361, 'input', '2022-11-30 08:56:30', 10, '', ''),
+(24, '2022-11-25', 'A.003.01', '99999999', 'J02-A0-04', 'IN', 2, 0, 1039, 'input', '2022-11-30 08:57:22', 10, '', ''),
+(25, '2022-11-25', 'A.003.01', '99999999', 'J02-A0-04', 'IN', 1, 0, 1040, 'input', '2022-11-30 08:58:09', 10, '', ''),
+(26, '2022-11-25', 'A.003.01', '99999999', 'J02-A0-04', 'IN', 2, 0, 1042, 'input', '2022-11-30 09:00:04', 10, '', ''),
+(37, '2022-11-25', 'G.001.02', '788987', 'J02-A0-04', 'NONE', 5, 0, 366, 'input', '2022-12-06 03:17:39', 10, '', ''),
+(41, '2022-11-25', 'A.001.01', '1234', 'J02-A0-01', 'OUT', 0, 1, 0, 'output', '2022-12-06 09:59:23', 10, '', ''),
+(42, '2022-11-30', 'A.004.01', '99500376', 'J02-A0-05', 'IN', 26, 0, 26, 'input', '2022-12-07 04:19:17', 1, '', ''),
+(43, '2022-11-30', 'A.004.01', '99500376', 'J02-A0-05', 'OUT', 0, 36, -10, 'output', '2022-12-07 05:42:32', 10, '', ''),
+(44, '2022-11-25', 'A.003.01', '99999999', 'J02-A0-03', 'OUT', 0, 15, 1027, 'output', '2022-12-07 05:42:50', 10, '', '');
 
 -- --------------------------------------------------------
 
@@ -9189,7 +9301,7 @@ CREATE TABLE `tb_user` (
   `username` varchar(30) NOT NULL,
   `password` varchar(32) NOT NULL,
   `fullname` varchar(30) NOT NULL,
-  `role` enum('admin','user','manager','track') NOT NULL
+  `role` enum('admin','user','manager','track','ppic') NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -9200,10 +9312,10 @@ INSERT INTO `tb_user` (`user_id`, `username`, `password`, `fullname`, `role`) VA
 (2, 'ricky', '21232f297a57a5a743894a0e4a801fc3', 'Ricky Pratama Putra', 'admin'),
 (3, 'chennie', '21232f297a57a5a743894a0e4a801fc3', 'Lim Chen Nie', 'manager'),
 (4, 'indosar', '7b7a53e239400a13bd6be6c91c4f6c4e', 'Toni', 'user'),
-(5, 'admin', 'ba550ce7e1aebdd098aa73df5a8f1bbf', 'admin', 'user'),
+(5, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', 'user'),
 (6, 'gudang', '7b7a53e239400a13bd6be6c91c4f6c4e', 'Admin Gudang', 'user'),
 (7, 'faustine', '21232f297a57a5a743894a0e4a801fc3', 'faustine', 'admin'),
-(8, 'karina', '21232f297a57a5a743894a0e4a801fc3', 'Karina Suherman', 'user'),
+(8, 'karina', '21232f297a57a5a743894a0e4a801fc3', 'Karina Suherman', 'ppic'),
 (10, 'track', '21232f297a57a5a743894a0e4a801fc3', 'tracking', 'track');
 
 -- --------------------------------------------------------
@@ -9221,6 +9333,16 @@ CREATE TABLE `utilisasi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Dumping data for table `utilisasi`
+--
+
+INSERT INTO `utilisasi` (`no`, `tgl`, `palletin`, `palletout`, `utilisasi`) VALUES
+(18, '2022-11-29', '7', '', '0.53859964093357'),
+(19, '2022-11-30', '4', '', '0.35906642728905'),
+(20, '2022-12-06', '1', '2', '0.35906642728905'),
+(21, '2022-12-07', '2', '1', '0.089766606822262');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -9229,6 +9351,12 @@ CREATE TABLE `utilisasi` (
 --
 ALTER TABLE `detailsal`
   ADD PRIMARY KEY (`no`);
+
+--
+-- Indexes for table `detailsalqty`
+--
+ALTER TABLE `detailsalqty`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `golongan`
@@ -9247,6 +9375,12 @@ ALTER TABLE `jenis`
 --
 ALTER TABLE `keluar`
   ADD PRIMARY KEY (`no`);
+
+--
+-- Indexes for table `kemasan`
+--
+ALTER TABLE `kemasan`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `master`
@@ -9304,7 +9438,13 @@ ALTER TABLE `utilisasi`
 -- AUTO_INCREMENT for table `detailsal`
 --
 ALTER TABLE `detailsal`
-  MODIFY `no` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `detailsalqty`
+--
+ALTER TABLE `detailsalqty`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `golongan`
@@ -9323,6 +9463,12 @@ ALTER TABLE `jenis`
 --
 ALTER TABLE `keluar`
   MODIFY `no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2266;
+
+--
+-- AUTO_INCREMENT for table `kemasan`
+--
+ALTER TABLE `kemasan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `master`
@@ -9346,13 +9492,13 @@ ALTER TABLE `pallet`
 -- AUTO_INCREMENT for table `riwayat`
 --
 ALTER TABLE `riwayat`
-  MODIFY `no` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3788;
+  MODIFY `no` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3799;
 
 --
 -- AUTO_INCREMENT for table `riwayattrack`
 --
 ALTER TABLE `riwayattrack`
-  MODIFY `no` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `no` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `saldo`
@@ -9370,7 +9516,7 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT for table `utilisasi`
 --
 ALTER TABLE `utilisasi`
-  MODIFY `no` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
