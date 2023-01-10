@@ -124,7 +124,7 @@ class Masuk_track extends CI_Controller
             'cat'       => $cat
         );
 
-        //     //untuk master
+        //untuk master
         $data1 = array(
             'tglform'     => $tglform,
             'tgl_update'  => date("Y-m-d H:i:s"),
@@ -147,7 +147,7 @@ class Masuk_track extends CI_Controller
             $in = $que->palletin;
         }
         if ($status == 'kosong') {
-            $palletin = 1;
+            $palletin = $in+1;
         }
         if ($status == 'isi') {
             $palletin = $in;
@@ -155,7 +155,7 @@ class Masuk_track extends CI_Controller
         $data3 = array(
             'tgl'       => date('Y-m-d'),
             'palletin'   => $palletin,
-            'utilisasi' => $utilisasi->num_rows() / $pallet->num_rows() * 100
+            'utilisasi' => $palletin / $pallet->num_rows() * 100
         );
         $where2 = array('tgl' => date("Y-m-d"));
 
