@@ -146,11 +146,8 @@ class Masuk_track extends CI_Controller
         foreach ($query->result() as $que) {
             $in = $que->palletin;
         }
-        if ($in == null) {
-            $in = 1;
-        }
         if ($status == 'kosong') {
-            $palletin = 1 + $in;
+            $palletin = 1;
         }
         if ($status == 'isi') {
             $palletin = $in;
@@ -268,17 +265,56 @@ class Masuk_track extends CI_Controller
             'kode' => $kode,
             'nobatch' => $nobatch
         );
+        $data2 = array(
+            'kode'=>$kode,
+            'nobatch'=>$nobatch,
+            'qty'=>$jumlah
+        );
+
         //untuk pallet
+        $pal = $this->db->where('nopallet',$nopallet)->get('pallet');
+        foreach($pal->result() as $pal){
+            $palqty = $pal->qty;
+        }
+        $palqtyakhir = $palqty - $jumlah;
+        if ($palqtyakhir > 0) {
+            $datapal = array(
+                'status' => 'isi',
+                'qty'    => $palqtyakhir
+            );
+        }else{
+            $datapal = array(
+                'status' => 'kosong',
+                'qty'    => $palqtyakhir
+            );
+        }
         $where2 = array('nopallet', $nopallet);
+
+        //untuk detailsal
+        $where3 = array(
+            'kode'=>$kode,
+            'nopallet'=>$nopallet,
+            'nobatch'=>$nobatch,
+        );
+
+        //untuk utilisasi
+        $util = $this->db->get('utilisasi')->order_by('no');
+        if($palqtyakhir == 0){
+            $data3=array(
+                'palletout' => 40
+            );
+        }
 
         // $this->db->trans_start();
         // $this->masuk_track_model->hapus($where,'riwayattrack');
         // $this->masuk_track_model->update($where1,$data,'master');
-        if($detailqty>0){
-            $this->masuk_track_model->update($where3,$data1,'detailsalqty');
-        }else{
-            $this->masuk_track_model->tambah();
-        }
+        // if($detailqty>0){
+        //     $this->masuk_track_model->update($where3,$data1,'detailsalqty');
+        // }else{
+        //     $this->masuk_track_model->tambah($data2,'detailsalqty');
+        // }
+        // $this->masuk_track_model->update($where2,$datapal,'pallet');
+        // $this->masuk_track->hapus($where3,'detailsal');
 
         // $this->db->trans_complete();
     }
