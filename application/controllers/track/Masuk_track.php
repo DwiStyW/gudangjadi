@@ -329,31 +329,37 @@ class Masuk_track extends CI_Controller
 		}
 		$where4 = array("tgl",date("Y-m-d"));
 
-        $this->db->trans_start();
-        $this->masuk_track_model->hapus($where,'riwayattrack');
-        $this->masuk_track_model->update($where1,$data,'master');
-        if($detsalqty->num_rows() > 0){
-            $this->masuk_track_model->update($wheredsq,$data1,'detailsalqty');
-        }else{
-            $this->masuk_track_model->tambah($data2,'detailsalqty');
+        if ($palqtyakhir >=0) {
+            $this->db->trans_start();
+            $this->masuk_track_model->hapus($where, 'riwayattrack');
+            $this->masuk_track_model->update($where1, $data, 'master');
+            if ($detsalqty->num_rows() > 0) {
+                $this->masuk_track_model->update($wheredsq, $data1, 'detailsalqty');
+            } else {
+                $this->masuk_track_model->tambah($data2, 'detailsalqty');
+            }
+            if ($palqtyakhir == 0) {
+                $this->masuk_track_model->update($where2, $datapal0, 'pallet');
+            } else {
+                $this->masuk_track_model->update($where2, $datapal, 'pallet');
+            }
+            $this->masuk_track_model->hapus($where3, 'detailsal');
+            if ($tgl != date("Y-m-d")) {
+                $this->masuk_track_model->tambah($data3, 'utilisasi');
+            } else {
+                $this->masuk_track_model->update($where4, $data3, 'utilisasi');
+            }
+            $this->db->trans_complete();
         }
-        if ($palqtyakhir == 0) {
-            $this->masuk_track_model->update($where2, $datapal0, 'pallet');
-        }else{
-            $this->masuk_track_model->update($where2, $datapal, 'pallet');
-        }
-        $this->masuk_track_model->hapus($where3,'detailsal');
-		if($tgl != date("Y-m-d")){
-			$this->masuk_track_model->tambah($data3,'utilisasi');	
-		}else{
-			$this->masuk_track_model->update($where4,$data3,'utilisasi');
-		}
-        $this->db->trans_complete();
-		if ($this->db->trans_status() === FALSE) {
+        if ($palqtyakhir>=0) {
+            if ($this->db->trans_status() === false) {
                 $this->session->set_flashdata('gagal', 'Hapus error!');
             } else {
                 $this->session->set_flashdata('sukses', 'Hapus success!');
             }
+        }else{
+            $this->session->set_flashdata('gagal', 'Saldo Minus!');
+        }
         redirect('track/masuk_track');
     }
 
