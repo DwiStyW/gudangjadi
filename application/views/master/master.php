@@ -13,9 +13,9 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                     <div style="display:flex; flex:wrap">
                                         <div style="width:100%">
                                             <?php if(isset($keyword)){?>
-                                                <input type="text" name="keyword" value="<?= $keyword?>" placeholder="Cari Master Barang..." class="form-control">
+                                                <input type="text" name="keyword" value="<?= $keyword?>" placeholder="Cari Barang Keluar..." class="form-control">
                                             <?php }else{ ?>
-                                                <input type="text" name="keyword" placeholder="Cari Master Barang..." class="form-control">
+                                                <input type="text" name="keyword" placeholder="Cari Barang Keluar..." class="form-control">
                                                 <?php } ?>
                                         </div>
                                         <div style="width:auto">

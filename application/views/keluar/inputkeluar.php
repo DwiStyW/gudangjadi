@@ -41,16 +41,6 @@ date_default_timezone_set('Asia/Jakarta');
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">No Batch</label>
-                                                    </div>
-                                                    <div class="col-lg-9">
-                                                        <input name="nobatch" type="text" class="form-control" placeholder="Nomor Form" required />
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <!-- kode barang -->
                                             <div class="form-group-inner">
                                                 <div class="row">
@@ -174,7 +164,6 @@ date_default_timezone_set('Asia/Jakarta');
                                                                     <th data-field="no">No</th>
                                                                     <th data-field="tglform">Tgl Form</th>
                                                                     <th data-field="noform">No Form</th>
-                                                                    <th data-field="batch">No Batch</th>
                                                                     <th data-field="kode">Kode Barang</th>
                                                                     <th data-field="nama">Nama Barang</th>
                                                                     <th data-field="satuan1">Satuan 1</th>
@@ -196,7 +185,6 @@ date_default_timezone_set('Asia/Jakarta');
                                                                         <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?>
                                                                         </td>
                                                                         <td><?php echo $m->noform; ?></td>
-                                                                        <td><?php echo $m->nobatch; ?></td>
                                                                         <td><?php echo $m->kode; ?></td>
                                                                         <td><?php echo $m->nama; ?></td>
                                                                         <?php

@@ -14,7 +14,8 @@ $mulai = date('Y-m-d', strtotime('-1 days', strtotime($start)));
                 <div id="toolbar">
                     <a target="_blank" href="<?= base_url("report/printsa/" . $start . "/" . $end) ?>">
                         <button class="btn btn-sm btn-success login-submit-cs" type="submit">Print</button></a>
-                    <a href="<?= base_url("report/report_saldo_akhir") ?>"><button class="btn btn-sm btn-white" type="button">Kembali</button></a>
+                    <a href="<?= base_url("report/report_saldo_akhir") ?>"><button class="btn btn-sm btn-white"
+                            type="button">Kembali</button></a>
                 </div>
                 <div style="background-color:#fff">
                     <div class="sparkline8-graph">
@@ -23,12 +24,15 @@ $mulai = date('Y-m-d', strtotime('-1 days', strtotime($start)));
                                 Saldo Stok Dari <b><?php echo date('d F Y', strtotime($start)); ?></b> hingga
                                 <b><?php echo date('d F Y', strtotime($end)); ?></b>
                             </div>
-                            <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
+                            <table id="table" data-toggle="table" data-pagination="true" data-search="true"
+                                data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true"
+                                data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
+                                data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true"
+                                data-toolbar="#toolbar">
 
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <!-- <th>Golongan</th> -->
                                         <th>Kode Barang</th>
                                         <th>Nama</th>
                                         <th>Urai</th>
@@ -70,22 +74,22 @@ $mulai = date('Y-m-d', strtotime('-1 days', strtotime($start)));
                                                         $st3  = $ss - $st2 * $data->max2;
 
                                     ?>
-                                                        <tr>
-                                                            <td><?php echo $no; ?></td>
-                                                            <?php
+                                    <tr>
+                                        <td><?php echo $no; ?></td>
+                                        <?php
                                                             $kdgrup = $data->kdgol;
                                                             //Mastergrup        
                                                             $tampil2 = $this->db->query("select * from golongan WHERE id='$kdgrup'");
                                                             foreach ($tampil2->result() as $data2); ?>
-                                                            <!-- <td><?php echo $data2->kdgol; ?> <?php echo $data2->namagol; ?></td> -->
-                                                            <td><?php echo $data->kode; ?></td>
-                                                            <td><?php echo $data->nama; ?></td>
-                                                            <td>Saldo Akhir </td>
-                                                            <!-- Saldo Akhir -->
-                                                            <td><?php echo $st1; ?> </td>
-                                                            <td><?php echo $st2; ?> </td>
-                                                            <td><?php echo $st3; ?> </td>
-                                                        </tr>
+                                        <!-- <td><?php echo $data2->kdgol; ?> <?php echo $data2->namagol; ?></td> -->
+                                        <td><?php echo $data->kode; ?></td>
+                                        <td><?php echo $data->nama; ?></td>
+                                        <td>Saldo Akhir </td>
+                                        <!-- Saldo Akhir -->
+                                        <td><?php echo $st1; ?> </td>
+                                        <td><?php echo $st2; ?> </td>
+                                        <td><?php echo $st3; ?> </td>
+                                    </tr>
 
                                     <?php $no++;
                                                     }
@@ -99,6 +103,7 @@ $mulai = date('Y-m-d', strtotime('-1 days', strtotime($start)));
                     </div>
 
                 </div>
+
             </div>
         </div>
     </div>

@@ -15,7 +15,7 @@
                                             <?php if(isset($keyword)){?>
                                                 <input type="text" name="keyword" value="<?= $keyword?>" placeholder="Cari Barang Masuk..." class="form-control">
                                             <?php }else{ ?>
-                                                <input type="text" name="keyword" placeholder="Cari Barang Masuk..." class="form-control">
+                                                <input type="text" name="keyword" placeholder="Cari Barang Keluar..." class="form-control">
                                                 <?php } ?>
                                         </div>
                                         <div style="width:auto">
@@ -52,7 +52,7 @@
                                         <th data-field="nama">Nama Barang</th>
                                         <th data-field="batch">No Batch</th>
                                         <th data-field="nopallet">No Pallet</th>
-                                        <th data-field="statpallet">Status</th>
+                                        <th data-field="statpallet">Status Pallet</th>
                                         <th data-field="satuan1">Satuan 1</th>
                                         <th data-field="satuan2">Satuan 2</th>
                                         <th data-field="satuan3">Satuan 3</th>
@@ -94,7 +94,7 @@
                                                 href="<?= base_url("track/masuk_track/edit_masuk_track/" . $m->no) ?>"><i
                                                     class="fa fa-edit"></i> Edit</a>
                                             <a class="btn btn-sm btn-danger"
-                                                href="<?= base_url("track/masuk_track/hapus/" . $m->no . "/" . $m->kode."/".$m->nopallet."/".$m->nobatch."/".$m->masuk) ?>"
+                                                href="<?= base_url("masuk/hapus_masuk/" . $m->no . "/" . $m->kode) ?>"
                                                 onclick="javascript: return confirm('Anda yakin hapus ?')"><i
                                                     class="fa fa-trash"></i> Hapus</a>
                                         </td>
@@ -104,7 +104,7 @@
                                 </tbody>
                             </table>
                             <div style="width:100%;margin-top:20px; display:flex; flex:wrap" class="justify-content-between">
-                                <form action="<?= base_url('track/masuk_track') ?>" id="go" method="post">
+                                <form action="<?= base_url('masuk') ?>" id="go" method="post">
                                 <div style="width:100px">
                                     <select class="form-control" name="range" onchange="go()">
                                         <option disabled selected value>Row</option>

@@ -33,10 +33,4 @@ class Report_model extends CI_Model
     {
         return $this->db->get('golongan')->result();
     }
-
-    public function update($where, $data, $table)
-    {
-        $this->db->where($where);
-        $this->db->update($table, $data);
-    }
 }

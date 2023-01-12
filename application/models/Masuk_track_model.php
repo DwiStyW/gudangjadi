@@ -62,23 +62,6 @@ class Masuk_track_model extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function detsal(){
-        $this->db->select("*")->from("detailsalqty")->join("master","master.kode = detailsalqty.kode");
-        $this->db->group_by('detailsalqty.kode');
-        return $this->db->get()->result();
-    }
-
-    public function get_batch($kode){
-        return $this->db->where('kode',$kode)->get('detailsalqty');
-    }
-    function get_qty($id,$kode){
-		$this->db->select('sum(qty) as jumlah,max1,max2,sat1,sat2,sat3');
-        $this->db->from('detailsalqty');
-        $this->db->join('master','master.kode = detailsalqty.kode');
-        $this->db->where('detailsalqty.kode', $kode)->where('nobatch', $id);
-		return $this->db->get();
-	}
-
     //get where
     public function get_where($where, $table)
     {

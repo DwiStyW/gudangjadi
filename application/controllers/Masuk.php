@@ -59,7 +59,6 @@ class Masuk extends CI_Controller
         error_reporting(0);
         $tglform = $this->input->post('tglform');
         $noform = $this->input->post('noform');
-        $nobatch = $this->input->post('nobatch');
         $koder = $this->input->post('kode');
         $sat1 = $this->input->post('sat1');
         $sat2 = $this->input->post('sat2');
@@ -78,7 +77,7 @@ class Masuk extends CI_Controller
         $sats2    = $sat2 * $data1->max2;
         $jumlah = $sats1 + $sats2 + $sat3;
 
-        $tampil = $this->db->query("SELECT * FROM master WHERE kode='$kode'");
+        $tampil = $this->db->query("SELECT * FROM saldo WHERE kode='$kode'");
         foreach ($tampil->result() as $data) {
             $hasil = $data->saldo + $jumlah;
         }
@@ -89,7 +88,6 @@ class Masuk extends CI_Controller
             'tglform' => $tglform,
             'kode' => $koder,
             'noform' => $noform,
-            'nobatch'=> $nobatch,
             'masuk' => $jumlah,
             'keluar' => '',
             'saldo' => $hasil,
@@ -104,7 +102,6 @@ class Masuk extends CI_Controller
             'no' => '',
             'tglform' => $tglform,
             'noform' => $noform,
-            'nobatch'=>$nobatch,
             'kode' => $koder,
             'jumlah' => $jumlah,
             'tanggal' => $tgl,
@@ -123,44 +120,9 @@ class Masuk extends CI_Controller
             'kode' => $koder
         );
 
-        //untuk detailsalqty
-        $detsal = $this->db->where('kode',$kode)->where('nobatch',$nobatch)->get('detailsalqty');
-        foreach($detsal->result() as $det){
-            $salqty[]=$det->qty;
-        }
-        $jumsalqty=0;
-        for($i=0;$i<$detsal->num_rows();$i++)
-        {
-            $jumsalqty+=$salqty[$i];
-        }
-        if($detsal->num_rows()>0){
-            $data5 = array(
-                'tglform' => $tglform,
-                'kode'    => $koder,
-                'nobatch' => $nobatch,
-                'qty'     => $jumlah+=$jumsalqty
-            );
-        }else{
-            $data5 = array(
-                'tglform' => $tglform,
-                'kode'    => $koder,
-                'nobatch' => $nobatch,
-                'qty'     => $jumlah
-            );
-        }
-        $where2 = array(
-            'kode' => $koder,
-            'nobatch'=>$nobatch
-        );
-
         $this->db->trans_start();
         $this->masuk_model->update($where1, $data4, "master");
         $this->masuk_model->tambah($data2, "riwayat");
-        if($detsal->num_rows()>0){
-            $this->masuk_model->update($where2,$data5,'detailsalqty');
-        }else{
-            $this->masuk_model->tambah($data5,'detailsalqty');
-        }
         $this->db->trans_complete();
 
         if($this->db->trans_status()===FALSE){
@@ -207,7 +169,7 @@ class Masuk extends CI_Controller
         foreach ($tampil1->result() as $data1) {
             $awal = $data1->masuk;
         }
-        $tampil = $this->db->query("select * from master WHERE kode ='$kode'");
+        $tampil = $this->db->query("select * from saldo WHERE kode ='$kode'");
         foreach ($tampil->result() as $data) {
             $update = $data->saldo - $awal + $jumlah;
         }
@@ -243,8 +205,24 @@ class Masuk extends CI_Controller
                 'no' => $no
             );
 
+            // update masuk
+            // $data2 = array(
+            //     'noform' => $noform,
+            //     'kode' => $kode,
+            //     'jumlah' => $jumlah,
+            //     'tglform' => $tglform,
+            //     'saldo' => $update,
+            //     'tanggal' => $date,
+            //     'adm' => $adm,
+            //     'cat' => $cat
+
+            // );
+            // $where2 = array(
+            //     'no' => $no
+            // );
+
             $this->db->trans_start();
-            $this->masuk_model->update($where, $data, 'master');
+            $this->masuk_model->update($where, $data, 'saldo');
             $this->masuk_model->update($where1, $data1, 'riwayat');
             $this->db->trans_complete();
 
@@ -253,6 +231,17 @@ class Masuk extends CI_Controller
             }else{
                 $this->session->set_flashdata('sukses', 'Update Barang Masuk Success!');
             }
+
+            // if (isset($data) && isset($where) && isset($data1) && isset($where1) && isset($data2) && isset($where2)) {
+            //     $this->masuk_model->update($where, $data, 'saldo');
+            //     $this->masuk_model->update($where1, $data1, 'riwayat');
+            //     $this->masuk_model->update($where2, $data2, 'masuk');
+            //     $this->session->set_flashdata('sukses', 'Update Barang Masuk Success!');
+            //     redirect("masuk");
+            // } else {
+            //     $this->session->set_flashdata('gagal', 'Update Barang Masuk Error!');
+            //     redirect("masuk");
+            // }
         }
     }
     public function hapus_masuk($no, $kode)
@@ -264,7 +253,7 @@ class Masuk extends CI_Controller
             $tglform = $riw->tglform;
             $noform = $riw->noform;
         }
-        $tampil = $this->db->query("select * from master WHERE kode='$kode'");
+        $tampil = $this->db->query("select * from saldo WHERE kode='$kode'");
         foreach ($tampil->result() as $sal) {
             $hasil = $sal->saldo - $awal;
         }
@@ -290,6 +279,17 @@ class Masuk extends CI_Controller
             }else{
                 $this->session->set_flashdata('sukses', 'Delete Barang Masuk Success!');
             }
+
+            // if (isset($where) && isset($where1) && isset($data1)) {
+            //     $this->masuk_model->update($where1, $data1, 'saldo');
+            //     $this->masuk_model->hapus($where, 'riwayat');
+            //     $this->masuk_model->hapus($where, 'masuk');
+            //     $this->session->set_flashdata('sukses', 'Delete Barang Masuk Success!');
+            //     redirect("masuk");
+            // } else {
+            //     $this->session->set_flashdata('gagal', 'Delete Barang Masuk Error!');
+            //     redirect("masuk");
+            // }
             redirect("masuk");
         }
     }
