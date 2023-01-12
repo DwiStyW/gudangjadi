@@ -141,10 +141,16 @@ class Masuk_track extends CI_Controller
 
         //untuk utilisasi
         $utilisasi = $this->db->query("SELECT * FROM pallet where status = 'isi'");
-        $query = $this->db->where('tgl', date("Y-m-d"))->get('utilisasi');
+        $query = $this->db->order_by('no', 'DESC')->limit(1)->get('utilisasi');
         $pallet = $this->db->get('pallet');
         foreach ($query->result() as $que) {
             $in = $que->palletin;
+			if(isset($que->palletout)){
+				$out = $que->palletout;
+			}else{
+				$out = 0;
+			}
+			$tgl = $que->tgl;
         }
         if ($status == 'kosong') {
             $palletin = $in+1;
@@ -155,6 +161,7 @@ class Masuk_track extends CI_Controller
         $data3 = array(
             'tgl'       => date('Y-m-d'),
             'palletin'   => $palletin,
+            'palletout'   => $out,
             'utilisasi' => $palletin / $pallet->num_rows() * 100
         );
         $where2 = array('tgl' => date("Y-m-d"));
@@ -209,7 +216,7 @@ class Masuk_track extends CI_Controller
             } else {
                 $this->masuk_track_model->hapus($where3, 'detailsalqty'); // insert dengan qty jumlah masuk
             }
-            if ($query->num_rows() > 0) {
+            if ($tgl == date("Y-m-d")) {
                 $this->masuk_track_model->update($where2, $data3, 'utilisasi'); //tgl detailsalqty && num rows>0 if pallet status berubah jadi kosong maka pallet in -1
             } else {
                 $this->masuk_track_model->tambah($data3, 'utilisasi'); //insert tgl detailsalqty ubah pallet kosong menjadi isi
@@ -261,7 +268,7 @@ class Masuk_track extends CI_Controller
         }
         $jum_detsal_qty = $detailqty + $jumlah;
         $data1 = array('qty'=>$jum_detsal_qty);
-        $where3 = array(
+        $wheredsq = array(
             'kode' => $kode,
             'nobatch' => $nobatch
         );
@@ -272,23 +279,20 @@ class Masuk_track extends CI_Controller
         );
 
         //untuk pallet
-        $pal = $this->db->where('nopallet',$nopallet)->get('pallet');
+        $pal = $this->db->where('kdpallet',$nopallet)->get('pallet');
         foreach($pal->result() as $pal){
             $palqty = $pal->qty;
         }
         $palqtyakhir = $palqty - $jumlah;
-        if ($palqtyakhir > 0) {
             $datapal = array(
                 'status' => 'isi',
                 'qty'    => $palqtyakhir
             );
-        }else{
-            $datapal = array(
+            $datapal0 = array(
                 'status' => 'kosong',
                 'qty'    => $palqtyakhir
             );
-        }
-        $where2 = array('nopallet', $nopallet);
+        $where2 = array('kdpallet'=>$nopallet);
 
         //untuk detailsal
         $where3 = array(
@@ -298,25 +302,59 @@ class Masuk_track extends CI_Controller
         );
 
         //untuk utilisasi
-        $util = $this->db->get('utilisasi')->order_by('no');
-        if($palqtyakhir == 0){
+		
+        $util = $this->db->order_by('no', 'DESC')->limit(1)->get('utilisasi');
+		foreach($util->result() as $u){
+			$in = $u->palletin;
+			$out = $u->palletout;
+			$tgl = $u->tgl;
+		}
+		$pallet = $this->db->get('pallet');
+		foreach($pallet->result() as $p){
+			$isipallet = $p->qty - $jumlah;
+		}
+        if($isipallet>0){
             $data3=array(
-                'palletout' => 40
+                'palletin'=> $in,
+                'palletout'=> $out,
+				'utilisasi'=> $in / $pallet->num_rows() * 100
             );
+        }else{
+			$data3=array(
+				'tgl' => date("Y-m-d"),
+				'palletin'=>$in-1,
+				'palletout'=>$out,
+				'utilisasi'=> $in-1 / $pallet->num_rows() * 100
+			);
+		}
+		$where4 = array("tgl",date("Y-m-d"));
+
+        $this->db->trans_start();
+        $this->masuk_track_model->hapus($where,'riwayattrack');
+        $this->masuk_track_model->update($where1,$data,'master');
+        if($detsalqty->num_rows() > 0){
+            $this->masuk_track_model->update($wheredsq,$data1,'detailsalqty');
+        }else{
+            $this->masuk_track_model->tambah($data2,'detailsalqty');
         }
-
-        // $this->db->trans_start();
-        // $this->masuk_track_model->hapus($where,'riwayattrack');
-        // $this->masuk_track_model->update($where1,$data,'master');
-        // if($detailqty>0){
-        //     $this->masuk_track_model->update($where3,$data1,'detailsalqty');
-        // }else{
-        //     $this->masuk_track_model->tambah($data2,'detailsalqty');
-        // }
-        // $this->masuk_track_model->update($where2,$datapal,'pallet');
-        // $this->masuk_track->hapus($where3,'detailsal');
-
-        // $this->db->trans_complete();
+        if ($palqtyakhir == 0) {
+            $this->masuk_track_model->update($where2, $datapal0, 'pallet');
+        }else{
+            $this->masuk_track_model->update($where2, $datapal, 'pallet');
+        }
+        $this->masuk_track_model->hapus($where3,'detailsal');
+		if($tgl != date("Y-m-d")){
+			$this->masuk_track_model->tambah($data3,'utilisasi');	
+		}else{
+			$this->masuk_track_model->update($where4,$data3,'utilisasi');
+		}
+        $this->db->trans_complete();
+		if ($this->db->trans_status() === FALSE) {
+                $this->session->set_flashdata('gagal', 'Hapus error!');
+            } else {
+                $this->session->set_flashdata('sukses', 'Hapus success!');
+            }
+        redirect('track/masuk_track');
     }
 
     //untuk AJAX
