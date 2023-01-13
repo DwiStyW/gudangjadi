@@ -138,14 +138,16 @@ class Masuk extends CI_Controller
                 'tglform' => $tglform,
                 'kode'    => $koder,
                 'nobatch' => $nobatch,
-                'qty'     => $jumlah+=$jumsalqty
+                'qty'     => $jumlah+=$jumsalqty,
+                'ket'     => "IN"
             );
         }else{
             $data5 = array(
                 'tglform' => $tglform,
                 'kode'    => $koder,
                 'nobatch' => $nobatch,
-                'qty'     => $jumlah
+                'qty'     => $jumlah,
+                'ket'     => "IN"
             );
         }
         $where2 = array(

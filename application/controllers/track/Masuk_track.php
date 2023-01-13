@@ -275,7 +275,8 @@ class Masuk_track extends CI_Controller
         $data2 = array(
             'kode'=>$kode,
             'nobatch'=>$nobatch,
-            'qty'=>$jumlah
+            'qty'=>$jumlah,
+            'ket'=>"IN"
         );
 
         //untuk pallet
