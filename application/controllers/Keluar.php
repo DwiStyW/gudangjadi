@@ -61,12 +61,13 @@ class Keluar extends CI_Controller
         $tglform            = $this->input->post('tglform');
         $tgl                = $this->input->post('tgl');
         $noform             = $this->input->post('noform');
-        $nobatch            = $this->input->post('nobatch');
+        $nosppb            = $this->input->post('nosppb');
         $koder              = $this->input->post('kode');
         $sat1               = $this->input->post('sat1');
         $sat2               = $this->input->post('sat2');
         $sat3               = $this->input->post('sat3');
         $adm                = $this->input->post('adm');
+        $tglsppb            = $this->input->post('tglsppb');
 
         $tampil1 = $this->db->query("SELECT * FROM master WHERE kode='$koder'");
         foreach ($tampil1->result() as $data1) {
@@ -99,9 +100,10 @@ class Keluar extends CI_Controller
             $data3 = array(
                 'no' => '',
                 'tglform' => $tglform,
+                'tglsppb' => $tglsppb,
                 'kode' => $koder,
                 'noform' => $noform,
-                'nobatch'=>$nobatch,
+                'nobatch'=>$nosppb,
                 'masuk' => '',
                 'keluar' => $jumlah,
                 'saldo' => $hasil,
@@ -110,6 +112,14 @@ class Keluar extends CI_Controller
                 'adm' => $adm
             );
 
+            //insert detailsalqty
+            $data4 = array(
+                'tglform' => $tglform,
+                'kode' =>$koder,
+                'nobatch' => $nosppb,
+                'qty' => $jumlah,
+                'ket' => 'OUT'
+            );
             //insert keluar
             // $data4 = array(
             //     'no' => '',
@@ -125,6 +135,7 @@ class Keluar extends CI_Controller
             $this->db->trans_start();
             $this->keluar_model->tambah($data3, 'riwayat');
             $this->keluar_model->update($where, $data2, 'master');
+            $this->keluar_track_model->tambah($data4, 'detailsalqty');
             $this->db->trans_complete();
 
             if($this->db->trans_status()===FALSE){
@@ -278,7 +289,7 @@ class Keluar extends CI_Controller
         $where1 = array('no' => $no);
 
         $this->db->trans_start();
-        $this->keluar_model->update($where, $data2, 'saldo');
+        $this->keluar_model->update($where, $data2, 'master');
         $this->keluar_model->hapus($where1, 'riwayat');
         $this->db->trans_complete();
         if($this->db->trans_status()===FALSE){

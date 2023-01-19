@@ -83,8 +83,8 @@ date_default_timezone_set('Asia/Jakarta');
                                                         </select>
                                                     </div>
                                                     <div style="display:flex; flex-wrap:wrap">
-                                                    <div style="width:110px;padding-left:40px">
-                                                    <label  class="login2 pull-right pull-right-pro">Isi batch:</label>
+                                                    <div style="width:150px;padding-left:10px">
+                                                    <label  class="login2 pull-right pull-right-pro">belum dipallet:</label>
                                                     </div>
                                                     <div style="width:200px">
                                                         <h5 id="qty"></h5>
@@ -105,6 +105,17 @@ date_default_timezone_set('Asia/Jakarta');
                                                             <option value="<?= $p->kdpallet?>"><?php echo $p->kdpallet.' '. $p->status?></option>
                                                         <?php } ?>
                                                         </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group-inner">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <label class="login2 pull-right pull-right-pro">Tanggal
+                                                            Form</label>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <input name="tglform" type="date" class="form-control" id="tglform" value="" required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -300,15 +311,15 @@ $(document).ready(function() {
                 html = "<h5>"+jum1+" "+sat1+" "+jum2+" "+sat2+" "+jum3+" "+sat3+"</h5>";
                 }
                 html1 = jumlah;
+                html2 = data[0].tglform;
+                $('#tglform').val(html2);
                 $('#jumlah').val(html1);
                 $('#qty').html(html);
-                console.log(jumlah);
+                console.log(html2);
             }
         });
         return false;
     });
-
-
 });
 </script>
 <script>

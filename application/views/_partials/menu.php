@@ -180,8 +180,8 @@
                         <?php } elseif($this->session->userdata('role')=="user" || $this->session->userdata('role')=="admin" || $this->session->userdata('role')=="manager"){?>
                     <li><a href="<?= base_url("masuk") ?>" class="btn btn-lg tekan text-white">Barang Masuk</a>
                     </li>
-                    <!-- <li><a href="<?= base_url("keluar") ?>" class="btn btn-lg tekan text-white">Barang Keluar</a>
-                    </li> -->
+                    <li><a href="<?= base_url("keluar") ?>" class="btn btn-lg tekan text-white">Barang Keluar</a>
+                    </li>
                     <?php } ?>
                     
                     <?php if($this->session->userdata('role') != "track"){?>

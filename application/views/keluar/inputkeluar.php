@@ -33,6 +33,19 @@ date_default_timezone_set('Asia/Jakarta');
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
+                                                        <label class="login2 pull-right pull-right-pro">Tanggal
+                                                            SPPB</label>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <input name="tglsppb" type="date" class="form-control"
+                                                            id="tglsppb" value="<?php echo date("Y-m-d"); ?>"
+                                                            required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group-inner">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">No Form</label>
                                                     </div>
                                                     <div class="col-lg-9">
@@ -44,10 +57,10 @@ date_default_timezone_set('Asia/Jakarta');
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">No Batch</label>
+                                                        <label class="login2 pull-right pull-right-pro">No SPPB</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="nobatch" type="text" class="form-control" placeholder="Nomor Form" required />
+                                                        <input name="nosppb" type="text" class="form-control" placeholder="Nomor SPPB" required />
                                                     </div>
                                                 </div>
                                             </div>

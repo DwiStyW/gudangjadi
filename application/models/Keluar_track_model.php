@@ -63,8 +63,8 @@ class Keluar_track_model extends CI_Model
     }
 
     public function detsal(){
-        $this->db->select("*")->from("detailsal")->join("master","master.kode = detailsal.kode");
-        $this->db->group_by('detailsal.kode');
+        $this->db->select("*")->from("detailsalqty")->where('ket','OUT')->join("master","master.kode = detailsalqty.kode");
+        $this->db->group_by('detailsalqty.kode');
         return $this->db->get()->result();
     }
 
@@ -94,6 +94,10 @@ class Keluar_track_model extends CI_Model
         $this->db->delete($table);
     }
 
+    function get_kode($nosppb){
+		$query = $this->db->where('nobatch', $nosppb)->join('master','detailsalqty.kode = master.kode')->group_by('nobatch')->get('detailsalqty');
+		return $query;
+	}
     function get_batch($kode){
 		$query = $this->db->where('kode', $kode)->group_by('nobatch')->get('detailsal');
 		return $query;
@@ -107,6 +111,13 @@ class Keluar_track_model extends CI_Model
         $this->db->from('detailsal');
         $this->db->join('master','master.kode = detailsal.kode');
         $this->db->where('detailsal.kode', $kode)->where('nopallet',$id)->where('nobatch', $batch);
+		return $this->db->get();
+	}
+	function get_keluar($id,$nosppb){
+		$this->db->select('sum(qty) as jumlah,max1,max2,sat1,sat2,sat3');
+        $this->db->from('detailsalqty');
+        $this->db->join('master','master.kode = detailsalqty.kode');
+        $this->db->where('detailsalqty.kode', $id)->where('ket','OUT')->where('detailsalqty.nobatch',$nosppb);
 		return $this->db->get();
 	}
 }
