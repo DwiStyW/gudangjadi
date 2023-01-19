@@ -129,6 +129,7 @@ class Keluar_track extends CI_Controller
         }
         $data = array(
             'tglform' => $tglform,
+            'nosppb' => $nosppb,
             'kode' => $kode,
             'nobatch' => $nobatch,
             'nopallet' => $nopallet,
@@ -226,7 +227,7 @@ class Keluar_track extends CI_Controller
                     } else {
                         $this->db->trans_start();
                         if ($jum > 0) {
-                            $this->keluar_track_model->update($where4, $data3, 'detailsalqty');
+                            $this->keluar_track_model->update($where4, $data5, 'detailsalqty');
                         } else {
                             $this->keluar_track_model->hapus($where4, 'detailsalqty');
                         }
