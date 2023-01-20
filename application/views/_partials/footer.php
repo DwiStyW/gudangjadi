@@ -117,7 +117,7 @@ function topFunction() {
 </div>
 
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 $(document).ready(function() {
     $('a#lihatPallet').click(function() {
         var url = $(this).attr('href');
@@ -130,7 +130,7 @@ $(document).ready(function() {
     });
 
 });
-</script>
+</script> -->
 <!-- <script type="text/javascript">
 $(document).ready(function() {
 

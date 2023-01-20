@@ -1,4 +1,4 @@
-<div class="modal-dialog modal-lg" style="z-index:10000;">
+<div class="modal-dialog modal-lg" style="z-index:200;">
     <div class="modal-content">
         <div class="modal-header">
             <?php

@@ -10,7 +10,7 @@
 .dropdown {
     position: relative;
     display: inline-block;
-    z-index: 10000;
+    z-index: 100;
 }
 
 .dropdown-content {
@@ -19,7 +19,7 @@
     background-color: #f1f1f1;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 10000;
+    z-index: 100;
 }
 
 .dropdown-content a {

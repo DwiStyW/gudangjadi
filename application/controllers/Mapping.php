@@ -29,4 +29,10 @@ class Mapping extends CI_Controller
         $this->load->view("modal-mapping.php",$data);
 		$this->load->view("_partials/footer_modal");
     }
+
+    public function getkdpallet(){
+        $kdpallet = $this->input->post('kdpallet');
+        $data = $this->db->where('nopallet',$kdpallet)->get('detailsal')->result();
+        echo json_encode($data);
+    }
 }
