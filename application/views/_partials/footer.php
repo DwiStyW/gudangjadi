@@ -104,7 +104,7 @@ function topFunction() {
 		============================================ -->
 <script src="<?= base_url() ?>assets/js/main.js"></script>
 <!-- jquery JS -->
-<script src="<?= base_url() ?>assets/js/jquery-3.2.1.min.js"></script>
+
 <script src="<?= base_url() ?>assets/js/counterup/jquery.waypoints.min.js"></script>
 <script src="<?= base_url() ?>assets/js/counterup/jquery.counterup.min.js"></script>
 <!-- select2 -->
@@ -112,6 +112,42 @@ function topFunction() {
 <!-- sweetalert2 -->
 <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="pallet" aria-hidden="true"
+    style="z-index:10000;">
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('a#lihatPallet').click(function() {
+        var url = $(this).attr('href');
+        $.ajax({
+            url: url,
+            success: function(response) {
+                $('#exampleModal').html(response);
+            }
+        });
+    });
+
+});
+</script>
+<!-- <script type="text/javascript">
+$(document).ready(function() {
+
+    $(function() {
+        $(".unstyled").sortable({
+            opacity: 0.6,
+            cursor: 'move',
+            update: function() {
+                var order = $(this).sortable("serialize") + '&action=updateRecordsListings';
+                $.post("#updateDB", order, function(theResponse) {});
+            }
+        });
+    });
+
+
+});
+</script> -->
 </body>
 
 </html>
