@@ -180,7 +180,12 @@ class Keluar_track extends CI_Controller
             $tgl = $que->tgl;
         }
         $jum = $permintaan - $jumlah;
-        if ($jum > 0) {
+        $hitung_pallet = $isi_pallet - $jumlah;
+        if($tgl != date("Y-m-d")){
+            $in = 0;
+            $out= 0;
+        }
+        if ($hitung_pallet > 0) {
             $data3 = array(
                 'tgl' => date("Y-m-d"),
                 'palletin' => $in,
