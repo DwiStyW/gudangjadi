@@ -40,11 +40,12 @@ date_default_timezone_set('Asia/Jakarta');
                                                     </div>
                                                     <div class="col-lg-9">
                                                         <div class="form-select-list">
-                                                            <select id="kode" name="kode" class="form-control" onchange="getkode()" required>
+                                                            <select id="kode" name="kode" class="form-control" required>
                                                                 <option type="search"></option>
                                                                 <?php
                                                                 $no = 1;
                                                                 foreach ($master as $mter) { ?>
+                                                                    <option type="search"></option>
                                                                     <?php if($this->uri->segment(4)==$mter->kode){?>
                                                                     <option selected value="<?= $mter->kode ?>">
                                                                     <?= $mter->kode ?> - <?= $mter->nama ?>
@@ -59,24 +60,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                     </div>
                                                 </div>
                                             </div>
-                                            <script>
-                                                function getkode(){
-                                                    var kode = document.getElementById('kode').value;
-                                                    window.location = '<?=base_url()?>'+'track/masuk_track/input_masuk_track/' + kode
-                                                }
-                                            </script>
-                                            
-                                            <?php $batch = $this->db->where('kode',$this->uri->segment(4))->get('detailsalqty')?>
-                                            <?php 
-                                            $mas = $this->db->where('kode',$this->uri->segment(4))->get('master');
-                                            foreach($mas->result() as $m){
-                                                $satuan1 = $m->sat1;
-                                                $satuan2 = $m->sat2;
-                                                $satuan3 = $m->sat3;
-                                                $max1    = $m->max1;
-                                                $max2    = $m->max2;
-                                            }
-                                            ?>
+                                        
                                             <!-- <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -94,16 +78,13 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">No Batch</label>
                                                     </div>
                                                     <div class="col-lg-5">
-                                                        <select id="batch" class="form-control" onchange="qty()" name="nobatch" type="select" required>
-                                                            <option type="search"></option>
-                                                            <?php foreach($batch->result() as $b){?>
-                                                                <option value="<?= $b->nobatch.'-'.$b->qty?>"> <?= $b->nobatch?></option>
-                                                            <?php }?>
+                                                        <select id="batch" class="form-control"  name="nobatch" type="select" required>
+
                                                         </select>
                                                     </div>
                                                     <div style="display:flex; flex-wrap:wrap">
-                                                    <div style="width:110px;padding-left:40px">
-                                                    <label  class="login2 pull-right pull-right-pro">Isi batch:</label>
+                                                    <div style="width:150px;padding-left:10px">
+                                                    <label  class="login2 pull-right pull-right-pro">belum dipallet:</label>
                                                     </div>
                                                     <div style="width:200px">
                                                         <h5 id="qty"></h5>
@@ -130,14 +111,22 @@ date_default_timezone_set('Asia/Jakarta');
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
+                                                        <label class="login2 pull-right pull-right-pro">Tanggal
+                                                            Form</label>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <input name="tglform" type="date" class="form-control" id="tglform" value="" required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group-inner">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Satuan 1</label>
                                                     </div>
-                                                    <div class="col-lg-7">
+                                                    <div class="col-lg-9">
                                                         <input id="sats1" name="sat1" type="number" class="form-control"
                                                             placeholder="Satuan 1">
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <input readonly class="form-control" value="<?php if($this->uri->segment(4)!=""){echo $satuan1;} ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -146,12 +135,9 @@ date_default_timezone_set('Asia/Jakarta');
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Satuan 2</label>
                                                     </div>
-                                                    <div class="col-lg-7">
+                                                    <div class="col-lg-9">
                                                         <input id="sats2" name="sat2" type="number" class="form-control"
                                                             placeholder="Satuan 2">
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <input readonly class="form-control" value="<?php if($this->uri->segment(4)!=""){echo $satuan2;} ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -160,12 +146,9 @@ date_default_timezone_set('Asia/Jakarta');
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Satuan 3</label>
                                                     </div>
-                                                    <div class="col-lg-7">
+                                                    <div class="col-lg-9">
                                                         <input id="sats3" name="sat3" type="number" class="form-control"
                                                             placeholder="Satuan 3">
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <input readonly class="form-control" value="<?php if($this->uri->segment(4)!=""){echo $satuan3;} ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -192,6 +175,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                     <div class="col-lg-9">
                                                         <input name="cat" type="text" class="form-control" id="cat" value=""
                                                             placeholder="Catatan" />
+                                                        <input type="hidden" name="jumlah" id="jumlah">
                                                     </div>
                                                 </div>
                                             </div>
@@ -211,7 +195,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <div class="col-lg-9">
                                                             <div class="login-horizental cancel-wp pull-left">
                                                                 <a href="<?= base_url("track/masuk_track") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
-                                                                <a onclick="filsalmin()" class="btn btn-sm btn-primary login-submit-cs">Save Change</a>
+                                                                <button type="submit" class="btn btn-sm btn-primary login-submit-cs">Save Change</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -236,61 +220,9 @@ date_default_timezone_set('Asia/Jakarta');
 
 <!-- mobile -->
 
-<script src="<?= base_url() ?>assets/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url().'assets/js/jquery-3.3.1.js'?>"></script>
 <script src="<?= base_url() ?>assets/select2-master/dist/js/select2.min.js"></script>
 <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
-<script>
-
-    function qty(){
-        var batch = document.getElementById('batch').value;
-        var saldo = batch.slice(batch.search("-")+1,batch.length);
-        var sat1  = Math.floor(saldo / (<?= $max1 * $max2 ?> ));
-        var sisa  = saldo - (sat1 * <?= $max1 * $max2?>);
-        var sat2  = Math.floor(sisa / <?= $max2?>);
-        var sat3  = sisa - sat2 * <?= $max2 ?>;
-        document.getElementById('qty').innerHTML = sat1+' <?= $satuan1?>, '+ sat2+' <?= $satuan2?>, '+ sat3+' <?= $satuan3?>';
-        }
-    function filsalmin(){
-        var batch = document.getElementById('batch').value;
-        var saldo = batch.slice(batch.search("-")+1,batch.length);
-        var sal1  = document.getElementById('sats1').value;
-        var sal2  = document.getElementById('sats2').value;
-        var sal3  = document.getElementById('sats3').value;
-        if(sal1==""){
-            sal1=0;
-        }
-        if(sal2==""){
-            sal2=0;
-        }
-        if(sal3==""){
-            sal3=0;
-        }
-        var sald1 = sal1 * <?= $max1 * $max2?>;
-        var sald2 = sal2 * <?= $max1 ?>;
-        var total = parseInt(sald1)+parseInt(sald2)+parseInt(sal3);
-        if(document.getElementById('nopallet').value != "" && document.getElementById('batch').value !=0){
-            if(total > saldo || total <=0){
-                Swal.fire({
-                    icon: 'warning',
-                    html: "<h1><b>Peringatan!</b><h1><h5>Saldo tidak mencukupi!</h5>",
-                    showConfirmButton: true,
-                    allowOutsideClick: false,
-                    width: 300,
-                })
-            }else{
-                document.getElementById('data').submit();
-            }
-        }else{
-            Swal.fire({
-            icon: 'warning',
-            html: "<h1><b>Peringatan!</b><h1><h5>Kode Pallet atau No Batch Kosong!</h5>",
-            showConfirmButton: true,
-            allowOutsideClick: false,
-            width: 300,
-            })
-        }
-    }
-</script>
 <script>
 $(document).ready(function() {
     $("#kode").select2({
@@ -302,40 +234,98 @@ $(document).ready(function() {
         placeholder: "Please Select",
     });
 });
-</script>
-
-<?php if($this->uri->segment(4)!=""){?>
-<script>
 $(document).ready(function() {
-    $("#batch").select2({
-        placeholder: "Please Select",
-    });
-});
-</script>
-<?php }else{ ?>
-    <script>
-    $(document).ready(function() {
         $("#batch").select2({
             placeholder: "Pilih Kode barang terlebih dahulu",
         });
     });
-    </script>
-<?php } ?>
+</script>
 
 <script>
 $(document).ready(function() {
-    $('#q').blur(function() {
-        $('#pesan').html('<img style="margin-left:10px; width:10px" src="loading.gif">');
-        var q = $(this).val();
-
+    $('#kode').change(function() {
+        var id = $(this).val();
         $.ajax({
-            type: 'POST',
-            url: '<?php echo base_url('masuk/cekduplicate') ?>',
-            data: 'q=' + q,
+            url: "<?php echo site_url('track/masuk_track/get_batch');?>",
+            method: "POST",
+            data: {
+                id: id
+            },
+            async: true,
+            dataType: 'json',
             success: function(data) {
-                $('#pesan').html(data);
+                $("#batch").select2({
+                    placeholder: "Please Select",
+                });
+
+                var html = '';
+                var i;
+                html = '<option selected type="search"></option>';
+                for (i = 0; i < data.length; i++) {
+                    html += '<option value=' + data[i].nobatch + '>' + data[i]
+                        .nobatch + '</option>';
+                }
+                $('#batch').html(html);
+
+                var htmlp = '';
+                htmlp = '<option selected type="search"></option>';
+                $('#pallet').html(htmlp);
+                
+                var htmlq = '';
+                htmlq = '';
+                
+                $('#qty').html(htmlq);
             }
-        })
+        });
+        return false;
+    });
+
+    $('#batch').change(function() {
+        var id = $(this).val();
+        var kode = document.getElementById('kode').value;
+        $.ajax({
+            url: "<?php echo site_url('track/masuk_track/get_qty');?>",
+            method: "POST",
+            data: {
+                id: id,
+                kode: kode,
+            },
+            async: true,
+            dataType: 'json',
+            success: function(data) {
+
+                var html = '';
+                var jumlah = data[0].jumlah;
+                var max1   = data[0].max1;
+                var max2   = data[0].max2;
+                var sat1   = data[0].sat1;
+                var sat2   = data[0].sat2;
+                var sat3   = data[0].sat3;
+                
+                var jum1  = Math.floor(data[0].jumlah / (max1 * max2 ));
+                var sisa  = jumlah - (jum1 * max1 * max2);
+                var jum2  = Math.floor(sisa / max2);
+                var jum3  = sisa - jum2 * max2;
+
+                if(jumlah!=null){
+                html = "<h5>"+jum1+" "+sat1+" "+jum2+" "+sat2+" "+jum3+" "+sat3+"</h5>";
+                }
+                html1 = jumlah;
+                html2 = data[0].tglform;
+                $('#tglform').val(html2);
+                $('#jumlah').val(html1);
+                $('#qty').html(html);
+                console.log(html2);
+            }
+        });
+        return false;
+    });
+});
+</script>
+<script>
+    $(function() {
+    $("#kode").change(function() {
+        $("#batch").select2('val', 'all');
     });
 });
 </script>

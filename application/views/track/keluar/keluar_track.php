@@ -48,6 +48,7 @@
                                     <tr>
                                         <th data-field="no">No</th>
                                         <th data-field="tglform">Tgl Form</th>
+                                        <th data-field="tglform">No SPPB</th>
                                         <th data-field="kode">Kode Barang</th>
                                         <th data-field="nama">Nama Barang</th>
                                         <th data-field="batch">No Batch</th>
@@ -68,6 +69,7 @@
                                     <tr>
                                     <td><?php echo ++$start; ?></td>
                                         <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?></td>
+                                        <td><?= $m->nosppb ?></td>
                                         <td><?php echo $m->kode; ?></td>
                                         <td><?php echo $m->nama; ?></td>
                                         <td><?php echo $m->nobatch; ?></td>
@@ -104,7 +106,7 @@
                                 </tbody>
                             </table>
                             <div style="width:100%;margin-top:20px; display:flex; flex:wrap" class="justify-content-between">
-                                <form action="<?= base_url('keluar') ?>" id="go" method="post">
+                                <form action="<?= base_url('track/keluar_track') ?>" id="go" method="post">
                                 <div style="width:100px">
                                     <select class="form-control" name="range" onchange="go()">
                                         <option disabled selected value>Row</option>

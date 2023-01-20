@@ -15,7 +15,7 @@
                                             <?php if(isset($keyword)){?>
                                                 <input type="text" name="keyword" value="<?= $keyword?>" placeholder="Cari Barang Masuk..." class="form-control">
                                             <?php }else{ ?>
-                                                <input type="text" name="keyword" placeholder="Cari Barang Keluar..." class="form-control">
+                                                <input type="text" name="keyword" placeholder="Cari Barang Masuk..." class="form-control">
                                                 <?php } ?>
                                         </div>
                                         <div style="width:auto">
