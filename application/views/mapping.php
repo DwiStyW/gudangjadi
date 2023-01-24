@@ -130,6 +130,7 @@ document.getElementById('exampleModalLabel').innerHTML = kdpallet;
             success: function(data) {
                 var html ='';
                 for (i = 0; i < data.length; i++) {
+                    html += '<tr>'
                     html += '<td>'+ parseInt(i+1) +'</td>'
                     html += '<td>'+ data[i].tglform +'</td>'
                     html += '<td>'+ data[i].nobatch +'</td>'
@@ -142,6 +143,7 @@ document.getElementById('exampleModalLabel').innerHTML = kdpallet;
                     html += '<td>'+ sat1+' '+data[i].sat1 +'</td>'
                     html += '<td>'+ sat2+' '+data[i].sat2 +'</td>'
                     html += '<td>'+ sat3+' '+data[i].sat3 +'</td>'
+                    html += '</tr>'
                 }
                 console.log(html);
                 $('#isiPallet').html(html);
