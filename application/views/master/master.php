@@ -7,15 +7,15 @@ ini_set('date.timezone', 'Asia/Jakarta');
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
                 <div class="main-sparkline8-hd justify-content-between" style="display:flex; flex:wrap;padding-top:20px;padding-bottom:20px;padding-left:20px;">
-                        <h1>Master Barang Gudang<h1>
+                        <h1>Master Produk Gudang<h1>
                         <div style="width:100%; padding-right:20px">
                                     <form action="<?= base_url('master/index')?>" method="post">
                                     <div style="display:flex; flex:wrap">
                                         <div style="width:100%">
                                             <?php if(isset($keyword)){?>
-                                                <input type="text" name="keyword" value="<?= $keyword?>" placeholder="Cari Master Barang..." class="form-control">
+                                                <input type="text" name="keyword" value="<?= $keyword?>" placeholder="Cari Master Produk..." class="form-control">
                                             <?php }else{ ?>
-                                                <input type="text" name="keyword" placeholder="Cari Master Barang..." class="form-control">
+                                                <input type="text" name="keyword" placeholder="Cari Master Produk..." class="form-control">
                                                 <?php } ?>
                                         </div>
                                         <div style="width:auto">
@@ -124,7 +124,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
                     <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
-                        <h1>Master Barang Gudang<h1>
+                        <h1>Master Produk Gudang<h1>
                     </div>
                 </div>
                 <div style="background-color:#fff">

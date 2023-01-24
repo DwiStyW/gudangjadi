@@ -172,7 +172,7 @@
             <div class="position-relative contentt layarlebar">
                 <ul class="nav nav-tabs d-flex justify-content-between custom-menu-wrap">
                 <li><a href="<?= base_url("home") ?>" class="btn btn-lg tekan text-white">Home</a></li>
-                <li><a href="<?= base_url("master") ?>" class="btn btn-lg tekan text-white">Master Barang</a></li>
+                <li><a href="<?= base_url("master") ?>" class="btn btn-lg tekan text-white">Master Produk</a></li>
                     <?php if($this->session->userdata('role')=="track"){?>
                     <li><a href="<?= base_url("track/masuk_track") ?>" class="btn btn-lg tekan text-white">Produk Masuk</a></li>
                     

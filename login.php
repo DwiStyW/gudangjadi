@@ -29,7 +29,7 @@
                             <form id="adminpro-form" class="form-horizontal blur"
                                 action="<?= base_url('index.php/auth/login') ?>" method="post">
                                 <h3>Sistem Informasi</h3>
-                                <p>Gudang Bahan Jadi</p>
+                                <p>Gudang Produk Jadi</p>
                                 <div class="form-group">
                                     <span class="input-icon"><i class="fa fa-user"></i></span>
                                     <input class="form-control" type="text" id="username" name="username"
