@@ -10,7 +10,7 @@ class Keluar_track_model extends CI_Model
             if($keyword){
                 $this->db->group_start();
                 $this->db->like('nobatch',$keyword);
-                $this->db->like('nopallet',$keyword);
+                $this->db->or_like('nopallet',$keyword);
                 $this->db->or_like('riwayattrack.kode',$keyword);
                 $this->db->or_like('master.nama',$keyword);
                 $this->db->or_like('riwayattrack.tglform',$keyword);
@@ -31,7 +31,7 @@ class Keluar_track_model extends CI_Model
         if($keyword){
             $this->db->group_start();
             $this->db->like('nobatch',$keyword);
-            $this->db->like('nopallet',$keyword);
+            $this->db->or_like('nopallet',$keyword);
             $this->db->or_like('riwayattrack.kode',$keyword);
             $this->db->or_like('master.nama',$keyword);
             $this->db->or_like('riwayattrack.tglform',$keyword);

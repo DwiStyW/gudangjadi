@@ -167,7 +167,7 @@
                                         <th data-field="oleh">Oleh</th>
                                         <th data-field="suplai">Supplier</th>
                                         <th data-field="cat">Catatan</th>
-                                        <th data-field="aksi">Aksi</th>
+                                        <!-- <th data-field="aksi">Aksi</th> -->
 
                                     </tr>
                                 </thead>
@@ -199,7 +199,7 @@
                                         </td>
                                         <td><?php echo $m->suplai ?></td>
                                         <td><?php echo $m->cat ?></td>
-                                        <td>
+                                        <!-- <td>
                                             <a class="btn btn-sm btn-primary"
                                                 href="<?= base_url("keluar/edit_keluar/" . $m->no) ?>"><i
                                                     class="fa fa-edit"></i> Edit</a>
@@ -207,7 +207,7 @@
                                                 href="<?= base_url("keluar/hapus_keluar/" . $m->no . "/" . $m->kode) ?>"
                                                 onclick="javascript: return confirm('Anda yakin hapus ?')"><i
                                                     class="fa fa-trash"></i> Hapus</a>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                     <?php
                                         } ?>

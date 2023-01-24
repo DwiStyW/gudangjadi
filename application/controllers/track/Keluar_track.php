@@ -24,7 +24,7 @@ class Keluar_track extends CI_Controller
             $data['keyword'] = $this->session->userdata('keyword_keluar_track');
         }
         //untuk pagination
-        $config['base_url'] = 'http://localhost/gudangjadi/keluar_track/index';
+        $config['base_url'] = 'http://localhost/gudangjadi/track/keluar_track/index';
         $config['total_rows'] = $this->keluar_track_model->total_keluar_track($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
@@ -35,7 +35,7 @@ class Keluar_track extends CI_Controller
         }
         $this->pagination->initialize($config);
 
-        $data['start'] = $this->uri->segment(3);
+        $data['start'] = $this->uri->segment(4);
         $data['keluar'] = $this->keluar_track_model->tampil_keluar_track($config['per_page'], $data['start'], $data['keyword']);
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");

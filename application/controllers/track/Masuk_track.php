@@ -24,7 +24,7 @@ class Masuk_track extends CI_Controller
             $data['keyword'] = $this->session->userdata('keyword_masuk_track');
         }
         //untuk pagination
-        $config['base_url'] = 'http://localhost/gudangjadi/masuk_track/index';
+        $config['base_url'] = 'http://localhost/gudangjadi/track/masuk_track/index';
         $config['total_rows'] = $this->masuk_track_model->total_masuk_track($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
@@ -35,7 +35,7 @@ class Masuk_track extends CI_Controller
         }
         $this->pagination->initialize($config);
 
-        $data['start'] = $this->uri->segment(3);
+        $data['start'] = $this->uri->segment(4);
         $data['masuk'] = $this->masuk_track_model->tampil_masuk_track($config['per_page'], $data['start'], $data['keyword']);
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
@@ -222,7 +222,7 @@ class Masuk_track extends CI_Controller
             'nobatch' => $nobatch,
         );
 
-        if ($sal >= $jumlah && $qty1 > 0) {
+        if ($qty1 >= $jumlah && $jumlah>0) {
             $this->db->trans_start();
             $this->masuk_track_model->tambah($data, 'riwayattrack'); //id hapus riwayat
             $this->masuk_track_model->update($where, $data1, 'master'); //kode kurangi saldo dengan jumlah masuk

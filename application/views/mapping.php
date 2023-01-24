@@ -130,6 +130,7 @@ document.getElementById('exampleModalLabel').innerHTML = kdpallet;
             success: function(data) {
                 var html ='';
                 for (i = 0; i < data.length; i++) {
+                    html += '<tr>'
                     html += '<td>'+ parseInt(i+1) +'</td>'
                     html += '<td>'+ data[i].tglform +'</td>'
                     html += '<td>'+ data[i].nobatch +'</td>'
@@ -142,6 +143,7 @@ document.getElementById('exampleModalLabel').innerHTML = kdpallet;
                     html += '<td>'+ sat1+' '+data[i].sat1 +'</td>'
                     html += '<td>'+ sat2+' '+data[i].sat2 +'</td>'
                     html += '<td>'+ sat3+' '+data[i].sat3 +'</td>'
+                    html += '</tr>'
                 }
                 console.log(html);
                 $('#isiPallet').html(html);
@@ -158,10 +160,10 @@ document.getElementById('exampleModalLabel').innerHTML = kdpallet;
         <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
       </div>
       <div class="modal-body">
-      <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true"
-                data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true"
-                data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId"
-                data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
+      <table id="table" data-toggle="table" data-pagination="false" data-search="false" data-show-columns="false"
+                data-show-pagination-switch="false" data-show-refresh="false" data-key-events="false"
+                data-show-toggle="false" data-resizable="false" data-cookie="true" data-cookie-id-table="saveId"
+                data-show-export="false" data-click-to-select="false" data-toolbar="#toolbar">
                 <thead>
                     <tr>
                         <th rowspan="2" style="vertical-align : middle;text-align:center;">No</th>
@@ -179,8 +181,7 @@ document.getElementById('exampleModalLabel').innerHTML = kdpallet;
                 </thead>
 
 
-                <tbody>
-                    <tr id="isiPallet"></tr>
+                <tbody id="isiPallet">
                 </tbody>
             </table>
 

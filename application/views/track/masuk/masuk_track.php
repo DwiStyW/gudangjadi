@@ -59,7 +59,7 @@
                                         <th data-field="tanggal">Tgl Input</th>
                                         <th data-field="oleh">Oleh</th>
                                         <th data-field="cat">Catatan</th>
-                                        <th data-field="aksi">Aksi</th>
+                                        <!-- <th data-field="aksi">Aksi</th> -->
 
                                     </tr>
                                 </thead>
@@ -89,15 +89,15 @@
                                         <td><a href="<?= base_url("penginput/user/" . $m->adm) ?>"><?php echo $m->username ?>
                                         </td>
                                         <td><?php echo $m->cat ?></td>
-                                        <td>
+                                        <!-- <td>
                                             <a class="btn btn-sm btn-primary"
-                                                href="<?= base_url("track/masuk_track/edit_masuk_track/" . $m->no) ?>"><i
-                                                    class="fa fa-edit"></i> Edit</a>
+                                                href="<?= base_url("track/masuk_track/edit_masuk_track/" . $m->no) ?>">
+                                                <i class="fa fa-edit"></i> Edit</a>
                                             <a class="btn btn-sm btn-danger"
                                                 href="<?= base_url("track/masuk_track/hapus/" . $m->no . "/" . $m->kode."/".$m->nopallet."/".$m->nobatch."/".$m->masuk) ?>"
                                                 onclick="javascript: return confirm('Anda yakin hapus ?')"><i
                                                     class="fa fa-trash"></i> Hapus</a>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                     <?php
                                         } ?>
