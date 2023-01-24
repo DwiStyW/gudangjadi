@@ -18,8 +18,10 @@ date_default_timezone_set('Asia/Jakarta');
                                 <div class="col-lg-12">
                                     <div class="all-form-element-inner">
 
-                                        <form enctype="multipart/form-data" id="data" action="<?= base_url("track/masuk_track/tambah_masuk_track") ?>" method="post" class="form">
-                                            
+                                        <form enctype="multipart/form-data" id="data"
+                                            action="<?= base_url("track/masuk_track/tambah_masuk_track") ?>"
+                                            method="post" class="form">
+
                                             <!-- <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -45,22 +47,23 @@ date_default_timezone_set('Asia/Jakarta');
                                                                 <?php
                                                                 $no = 1;
                                                                 foreach ($master as $mter) { ?>
-                                                                    <option type="search"></option>
-                                                                    <?php if($this->uri->segment(4)==$mter->kode){?>
-                                                                    <option selected value="<?= $mter->kode ?>">
+                                                                <option type="search"></option>
+                                                                <?php if ($this->uri->segment(4) == $mter->kode) { ?>
+                                                                <option selected value="<?= $mter->kode ?>">
                                                                     <?= $mter->kode ?> - <?= $mter->nama ?>
                                                                 </option>
-                                                                <?php }else{?>
-                                                                    <option value="<?= $mter->kode ?>">
+                                                                <?php } else { ?>
+                                                                <option value="<?= $mter->kode ?>">
                                                                     <?= $mter->kode ?> - <?= $mter->nama ?>
                                                                 </option>
-                                                               <?php } } ?>
+                                                                <?php }
+                                                                } ?>
                                                             </select>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        
+
                                             <!-- <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -78,33 +81,50 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">No Batch</label>
                                                     </div>
                                                     <div class="col-lg-5">
-                                                        <select id="batch" class="form-control"  name="nobatch" type="select" required>
+                                                        <select id="batch" class="form-control" name="nobatch"
+                                                            type="select" required>
 
                                                         </select>
                                                     </div>
                                                     <div style="display:flex; flex-wrap:wrap">
-                                                    <div style="width:110px;padding-left:40px">
-                                                    <label  class="login2 pull-right pull-right-pro">Isi batch:</label>
-                                                    </div>
-                                                    <div style="width:200px">
-                                                        <h5 id="qty"></h5>
-                                                    </div>
+                                                        <div style="width:150px;padding-left:10px">
+                                                            <label class="login2 pull-right pull-right-pro">belum
+                                                                dipallet:</label>
+                                                        </div>
+                                                        <div style="width:200px">
+                                                            <h5 id="qty"></h5>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">No Pallet</label>
+                                                        <label class="login2 pull-right pull-right-pro">No
+                                                            Pallet</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <select id="nopallet" name="nopallet" type="select" class="form-control" required />
+                                                        <select id="nopallet" name="nopallet" type="select"
+                                                            class="form-control" required />
                                                         <option type="search"></option>
-                                                        <?php 
-                                                        foreach($pallet as $p){ ?>
-                                                            <option value="<?= $p->kdpallet?>"><?php echo $p->kdpallet.' '. $p->status?></option>
+                                                        <?php
+                                                        foreach ($pallet as $p) { ?>
+                                                        <option value="<?= $p->kdpallet ?>">
+                                                            <?php echo $p->kdpallet . ' ' . $p->status ?></option>
                                                         <?php } ?>
                                                         </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group-inner">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <label class="login2 pull-right pull-right-pro">Tanggal
+                                                            Form</label>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <input name="tglform" type="date" class="form-control"
+                                                            id="tglform" value="" required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -162,13 +182,13 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">Catatan</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="cat" type="text" class="form-control" id="cat" value=""
-                                                            placeholder="Catatan" />
+                                                        <input name="cat" type="text" class="form-control" id="cat"
+                                                            value="" placeholder="Catatan" />
                                                         <input type="hidden" name="jumlah" id="jumlah">
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-9">
@@ -183,8 +203,12 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <div class="col-lg-3"></div>
                                                         <div class="col-lg-9">
                                                             <div class="login-horizental cancel-wp pull-left">
-                                                                <a href="<?= base_url("track/masuk_track") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
-                                                                <button type="submit" class="btn btn-sm btn-primary login-submit-cs">Save Change</button>
+                                                                <a href="<?= base_url("track/masuk_track") ?>"><button
+                                                                        class="btn btn-white"
+                                                                        type="button">Kembali</button></a>
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-primary login-submit-cs">Save
+                                                                    Change</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -193,7 +217,107 @@ date_default_timezone_set('Asia/Jakarta');
                                         </form>
                                         <br>
                                         <!-- Start Form -->
-                                        
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="sparkline8-hd">
+                                                    <div class="main-sparkline8-hd">
+                                                        <h1>Form sudah input</h1>
+                                                    </div>
+                                                </div>
+                                                <div class="sparkline8-graph">
+                                                    <div class="datatable-dashv1-list custom-datatable-overright">
+                                                        <table data-toggle="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th data-field="no">No</th>
+                                                                    <th data-field="tglform">Tgl Form</th>
+                                                                    <!-- <th data-field="noform">No Form</th> -->
+                                                                    <th data-field="kode">Kode Barang</th>
+                                                                    <th data-field="nama">Nama Barang</th>
+                                                                    <th data-field="nobatch">No Batch</th>
+                                                                    <th data-field="nopallet">No Pallet</th>
+                                                                    <th data-field="status">Stat Pallet</th>
+                                                                    <th data-field="satuan1">Satuan 1</th>
+                                                                    <th data-field="satuan2">Satuan 2</th>
+                                                                    <th data-field="satuan3">Satuan 3</th>
+                                                                    <th data-field="satuan3">ket</th>
+                                                                    <th data-field="tanggal">Tgl Input</th>
+                                                                    <th data-field="aksi" colspan=2>Aksi</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="list">
+                                                                <?php
+                                                                $no = 1;
+                                                                foreach ($masuk as $m) {
+                                                                ?>
+                                                                <tr>
+                                                                    <td><?php echo $no++; ?></td>
+                                                                    <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?>
+                                                                    </td>
+                                                                    <!-- <td><?php echo $m->noform; ?></td> -->
+                                                                    <td><?php echo $m->kode; ?></td>
+                                                                    <td><?php echo $m->nama; ?></td>
+                                                                    <td><?php echo $m->nobatch; ?></td>
+                                                                    <td><?php echo $m->nopallet ?></td>
+                                                                    <td><?php echo $m->statpallet ?></td>
+                                                                    <?php
+                                                                        if ($m->masuk == 0) {
+
+                                                                            //Perhitungan 3 Satuan
+                                                                            $sats1  = floor($m->keluar / ($m->max1 * $m->max2));
+                                                                            $sisa   = $m->keluar - ($sats1 * $m->max1 * $m->max2);
+                                                                            $sats2  = floor($sisa / $m->max2);
+                                                                            $sats3  = $sisa - $sats2 * $m->max2;
+                                                                        } else {
+
+                                                                            //Perhitungan 3 Satuan
+                                                                            $sats1  = floor($m->masuk / ($m->max1 * $m->max2));
+                                                                            $sisa   = $m->masuk - ($sats1 * $m->max1 * $m->max2);
+                                                                            $sats2  = floor($sisa / $m->max2);
+                                                                            $sats3  = $sisa - $sats2 * $m->max2;
+                                                                        }
+                                                                        ?>
+                                                                    <td><?php echo $sats1; ?> <?php echo $m->sat1 ?>
+                                                                    </td>
+                                                                    <td><?php echo $sats2; ?> <?php echo $m->sat2 ?>
+                                                                    </td>
+                                                                    <td><?php echo $sats3; ?> <?php echo $m->sat3 ?>
+                                                                    </td>
+                                                                    <td><?php echo $m->ket; ?></td>
+                                                                    <td><?php echo $m->tanggal; ?></td>
+                                                                    <?php if ($m->ket == "Output") { ?>
+                                                                    <td><a href="<?= base_url("keluar/edit_keluar/" . $m->no) ?>"
+                                                                            class="btn btn-primary btn-sm"><i
+                                                                                class="fa fa-edit"></i>
+                                                                            Edit </a></td>
+                                                                    <td><a href="<?= base_url("keluar/hapus_keluar/" . $m->no . "/" . $m->kode) ?>"
+                                                                            onclick="javascript: return confirm('Anda yakin hapus ?')"
+                                                                            class="btn btn-danger btn-sm"><i
+                                                                                class="fa fa-trash"></i> Hapus</a>
+                                                                    </td>
+                                                                    <?php } else { ?>
+                                                                    <td><a href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>"
+                                                                            class="btn btn-primary btn-sm"><i
+                                                                                class="fa fa-edit"></i>
+                                                                            Edit </a></td>
+                                                                    <td><a href="<?= base_url("masuk/hapus_masuk/" . $m->no . "/" . $m->kode) ?>"
+                                                                            onclick="javascript: return confirm('Anda yakin hapus ?')"
+                                                                            class="btn btn-danger btn-sm">
+                                                                            <i class="fa fa-trash"></i> Hapus
+                                                                        </a>
+                                                                    </td>
+                                                                    <?php } ?>
+
+                                                                </tr>
+                                                                <?php
+                                                                } ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <!-- End Form -->
                                     </div>
                                 </div>
@@ -209,7 +333,7 @@ date_default_timezone_set('Asia/Jakarta');
 
 <!-- mobile -->
 
-<script type="text/javascript" src="<?php echo base_url().'assets/js/jquery-3.3.1.js'?>"></script>
+<script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery-3.3.1.js' ?>"></script>
 <script src="<?= base_url() ?>assets/select2-master/dist/js/select2.min.js"></script>
 <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
 <script>
@@ -224,10 +348,10 @@ $(document).ready(function() {
     });
 });
 $(document).ready(function() {
-        $("#batch").select2({
-            placeholder: "Pilih Kode barang terlebih dahulu",
-        });
+    $("#batch").select2({
+        placeholder: "Pilih Kode barang terlebih dahulu",
     });
+});
 </script>
 
 <script>
@@ -235,7 +359,7 @@ $(document).ready(function() {
     $('#kode').change(function() {
         var id = $(this).val();
         $.ajax({
-            url: "<?php echo site_url('track/masuk_track/get_batch');?>",
+            url: "<?php echo site_url('track/masuk_track/get_batch'); ?>",
             method: "POST",
             data: {
                 id: id
@@ -259,10 +383,10 @@ $(document).ready(function() {
                 var htmlp = '';
                 htmlp = '<option selected type="search"></option>';
                 $('#pallet').html(htmlp);
-                
+
                 var htmlq = '';
                 htmlq = '';
-                
+
                 $('#qty').html(htmlq);
             }
         });
@@ -273,7 +397,7 @@ $(document).ready(function() {
         var id = $(this).val();
         var kode = document.getElementById('kode').value;
         $.ajax({
-            url: "<?php echo site_url('track/masuk_track/get_qty');?>",
+            url: "<?php echo site_url('track/masuk_track/get_qty'); ?>",
             method: "POST",
             data: {
                 id: id,
@@ -285,34 +409,35 @@ $(document).ready(function() {
 
                 var html = '';
                 var jumlah = data[0].jumlah;
-                var max1   = data[0].max1;
-                var max2   = data[0].max2;
-                var sat1   = data[0].sat1;
-                var sat2   = data[0].sat2;
-                var sat3   = data[0].sat3;
-                
-                var jum1  = Math.floor(data[0].jumlah / (max1 * max2 ));
-                var sisa  = jumlah - (jum1 * max1 * max2);
-                var jum2  = Math.floor(sisa / max2);
-                var jum3  = sisa - jum2 * max2;
+                var max1 = data[0].max1;
+                var max2 = data[0].max2;
+                var sat1 = data[0].sat1;
+                var sat2 = data[0].sat2;
+                var sat3 = data[0].sat3;
 
-                if(jumlah!=null){
-                html = "<h5>"+jum1+" "+sat1+" "+jum2+" "+sat2+" "+jum3+" "+sat3+"</h5>";
+                var jum1 = Math.floor(data[0].jumlah / (max1 * max2));
+                var sisa = jumlah - (jum1 * max1 * max2);
+                var jum2 = Math.floor(sisa / max2);
+                var jum3 = sisa - jum2 * max2;
+
+                if (jumlah != null) {
+                    html = "<h5>" + jum1 + " " + sat1 + " " + jum2 + " " + sat2 + " " +
+                        jum3 + " " + sat3 + "</h5>";
                 }
                 html1 = jumlah;
+                html2 = data[0].tglform;
+                $('#tglform').val(html2);
                 $('#jumlah').val(html1);
                 $('#qty').html(html);
-                console.log(jumlah);
+                console.log(html2);
             }
         });
         return false;
     });
-
-
 });
 </script>
 <script>
-    $(function() {
+$(function() {
     $("#kode").change(function() {
         $("#batch").select2('val', 'all');
     });

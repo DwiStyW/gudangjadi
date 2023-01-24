@@ -17,16 +17,16 @@ class Home extends CI_Controller
         $this->load->library('pagination');
 
         //untuk search
-        $keyword=$this->input->post('keyword');
-        if(isset($keyword)){
-            $data['keyword']=$this->input->post('keyword');
-            $this->session->set_userdata('keyword_home',$data['keyword']);
-        }else{
-            $data['keyword']=$this->session->userdata('keyword_home');
+        $keyword = $this->input->post('keyword');
+        if (isset($keyword)) {
+            $data['keyword'] = $this->input->post('keyword');
+            $this->session->set_userdata('keyword_home', $data['keyword']);
+        } else {
+            $data['keyword'] = $this->session->userdata('keyword_home');
         }
 
         //set config
-        $config['base_url'] = 'http://localhost/gudangjadi/home/index';
+        $config['base_url'] = 'http://localhost/gudangjadi_CI/home/index';
         $config['total_rows'] = $this->home_model->total_saldo($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
@@ -38,7 +38,7 @@ class Home extends CI_Controller
         $this->pagination->initialize($config);
 
         $data['start'] = $this->uri->segment(3);
-        $data['saldo'] = $this->home_model->tampil_saldo($config['per_page'], $data['start'],$data['keyword']);
+        $data['saldo'] = $this->home_model->tampil_saldo($config['per_page'], $data['start'], $data['keyword']);
         $data['riwayat'] = $this->home_model->tampil_riwayat();
         $this->load->view('_partials/header');
         $this->load->view('_partials/menu');

@@ -18,16 +18,16 @@ class Keluar extends CI_Controller
     {
         $this->load->library('pagination');
         //untuk search
-        $keyword=$this->input->post('keyword');
-        if(isset($keyword)){
-            $data['keyword']=$this->input->post('keyword');
-            $this->session->set_userdata('keyword',$data['keyword']);
-        }else{
-            $data['keyword']=$this->session->userdata('keyword');
+        $keyword = $this->input->post('keyword');
+        if (isset($keyword)) {
+            $data['keyword'] = $this->input->post('keyword');
+            $this->session->set_userdata('keyword', $data['keyword']);
+        } else {
+            $data['keyword'] = $this->session->userdata('keyword');
         }
-        
+
         //untuk pagination
-        $config['base_url'] = 'http://localhost/gudangjadi/keluar/index';
+        $config['base_url'] = 'http://localhost/gudangjadi_CI/keluar/index';
         $config['total_rows'] = $this->keluar_model->total_barang_keluar($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
@@ -39,7 +39,7 @@ class Keluar extends CI_Controller
         $this->pagination->initialize($config);
 
         $data['start'] = $this->uri->segment(3);
-        $data["keluar"] = $this->keluar_model->tampil_barang_keluar($config['per_page'], $data['start'],$data['keyword']);
+        $data["keluar"] = $this->keluar_model->tampil_barang_keluar($config['per_page'], $data['start'], $data['keyword']);
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("keluar/keluar", $data);
@@ -61,12 +61,13 @@ class Keluar extends CI_Controller
         $tglform            = $this->input->post('tglform');
         $tgl                = $this->input->post('tgl');
         $noform             = $this->input->post('noform');
-        $nobatch            = $this->input->post('nobatch');
+        $nosppb            = $this->input->post('nosppb');
         $koder              = $this->input->post('kode');
         $sat1               = $this->input->post('sat1');
         $sat2               = $this->input->post('sat2');
         $sat3               = $this->input->post('sat3');
         $adm                = $this->input->post('adm');
+        $tglsppb            = $this->input->post('tglsppb');
 
         $tampil1 = $this->db->query("SELECT * FROM master WHERE kode='$koder'");
         foreach ($tampil1->result() as $data1) {
@@ -99,9 +100,10 @@ class Keluar extends CI_Controller
             $data3 = array(
                 'no' => '',
                 'tglform' => $tglform,
+                'tglsppb' => $tglsppb,
                 'kode' => $koder,
                 'noform' => $noform,
-                'nobatch'=>$nobatch,
+                'nobatch' => $nosppb,
                 'masuk' => '',
                 'keluar' => $jumlah,
                 'saldo' => $hasil,
@@ -110,6 +112,14 @@ class Keluar extends CI_Controller
                 'adm' => $adm
             );
 
+            //insert detailsalqty
+            $data4 = array(
+                'tglform' => $tglform,
+                'kode' => $koder,
+                'nobatch' => $nosppb,
+                'qty' => $jumlah,
+                'ket' => 'OUT'
+            );
             //insert keluar
             // $data4 = array(
             //     'no' => '',
@@ -125,11 +135,12 @@ class Keluar extends CI_Controller
             $this->db->trans_start();
             $this->keluar_model->tambah($data3, 'riwayat');
             $this->keluar_model->update($where, $data2, 'master');
+            $this->keluar_track_model->tambah($data4, 'detailsalqty');
             $this->db->trans_complete();
 
-            if($this->db->trans_status()===FALSE){
+            if ($this->db->trans_status() === FALSE) {
                 $this->session->set_flashdata('gagal', 'Input Barang Keluar Error!');
-            }else{
+            } else {
                 $this->session->set_flashdata('sukses', 'Input Barang Keluar Success!');
             }
             // if ((isset($data4) && isset($where) && isset($data2) && isset($data3)) && $jumlah > 0) {
@@ -237,9 +248,9 @@ class Keluar extends CI_Controller
             $this->db->trans_start();
             $this->keluar_model->update($where1, $data3, 'saldo');
             $this->keluar_model->update($where2, $data4, 'master');
-            if($this->db->trans_status()===FALSE){
+            if ($this->db->trans_status() === FALSE) {
                 $this->session->set_flashdata('gagal', 'Update Barang Keluar Error!');
-            }else{
+            } else {
                 $this->session->set_flashdata('sukses', 'Update Barang Keluar Success!');
             }
             redirect('keluar');
@@ -278,12 +289,12 @@ class Keluar extends CI_Controller
         $where1 = array('no' => $no);
 
         $this->db->trans_start();
-        $this->keluar_model->update($where, $data2, 'saldo');
+        $this->keluar_model->update($where, $data2, 'master');
         $this->keluar_model->hapus($where1, 'riwayat');
         $this->db->trans_complete();
-        if($this->db->trans_status()===FALSE){
+        if ($this->db->trans_status() === FALSE) {
             $this->session->set_flashdata('gagal', 'Delete Barang Keluar Error!');
-        }else{
+        } else {
             $this->session->set_flashdata('sukses', 'Delete Barang Keluar Success!');
         }
         redirect("keluar");
