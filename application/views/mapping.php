@@ -97,8 +97,8 @@ SPDX-License-Identifier: Apache-2.0 -->
                                     $ketkondisi = $dat['id'];
                                     $warnak = $dat['warna'];
                                 }
-                                if ($pallet->num_rows() != 0) {
-                                    echo '<div id="' . $kdpallet . '" draggable="true" data="' . $a . '" class="box" style="border: 1px solid #666;background-color: ' . $warnap . ';"><a id="lihatPallet" onclick="modal(`'.$kdpallet.'`)" type="button" data-toggle="modal" data-target="#exampleModal" style="color:black;text-decoration:none"><b>' . $kdpallet . '</b></a></div>';
+                                if ($pallet->num_rows() > 0) {
+                                    echo '<a id="lihatPallet" onclick="modal(`'.$kdpallet.'`)" data-toggle="modal" data-target="#exampleModal" style="color:black;text-decoration:none"><div id="' . $kdpallet . '" draggable="true" data="' . $a . '" class="box" style="border: 1px solid #666;background-color: ' . $warnap . ';"><b>' . $kdpallet . '</b></div></a>';
                                 } elseif ($kondisi->num_rows() != 0) {
                                     echo '<div id="' . $ketkondisi . '" draggable="true" data="' . $a . '" class="box" style="border: 1px solid #666;background-color: ' . $warnak . ';"><b></b></div>';
                                 } else {
@@ -118,16 +118,44 @@ SPDX-License-Identifier: Apache-2.0 -->
 <script>
 function modal(kdpallet){
 document.getElementById('exampleModalLabel').innerHTML = kdpallet;
+        console.log(kdpallet);
+        $.ajax({
+            url: "<?php echo site_url('mapping/getkdpallet'); ?>",
+            method: "POST",
+            data: {
+                kdpallet: kdpallet
+            },
+            async: true,
+            dataType: 'json',
+            success: function(data) {
+                var html ='';
+                for (i = 0; i < data.length; i++) {
+                    html += '<td>'+ parseInt(i+1) +'</td>'
+                    html += '<td>'+ data[i].tglform +'</td>'
+                    html += '<td>'+ data[i].nobatch +'</td>'
+                    html += '<td>'+ data[i].kode +'</td>'
+                    html += '<td>'+ data[i].nama +'</td>'
+                    var sat1 = Math.floor(data[i].qty / (data[i].max1*data[i].max2));
+                    var sisa  = data[i].qty - (sat1 * data[i].max1 * data[i].max2);
+                    var sat2  = Math.floor(sisa / data[i].max2);
+                    var sat3  = sisa - sat2 * data[i].max2;
+                    html += '<td>'+ sat1+' '+data[i].sat1 +'</td>'
+                    html += '<td>'+ sat2+' '+data[i].sat2 +'</td>'
+                    html += '<td>'+ sat3+' '+data[i].sat3 +'</td>'
+                }
+                console.log(html);
+                $('#isiPallet').html(html);
+            }
+        });
 }
 </script>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
       <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true"
@@ -137,7 +165,7 @@ document.getElementById('exampleModalLabel').innerHTML = kdpallet;
                 <thead>
                     <tr>
                         <th rowspan="2" style="vertical-align : middle;text-align:center;">No</th>
-                        <th rowspan="2">Tanggal</th>
+                        <th rowspan="2">Tanggal Form</th>
                         <th rowspan="2">No Batch</th>
                         <th rowspan="2">Kode</th>
                         <th rowspan="2">Nama Barang</th>
@@ -151,44 +179,15 @@ document.getElementById('exampleModalLabel').innerHTML = kdpallet;
                 </thead>
 
 
-                <tbody>
-                    <td></td>
+                <tbody id="isiPallet">
                 </tbody>
             </table>
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
-<script>
-    $(document).ready(function() {
-    $('#exampleModalLabel').click(function() {
-        var kdpallet = document.getElementById("exampleModalLabel").innerHTML;
-        console.log(kdpallet);
-        $.ajax({
-            url: "<?php echo site_url('mapping/getkdpallet'); ?>",
-            method: "POST",
-            data: {
-                kdpallet: kdpallet
-            },
-            async: true,
-            dataType: 'json',
-            success: function(data) {
-                // for (i = 0; i < data.length; i++) {
-                //     html += '<option value=' + data[i].kode + '>' + data[i]
-                //         .nama + '</option>';
-                // }
-                html1 = data[0].nopallet
-                console.log(html1)
-                // $('#isiPallet').html(html);
-            }
-        });
-        return false;
-    });
-});
-</script>
 </html>
