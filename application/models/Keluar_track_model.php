@@ -10,7 +10,7 @@ class Keluar_track_model extends CI_Model
             if($keyword){
                 $this->db->group_start();
                 $this->db->like('nobatch',$keyword);
-                $this->db->like('nopallet',$keyword);
+                $this->db->or_like('nopallet',$keyword);
                 $this->db->or_like('riwayattrack.kode',$keyword);
                 $this->db->or_like('master.nama',$keyword);
                 $this->db->or_like('riwayattrack.tglform',$keyword);
@@ -31,7 +31,7 @@ class Keluar_track_model extends CI_Model
         if($keyword){
             $this->db->group_start();
             $this->db->like('nobatch',$keyword);
-            $this->db->like('nopallet',$keyword);
+            $this->db->or_like('nopallet',$keyword);
             $this->db->or_like('riwayattrack.kode',$keyword);
             $this->db->or_like('master.nama',$keyword);
             $this->db->or_like('riwayattrack.tglform',$keyword);
@@ -95,7 +95,7 @@ class Keluar_track_model extends CI_Model
     }
 
     function get_kode($nosppb){
-		$query = $this->db->where('nobatch', $nosppb)->join('master','detailsalqty.kode = master.kode')->group_by('nobatch')->get('detailsalqty');
+		$query = $this->db->where('noform', $nosppb)->join('master','detailsalqty.kode = master.kode')->group_by('nobatch')->get('detailsalqty');
 		return $query;
 	}
     function get_batch($kode){
@@ -117,7 +117,7 @@ class Keluar_track_model extends CI_Model
 		$this->db->select('sum(qty) as jumlah,max1,max2,sat1,sat2,sat3');
         $this->db->from('detailsalqty');
         $this->db->join('master','master.kode = detailsalqty.kode');
-        $this->db->where('detailsalqty.kode', $id)->where('ket','OUT')->where('detailsalqty.nobatch',$nosppb);
+        $this->db->where('detailsalqty.kode', $id)->where('ket','OUT')->where('detailsalqty.noform',$nosppb);
 		return $this->db->get();
 	}
 }

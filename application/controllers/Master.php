@@ -17,7 +17,6 @@ class Master extends CI_Controller
         $this->load->library('pagination');
 
         //untuk search
-<<<<<<< HEAD
         $keyword = $this->input->post('keyword');
         if (isset($keyword)) {
             $data['keyword'] = $this->input->post('keyword');
@@ -28,18 +27,6 @@ class Master extends CI_Controller
 
         //set config
         $config['base_url'] = 'http://localhost/gudangjadi_CI/master/index';
-=======
-        $keyword=$this->input->post('keyword');
-        if(isset($keyword)){
-            $data['keyword']=$this->input->post('keyword');
-            $this->session->set_userdata('keyword',$data['keyword']);
-        }else{
-            $data['keyword']=$this->session->userdata('keyword');
-        }
-
-        //set config
-        $config['base_url'] = 'http://localhost/gudangjadi/master/index';
->>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
         $config['total_rows'] = $this->master_model->total_master($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
@@ -51,11 +38,7 @@ class Master extends CI_Controller
         $this->pagination->initialize($config);
 
         $data['start'] = $this->uri->segment(3);
-<<<<<<< HEAD
         $data['master'] = $this->master_model->tampil_master($config['per_page'], $data['start'], $data['keyword']);
-=======
-        $data['master'] = $this->master_model->tampil_master($config['per_page'], $data['start'],$data['keyword']);
->>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
         $data['golongan'] = $this->golongan_model->tampil_golongan();
         $data['jenis'] = $this->master_model->tampil_jenis();
         $this->load->view("_partials/header");
@@ -64,21 +47,13 @@ class Master extends CI_Controller
         $this->load->view("_partials/footer");
     }
 
-<<<<<<< HEAD
     public function input_master()
     {
-=======
-    public function input_master(){
->>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
         $data['golongan'] = $this->golongan_model->tampil_golongan();
         $data['jenis'] = $this->master_model->tampil_jenis();
         $this->load->view('_partials/header');
         $this->load->view('_partials/menu');
-<<<<<<< HEAD
         $this->load->view('master/inputmaster', $data);
-=======
-        $this->load->view('master/inputmaster',$data);
->>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
         $this->load->view('_partials/footer');
     }
 
@@ -110,17 +85,10 @@ class Master extends CI_Controller
             'kdgol' => $kdgol,
             'kdjenis' => $kdjenis,
             'saldo' => 0,
-<<<<<<< HEAD
             'tgl_dibuat' => date("Y-m-d"),
             'tglform' => '',
             'tgl_update' => date('Y-m-d'),
             'saldo_track' => 0,
-=======
-            'tgl_dibuat'=>date("Y-m-d"),
-            'tglform'=>'',
-            'tgl_update'=>date('Y-m-d'),
-            'saldo_track'=>0,
->>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
             'expdate' => $expdate
         );
 
@@ -134,7 +102,6 @@ class Master extends CI_Controller
 
         $q = $this->db->query("SELECT * FROM master where kode = '$kode'");
         $kodem = $q->num_rows();
-<<<<<<< HEAD
         if ($kodem > 0) {
             $this->session->set_flashdata("peringatan", "Kode Barang $kode sudah ada sebelumnya");
             redirect('master/input_master');
@@ -151,25 +118,6 @@ class Master extends CI_Controller
                 $this->session->set_flashdata("berhasil", "Input Master Success");
             }
             redirect('master');
-=======
-        if($kodem>0){
-            $this->session->set_flashdata("peringatan", "Kode Barang $kode sudah ada sebelumnya");
-            redirect('master/input_master');
-        }else{
-            $this->db->trans_start();
-            $this->master_model->tambah($data,'master');
-            // $this->master_model->tambah($data1, 'saldo');
-            $this->db->trans_complete();
-
-            if ($this->db->trans_status() === FALSE)
-            {
-                // generate an error... or use the log_message() function to log your error
-                $this->session->set_flashdata("gagal", "Input Master Error");
-            }else{
-                $this->session->set_flashdata("berhasil", "Input Master Success");
-            }
-                redirect('master');
->>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
         }
     }
 
@@ -198,11 +146,7 @@ class Master extends CI_Controller
         $kdgol    = $this->input->post('kdgol');
         $kdjenis  = $this->input->post('kdjenis');
         $expdate  = $this->input->post('expdate');
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
 
         $data = array(
             'nama' => $nama,
@@ -221,7 +165,6 @@ class Master extends CI_Controller
         );
 
         $this->db->trans_start();
-<<<<<<< HEAD
         $this->master_model->update($where, $data, 'master');
         $this->db->trans_complete();
 
@@ -232,26 +175,12 @@ class Master extends CI_Controller
             $this->session->set_flashdata("berhasil", "Input Master Success");
         }
         redirect('master');
-=======
-            $this->master_model->update($where,$data,'master');
-            $this->db->trans_complete();
-
-            if ($this->db->trans_status() === FALSE)
-            {
-                // generate an error... or use the log_message() function to log your error
-                $this->session->set_flashdata("gagal", "Input Master Error");
-            }else{
-                $this->session->set_flashdata("berhasil", "Input Master Success");
-            }
-                redirect('master');
->>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
     }
 
     public function hapus_master($id)
     {
         $where = array('id' => $id);
         $this->db->trans_start();
-<<<<<<< HEAD
         $this->master_model->hapus($where, 'master');
         // $this->master_model->tambah($data1, 'saldo');
         $this->db->trans_complete();
@@ -263,19 +192,5 @@ class Master extends CI_Controller
             $this->session->set_flashdata("berhasil", "Input Master Success");
         }
         redirect('master');
-=======
-            $this->master_model->hapus($where,'master');
-            // $this->master_model->tambah($data1, 'saldo');
-            $this->db->trans_complete();
-
-            if ($this->db->trans_status() === FALSE)
-            {
-                // generate an error... or use the log_message() function to log your error
-                $this->session->set_flashdata("gagal", "Input Master Error");
-            }else{
-                $this->session->set_flashdata("berhasil", "Input Master Success");
-            }
-                redirect('master');
->>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
     }
 }
