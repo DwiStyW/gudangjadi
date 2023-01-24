@@ -8,12 +8,34 @@ class Masuk extends CI_Controller
             $this->session->set_flashdata('pesan', '<div class="fade show" style="color:red" role="alert">
   Anda Belum Login!
 </div><br>');
-            redirect('auth/login');
+            redirect('auth/logout');
         }
     }
     public function index()
     {
-        $data['masuk'] = $this->get->tampil_barang_masuk();
+        $this->load->library('pagination');
+        //untuk search
+        $keyword=$this->input->post('keyword');
+        if(isset($keyword)){
+            $data['keyword']=$this->input->post('keyword');
+            $this->session->set_userdata('keyword_masuk',$data['keyword']);
+        }else{
+            $data['keyword']=$this->session->userdata('keyword_masuk');
+        }
+        //untuk pagination
+        $config['base_url'] = 'http://localhost/gudangjadi/masuk/index';
+        $config['total_rows'] = $this->masuk_model->total_barang_masuk($data['keyword']);
+        $range = $this->input->post('range');
+        $config['per_page'] = $range;
+        if ($range == null) {
+            $config['per_page'] = 10;
+        } elseif ($range == "all") {
+            $config['per_page'] = null;
+        }
+        $this->pagination->initialize($config);
+
+        $data['start'] = $this->uri->segment(3);
+        $data['masuk'] = $this->masuk_model->tampil_barang_masuk($config['per_page'], $data['start'], $data['keyword']);
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("masuk/masuk", $data);
@@ -23,8 +45,8 @@ class Masuk extends CI_Controller
     // load view input barang masuk
     public function input_masuk()
     {
-        $data['masuk'] = $this->get->riwayat_all();
-        $data['master'] = $this->get->tampil_master();
+        $data['masuk'] = $this->masuk_model->riwayat_all();
+        $data['master'] = $this->masuk_model->tampil_master();
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("masuk/inputmasuk", $data);
@@ -37,6 +59,7 @@ class Masuk extends CI_Controller
         error_reporting(0);
         $tglform = $this->input->post('tglform');
         $noform = $this->input->post('noform');
+        $nobatch = $this->input->post('nobatch');
         $koder = $this->input->post('kode');
         $sat1 = $this->input->post('sat1');
         $sat2 = $this->input->post('sat2');
@@ -55,7 +78,7 @@ class Masuk extends CI_Controller
         $sats2    = $sat2 * $data1->max2;
         $jumlah = $sats1 + $sats2 + $sat3;
 
-        $tampil = $this->db->query("SELECT * FROM saldo WHERE kode='$kode'");
+        $tampil = $this->db->query("SELECT * FROM master WHERE kode='$kode'");
         foreach ($tampil->result() as $data) {
             $hasil = $data->saldo + $jumlah;
         }
@@ -66,6 +89,7 @@ class Masuk extends CI_Controller
             'tglform' => $tglform,
             'kode' => $koder,
             'noform' => $noform,
+            'nobatch'=> $nobatch,
             'masuk' => $jumlah,
             'keluar' => '',
             'saldo' => $hasil,
@@ -80,6 +104,7 @@ class Masuk extends CI_Controller
             'no' => '',
             'tglform' => $tglform,
             'noform' => $noform,
+            'nobatch'=>$nobatch,
             'kode' => $koder,
             'jumlah' => $jumlah,
             'tanggal' => $tgl,
@@ -92,28 +117,64 @@ class Masuk extends CI_Controller
         $data4 = array(
             'saldo' => $hasil,
             'tglform' => $tglform,
-            'tanggal' => $tgl
+            'tgl_update' => $tgl
         );
         $where1 = array(
             'kode' => $koder
         );
 
-        if (isset($data4) && isset($where1) && isset($data3) && isset($data2) && $jumlah > 0) {
-            $this->edit->update($where1, $data4, "saldo");
-            $this->insert->tambah($data3, "masuk");
-            $this->insert->tambah($data2, "riwayat");
-            $this->session->set_flashdata('sukses', 'Data Berhasil di Update!');
-            redirect("masuk/input_masuk");
-        } else {
-            $this->session->set_flashdata('gagal', 'Data Gagal di Update!');
-            redirect("masuk/input_masuk");
+        //untuk detailsalqty
+        $detsal = $this->db->where('kode',$kode)->where('nobatch',$nobatch)->get('detailsalqty');
+        foreach($detsal->result() as $det){
+            $salqty[]=$det->qty;
         }
+        $jumsalqty=0;
+        for($i=0;$i<$detsal->num_rows();$i++)
+        {
+            $jumsalqty+=$salqty[$i];
+        }
+        if($detsal->num_rows()>0){
+            $data5 = array(
+                'tglform' => $tglform,
+                'kode'    => $koder,
+                'nobatch' => $nobatch,
+                'qty'     => $jumlah+=$jumsalqty
+            );
+        }else{
+            $data5 = array(
+                'tglform' => $tglform,
+                'kode'    => $koder,
+                'nobatch' => $nobatch,
+                'qty'     => $jumlah
+            );
+        }
+        $where2 = array(
+            'kode' => $koder,
+            'nobatch'=>$nobatch
+        );
+
+        $this->db->trans_start();
+        $this->masuk_model->update($where1, $data4, "master");
+        $this->masuk_model->tambah($data2, "riwayat");
+        if($detsal->num_rows()>0){
+            $this->masuk_model->update($where2,$data5,'detailsalqty');
+        }else{
+            $this->masuk_model->tambah($data5,'detailsalqty');
+        }
+        $this->db->trans_complete();
+
+        if($this->db->trans_status()===FALSE){
+            $this->session->set_flashdata('gagal', 'Input Barang Masuk Error!');
+        }else{
+            $this->session->set_flashdata('sukses', 'Input Barang Masuk Success!');
+        }
+        redirect("masuk/input_masuk");
     }
 
     public function edit_masuk($no)
     {
         $where = array('no' => $no);
-        $data['riwayat'] = $this->get->get_where($where, 'riwayat')->result();
+        $data['riwayat'] = $this->masuk_model->get_where($where, 'riwayat')->result();
         $this->load->view('_partials/header');
         $this->load->view('_partials/menu');
         $this->load->view('masuk/editmasuk', $data);
@@ -128,7 +189,6 @@ class Masuk extends CI_Controller
         $kode       = $this->input->post('kode');
         $noform     = $this->input->post('noform');
         $nobatch     = $this->input->post('nobatch');
-        $nopallet     = $this->input->post('nopallet');
         $sat1       = $this->input->post('sats1');
         $sat2       = $this->input->post('sats2');
         $sat3       = $this->input->post('sats3');
@@ -147,7 +207,7 @@ class Masuk extends CI_Controller
         foreach ($tampil1->result() as $data1) {
             $awal = $data1->masuk;
         }
-        $tampil = $this->db->query("select * from saldo WHERE kode ='$kode'");
+        $tampil = $this->db->query("select * from master WHERE kode ='$kode'");
         foreach ($tampil->result() as $data) {
             $update = $data->saldo - $awal + $jumlah;
         }
@@ -159,7 +219,7 @@ class Masuk extends CI_Controller
             // update saldo
             $data = array(
                 'saldo' => $update,
-                'tanggal' => $date,
+                'tgl_update' => $date,
                 'tglform' => $tglform
             );
             $where = array(
@@ -170,7 +230,6 @@ class Masuk extends CI_Controller
             $data1 = array(
                 'noform' => $noform,
                 'nobatch' => $nobatch,
-                'nopallet' => $nopallet,
                 'kode' => $kode,
                 'masuk' => $jumlah,
                 'tglform' => $tglform,
@@ -184,31 +243,15 @@ class Masuk extends CI_Controller
                 'no' => $no
             );
 
-            // update masuk
-            $data2 = array(
-                'noform' => $noform,
-                'kode' => $kode,
-                'jumlah' => $jumlah,
-                'tglform' => $tglform,
-                'saldo' => $update,
-                'tanggal' => $date,
-                'adm' => $adm,
-                'cat' => $cat
+            $this->db->trans_start();
+            $this->masuk_model->update($where, $data, 'master');
+            $this->masuk_model->update($where1, $data1, 'riwayat');
+            $this->db->trans_complete();
 
-            );
-            $where2 = array(
-                'no' => $no
-            );
-
-            if (isset($data) && isset($where) && isset($data1) && isset($where1) && isset($data2) && isset($where2)) {
-                $this->edit->update($where, $data, 'saldo');
-                $this->edit->update($where1, $data1, 'riwayat');
-                $this->edit->update($where2, $data2, 'masuk');
-                $this->session->set_flashdata('sukses', 'Data Berhasil di Update!');
-                redirect("masuk");
-            } else {
-                $this->session->set_flashdata('gagal', 'Data gagal di Update!');
-                redirect("masuk");
+            if($this->db->trans_status()===FALSE){
+                $this->session->set_flashdata('gagal', 'Update Barang Masuk Error!');
+            }else{
+                $this->session->set_flashdata('sukses', 'Update Barang Masuk Success!');
             }
         }
     }
@@ -219,9 +262,9 @@ class Masuk extends CI_Controller
         foreach ($tampil1->result() as $riw) {
             $awal = $riw->masuk;
             $tglform = $riw->tglform;
-            $tglform = $riw->noform;
+            $noform = $riw->noform;
         }
-        $tampil = $this->db->query("select * from saldo WHERE kode='$kode'");
+        $tampil = $this->db->query("select * from master WHERE kode='$kode'");
         foreach ($tampil->result() as $sal) {
             $hasil = $sal->saldo - $awal;
         }
@@ -230,23 +273,24 @@ class Masuk extends CI_Controller
 
         $data1 = array(
             'saldo' => $hasil,
-            'tanggal' => $date
+            'tgl_update' => $date
         );
 
         if ($hasil < 0) {
             $this->session->set_flashdata("gagal", "JUMLAH STOK MINUS !!!");
             redirect("masuk");
         } else {
-            if (isset($where) && isset($where1) && isset($data1)) {
-                $this->edit->update($where1, $data1, 'saldo');
-                $this->delete->hapus($where, 'riwayat');
-                $this->delete->hapus($where, 'masuk');
-                $this->session->set_flashdata('sukses', 'Data Berhasil di Update!');
-                redirect("masuk");
-            } else {
-                $this->session->set_flashdata('gagal', 'Data Gagal di Update!');
-                redirect("masuk");
+            $this->db->trans_start();
+            $this->masuk_model->update($where1, $data1, 'master');
+            $this->masuk_model->hapus($where, 'riwayat');
+            $this->db->trans_complete();
+
+            if($this->db->trans_status()===FALSE){
+                $this->session->set_flashdata('gagal', 'Delete Barang Masuk Error!');
+            }else{
+                $this->session->set_flashdata('sukses', 'Delete Barang Masuk Success!');
             }
+            redirect("masuk");
         }
     }
 

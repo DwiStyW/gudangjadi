@@ -1,6 +1,6 @@
 <?php
-    ini_set('date.timezone', 'Asia/Jakarta');
-    ?>
+ini_set('date.timezone', 'Asia/Jakarta');
+?>
 <div class="layarlebar">
     <div class="admin-dashone-data-table-area mg-b-40">
         <div class="container" style="position:relative;top:-250px;z-index: 1">
@@ -14,16 +14,10 @@
                     <div class="sparkline8-graph">
                         <div class="datatable-dashv1-list custom-datatable-overright">
                             <div id="toolbar">
-                                <button class="btn btn-sm btn-primary login-submit-cs" data-toggle="modal"
-                                    data-target="#exampleModal">Input Jenis</button>
-                                <a href="<?= base_url("master") ?>"><button class="btn btn-white"
-                                        type="button">Kembali</button></a>
+                                <button class="btn btn-sm btn-primary login-submit-cs" data-toggle="modal" data-target="#exampleModal">Input Jenis</button>
+                                <a href="<?= base_url("master") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
                             </div>
-                            <table id="table" data-toggle="table" data-pagination="true" data-search="true"
-                                data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true"
-                                data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
-                                data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true"
-                                data-toolbar="#toolbar">
+                            <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                 <thead>
                                     <tr>
                                         <th data-field="no">No</th>
@@ -35,24 +29,18 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                        $no = 1;
-                                        foreach ($jenis as $j) {
-                                        ?>
-                                    <tr>
-                                        <td><?php echo $no++ ?></td>
-                                        <td><?php echo $j->kdjenis; ?></td>
-                                        <td><?php echo $j->namajenis; ?></td>
-                                        <td>
-                                            <a class="btn btn-sm btn-primary" href="#" data-toggle="modal"
-                                                data-target="#editmodal" data-id="<?= $j->id ?>"
-                                                data-kdjenis="<?= $j->kdjenis ?>" data-namajenis="<?= $j->namajenis ?>"
-                                                id="tomboledit"><i class="fa fa-edit"></i> Edit</a>
-                                            <a class="btn btn-sm btn-danger"
-                                                href="<?= base_url("jenis/hapus_jenis/" . $j->id) ?>"
-                                                onclick="javascript: return confirm('Anda yakin hapus ?')"><i
-                                                    class="fa fa-wrench"></i> Hapus</a>
-                                        </td>
-                                    </tr>
+                                    $no = 1;
+                                    foreach ($jenis as $j) {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $no++ ?></td>
+                                            <td><?php echo $j->kdjenis; ?></td>
+                                            <td><?php echo $j->namajenis; ?></td>
+                                            <td>
+                                                <a class="btn btn-sm btn-primary" href="#" data-toggle="modal" data-target="#editmodal" data-id="<?= $j->id ?>" data-kdjenis="<?= $j->kdjenis ?>" data-namajenis="<?= $j->namajenis ?>" id="tomboledit"><i class="fa fa-edit"></i> Edit</a>
+                                                <a class="btn btn-sm btn-danger" href="<?= base_url("jenis/hapus_jenis/" . $j->id) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-wrench"></i> Hapus</a>
+                                            </td>
+                                        </tr>
                                     <?php } ?>
                                 </tbody>
                             </table>
@@ -66,8 +54,7 @@
 <!-- Data table area End-->
 
 <!-- Modal Tambah jenis -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-    style="z-index: 200000;">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 200000;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -99,8 +86,7 @@
 <!-- END Modal -->
 
 <!-- Modal Edit Jenis -->
-<div class="modal fade" id="editmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-    style="z-index: 200000;">
+<div class="modal fade" id="editmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 200000;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -136,14 +122,43 @@
 <!-- get data -->
 <script src="<?= base_url() ?>assets/js/jquery-3.2.1.min.js"></script>
 <script>
-$(document).on("click", "#tomboledit", function() {
-    let id = $(this).data('id');
-    let kdjenis = $(this).data('kdjenis');
-    let namajenis = $(this).data('namajenis');
+    $(document).on("click", "#tomboledit", function() {
+        let id = $(this).data('id');
+        let kdjenis = $(this).data('kdjenis');
+        let namajenis = $(this).data('namajenis');
 
-    $(".modal-body #id").val(id);
-    $(".modal-body #kdjenis").val(kdjenis);
-    $(".modal-body #namajenis").val(namajenis);
+        $(".modal-body #id").val(id);
+        $(".modal-body #kdjenis").val(kdjenis);
+        $(".modal-body #namajenis").val(namajenis);
 
-});
+    });
 </script>
+<script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
+<?php if ($this->session->flashdata('berhasil')) : ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            position: 'top-end',
+            title: '<?= $this->session->flashdata('berhasil') ?>',
+            showConfirmButton: false,
+            timer: 1500,
+            allowOutsideClick: false,
+            timerProgressBar: true
+        })
+    </script>
+<?php endif ?>
+
+<?php if ($this->session->flashdata('gagal')) : ?>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            position: 'top-end',
+            title: '<?= $this->session->flashdata('gagal') ?>',
+            showConfirmButton: false,
+            timer: 1500,
+            allowOutsideClick: false,
+            timerProgressBar: true
+        })
+    </script>
+<?php
+endif ?>

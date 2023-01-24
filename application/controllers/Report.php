@@ -4,14 +4,14 @@ class Report extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->userdata('role') != 'user' && $this->session->userdata('role') != 'admin' && $this->session->userdata('role') != 'manager') {
+        if ($this->session->userdata('role') != 'user' && $this->session->userdata('role') != 'ppic' && $this->session->userdata('role') != 'admin' && $this->session->userdata('role') != 'manager') {
             $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
   Anda Belum Login!
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>');
-            redirect('auth/login');
+            redirect('auth/logout');
         }
     }
     public function index()
@@ -45,7 +45,7 @@ class Report extends CI_Controller
 
     public function filgolongan()
     {
-        $data['golongan'] = $this->get->tampil_golongan();
+        $data['golongan'] = $this->report_model->tampil_golongan();
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("report/reportgr", $data);
@@ -64,7 +64,7 @@ class Report extends CI_Controller
             'kode'  => $kdgol
         );
 
-        $data["riwayat"] = $this->get->filgol($kdgol, $start, $end);
+        $data["riwayat"] = $this->report_model->filgol($kdgol, $start, $end);
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("report/tampilreportgr", $data);
