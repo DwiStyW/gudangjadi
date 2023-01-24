@@ -18,10 +18,15 @@ date_default_timezone_set('Asia/Jakarta');
                                 <div class="col-lg-12">
                                     <div class="all-form-element-inner">
 
+<<<<<<< HEAD
                                         <form enctype="multipart/form-data" id="data"
                                             action="<?= base_url("track/masuk_track/tambah_masuk_track") ?>"
                                             method="post" class="form">
 
+=======
+                                        <form enctype="multipart/form-data" id="data" action="<?= base_url("track/masuk_track/tambah_masuk_track") ?>" method="post" class="form">
+                                            
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
                                             <!-- <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -47,6 +52,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                                 <?php
                                                                 $no = 1;
                                                                 foreach ($master as $mter) { ?>
+<<<<<<< HEAD
                                                                 <option type="search"></option>
                                                                 <?php if ($this->uri->segment(4) == $mter->kode) { ?>
                                                                 <option selected value="<?= $mter->kode ?>">
@@ -58,12 +64,28 @@ date_default_timezone_set('Asia/Jakarta');
                                                                 </option>
                                                                 <?php }
                                                                 } ?>
+=======
+                                                                    <option type="search"></option>
+                                                                    <?php if($this->uri->segment(4)==$mter->kode){?>
+                                                                    <option selected value="<?= $mter->kode ?>">
+                                                                    <?= $mter->kode ?> - <?= $mter->nama ?>
+                                                                </option>
+                                                                <?php }else{?>
+                                                                    <option value="<?= $mter->kode ?>">
+                                                                    <?= $mter->kode ?> - <?= $mter->nama ?>
+                                                                </option>
+                                                               <?php } } ?>
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
                                                             </select>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+<<<<<<< HEAD
 
+=======
+                                        
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
                                             <!-- <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -81,12 +103,17 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">No Batch</label>
                                                     </div>
                                                     <div class="col-lg-5">
+<<<<<<< HEAD
                                                         <select id="batch" class="form-control" name="nobatch"
                                                             type="select" required>
+=======
+                                                        <select id="batch" class="form-control"  name="nobatch" type="select" required>
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
 
                                                         </select>
                                                     </div>
                                                     <div style="display:flex; flex-wrap:wrap">
+<<<<<<< HEAD
                                                         <div style="width:150px;padding-left:10px">
                                                             <label class="login2 pull-right pull-right-pro">belum
                                                                 dipallet:</label>
@@ -94,12 +121,21 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <div style="width:200px">
                                                             <h5 id="qty"></h5>
                                                         </div>
+=======
+                                                    <div style="width:150px;padding-left:10px">
+                                                    <label  class="login2 pull-right pull-right-pro">belum dipallet:</label>
+                                                    </div>
+                                                    <div style="width:200px">
+                                                        <h5 id="qty"></h5>
+                                                    </div>
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
+<<<<<<< HEAD
                                                         <label class="login2 pull-right pull-right-pro">No
                                                             Pallet</label>
                                                     </div>
@@ -111,6 +147,16 @@ date_default_timezone_set('Asia/Jakarta');
                                                         foreach ($pallet as $p) { ?>
                                                         <option value="<?= $p->kdpallet ?>">
                                                             <?php echo $p->kdpallet . ' ' . $p->status ?></option>
+=======
+                                                        <label class="login2 pull-right pull-right-pro">No Pallet</label>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <select id="nopallet" name="nopallet" type="select" class="form-control" required />
+                                                        <option type="search"></option>
+                                                        <?php 
+                                                        foreach($pallet as $p){ ?>
+                                                            <option value="<?= $p->kdpallet?>"><?php echo $p->kdpallet.' '. $p->status?></option>
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
                                                         <?php } ?>
                                                         </select>
                                                     </div>
@@ -123,8 +169,12 @@ date_default_timezone_set('Asia/Jakarta');
                                                             Form</label>
                                                     </div>
                                                     <div class="col-lg-9">
+<<<<<<< HEAD
                                                         <input name="tglform" type="date" class="form-control"
                                                             id="tglform" value="" required />
+=======
+                                                        <input name="tglform" type="date" class="form-control" id="tglform" value="" required />
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
                                                     </div>
                                                 </div>
                                             </div>
@@ -182,13 +232,22 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">Catatan</label>
                                                     </div>
                                                     <div class="col-lg-9">
+<<<<<<< HEAD
                                                         <input name="cat" type="text" class="form-control" id="cat"
                                                             value="" placeholder="Catatan" />
+=======
+                                                        <input name="cat" type="text" class="form-control" id="cat" value=""
+                                                            placeholder="Catatan" />
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
                                                         <input type="hidden" name="jumlah" id="jumlah">
                                                     </div>
                                                 </div>
                                             </div>
+<<<<<<< HEAD
 
+=======
+                                            
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-9">
@@ -203,12 +262,17 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <div class="col-lg-3"></div>
                                                         <div class="col-lg-9">
                                                             <div class="login-horizental cancel-wp pull-left">
+<<<<<<< HEAD
                                                                 <a href="<?= base_url("track/masuk_track") ?>"><button
                                                                         class="btn btn-white"
                                                                         type="button">Kembali</button></a>
                                                                 <button type="submit"
                                                                     class="btn btn-sm btn-primary login-submit-cs">Save
                                                                     Change</button>
+=======
+                                                                <a href="<?= base_url("track/masuk_track") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
+                                                                <button type="submit" class="btn btn-sm btn-primary login-submit-cs">Save Change</button>
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
                                                             </div>
                                                         </div>
                                                     </div>
@@ -217,6 +281,7 @@ date_default_timezone_set('Asia/Jakarta');
                                         </form>
                                         <br>
                                         <!-- Start Form -->
+<<<<<<< HEAD
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="sparkline8-hd">
@@ -318,6 +383,9 @@ date_default_timezone_set('Asia/Jakarta');
                                                 </div>
                                             </div>
                                         </div>
+=======
+                                        
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
                                         <!-- End Form -->
                                     </div>
                                 </div>
@@ -333,7 +401,11 @@ date_default_timezone_set('Asia/Jakarta');
 
 <!-- mobile -->
 
+<<<<<<< HEAD
 <script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery-3.3.1.js' ?>"></script>
+=======
+<script type="text/javascript" src="<?php echo base_url().'assets/js/jquery-3.3.1.js'?>"></script>
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
 <script src="<?= base_url() ?>assets/select2-master/dist/js/select2.min.js"></script>
 <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
 <script>
@@ -348,10 +420,17 @@ $(document).ready(function() {
     });
 });
 $(document).ready(function() {
+<<<<<<< HEAD
     $("#batch").select2({
         placeholder: "Pilih Kode barang terlebih dahulu",
     });
 });
+=======
+        $("#batch").select2({
+            placeholder: "Pilih Kode barang terlebih dahulu",
+        });
+    });
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
 </script>
 
 <script>
@@ -359,7 +438,11 @@ $(document).ready(function() {
     $('#kode').change(function() {
         var id = $(this).val();
         $.ajax({
+<<<<<<< HEAD
             url: "<?php echo site_url('track/masuk_track/get_batch'); ?>",
+=======
+            url: "<?php echo site_url('track/masuk_track/get_batch');?>",
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
             method: "POST",
             data: {
                 id: id
@@ -383,10 +466,17 @@ $(document).ready(function() {
                 var htmlp = '';
                 htmlp = '<option selected type="search"></option>';
                 $('#pallet').html(htmlp);
+<<<<<<< HEAD
 
                 var htmlq = '';
                 htmlq = '';
 
+=======
+                
+                var htmlq = '';
+                htmlq = '';
+                
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
                 $('#qty').html(htmlq);
             }
         });
@@ -397,7 +487,11 @@ $(document).ready(function() {
         var id = $(this).val();
         var kode = document.getElementById('kode').value;
         $.ajax({
+<<<<<<< HEAD
             url: "<?php echo site_url('track/masuk_track/get_qty'); ?>",
+=======
+            url: "<?php echo site_url('track/masuk_track/get_qty');?>",
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
             method: "POST",
             data: {
                 id: id,
@@ -409,6 +503,7 @@ $(document).ready(function() {
 
                 var html = '';
                 var jumlah = data[0].jumlah;
+<<<<<<< HEAD
                 var max1 = data[0].max1;
                 var max2 = data[0].max2;
                 var sat1 = data[0].sat1;
@@ -423,6 +518,21 @@ $(document).ready(function() {
                 if (jumlah != null) {
                     html = "<h5>" + jum1 + " " + sat1 + " " + jum2 + " " + sat2 + " " +
                         jum3 + " " + sat3 + "</h5>";
+=======
+                var max1   = data[0].max1;
+                var max2   = data[0].max2;
+                var sat1   = data[0].sat1;
+                var sat2   = data[0].sat2;
+                var sat3   = data[0].sat3;
+                
+                var jum1  = Math.floor(data[0].jumlah / (max1 * max2 ));
+                var sisa  = jumlah - (jum1 * max1 * max2);
+                var jum2  = Math.floor(sisa / max2);
+                var jum3  = sisa - jum2 * max2;
+
+                if(jumlah!=null){
+                html = "<h5>"+jum1+" "+sat1+" "+jum2+" "+sat2+" "+jum3+" "+sat3+"</h5>";
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
                 }
                 html1 = jumlah;
                 html2 = data[0].tglform;
@@ -437,7 +547,11 @@ $(document).ready(function() {
 });
 </script>
 <script>
+<<<<<<< HEAD
 $(function() {
+=======
+    $(function() {
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
     $("#kode").change(function() {
         $("#batch").select2('val', 'all');
     });

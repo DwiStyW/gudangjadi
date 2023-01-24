@@ -24,7 +24,11 @@ class Masuk_track extends CI_Controller
             $data['keyword'] = $this->session->userdata('keyword_masuk_track');
         }
         //untuk pagination
+<<<<<<< HEAD
         $config['base_url'] = 'http://localhost/gudangjadi_CI/masuk_track/index';
+=======
+        $config['base_url'] = 'http://localhost/gudangjadi/masuk_track/index';
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
         $config['total_rows'] = $this->masuk_track_model->total_masuk_track($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
@@ -79,14 +83,22 @@ class Masuk_track extends CI_Controller
 
         // get status pallet
         $pallet = $this->db->query("SELECT * FROM pallet where kdpallet='$nopallet'");
+<<<<<<< HEAD
         foreach ($pallet->result() as $p) :
+=======
+        foreach ($pallet->result() as $p):
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
             $status = $p->status;
             $qty = $p->qty;
         endforeach;
 
         //konversi 3 satuan
         $master = $this->db->query("SELECT * FROM master where kode='$kode'");
+<<<<<<< HEAD
         foreach ($master->result() as $m) :
+=======
+        foreach ($master->result() as $m):
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
             $max1 = $m->max1;
             $max2 = $m->max2;
             $saldo = $m->saldo_track;
@@ -188,7 +200,11 @@ class Masuk_track extends CI_Controller
         //untuk detailsal
         $data4 = array(
             'tgl' => date("Y-m-d"),
+<<<<<<< HEAD
             'tglform' => $tglform,
+=======
+            'tglform'=>$tglform,
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
             'kode' => $kode,
             'nobatch' => $nobatch,
             'nopallet' => $nopallet,
@@ -206,7 +222,11 @@ class Masuk_track extends CI_Controller
         );
         $where4 = array(
             'tgl' => date("Y-m-d"),
+<<<<<<< HEAD
             'tglform' => $tglform,
+=======
+            'tglform'=>$tglform,
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
             'kode' => $kode,
             'nobatch' => $nobatch,
             'nopallet' => $nopallet,

@@ -15,6 +15,7 @@ class Masuk extends CI_Controller
     {
         $this->load->library('pagination');
         //untuk search
+<<<<<<< HEAD
         $keyword = $this->input->post('keyword');
         if (isset($keyword)) {
             $data['keyword'] = $this->input->post('keyword');
@@ -24,6 +25,17 @@ class Masuk extends CI_Controller
         }
         //untuk pagination
         $config['base_url'] = 'http://localhost/gudangjadi_CI/masuk/index';
+=======
+        $keyword=$this->input->post('keyword');
+        if(isset($keyword)){
+            $data['keyword']=$this->input->post('keyword');
+            $this->session->set_userdata('keyword_masuk',$data['keyword']);
+        }else{
+            $data['keyword']=$this->session->userdata('keyword_masuk');
+        }
+        //untuk pagination
+        $config['base_url'] = 'http://localhost/gudangjadi/masuk/index';
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
         $config['total_rows'] = $this->masuk_model->total_barang_masuk($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
@@ -89,7 +101,11 @@ class Masuk extends CI_Controller
             'tglform' => $tglform,
             'kode' => $koder,
             'noform' => $noform,
+<<<<<<< HEAD
             'nobatch' => $nobatch,
+=======
+            'nobatch'=> $nobatch,
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
             'masuk' => $jumlah,
             'keluar' => '',
             'saldo' => $hasil,
@@ -104,7 +120,11 @@ class Masuk extends CI_Controller
             'no' => '',
             'tglform' => $tglform,
             'noform' => $noform,
+<<<<<<< HEAD
             'nobatch' => $nobatch,
+=======
+            'nobatch'=>$nobatch,
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
             'kode' => $koder,
             'jumlah' => $jumlah,
             'tanggal' => $tgl,
@@ -124,6 +144,7 @@ class Masuk extends CI_Controller
         );
 
         //untuk detailsalqty
+<<<<<<< HEAD
         $detsal = $this->db->where('kode', $kode)->where('nobatch', $nobatch)->get('detailsalqty');
         foreach ($detsal->result() as $det) {
             $salqty[] = $det->qty;
@@ -133,14 +154,33 @@ class Masuk extends CI_Controller
             $jumsalqty += $salqty[$i];
         }
         if ($detsal->num_rows() > 0) {
+=======
+        $detsal = $this->db->where('kode',$kode)->where('nobatch',$nobatch)->get('detailsalqty');
+        foreach($detsal->result() as $det){
+            $salqty[]=$det->qty;
+        }
+        $jumsalqty=0;
+        for($i=0;$i<$detsal->num_rows();$i++)
+        {
+            $jumsalqty+=$salqty[$i];
+        }
+        if($detsal->num_rows()>0){
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
             $data5 = array(
                 'tglform' => $tglform,
                 'kode'    => $koder,
                 'nobatch' => $nobatch,
+<<<<<<< HEAD
                 'qty'     => $jumlah += $jumsalqty,
                 'ket'     => "IN"
             );
         } else {
+=======
+                'qty'     => $jumlah+=$jumsalqty,
+                'ket'     => "IN"
+            );
+        }else{
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
             $data5 = array(
                 'tglform' => $tglform,
                 'kode'    => $koder,
@@ -151,12 +191,17 @@ class Masuk extends CI_Controller
         }
         $where2 = array(
             'kode' => $koder,
+<<<<<<< HEAD
             'nobatch' => $nobatch
+=======
+            'nobatch'=>$nobatch
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
         );
 
         $this->db->trans_start();
         $this->masuk_model->update($where1, $data4, "master");
         $this->masuk_model->tambah($data2, "riwayat");
+<<<<<<< HEAD
         if ($detsal->num_rows() > 0) {
             $this->masuk_model->update($where2, $data5, 'detailsalqty');
         } else {
@@ -167,6 +212,18 @@ class Masuk extends CI_Controller
         if ($this->db->trans_status() === FALSE) {
             $this->session->set_flashdata('gagal', 'Input Barang Masuk Error!');
         } else {
+=======
+        if($detsal->num_rows()>0){
+            $this->masuk_model->update($where2,$data5,'detailsalqty');
+        }else{
+            $this->masuk_model->tambah($data5,'detailsalqty');
+        }
+        $this->db->trans_complete();
+
+        if($this->db->trans_status()===FALSE){
+            $this->session->set_flashdata('gagal', 'Input Barang Masuk Error!');
+        }else{
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
             $this->session->set_flashdata('sukses', 'Input Barang Masuk Success!');
         }
         redirect("masuk/input_masuk");
@@ -249,9 +306,15 @@ class Masuk extends CI_Controller
             $this->masuk_model->update($where1, $data1, 'riwayat');
             $this->db->trans_complete();
 
+<<<<<<< HEAD
             if ($this->db->trans_status() === FALSE) {
                 $this->session->set_flashdata('gagal', 'Update Barang Masuk Error!');
             } else {
+=======
+            if($this->db->trans_status()===FALSE){
+                $this->session->set_flashdata('gagal', 'Update Barang Masuk Error!');
+            }else{
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
                 $this->session->set_flashdata('sukses', 'Update Barang Masuk Success!');
             }
         }
@@ -286,9 +349,15 @@ class Masuk extends CI_Controller
             $this->masuk_model->hapus($where, 'riwayat');
             $this->db->trans_complete();
 
+<<<<<<< HEAD
             if ($this->db->trans_status() === FALSE) {
                 $this->session->set_flashdata('gagal', 'Delete Barang Masuk Error!');
             } else {
+=======
+            if($this->db->trans_status()===FALSE){
+                $this->session->set_flashdata('gagal', 'Delete Barang Masuk Error!');
+            }else{
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
                 $this->session->set_flashdata('sukses', 'Delete Barang Masuk Success!');
             }
             redirect("masuk");

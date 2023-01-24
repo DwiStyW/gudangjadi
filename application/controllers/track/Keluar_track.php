@@ -24,7 +24,11 @@ class Keluar_track extends CI_Controller
             $data['keyword'] = $this->session->userdata('keyword_keluar_track');
         }
         //untuk pagination
+<<<<<<< HEAD
         $config['base_url'] = 'http://localhost/gudangjadi_CI/keluar_track/index';
+=======
+        $config['base_url'] = 'http://localhost/gudangjadi/keluar_track/index';
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
         $config['total_rows'] = $this->keluar_track_model->total_keluar_track($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
@@ -41,6 +45,10 @@ class Keluar_track extends CI_Controller
         $this->load->view("_partials/menu");
         $this->load->view("track/keluar/keluar_track", $data);
         $this->load->view("_partials/footer");
+<<<<<<< HEAD
+=======
+
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
     }
     public function input_keluar_track()
     {
@@ -100,14 +108,22 @@ class Keluar_track extends CI_Controller
 
         // get status pallet
         $pallet = $this->db->query("SELECT * FROM pallet where kdpallet='$nopallet'");
+<<<<<<< HEAD
         foreach ($pallet->result() as $p) :
+=======
+        foreach ($pallet->result() as $p):
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
             $status = $p->status;
             $qty = $p->qty;
         endforeach;
 
         //konversi 3 satuan
         $master = $this->db->query("SELECT * FROM master where kode='$kode'");
+<<<<<<< HEAD
         foreach ($master->result() as $m) :
+=======
+        foreach ($master->result() as $m):
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
             $max1 = $m->max1;
             $max2 = $m->max2;
             $saldo = $m->saldo_track;
@@ -180,9 +196,15 @@ class Keluar_track extends CI_Controller
         }
         $jum = $permintaan - $jumlah;
         $hitung_pallet = $isi_pallet - $jumlah;
+<<<<<<< HEAD
         if ($tgl != date("Y-m-d")) {
             $in = 0;
             $out = 0;
+=======
+        if($tgl != date("Y-m-d")){
+            $in = 0;
+            $out= 0;
+>>>>>>> 41c1f6245091b6743a47652aa8978494afb0e756
         }
         if ($hitung_pallet > 0) {
             $data3 = array(
