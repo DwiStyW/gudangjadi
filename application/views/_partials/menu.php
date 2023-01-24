@@ -174,9 +174,9 @@
                 <li><a href="<?= base_url("home") ?>" class="btn btn-lg tekan text-white">Home</a></li>
                 <li><a href="<?= base_url("master") ?>" class="btn btn-lg tekan text-white">Master Barang</a></li>
                     <?php if($this->session->userdata('role')=="track"){?>
-                    <li><a href="<?= base_url("track/masuk_track") ?>" class="btn btn-lg tekan text-white">Barang Masuk</a></li>
+                    <li><a href="<?= base_url("track/masuk_track") ?>" class="btn btn-lg tekan text-white">Produk Masuk</a></li>
                     
-                    <li><a href="<?= base_url("track/keluar_track") ?>" class="btn btn-lg tekan text-white">Barang Keluar</a></li>
+                    <li><a href="<?= base_url("track/keluar_track") ?>" class="btn btn-lg tekan text-white">Produk Keluar</a></li>
                     <div class="dropdown">
                         <button class="dropbtn">Mapping <i class="fa fa-chevron-down fa-xs"></i></button>
                         <div class="dropdown-content">
@@ -184,9 +184,9 @@
                             <a href="<?= base_url("mapping2") ?>">Edit Layout</a>
                         </div>
                         <?php } elseif($this->session->userdata('role')=="user" || $this->session->userdata('role')=="admin" || $this->session->userdata('role')=="manager"){?>
-                    <li><a href="<?= base_url("masuk") ?>" class="btn btn-lg tekan text-white">Barang Masuk</a>
+                    <li><a href="<?= base_url("masuk") ?>" class="btn btn-lg tekan text-white">Produk Masuk</a>
                     </li>
-                    <li><a href="<?= base_url("keluar") ?>" class="btn btn-lg tekan text-white">Barang Keluar</a>
+                    <li><a href="<?= base_url("keluar") ?>" class="btn btn-lg tekan text-white">Produk Keluar</a>
                     </li>
                     
                     <?php } ?>

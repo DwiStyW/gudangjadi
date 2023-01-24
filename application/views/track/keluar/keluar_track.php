@@ -13,9 +13,9 @@
                                     <div style="display:flex; flex:wrap">
                                         <div style="width:100%">
                                             <?php if(isset($keyword)){?>
-                                                <input type="text" name="keyword" value="<?= $keyword?>" placeholder="Cari Barang keluar..." class="form-control">
+                                                <input type="text" name="keyword" value="<?= $keyword?>" placeholder="Cari Produk keluar..." class="form-control">
                                             <?php }else{ ?>
-                                                <input type="text" name="keyword" placeholder="Cari Barang Keluar..." class="form-control">
+                                                <input type="text" name="keyword" placeholder="Cari Produk Keluar..." class="form-control">
                                                 <?php } ?>
                                         </div>
                                         <div style="width:auto">
