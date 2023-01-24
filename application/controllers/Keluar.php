@@ -116,6 +116,7 @@ class Keluar extends CI_Controller
             $data4 = array(
                 'tglform' => $tglform,
                 'kode' =>$koder,
+                'noform'=> $noform,
                 'nobatch' => $nosppb,
                 'qty' => $jumlah,
                 'ket' => 'OUT'
@@ -173,7 +174,7 @@ class Keluar extends CI_Controller
         $date       = $this->input->post('tgl');
         $kode       = $this->input->post('kode');
         $noform     = $this->input->post('noform');
-        $nobatch            = $this->input->post('nobatch');
+        $nobatch    = $this->input->post('nobatch');
         $sat1       = $this->input->post('sats1');
         $sat2       = $this->input->post('sats2');
         $sat3       = $this->input->post('sats3');

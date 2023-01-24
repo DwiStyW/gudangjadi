@@ -43,7 +43,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <option type="search"></option>
                                                         <?php $nosppb = $this->db->where('ket',"OUT")->get("detailsalqty");
                                                         foreach($nosppb->result() as $sppb){?>
-                                                        <option value="<?= $sppb->nobatch?>"><?= $sppb->nobatch?></option>
+                                                        <option value="<?= $sppb->noform?>"><?= $sppb->noform?></option>
                                                         <?php }?>
 
                                                         </select>

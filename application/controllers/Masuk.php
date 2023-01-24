@@ -137,6 +137,7 @@ class Masuk extends CI_Controller
             $data5 = array(
                 'tglform' => $tglform,
                 'kode'    => $koder,
+                'noform'  => $noform,
                 'nobatch' => $nobatch,
                 'qty'     => $jumlah+=$jumsalqty,
                 'ket'     => "IN"
