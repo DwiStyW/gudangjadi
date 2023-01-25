@@ -122,7 +122,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                 <div class="row">
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Tanggal
-                                                            Form</label>
+                                                            Form(otomatis)</label>
                                                     </div>
                                                     <div class="col-lg-9">
                                                         <input name="tglform" type="date" class="form-control" id="tglform" value="" required />
