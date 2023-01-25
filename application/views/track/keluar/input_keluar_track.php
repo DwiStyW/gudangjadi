@@ -36,7 +36,7 @@ date_default_timezone_set('Asia/Jakarta');
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">No SPPB</label>
+                                                        <label class="login2 pull-right pull-right-pro">No Form</label>
                                                     </div>
                                                     <div class="col-lg-5">
                                                         <select id="nosppb" name="nosppb" type="select" class="form-control" required />

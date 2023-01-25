@@ -94,7 +94,7 @@ class Keluar_track extends CI_Controller
         }
 
         //get permintaan keluar
-        $sppb = $this->db->where('kode', $kode)->where('nobatch', $nosppb)->where('ket', 'OUT')->get('detailsalqty');
+        $sppb = $this->db->where('kode', $kode)->where('noform', $nosppb)->where('ket', 'OUT')->get('detailsalqty');
         foreach ($sppb->result() as $s) {
             $permintaan = $s->qty;
         }
@@ -217,7 +217,7 @@ class Keluar_track extends CI_Controller
         $data5 = array('qty' => $permintaan - $jumlah);
         $where4 = array(
             'kode' => $kode,
-            'nobatch' => $nosppb,
+            'noform' => $nosppb,
         );
 
         if ($jumlah <= $saldo) {
