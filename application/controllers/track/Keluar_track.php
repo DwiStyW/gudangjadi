@@ -74,7 +74,7 @@ class Keluar_track extends CI_Controller
         $isi_pallet = $this->input->post('isi_pallet');
         $tglinput = $this->input->post('tgl');
         $tglform = $this->input->post('tglform');
-        $nosppb = $this->input->post('nosppb');
+        $noform = $this->input->post('noform');
         $adm = $this->input->post('adm');
         $cat = $this->input->post('cat');
         if ($sat1 == "") {
@@ -94,7 +94,7 @@ class Keluar_track extends CI_Controller
         }
 
         //get permintaan keluar
-        $sppb = $this->db->where('kode', $kode)->where('noform', $nosppb)->where('ket', 'OUT')->get('detailsalqty');
+        $sppb = $this->db->where('kode', $kode)->where('noform', $noform)->where('ket', 'OUT')->get('detailsalqty');
         foreach ($sppb->result() as $s) {
             $permintaan = $s->qty;
         }
@@ -129,7 +129,7 @@ class Keluar_track extends CI_Controller
         }
         $data = array(
             'tglform' => $tglform,
-            'nosppb' => $nosppb,
+            'noform' => $noform,
             'kode' => $kode,
             'nobatch' => $nobatch,
             'nopallet' => $nopallet,
@@ -204,7 +204,6 @@ class Keluar_track extends CI_Controller
 
         // untuk detailsal
         $data4 = array(
-            'tgl' => date("Y-m-d"),
             'qty' => $quty - $jumlah,
         );
         $where3 = array(
@@ -217,7 +216,7 @@ class Keluar_track extends CI_Controller
         $data5 = array('qty' => $permintaan - $jumlah);
         $where4 = array(
             'kode' => $kode,
-            'noform' => $nosppb,
+            'noform' => $noform,
         );
 
         if ($jumlah <= $saldo) {
@@ -267,8 +266,8 @@ class Keluar_track extends CI_Controller
 
     public function get_kode()
     {
-        $nosppb = $this->input->post('id', true);
-        $data = $this->keluar_track_model->get_kode($nosppb)->result();
+        $noform = $this->input->post('id', true);
+        $data = $this->keluar_track_model->get_kode($noform)->result();
         echo json_encode($data);
     }
     public function get_batch()
@@ -298,8 +297,8 @@ class Keluar_track extends CI_Controller
     public function get_keluar()
     {
         $id = $this->input->post('id', true);
-        $nosppb = $this->input->post('nosppb', true);
-        $data = $this->keluar_track_model->get_keluar($id, $nosppb)->result();
+        $noform = $this->input->post('noform', true);
+        $data = $this->keluar_track_model->get_keluar($id, $noform)->result();
         echo json_encode($data);
     }
 

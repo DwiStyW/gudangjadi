@@ -65,6 +65,7 @@ class Masuk_track extends CI_Controller
         $sat3 = $this->input->post('sat3');
         $tglinput = $this->input->post('tgl');
         $tglform = $this->input->post('tglform');
+        $noform = $this->input->post('noform');
         $adm = $this->input->post('adm');
         $cat = $this->input->post('cat');
         if ($sat1 == "") {
@@ -117,6 +118,7 @@ class Masuk_track extends CI_Controller
             'ket' => 'input',
             'adm' => $adm,
             'cat' => $cat,
+            'noform'=>$noform,
         );
 
         //untuk master
@@ -187,8 +189,7 @@ class Masuk_track extends CI_Controller
 
         //untuk detailsal
         $data4 = array(
-            'tgl' => date("Y-m-d"),
-            'tglform'=>$tglform,
+            'tgl' => date("Y-m-d H:is"),
             'kode' => $kode,
             'nobatch' => $nobatch,
             'nopallet' => $nopallet,
@@ -196,17 +197,17 @@ class Masuk_track extends CI_Controller
         );
 
         //get detailsal
-        $que = $this->db->where('tgl', date("Y-m-d"))->where('kode', $kode)->where('nobatch', $nobatch)->where('nopallet', $nopallet)->get('detailsal');
+        $que = $this->db->where('kode', $kode)->where('nobatch', $nobatch)->where('nopallet', $nopallet)->get('detailsal');
         foreach ($que->result() as $q) {
             $qtypal = $q->qty;
         }
         //update detailsal
         $data6 = array(
             'qty' => $qtypal + $jumlah,
+            'tgl' => date("Y-m-d H:i:s"),
         );
         $where4 = array(
-            'tgl' => date("Y-m-d"),
-            'tglform'=>$tglform,
+            'tgl' => date("Y-m-d H:i:s"),
             'kode' => $kode,
             'nobatch' => $nobatch,
             'nopallet' => $nopallet,
@@ -220,6 +221,7 @@ class Masuk_track extends CI_Controller
         $where3 = array(
             'kode' => $kode,
             'nobatch' => $nobatch,
+            'noform'  => $noform
         );
 
         if ($qty1 >= $jumlah && $jumlah>0) {

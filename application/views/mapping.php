@@ -118,7 +118,7 @@ SPDX-License-Identifier: Apache-2.0 -->
 <script>
 function modal(kdpallet){
 document.getElementById('exampleModalLabel').innerHTML = kdpallet;
-        console.log(kdpallet);
+        // console.log(kdpallet);
         $.ajax({
             url: "<?php echo site_url('mapping/getkdpallet'); ?>",
             method: "POST",
@@ -132,7 +132,7 @@ document.getElementById('exampleModalLabel').innerHTML = kdpallet;
                 for (i = 0; i < data.length; i++) {
                     html += '<tr>'
                     html += '<td>'+ parseInt(i+1) +'</td>'
-                    html += '<td>'+ data[i].tglform +'</td>'
+                    // html += '<td>'+ data[i].tglform +'</td>'
                     html += '<td>'+ data[i].nobatch +'</td>'
                     html += '<td>'+ data[i].kode +'</td>'
                     html += '<td>'+ data[i].nama +'</td>'
@@ -145,7 +145,7 @@ document.getElementById('exampleModalLabel').innerHTML = kdpallet;
                     html += '<td>'+ sat3+' '+data[i].sat3 +'</td>'
                     html += '</tr>'
                 }
-                console.log(html);
+                // console.log(data);
                 $('#isiPallet').html(html);
             }
         });
@@ -167,7 +167,7 @@ document.getElementById('exampleModalLabel').innerHTML = kdpallet;
                 <thead>
                     <tr>
                         <th rowspan="2" style="vertical-align : middle;text-align:center;">No</th>
-                        <th rowspan="2">Tanggal Form</th>
+                        <!-- <th rowspan="2">Tanggal Form</th> -->
                         <th rowspan="2">No Batch</th>
                         <th rowspan="2">Kode</th>
                         <th rowspan="2">Nama Barang</th>

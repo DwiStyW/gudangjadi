@@ -94,8 +94,8 @@ class Keluar_track_model extends CI_Model
         $this->db->delete($table);
     }
 
-    function get_kode($nosppb){
-		$query = $this->db->where('noform', $nosppb)->join('master','detailsalqty.kode = master.kode')->group_by('nobatch')->get('detailsalqty');
+    function get_kode($noform){
+		$query = $this->db->where('noform', $noform)->join('master','detailsalqty.kode = master.kode')->group_by('nobatch')->get('detailsalqty');
 		return $query;
 	}
     function get_batch($kode){
@@ -113,11 +113,11 @@ class Keluar_track_model extends CI_Model
         $this->db->where('detailsal.kode', $kode)->where('nopallet',$id)->where('nobatch', $batch);
 		return $this->db->get();
 	}
-	function get_keluar($id,$nosppb){
+	function get_keluar($id,$noform){
 		$this->db->select('sum(qty) as jumlah,max1,max2,sat1,sat2,sat3');
         $this->db->from('detailsalqty');
         $this->db->join('master','master.kode = detailsalqty.kode');
-        $this->db->where('detailsalqty.kode', $id)->where('ket','OUT')->where('detailsalqty.noform',$nosppb);
+        $this->db->where('detailsalqty.kode', $id)->where('ket','OUT')->where('detailsalqty.noform',$noform);
 		return $this->db->get();
 	}
 }

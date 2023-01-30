@@ -32,7 +32,7 @@ class Mapping extends CI_Controller
 
     public function getkdpallet(){
         $kdpallet = $this->input->post('kdpallet');
-        $data = $this->db->where('nopallet',$kdpallet)->join('master','master.kode = detailsal.kode')->get('detailsal')->result();
+        $data = $this->db->where('nopallet',$kdpallet)->join('master', 'master.kode = detailsal.kode')->get('detailsal')->result();
         echo json_encode($data);
     }
 }

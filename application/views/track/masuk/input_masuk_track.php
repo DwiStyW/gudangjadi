@@ -115,7 +115,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                             Form</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="tglform" type="date" class="form-control" id="tglform" value="" required />
+                                                        <input name="tglform" type="date" class="form-control" readonly id="tglform" value="" required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -185,6 +185,13 @@ date_default_timezone_set('Asia/Jakarta');
                                                     <div class="col-lg-9">
                                                         <input name="adm" type="hidden" class="form-control" id="adm"
                                                             value="<?= $this->session->userdata('user_id'); ?>" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group-inner">
+                                                <div class="row">
+                                                    <div class="col-lg-9">
+                                                        <input name="noform" id="noform" type="text" class="form-control" value=""/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -312,10 +319,12 @@ $(document).ready(function() {
                 }
                 html1 = jumlah;
                 html2 = data[0].tglform;
+                html3 = data[0].form;
                 $('#tglform').val(html2);
                 $('#jumlah').val(html1);
                 $('#qty').html(html);
-                console.log(html2);
+                $('#noform').val(html3);
+                console.log(html3);
             }
         });
         return false;

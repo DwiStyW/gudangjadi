@@ -147,12 +147,14 @@ class Masuk extends CI_Controller
                 'tglform' => $tglform,
                 'kode'    => $koder,
                 'nobatch' => $nobatch,
+                'noform'  => $noform,
                 'qty'     => $jumlah,
                 'ket'     => "IN"
             );
         }
         $where2 = array(
             'kode' => $koder,
+            'noform' => $noform,
             'nobatch'=>$nobatch
         );
 

@@ -48,7 +48,7 @@
                                     <tr>
                                         <th data-field="no">No</th>
                                         <th data-field="tglform">Tgl Form</th>
-                                        <th data-field="tglform">No SPPB</th>
+                                        <th data-field="tglform">No Form</th>
                                         <th data-field="kode">Kode Barang</th>
                                         <th data-field="nama">Nama Barang</th>
                                         <th data-field="batch">No Batch</th>
@@ -69,7 +69,7 @@
                                     <tr>
                                     <td><?php echo ++$start; ?></td>
                                         <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?></td>
-                                        <td><?= $m->nosppb ?></td>
+                                        <td><?= $m->noform ?></td>
                                         <td><?php echo $m->kode; ?></td>
                                         <td><?php echo $m->nama; ?></td>
                                         <td><?php echo $m->nobatch; ?></td>
