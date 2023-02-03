@@ -183,8 +183,8 @@ if ($code == "") {
                                             <?php } ?>
                                         </tr>
                                     <?php }
-                                    $allin = $this->db->query("SELECT SUM(masuk) AS sumIn FROM riwayat WHERE  keluar='0'&& kode='$code' && tglform between '$start' AND '$end'");
-                                    $allout = $this->db->query("SELECT SUM(keluar) AS sumOut FROM riwayat WHERE masuk='0' && kode='$code' && tglform between '$start' AND '$end'");
+                                    $allin = $this->db->query("SELECT SUM(masuk) AS sumIn FROM riwayat WHERE  keluar=0 && kode='$code' && tglform between '$start' AND '$end'");
+                                    $allout = $this->db->query("SELECT SUM(keluar) AS sumOut FROM riwayat WHERE masuk=0 && kode='$code' && tglform between '$start' AND '$end'");
                                     foreach ($allin->result() as $m) {
                                         $totalM = $m->sumIn;
                                     }
