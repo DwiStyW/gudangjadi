@@ -8,7 +8,7 @@ date_default_timezone_set('Asia/Jakarta');
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
                     <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
-                        <h1>Input Bahan Keluar<h1>
+                        <h1>Input Produk Keluar<h1>
                     </div>
                 </div>
                 <div style="background-color:#fff">
@@ -33,11 +33,34 @@ date_default_timezone_set('Asia/Jakarta');
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
+                                                        <label class="login2 pull-right pull-right-pro">Tanggal
+                                                            SPPB</label>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <input name="tglsppb" type="date" class="form-control"
+                                                            id="tglsppb" value="<?php echo date("Y-m-d"); ?>"
+                                                            required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group-inner">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">No Form</label>
                                                     </div>
                                                     <div class="col-lg-9">
                                                         <input name="noform" type="text" class="form-control" id="q" onkeyup="search()" placeholder="Nomor Form" required />
                                                         <label class="login2 pull-left pull-right-pro" id="pesan"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group-inner">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <label class="login2 pull-right pull-right-pro">No SPPB</label>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <input name="nosppb" type="text" class="form-control" placeholder="Nomor SPPB" required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -164,6 +187,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                                     <th data-field="no">No</th>
                                                                     <th data-field="tglform">Tgl Form</th>
                                                                     <th data-field="noform">No Form</th>
+                                                                    <th data-field="batch">No Batch</th>
                                                                     <th data-field="kode">Kode Barang</th>
                                                                     <th data-field="nama">Nama Barang</th>
                                                                     <th data-field="satuan1">Satuan 1</th>
@@ -185,6 +209,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                                         <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?>
                                                                         </td>
                                                                         <td><?php echo $m->noform; ?></td>
+                                                                        <td><?php echo $m->nobatch; ?></td>
                                                                         <td><?php echo $m->kode; ?></td>
                                                                         <td><?php echo $m->nama; ?></td>
                                                                         <?php

@@ -2,7 +2,7 @@
     ini_set('date.timezone', 'Asia/Jakarta');
     ?>
 
-<h3>Riwayat Bahan Kemas Keluar Masuk</h3>
+<h3>Riwayat Produk Jadi Keluar Masuk</h3>
 
 <?php $mulai = date('Y-m-d', strtotime('-1 days', strtotime($start))); ?>
 Periode :

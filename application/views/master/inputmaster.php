@@ -5,7 +5,7 @@
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
                     <div class="container">
-                        <h4 class="mt-3 mb-3 ml-3"><b>Input Master Barang</b></h4>
+                        <h4 class="mt-3 mb-3 ml-3"><b>Input Master Produk</b></h4>
                     </div>
                 </div>
                 <div style="background-color:#fff">

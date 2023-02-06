@@ -13,9 +13,9 @@
                                     <div style="display:flex; flex:wrap">
                                         <div style="width:100%">
                                             <?php if(isset($keyword)){?>
-                                                <input type="text" name="keyword" value="<?= $keyword?>" placeholder="Cari Barang Masuk..." class="form-control">
+                                                <input type="text" name="keyword" value="<?= $keyword?>" placeholder="Cari Produk Masuk..." class="form-control">
                                             <?php }else{ ?>
-                                                <input type="text" name="keyword" placeholder="Cari Barang Keluar..." class="form-control">
+                                                <input type="text" name="keyword" placeholder="Cari Produk Masuk..." class="form-control">
                                                 <?php } ?>
                                         </div>
                                         <div style="width:auto">
@@ -48,18 +48,19 @@
                                     <tr>
                                         <th data-field="no">No</th>
                                         <th data-field="tglform">Tgl Form</th>
+                                        <th data-field="noform">No Form</th>
                                         <th data-field="kode">Kode Barang</th>
                                         <th data-field="nama">Nama Barang</th>
                                         <th data-field="batch">No Batch</th>
                                         <th data-field="nopallet">No Pallet</th>
-                                        <th data-field="statpallet">Status Pallet</th>
+                                        <th data-field="statpallet">Status</th>
                                         <th data-field="satuan1">Satuan 1</th>
                                         <th data-field="satuan2">Satuan 2</th>
                                         <th data-field="satuan3">Satuan 3</th>
                                         <th data-field="tanggal">Tgl Input</th>
                                         <th data-field="oleh">Oleh</th>
                                         <th data-field="cat">Catatan</th>
-                                        <th data-field="aksi">Aksi</th>
+                                        <!-- <th data-field="aksi">Aksi</th> -->
 
                                     </tr>
                                 </thead>
@@ -68,6 +69,7 @@
                                     <tr>
                                     <td><?php echo ++$start; ?></td>
                                         <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?></td>
+                                        <td><?php echo $m->noform; ?></td>
                                         <td><?php echo $m->kode; ?></td>
                                         <td><?php echo $m->nama; ?></td>
                                         <td><?php echo $m->nobatch; ?></td>
@@ -89,22 +91,22 @@
                                         <td><a href="<?= base_url("penginput/user/" . $m->adm) ?>"><?php echo $m->username ?>
                                         </td>
                                         <td><?php echo $m->cat ?></td>
-                                        <td>
+                                        <!-- <td>
                                             <a class="btn btn-sm btn-primary"
-                                                href="<?= base_url("track/masuk_track/edit_masuk_track/" . $m->no) ?>"><i
-                                                    class="fa fa-edit"></i> Edit</a>
+                                                href="<?= base_url("track/masuk_track/edit_masuk_track/" . $m->no) ?>">
+                                                <i class="fa fa-edit"></i> Edit</a>
                                             <a class="btn btn-sm btn-danger"
-                                                href="<?= base_url("masuk/hapus_masuk/" . $m->no . "/" . $m->kode) ?>"
+                                                href="<?= base_url("track/masuk_track/hapus/" . $m->no . "/" . $m->kode."/".$m->nopallet."/".$m->nobatch."/".$m->masuk) ?>"
                                                 onclick="javascript: return confirm('Anda yakin hapus ?')"><i
                                                     class="fa fa-trash"></i> Hapus</a>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                     <?php
                                         } ?>
                                 </tbody>
                             </table>
                             <div style="width:100%;margin-top:20px; display:flex; flex:wrap" class="justify-content-between">
-                                <form action="<?= base_url('masuk') ?>" id="go" method="post">
+                                <form action="<?= base_url('track/masuk_track') ?>" id="go" method="post">
                                 <div style="width:100px">
                                     <select class="form-control" name="range" onchange="go()">
                                         <option disabled selected value>Row</option>

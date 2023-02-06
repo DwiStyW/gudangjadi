@@ -14,7 +14,7 @@ if ($code == "") {
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
                     <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
-                        <h1>Riwayat Bahan Kemas Keluar Masuk</h1>
+                        <h1>Riwayat Produk Jadi Keluar Masuk</h1>
                     </div>
                 </div>
                 <div style="background-color:#fff">
@@ -183,8 +183,8 @@ if ($code == "") {
                                             <?php } ?>
                                         </tr>
                                     <?php }
-                                    $allin = $this->db->query("SELECT SUM(masuk) AS sumIn FROM riwayat WHERE  keluar='0'&& kode='$code' && tglform between '$start' AND '$end'");
-                                    $allout = $this->db->query("SELECT SUM(keluar) AS sumOut FROM riwayat WHERE masuk='0' && kode='$code' && tglform between '$start' AND '$end'");
+                                    $allin = $this->db->query("SELECT SUM(masuk) AS sumIn FROM riwayat WHERE  keluar=0 && kode='$code' && tglform between '$start' AND '$end'");
+                                    $allout = $this->db->query("SELECT SUM(keluar) AS sumOut FROM riwayat WHERE masuk=0 && kode='$code' && tglform between '$start' AND '$end'");
                                     foreach ($allin->result() as $m) {
                                         $totalM = $m->sumIn;
                                     }

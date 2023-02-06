@@ -10,7 +10,7 @@
 .dropdown {
     position: relative;
     display: inline-block;
-    z-index: 1000;
+    z-index: 100;
 }
 
 .dropdown-content {
@@ -19,7 +19,7 @@
     background-color: #f1f1f1;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
+    z-index: 100;
 }
 
 .dropdown-content a {
@@ -171,20 +171,27 @@
             <!-- web menu -->
             <div class="position-relative contentt layarlebar">
                 <ul class="nav nav-tabs d-flex justify-content-between custom-menu-wrap">
-                    <li><a href="<?= base_url("home") ?>" class="btn btn-lg tekan text-white">Home</a></li>
-                    <li><a href="<?= base_url("master") ?>" class="btn btn-lg tekan text-white">Master Barang</a></li>
+                <li><a href="<?= base_url("home") ?>" class="btn btn-lg tekan text-white">Home</a></li>
+                <li><a href="<?= base_url("master") ?>" class="btn btn-lg tekan text-white">Master Produk</a></li>
                     <?php if($this->session->userdata('role')=="track"){?>
-                    <li><a href="<?= base_url("track/masuk_track") ?>" class="btn btn-lg tekan text-white">Barang
-                            Masuk</a></li>
-
-                    <li><a href="<?= base_url("track/keluar_track") ?>" class="btn btn-lg tekan text-white">Barang
-                            Keluar</a></li>
-                    <?php } else{?>
-                    <li><a href="<?= base_url("masuk") ?>" class="btn btn-lg tekan text-white">Barang Masuk</a>
+                    <li><a href="<?= base_url("track/masuk_track") ?>" class="btn btn-lg tekan text-white">Produk Masuk</a></li>
+                    
+                    <li><a href="<?= base_url("track/keluar_track") ?>" class="btn btn-lg tekan text-white">Produk Keluar</a></li>
+                    <div class="dropdown">
+                        <button class="dropbtn">Mapping <i class="fa fa-chevron-down fa-xs"></i></button>
+                        <div class="dropdown-content">
+                            <a href="<?= base_url("mapping") ?>">Layout</a>
+                            <a href="<?= base_url("mapping2") ?>">Edit Layout</a>
+                        </div>
+                        <?php } elseif($this->session->userdata('role')=="user" || $this->session->userdata('role')=="admin" || $this->session->userdata('role')=="manager"){?>
+                    <li><a href="<?= base_url("masuk") ?>" class="btn btn-lg tekan text-white">Produk Masuk</a>
                     </li>
-                    <li><a href="<?= base_url("keluar") ?>" class="btn btn-lg tekan text-white">Barang Keluar</a>
+                    <li><a href="<?= base_url("keluar") ?>" class="btn btn-lg tekan text-white">Produk Keluar</a>
                     </li>
-
+                    
+                    <?php } ?>
+                    
+                    <?php if($this->session->userdata('role') != "track"){?>
                     <div class="dropdown">
                         <button class="dropbtn">Report <i class="fa fa-chevron-down fa-xs"></i></button>
                         <div class="dropdown-content">
@@ -289,6 +296,5 @@
             text-align: left;
             font-size: 16px;
         }
-
     }
     </style>

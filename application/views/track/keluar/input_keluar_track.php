@@ -8,7 +8,7 @@ date_default_timezone_set('Asia/Jakarta');
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
                     <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
-                        <h1>Input Produk Masuk<h1>
+                        <h1>Input Produk Keluar<h1>
                     </div>
                 </div>
                 <div style="background-color:#fff">
@@ -18,8 +18,8 @@ date_default_timezone_set('Asia/Jakarta');
                                 <div class="col-lg-12">
                                     <div class="all-form-element-inner">
 
-                                        <form enctype="multipart/form-data" id="data" action="<?= base_url("track/masuk_track/tambah_masuk_track") ?>" method="post" class="form">
-                                            
+                                        <form enctype="multipart/form-data" id="data" action="<?=base_url("track/keluar_track/tambah_keluar_track")?>" method="post" class="form">
+
                                             <!-- <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -32,6 +32,32 @@ date_default_timezone_set('Asia/Jakarta');
                                                 </div>
                                             </div> -->
                                             <!-- kode barang -->
+                                            <input type="hidden" id="jumlah" name="isi_pallet">
+                                            <div class="form-group-inner">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <label class="login2 pull-right pull-right-pro">No Form</label>
+                                                    </div>
+                                                    <div class="col-lg-5">
+                                                        <select id="noform" name="noform" type="select" class="form-control" required />
+                                                        <option type="search"></option>
+                                                        <?php $noform = $this->db->where('ket',"OUT")->get("detailsalqty");
+                                                        foreach($noform->result() as $sppb){?>
+                                                        <option value="<?= $sppb->noform?>"><?= $sppb->noform?></option>
+                                                        <?php }?>
+
+                                                        </select>
+                                                    </div>
+                                                    <div style="display:flex; flex-wrap:wrap">
+                                                    <div style="width:110px;padding-left:40px">
+                                                    <label  class="login2 pull-right pull-right-pro">permintaan:</label>
+                                                    </div>
+                                                    <div style="width:200px">
+                                                    <h5 id="keluaran"></h5>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -42,53 +68,32 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <div class="form-select-list">
                                                             <select id="kode" name="kode" class="form-control" required>
                                                                 <option type="search"></option>
-                                                                <?php
-                                                                $no = 1;
-                                                                foreach ($master as $mter) { ?>
-                                                                    <option type="search"></option>
-                                                                    <?php if($this->uri->segment(4)==$mter->kode){?>
-                                                                    <option selected value="<?= $mter->kode ?>">
-                                                                    <?= $mter->kode ?> - <?= $mter->nama ?>
-                                                                </option>
-                                                                <?php }else{?>
-                                                                    <option value="<?= $mter->kode ?>">
-                                                                    <?= $mter->kode ?> - <?= $mter->nama ?>
-                                                                </option>
-                                                               <?php } } ?>
                                                             </select>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        
-                                            <!-- <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">Tanggal
-                                                            Form</label>
-                                                    </div>
-                                                    <div class="col-lg-9">
-                                                        <input name="tglform" type="date" class="form-control" id="tglform" value="<?= date($tglform) ?>" required />
-                                                    </div>
-                                                </div>
-                                            </div> -->
+                                                <?php $batch = $this->db->where('kode', $this->uri->segment(4))->group_by("nobatch")->get('detailsal')?>
+                                            <?php
+                                                $mas = $this->db->where('kode', $this->uri->segment(4))->get('master');
+                                                foreach ($mas->result() as $m) {
+                                                    $satuan1 = $m->sat1;
+                                                    $satuan2 = $m->sat2;
+                                                    $satuan3 = $m->sat3;
+                                                    $max1 = $m->max1;
+                                                    $max2 = $m->max2;
+                                                }
+                                                ?>
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">No Batch</label>
                                                     </div>
-                                                    <div class="col-lg-5">
-                                                        <select id="batch" class="form-control"  name="nobatch" type="select" required>
+                                                    <div class="col-lg-9">
+                                                        <select id="batch" class="form-control" name="nobatch" type="select" required>
+                                                            <option type="search"></option>
 
                                                         </select>
-                                                    </div>
-                                                    <div style="display:flex; flex-wrap:wrap">
-                                                    <div style="width:150px;padding-left:10px">
-                                                    <label  class="login2 pull-right pull-right-pro">belum dipallet:</label>
-                                                    </div>
-                                                    <div style="width:200px">
-                                                        <h5 id="qty"></h5>
-                                                    </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -97,14 +102,19 @@ date_default_timezone_set('Asia/Jakarta');
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">No Pallet</label>
                                                     </div>
-                                                    <div class="col-lg-9">
-                                                        <select id="nopallet" name="nopallet" type="select" class="form-control" required />
+                                                    <div class="col-lg-5">
+                                                        <select id="pallet" name="nopallet" type="select" class="form-control" required />
                                                         <option type="search"></option>
-                                                        <?php 
-                                                        foreach($pallet as $p){ ?>
-                                                            <option value="<?= $p->kdpallet?>"><?php echo $p->kdpallet.' '. $p->status?></option>
-                                                        <?php } ?>
+
                                                         </select>
+                                                    </div>
+                                                    <div style="display:flex; flex-wrap:wrap">
+                                                    <div style="width:110px;padding-left:40px">
+                                                    <label  class="login2 pull-right pull-right-pro">Isi:</label>
+                                                    </div>
+                                                    <div style="width:200px">
+                                                    <h5 id="qty"></h5>
+                                                    </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -115,7 +125,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                             Form</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="tglform" type="date" class="form-control" readonly id="tglform" value="" required />
+                                                        <input name="tglform" type="date" class="form-control" id="tglform" value="" readonly required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -175,23 +185,15 @@ date_default_timezone_set('Asia/Jakarta');
                                                     <div class="col-lg-9">
                                                         <input name="cat" type="text" class="form-control" id="cat" value=""
                                                             placeholder="Catatan" />
-                                                        <input type="hidden" name="jumlah" id="jumlah">
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-9">
                                                         <input name="adm" type="hidden" class="form-control" id="adm"
-                                                            value="<?= $this->session->userdata('user_id'); ?>" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-9">
-                                                        <input name="noform" id="noform" type="text" class="form-control" value=""/>
+                                                            value="<?=$this->session->userdata('user_id');?>" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -201,7 +203,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <div class="col-lg-3"></div>
                                                         <div class="col-lg-9">
                                                             <div class="login-horizental cancel-wp pull-left">
-                                                                <a href="<?= base_url("track/masuk_track") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
+                                                                <a href="<?=base_url("track/keluar_track")?>"><button class="btn btn-white" type="button">Kembali</button></a>
                                                                 <button type="submit" class="btn btn-sm btn-primary login-submit-cs">Save Change</button>
                                                             </div>
                                                         </div>
@@ -211,7 +213,7 @@ date_default_timezone_set('Asia/Jakarta');
                                         </form>
                                         <br>
                                         <!-- Start Form -->
-                                        
+
                                         <!-- End Form -->
                                     </div>
                                 </div>
@@ -226,34 +228,97 @@ date_default_timezone_set('Asia/Jakarta');
 <!-- Data table area End-->
 
 <!-- mobile -->
-
-<script type="text/javascript" src="<?php echo base_url().'assets/js/jquery-3.3.1.js'?>"></script>
-<script src="<?= base_url() ?>assets/select2-master/dist/js/select2.min.js"></script>
-<script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
+<script src="<?=base_url()?>assets/js/jquery-2.1.4.min.js"></script>
+<script src="<?=base_url()?>assets/select2-master/dist/js/select2.min.js"></script>
+<script src="<?=base_url()?>assets/sweetalert2/swal2.js"></script>
 <script>
-$(document).ready(function() {
-    $("#kode").select2({
-        placeholder: "Please Select",
-    });
-});
-$(document).ready(function() {
-    $("#nopallet").select2({
-        placeholder: "Please Select",
-    });
-});
-$(document).ready(function() {
-        $("#batch").select2({
-            placeholder: "Pilih Kode barang terlebih dahulu",
-        });
-    });
+
+    // function qty(){
+    //     var saldo = document.getElementById('saldo').value;
+    //     var sat1  = Math.floor(saldo / (<?=$max1 * $max2?> ));
+    //     var sisa  = saldo - (sat1 * <?=$max1 * $max2?>);
+    //     var sat2  = Math.floor(sisa / <?=$max2?>);
+    //     var sat3  = sisa - sat2 * <?=$max2?>;
+    //     document.getElementById('qty').innerHTML = sat1+' <?=$satuan1?>, '+ sat2+' <?=$satuan2?>, '+ sat3+' <?=$satuan3?>';
+    //     }
+    function filsalmin(){
+        var saldo = document.getElementById('jumlah').value;
+        var sal1  = document.getElementById('sats1').value;
+        var sal2  = document.getElementById('sats2').value;
+        var sal3  = document.getElementById('sats3').value;
+        if(sal1==""){
+            sal1=0;
+        }
+        if(sal2==""){
+            sal2=0;
+        }
+        if(sal3==""){
+            sal3=0;
+        }
+        var sald1 = sal1 * <?=$max1 * $max2?>;
+        var sald2 = sal2 * <?=$max1?>;
+        var total = parseInt(sald1)+parseInt(sald2)+parseInt(sal3);
+        if(document.getElementById('nopallet').value == "" && document.getElementById('batch').value !=""){
+            if(total > saldo || total<0){
+                document.getElementById('data').submit();
+            }else{
+                Swal.fire({
+            icon: 'warning',
+            html: "<h1><b>Peringatan!</b><h1><h5>Saldo tidak mencukupi!</h5>",
+            showConfirmButton: true,
+            allowOutsideClick: false,
+            width: 300,
+            })
+            }
+        }else{
+            Swal.fire({
+            icon: 'warning',
+            html: "<h1><b>Peringatan!</b><h1><h5>Kode Pallet atau No Batch Kosong!</h5>",
+            showConfirmButton: true,
+            allowOutsideClick: false,
+            width: 300,
+            })
+        }
+    }
 </script>
 
+<?php if ($this->session->flashdata('sukses')): ?>
+<script>
+Swal.fire({
+    icon: 'success',
+    position: 'top-end',
+    title: '<?=$this->session->flashdata('sukses')?>',
+    showConfirmButton: false,
+    timer: 1500,
+    allowOutsideClick: false,
+    timerProgressBar: true
+})
+</script>
+<?php endif?>
+
+<?php if ($this->session->flashdata('gagal')): ?>
+<script>
+Swal.fire({
+    icon: 'error',
+    position: 'top-end',
+    title: '<?=$this->session->flashdata('gagal')?>',
+    showConfirmButton: false,
+    timer: 1500,
+    allowOutsideClick: false,
+    timerProgressBar: true
+})
+</script>
+<?php
+endif?>
+<script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery-3.3.1.js' ?>"></script>
+<script src="<?=base_url()?>assets/select2-master/dist/js/select2.min.js"></script>
+<script src="<?=base_url()?>assets/sweetalert2/swal2.js"></script>
 <script>
 $(document).ready(function() {
-    $('#kode').change(function() {
+    $('#noform').change(function() {
         var id = $(this).val();
         $.ajax({
-            url: "<?php echo site_url('track/masuk_track/get_batch');?>",
+            url: "<?php echo site_url('track/keluar_track/get_kode'); ?>",
             method: "POST",
             data: {
                 id: id
@@ -261,7 +326,13 @@ $(document).ready(function() {
             async: true,
             dataType: 'json',
             success: function(data) {
+                $("#kode").select2({
+                    placeholder: "Please Select",
+                });
                 $("#batch").select2({
+                    placeholder: "Please Select",
+                });
+                $("#pallet").select2({
                     placeholder: "Please Select",
                 });
 
@@ -269,46 +340,105 @@ $(document).ready(function() {
                 var i;
                 html = '<option selected type="search"></option>';
                 for (i = 0; i < data.length; i++) {
-                    html += '<option value=' + data[i].nobatch + '>' + data[i]
-                        .nobatch + '</option>';
+                    html += '<option value=' + data[i].kode + '>' + data[i]
+                        .nama + '</option>';
                 }
-                $('#batch').html(html);
+                $('#kode').html(html);
 
                 var htmlp = '';
                 htmlp = '<option selected type="search"></option>';
                 $('#pallet').html(htmlp);
-                
+
                 var htmlq = '';
                 htmlq = '';
-                
+
                 $('#qty').html(htmlq);
+                html2 = data[0].tglform;
+                $('#tglform').val(html2);
             }
         });
         return false;
     });
 
-    $('#batch').change(function() {
+    $('#kode').change(function() {
         var id = $(this).val();
-        var kode = document.getElementById('kode').value;
+        var noform = document.getElementById('noform').value;
         $.ajax({
-            url: "<?php echo site_url('track/masuk_track/get_qty');?>",
+            url: "<?php echo site_url('track/keluar_track/get_batch'); ?>",
             method: "POST",
             data: {
                 id: id,
-                kode: kode,
+                noform: noform
             },
             async: true,
             dataType: 'json',
             success: function(data) {
 
                 var html = '';
+                var htmlk = '';
+                var i;
+                html = '<option selected type="search"></option>';
+                for (i = 0; i < data.length; i++) {
+                    html += '<option value=' + data[i].nobatch + '>' + data[i]
+                        .nobatch + '</option>';
+                }
+                $('#batch').html(html);
+            }
+        });
+        return false;
+    });
+    $('#batch').change(function() {
+        var id = $(this).val();
+        var kode = document.getElementById('kode').value;
+        $.ajax({
+            url: "<?php echo site_url('track/keluar_track/get_pallet'); ?>",
+            method: "POST",
+            data: {
+                id: id,
+                kode: kode
+            },
+            async: true,
+            dataType: 'json',
+            success: function(data) {
+
+                var html = '';
+                var i;
+                html = '<option selected type="search"></option>';
+                for (i = 0; i < data.length; i++) {
+                    html += '<option value=' + data[i].nopallet + '>' + data[i]
+                        .nopallet + '</option>';
+                }
+                $('#pallet').html(html);
+            }
+        });
+        return false;
+    });
+
+    $('#pallet').change(function() {
+        var id = $(this).val();
+        var kode = document.getElementById('kode').value;
+        var batch= document.getElementById('batch').value;
+        $.ajax({
+            url: "<?php echo site_url('track/keluar_track/get_qty'); ?>",
+            method: "POST",
+            data: {
+                id: id,
+                kode: kode,
+                batch: batch
+            },
+            async: true,
+            dataType: 'json',
+            success: function(data) {
+
+                var html = '';
+                var html1 = '';
                 var jumlah = data[0].jumlah;
                 var max1   = data[0].max1;
                 var max2   = data[0].max2;
                 var sat1   = data[0].sat1;
                 var sat2   = data[0].sat2;
                 var sat3   = data[0].sat3;
-                
+
                 var jum1  = Math.floor(data[0].jumlah / (max1 * max2 ));
                 var sisa  = jumlah - (jum1 * max1 * max2);
                 var jum2  = Math.floor(sisa / max2);
@@ -318,52 +448,87 @@ $(document).ready(function() {
                 html = "<h5>"+jum1+" "+sat1+" "+jum2+" "+sat2+" "+jum3+" "+sat3+"</h5>";
                 }
                 html1 = jumlah;
-                html2 = data[0].tglform;
-                html3 = data[0].form;
-                $('#tglform').val(html2);
                 $('#jumlah').val(html1);
                 $('#qty').html(html);
-                $('#noform').val(html3);
-                console.log(html3);
+                console.log(jumlah);
             }
         });
         return false;
     });
+    $('#kode').change(function() {
+        var id = $(this).val();
+        var noform = document.getElementById('noform').value;
+        $.ajax({
+            url: "<?php echo site_url('track/keluar_track/get_keluar'); ?>",
+            method: "POST",
+            data: {
+                id: id,
+                noform: noform,
+            },
+            async: true,
+            dataType: 'json',
+            success: function(data) {
+
+                var html = '';
+                var html1 = '';
+                var jumlah = data[0].jumlah;
+                var max1   = data[0].max1;
+                var max2   = data[0].max2;
+                var sat1   = data[0].sat1;
+                var sat2   = data[0].sat2;
+                var sat3   = data[0].sat3;
+
+                var jum1  = Math.floor(data[0].jumlah / (max1 * max2 ));
+                var sisa  = jumlah - (jum1 * max1 * max2);
+                var jum2  = Math.floor(sisa / max2);
+                var jum3  = sisa - jum2 * max2;
+
+                if(jumlah!=null){
+                html = "<h5>"+jum1+" "+sat1+" "+jum2+" "+sat2+" "+jum3+" "+sat3+"</h5>";
+                }
+                html1 = jumlah;
+                $('#keluaran').html(html);
+           
+            }
+        });
+        return false;
+    });
+
+
 });
 </script>
 <script>
-    $(function() {
-    $("#kode").change(function() {
-        $("#batch").select2('val', 'all');
+$(document).ready(function() {
+    $("#kode").select2({
+        placeholder: "Please Select",
+    });
+    $("#batch").select2({
+        placeholder: "Please Select",
+    });
+    $("#pallet").select2({
+        placeholder: "Please Select",
+    });
+    $("#noform").select2({
+        placeholder: "Please Select",
     });
 });
 </script>
-
-<?php if ($this->session->flashdata('sukses')) : ?>
 <script>
-Swal.fire({
-    icon: 'success',
-    position: 'top-end',
-    title: '<?= $this->session->flashdata('sukses') ?>',
-    showConfirmButton: false,
-    timer: 1500,
-    allowOutsideClick: false,
-    timerProgressBar: true
+$(function() {
+    $("#noform").change(function() {
+        $("#kode").select2('val', 'all');
+        $("#batch").select2('val', 'all');
+        $("#pallet").select2('val', 'all');
+    });
+    $("#kode").change(function() {
+        $("#batch").select2('val', 'all');
+        $("#pallet").select2('val', 'all');
+    });
+    $("#batch").change(function() {
+        $("#pallet").select2('val', 'all');
+        $("#pallet").select2({
+            placeholder: "Please Select",
+        });
+    })
 })
 </script>
-<?php endif ?>
-
-<?php if ($this->session->flashdata('gagal')) : ?>
-<script>
-Swal.fire({
-    icon: 'error',
-    position: 'top-end',
-    title: '<?= $this->session->flashdata('gagal') ?>',
-    showConfirmButton: false,
-    timer: 1500,
-    allowOutsideClick: false,
-    timerProgressBar: true
-})
-</script>
-<?php
-endif ?>

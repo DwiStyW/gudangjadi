@@ -1,6 +1,6 @@
 <?php
 //auto logout 10 menit
-$timeout = 10000; // Set timeout menit
+$timeout = 1000000; // Set timeout menit
 $logout_redirect_url = base_url("auth/logout"); // Set logout URL
 
 
@@ -22,7 +22,7 @@ $_SESSION['start_time'] = time(); ?>
     <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Saldo Bahan Kemas | SI Gudang</title>
+    <title>Saldo Produk Jadi | SI Gudang</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- favicon
@@ -74,8 +74,6 @@ $_SESSION['start_time'] = time(); ?>
     <!-- modernizr JS
 		============================================ -->
     <script src="<?= base_url() ?>assets/js/vendor/modernizr-2.8.3.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/jquery-1.3.2.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/jquery-ui-1.7.2.custom.min.js"></script>
     <!-- Color Css Files
 		============================================ -->
     <link rel="alternate stylesheet" type="text/css" href="<?= base_url() ?>assets/css/switcher/color-one.css"
