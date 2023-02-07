@@ -19,7 +19,7 @@
                                     <div class="col-lg-12">
                                         <div class="all-form-element-inner">
                                             <form enctype="multipart/form-data"
-                                                action="<?= base_url("report/tampilreportgr") ?>" method="post">
+                                                action="<?= base_url("track/report/tampil_gol") ?>" method="post">
                                                 <div class="form-group-inner">
                                                     <div class="row">
                                                         <div class="col-lg-3">
@@ -68,7 +68,7 @@
                                                             <div class="col-lg-3"></div>
                                                             <div class="col-lg-9">
                                                                 <div class="login-horizental cancel-wp pull-left">
-                                                                    <a href="index.php"><button class="btn btn-white"
+                                                                    <a href="<?= base_url("home")?>"><button class="btn btn-white"
                                                                             type="button">Kembali</button></a>
                                                                     <button
                                                                         class="btn btn-sm btn-primary login-submit-cs"

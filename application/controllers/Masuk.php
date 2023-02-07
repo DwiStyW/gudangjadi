@@ -91,7 +91,7 @@ class Masuk extends CI_Controller
             'noform' => $noform,
             'nobatch'=> $nobatch,
             'masuk' => $jumlah,
-            'keluar' => '',
+            'keluar' => 0,
             'saldo' => $hasil,
             'ket' => 'Input',
             'tanggal' => $tgl,
@@ -124,7 +124,7 @@ class Masuk extends CI_Controller
         );
 
         //untuk detailsalqty
-        $detsal = $this->db->where('kode',$kode)->where('nobatch',$nobatch)->get('detailsalqty');
+        $detsal = $this->db->where('kode',$kode)->where('ket','IN')->where('nobatch',$nobatch)->get('detailsalqty');
         foreach($detsal->result() as $det){
             $salqty[]=$det->qty;
         }
@@ -133,13 +133,14 @@ class Masuk extends CI_Controller
         {
             $jumsalqty+=$salqty[$i];
         }
+        $total = $jumlah+$jumsalqty;
         if($detsal->num_rows()>0){
             $data5 = array(
                 'tglform' => $tglform,
                 'kode'    => $koder,
                 'noform'  => $noform,
                 'nobatch' => $nobatch,
-                'qty'     => $jumlah+=$jumsalqty,
+                'qty'     => $total,
                 'ket'     => "IN"
             );
         }else{
@@ -154,7 +155,6 @@ class Masuk extends CI_Controller
         }
         $where2 = array(
             'kode' => $koder,
-            'noform' => $noform,
             'nobatch'=>$nobatch
         );
 
