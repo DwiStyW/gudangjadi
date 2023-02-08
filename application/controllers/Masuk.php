@@ -260,8 +260,13 @@ class Masuk extends CI_Controller
             }
         }
     }
-    public function hapus_masuk($no, $kode)
+    public function hapus_masuk()
     {
+        $kode = $this->input->post('kode');
+        $no = $this->input->post('no');
+        $noform = $this->input->post('noform');
+        $nobatch = $this->input->post('nobatch');
+
         $date = date("Y-m-d H:i:s");
         $tampil1 = $this->db->query("select * from riwayat WHERE no='$no'");
         foreach ($tampil1->result() as $riw) {
@@ -281,21 +286,46 @@ class Masuk extends CI_Controller
             'tgl_update' => $date
         );
 
-        if ($hasil < 0) {
+        //untuk detailsalqty
+        $dsq = $this->db->where('kode',$kode)->where('noform',$noform)->where('ket','IN')->where('nobatch',$nobatch)->get('detailsalqty');
+        foreach($dsq->result() as $d){
+            $qty = $d->qty;
+        }
+        //update detailsalqty
+        $data2 = array(
+            'qty' => $qty-$awal
+        );
+        $where2 = array(
+            'noform'=>$noform,
+            'kode'=>$kode,
+            'nobatch'=>$nobatch,
+        );
+        $cek_dsq = $qty - $awal;
+        if($cek_dsq < 0){
             $this->session->set_flashdata("gagal", "JUMLAH STOK MINUS !!!");
             redirect("masuk");
-        } else {
-            $this->db->trans_start();
-            $this->masuk_model->update($where1, $data1, 'master');
-            $this->masuk_model->hapus($where, 'riwayat');
-            $this->db->trans_complete();
+        }else{
+            if ($hasil < 0) {
+                $this->session->set_flashdata("gagal", "JUMLAH STOK MINUS !!!");
+                redirect("masuk");
+                    } else {
+                $this->db->trans_start();
+                $this->masuk_model->update($where1, $data1, 'master');
+                $this->masuk_model->hapus($where, 'riwayat');
+                if ($cek_dsq == 0) {
+                    $this->masuk_model->hapus($where2, 'detailsalqty');
+                } else {
+                    $this->masuk_model->update($where2, $data2, 'detailsalqty');
+                }
+                $this->db->trans_complete();
 
-            if($this->db->trans_status()===FALSE){
-                $this->session->set_flashdata('gagal', 'Delete Barang Masuk Error!');
-            }else{
-                $this->session->set_flashdata('sukses', 'Delete Barang Masuk Success!');
+                if ($this->db->trans_status()===false) {
+                    $this->session->set_flashdata('gagal', 'Delete Barang Masuk Error!');
+                } else {
+                    $this->session->set_flashdata('sukses', 'Delete Barang Masuk Success!');
+                }
+                redirect("masuk");
             }
-            redirect("masuk");
         }
     }
 
@@ -308,5 +338,18 @@ class Masuk extends CI_Controller
         if ($sql->num_rows() > 0) {
             echo " &#10060; No Form Duplicate!!! Cek tabel di bawah.";
         }
+    }
+    public function getqty()
+    {
+        $noform = $this->input->post('noform', true);
+        $kode = $this->input->post('kode', true);
+        $nobatch = $this->input->post('nobatch', true);
+        $query = $this->db->join('master','master.kode = detailsalqty.kode')->where('noform',$noform)->where('nobatch',$nobatch)->where('ket','IN')->where('detailsalqty.kode',$kode)->get('detailsalqty');
+        if($query->num_rows()>0){
+            $data = $query->result();
+        }else{
+            $data = $this->db->where('kode',$kode)->get('master')->result();
+        }
+        echo json_encode($data);
     }
 }

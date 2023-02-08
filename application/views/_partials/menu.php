@@ -183,17 +183,17 @@
                             <a href="<?= base_url("mapping") ?>">Layout</a>
                             <a href="<?= base_url("mapping2") ?>">Edit Layout</a>
                         </div>
-                        <div class="dropdown">
-                        <button class="dropbtn">Report <i class="fa fa-chevron-down fa-xs"></i></button>
-                        <div class="dropdown-content">
-                            <a href="<?= base_url("track/report/riwayat") ?>">Riwayat Keluar
-                                Masuk</a>
-                            <a href="<?= base_url("track/report/filgolongan") ?>">Report
-                                per
-                                Gol</a>
-                            <a href="<?= base_url("track/report/repall") ?>">Report All</a>
-                            <a href="<?= base_url("track/report/repsa") ?>">Saldo Akhir Stock</a>
-                        </div>
+                    </div>
+                    <div class="dropdown">
+                    <button class="dropbtn">Report <i class="fa fa-chevron-down fa-xs"></i></button>
+                    <div class="dropdown-content">
+                        <a href="<?= base_url("track/report/riwayat") ?>">Riwayat Keluar
+                            Masuk</a>
+                        <a href="<?= base_url("track/report/filgolongan") ?>">Report
+                            per
+                            Gol</a>
+                        <a href="<?= base_url("track/report/repall") ?>">Report All</a>
+                        <a href="<?= base_url("track/report/repsa") ?>">Saldo Akhir Stock</a>
                     </div>
                         <?php } elseif($this->session->userdata('role')=="user" || $this->session->userdata('role')=="admin" || $this->session->userdata('role')=="manager"){?>
                     <li><a href="<?= base_url("masuk") ?>" class="btn btn-lg tekan text-white">Produk Masuk</a>

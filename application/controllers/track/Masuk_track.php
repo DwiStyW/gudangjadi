@@ -268,7 +268,7 @@ class Masuk_track extends CI_Controller
         $this->load->view("_partials/footer");
     }
 
-    public function hapus($no, $kode, $nopallet, $nobatch, $jumlah)
+    public function hapus($no, $kode, $nopallet, $nobatch, $jumlah, $noform, $tglform)
     {
         //untuk riwayattrack
         $where = array('no' => $no);
@@ -298,6 +298,8 @@ class Masuk_track extends CI_Controller
         $data2 = array(
             'kode' => $kode,
             'nobatch' => $nobatch,
+            'noform' => $noform,
+            'tglform' => $tglform,
             'qty' => $jumlah,
             'ket' => "IN",
         );

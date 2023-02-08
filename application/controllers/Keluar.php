@@ -298,8 +298,13 @@ class Keluar extends CI_Controller
         }
     }
 
-    public function hapus_keluar($no, $kode)
+    public function hapus_keluar()
     {
+        $kode = $this->input->post('kode');
+        $no = $this->input->post('no');
+        $noform = $this->input->post('noform');
+        $nobatch = $this->input->post('nobatch');
+
         $date = date("Y-m-d H:i:s");
         $tampil1 = $this->db->query("SELECT * FROM riwayat WHERE no = $no");
         foreach ($tampil1->result() as $data1) {
@@ -310,32 +315,50 @@ class Keluar extends CI_Controller
             $hasil = $data->saldo + $awal;
         }
 
-        //update saldo
+        //update master
         $data2 = array(
             'saldo' => $hasil,
-            'tanggal' => $date,
+            'tgl_update' => $date,
         );
         $where = array('kode' => $kode);
         $where1 = array('no' => $no);
 
-        $this->db->trans_start();
-        $this->keluar_model->update($where, $data2, 'master');
-        $this->keluar_model->hapus($where1, 'riwayat');
-        $this->db->trans_complete();
-        if ($this->db->trans_status() === false) {
-            $this->session->set_flashdata('gagal', 'Delete Barang Keluar Error!');
-        } else {
-            $this->session->set_flashdata('sukses', 'Delete Barang Keluar Success!');
+        //untuk detailsalqty
+        $dsq = $this->db->where('kode',$kode)->where('noform',$noform)->where('ket','OUT')->where('nobatch',$nobatch)->get('detailsalqty');
+        foreach($dsq->result() as $d){
+            $qty = $d->qty;
         }
-        redirect("keluar");
-        // if (isset($data2) && isset($where) && isset($where1)) {
-        //     $this->keluar_model->update($where, $data2, 'saldo');
-        //     $this->keluar_model->hapus($where1, 'riwayat');
-        //     $this->keluar_model->hapus($where1, 'keluar');
-        //     redirect("keluar");
-        // } else {
-        //     $this->session->set_flashdata('gagal', 'Delete Barang Keluar Error!');
-        // }
+        //update detailsalqty
+        $data3 = array(
+            'qty' => $qty-$awal
+        );
+        $where2 = array(
+            'noform'=>$noform,
+            'kode'=>$kode,
+            'nobatch'=>$nobatch,
+        );
+        $cek_dsq = $qty - $awal;
+
+        if($cek_dsq < 0){
+            $this->session->set_flashdata("gagal", "JUMLAH STOK MINUS !!!");
+            redirect("keluar");
+        }else{
+            $this->db->trans_start();
+            $this->keluar_model->update($where, $data2, 'master');
+            $this->keluar_model->hapus($where1, 'riwayat');
+            if ($cek_dsq == 0) {
+                $this->masuk_model->hapus($where2, 'detailsalqty');
+            } else {
+                $this->masuk_model->update($where2, $data3, 'detailsalqty');
+            }
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === false) {
+                $this->session->set_flashdata('gagal', 'Delete Barang Keluar Error!');
+            } else {
+                $this->session->set_flashdata('sukses', 'Delete Barang Keluar Success!');
+            }
+            redirect("keluar");
+        }
     }
 
     public function cekduplicate()
@@ -346,5 +369,19 @@ class Keluar extends CI_Controller
         if ($sql->num_rows() > 0) {
             echo " &#10060; No Form Duplicate!!! Cek tabel di bawah.";
         }
+    }
+
+    public function getqty()
+    {
+        $noform = $this->input->post('noform', true);
+        $kode = $this->input->post('kode', true);
+        $nobatch = $this->input->post('nobatch', true);
+        $query = $this->db->join('master','master.kode = detailsalqty.kode')->where('noform',$noform)->where('nobatch',$nobatch)->where('ket','OUT')->where('detailsalqty.kode',$kode)->get('detailsalqty');
+        if($query->num_rows()>0){
+            $data = $query->result();
+        }else{
+            $data = $this->db->where('kode',$kode)->get('master')->result();
+        }
+        echo json_encode($data);
     }
 }

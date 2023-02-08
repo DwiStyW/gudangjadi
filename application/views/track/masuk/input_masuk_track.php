@@ -191,7 +191,7 @@ date_default_timezone_set('Asia/Jakarta');
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-9">
-                                                        <input name="noform" id="noform" type="text" class="form-control" value=""/>
+                                                        <input name="noform" id="noform" type="hidden" class="form-control" value=""/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -319,7 +319,7 @@ $(document).ready(function() {
                 }
                 html1 = jumlah;
                 html2 = data[0].tglform;
-                html3 = data[0].form;
+                html3 = data[0].noform;
                 $('#tglform').val(html2);
                 $('#jumlah').val(html1);
                 $('#qty').html(html);

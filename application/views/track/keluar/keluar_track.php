@@ -92,11 +92,11 @@
                                         </td>
                                         <td><?php echo $m->cat ?></td>
                                         <td>
-                                            <a class="btn btn-sm btn-primary"
+                                            <button disabled class="btn btn-sm btn-primary"
                                                 href="<?= base_url("track/keluar_track/edit_keluar_track/" . $m->no) ?>"><i
-                                                    class="fa fa-edit"></i> Edit</a>
-                                            <a class="btn btn-sm btn-danger"
-                                                href="<?= base_url("keluar/hapus_keluar/" . $m->no . "/" . $m->kode) ?>"
+                                                    class="fa fa-edit"></i> Edit</button>
+                                                    <a class="btn btn-sm btn-danger"
+                                                href="<?= base_url("track/keluar_track/hapus/" . $m->no . "/" . $m->kode."/".$m->nopallet."/".$m->nobatch."/".$m->keluar) ?>"
                                                 onclick="javascript: return confirm('Anda yakin hapus ?')"><i
                                                     class="fa fa-trash"></i> Hapus</a>
                                         </td>
