@@ -48,7 +48,7 @@
                                     <tr>
                                         <th data-field="no">No</th>
                                         <th data-field="tglform">Tgl Form</th>
-                                        <th data-field="tglform">No SPPB</th>
+                                        <th data-field="noform">No Form</th>
                                         <th data-field="kode">Kode Barang</th>
                                         <th data-field="nama">Nama Barang</th>
                                         <th data-field="batch">No Batch</th>
@@ -69,7 +69,7 @@
                                     <tr>
                                     <td><?php echo ++$start; ?></td>
                                         <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?></td>
-                                        <td><?= $m->nosppb ?></td>
+                                        <td><?= $m->noform ?></td>
                                         <td><?php echo $m->kode; ?></td>
                                         <td><?php echo $m->nama; ?></td>
                                         <td><?php echo $m->nobatch; ?></td>
@@ -92,11 +92,11 @@
                                         </td>
                                         <td><?php echo $m->cat ?></td>
                                         <td>
-                                            <a class="btn btn-sm btn-primary"
+                                            <button disabled class="btn btn-sm btn-primary"
                                                 href="<?= base_url("track/keluar_track/edit_keluar_track/" . $m->no) ?>"><i
-                                                    class="fa fa-edit"></i> Edit</a>
-                                            <a class="btn btn-sm btn-danger"
-                                                href="<?= base_url("keluar/hapus_keluar/" . $m->no . "/" . $m->kode) ?>"
+                                                    class="fa fa-edit"></i> Edit</button>
+                                                    <a class="btn btn-sm btn-danger"
+                                                href="<?= base_url("track/keluar_track/hapus/" . $m->no . "/" . $m->kode."/".$m->nopallet."/".$m->nobatch."/".$m->keluar."/".$m->noform."/".$m->tglform) ?>"
                                                 onclick="javascript: return confirm('Anda yakin hapus ?')"><i
                                                     class="fa fa-trash"></i> Hapus</a>
                                         </td>

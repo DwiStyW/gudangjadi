@@ -65,6 +65,7 @@ class Masuk_track extends CI_Controller
         $sat3 = $this->input->post('sat3');
         $tglinput = $this->input->post('tgl');
         $tglform = $this->input->post('tglform');
+        $noform = $this->input->post('noform');
         $adm = $this->input->post('adm');
         $cat = $this->input->post('cat');
         if ($sat1 == "") {
@@ -79,14 +80,14 @@ class Masuk_track extends CI_Controller
 
         // get status pallet
         $pallet = $this->db->query("SELECT * FROM pallet where kdpallet='$nopallet'");
-        foreach ($pallet->result() as $p) :
+        foreach ($pallet->result() as $p):
             $status = $p->status;
             $qty = $p->qty;
         endforeach;
 
         //konversi 3 satuan
         $master = $this->db->query("SELECT * FROM master where kode='$kode'");
-        foreach ($master->result() as $m) :
+        foreach ($master->result() as $m):
             $max1 = $m->max1;
             $max2 = $m->max2;
             $saldo = $m->saldo_track;
@@ -117,6 +118,7 @@ class Masuk_track extends CI_Controller
             'ket' => 'input',
             'adm' => $adm,
             'cat' => $cat,
+            'noform'=>$noform,
         );
 
         //untuk master
@@ -187,8 +189,7 @@ class Masuk_track extends CI_Controller
 
         //untuk detailsal
         $data4 = array(
-            'tgl' => date("Y-m-d"),
-            'tglform' => $tglform,
+            'tgl' => date("Y-m-d H:is"),
             'kode' => $kode,
             'nobatch' => $nobatch,
             'nopallet' => $nopallet,
@@ -196,17 +197,16 @@ class Masuk_track extends CI_Controller
         );
 
         //get detailsal
-        $que = $this->db->where('tgl', date("Y-m-d"))->where('kode', $kode)->where('nobatch', $nobatch)->where('nopallet', $nopallet)->get('detailsal');
+        $que = $this->db->where('kode', $kode)->where('nobatch', $nobatch)->where('nopallet', $nopallet)->get('detailsal');
         foreach ($que->result() as $q) {
             $qtypal = $q->qty;
         }
         //update detailsal
         $data6 = array(
             'qty' => $qtypal + $jumlah,
+            'tgl' => date("Y-m-d H:i:s"),
         );
         $where4 = array(
-            'tgl' => date("Y-m-d"),
-            'tglform' => $tglform,
             'kode' => $kode,
             'nobatch' => $nobatch,
             'nopallet' => $nopallet,
@@ -220,9 +220,10 @@ class Masuk_track extends CI_Controller
         $where3 = array(
             'kode' => $kode,
             'nobatch' => $nobatch,
+            'noform'  => $noform
         );
 
-        if ($qty1 >= $jumlah && $jumlah > 0) {
+        if ($qty1 >= $jumlah && $jumlah>0) {
             $this->db->trans_start();
             $this->masuk_track_model->tambah($data, 'riwayattrack'); //id hapus riwayat
             $this->masuk_track_model->update($where, $data1, 'master'); //kode kurangi saldo dengan jumlah masuk
@@ -237,11 +238,11 @@ class Masuk_track extends CI_Controller
             } else {
                 $this->masuk_track_model->hapus($where3, 'detailsalqty'); // insert dengan qty jumlah masuk
             }
-            if ($tgl == date("Y-m-d")) {
-                $this->masuk_track_model->update($where2, $data3, 'utilisasi'); //tgl detailsalqty && num rows>0 if pallet status berubah jadi kosong maka pallet in -1
-            } else {
-                $this->masuk_track_model->tambah($data3, 'utilisasi'); //insert tgl detailsalqty ubah pallet kosong menjadi isi
-            }
+            // if ($tgl == date("Y-m-d")) {
+            //     $this->masuk_track_model->update($where2, $data3, 'utilisasi'); //tgl detailsalqty && num rows>0 if pallet status berubah jadi kosong maka pallet in -1
+            // } else {
+            //     $this->masuk_track_model->tambah($data3, 'utilisasi'); //insert tgl detailsalqty ubah pallet kosong menjadi isi
+            // }
             $this->db->trans_complete();
 
             if ($this->db->trans_status() === false) {
@@ -266,7 +267,7 @@ class Masuk_track extends CI_Controller
         $this->load->view("_partials/footer");
     }
 
-    public function hapus($no, $kode, $nopallet, $nobatch, $jumlah)
+    public function hapus($no, $kode, $nopallet, $nobatch, $jumlah, $noform, $tglform)
     {
         //untuk riwayattrack
         $where = array('no' => $no);
@@ -296,6 +297,8 @@ class Masuk_track extends CI_Controller
         $data2 = array(
             'kode' => $kode,
             'nobatch' => $nobatch,
+            'noform' => $noform,
+            'tglform' => $tglform,
             'qty' => $jumlah,
             'ket' => "IN",
         );
@@ -366,11 +369,11 @@ class Masuk_track extends CI_Controller
                 $this->masuk_track_model->update($where2, $datapal, 'pallet');
             }
             $this->masuk_track_model->hapus($where3, 'detailsal');
-            if ($tgl != date("Y-m-d")) {
-                $this->masuk_track_model->tambah($data3, 'utilisasi');
-            } else {
-                $this->masuk_track_model->update($where4, $data3, 'utilisasi');
-            }
+            // if ($tgl != date("Y-m-d")) {
+            //     $this->masuk_track_model->tambah($data3, 'utilisasi');
+            // } else {
+            //     $this->masuk_track_model->update($where4, $data3, 'utilisasi');
+            // }
             $this->db->trans_complete();
         }
         if ($palqtyakhir >= 0) {

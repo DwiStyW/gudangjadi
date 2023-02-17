@@ -171,55 +171,72 @@
             <!-- web menu -->
             <div class="position-relative contentt layarlebar">
                 <ul class="nav nav-tabs d-flex justify-content-between custom-menu-wrap">
-                <li><a href="<?= base_url("home") ?>" class="btn btn-lg tekan text-white">Home</a></li>
-                <li><a href="<?= base_url("master") ?>" class="btn btn-lg tekan text-white">Master Produk</a></li>
+                    <li><a href="<?= base_url("home") ?>" class="btn btn-lg tekan text-white">Home</a></li>
+                    <li><a href="<?= base_url("master") ?>" class="btn btn-lg tekan text-white">Master Produk</a></li>
                     <?php if($this->session->userdata('role')=="track"){?>
-                    <li><a href="<?= base_url("track/masuk_track") ?>" class="btn btn-lg tekan text-white">Produk Masuk</a></li>
-                    
-                    <li><a href="<?= base_url("track/keluar_track") ?>" class="btn btn-lg tekan text-white">Produk Keluar</a></li>
+                    <li><a href="<?= base_url("track/masuk_track") ?>" class="btn btn-lg tekan text-white">Produk
+                            Masuk</a></li>
+
+                    <li><a href="<?= base_url("track/keluar_track") ?>" class="btn btn-lg tekan text-white">Produk
+                            Keluar</a></li>
                     <div class="dropdown">
-                        <button class="dropbtn">Mapping <i class="fa fa-chevron-down fa-xs"></i></button>
+                        <button class="dropbtn">Saldo <i class="fa fa-chevron-down fa-xs"></i></button>
                         <div class="dropdown-content">
-                            <a href="<?= base_url("mapping") ?>">Layout</a>
-                            <a href="<?= base_url("mapping2") ?>">Edit Layout</a>
+                            <a href="<?= base_url("track/saldo_track") ?>">Detail Saldo</a>
+                            <a href="<?= base_url("mapping") ?>">Layout Maping</a>
+                            <!-- <a href="<?= base_url("mapping2") ?>"> -->
+                            <a href="#">
+                                Edit Layout</a>
                         </div>
-                        <?php } elseif($this->session->userdata('role')=="user" || $this->session->userdata('role')=="admin" || $this->session->userdata('role')=="manager"){?>
-                    <li><a href="<?= base_url("masuk") ?>" class="btn btn-lg tekan text-white">Produk Masuk</a>
-                    </li>
-                    <li><a href="<?= base_url("keluar") ?>" class="btn btn-lg tekan text-white">Produk Keluar</a>
-                    </li>
-                    
-                    <?php } ?>
-                    
-                    <?php if($this->session->userdata('role') != "track"){?>
+                    </div>
                     <div class="dropdown">
                         <button class="dropbtn">Report <i class="fa fa-chevron-down fa-xs"></i></button>
                         <div class="dropdown-content">
-                            <a href="<?= base_url("riwayat") ?>">Riwayat Keluar
+                            <a href="<?= base_url("track/report/riwayat") ?>">Riwayat Keluar
                                 Masuk</a>
-                            <a href="<?= base_url("report/filgolongan") ?>">Report
+                            <a href="<?= base_url("track/report/filgolongan") ?>">Report
                                 per
                                 Gol</a>
-                            <a href="<?= base_url("report") ?>">Report All</a>
-                            <a href="<?= base_url("report/report_saldo_akhir") ?>">Saldo Akhir Stock</a>
+                            <a href="<?= base_url("track/report/repall") ?>">Report All</a>
+                            <a href="<?= base_url("track/report/repsa") ?>">Saldo Akhir Stock</a>
                         </div>
-                    </div>
-                    <?php } ?>
+                        <?php } elseif($this->session->userdata('role')=="user" || $this->session->userdata('role')=="admin" || $this->session->userdata('role')=="manager"){?>
+                        <li><a href="<?= base_url("masuk") ?>" class="btn btn-lg tekan text-white">Produk Masuk</a>
+                        </li>
+                        <li><a href="<?= base_url("keluar") ?>" class="btn btn-lg tekan text-white">Produk Keluar</a>
+                        </li>
 
-                    <!-- <li><a href="<?= base_url("riwayat") ?>" class="btn btn-lg tekan text-white">Riwayat Keluar
+                        <?php } ?>
+
+                        <?php if($this->session->userdata('role') != "track"){?>
+                        <div class="dropdown">
+                            <button class="dropbtn">Report <i class="fa fa-chevron-down fa-xs"></i></button>
+                            <div class="dropdown-content">
+                                <a href="<?= base_url("riwayat") ?>">Riwayat Keluar
+                                    Masuk</a>
+                                <a href="<?= base_url("report/filgolongan") ?>">Report
+                                    per
+                                    Gol</a>
+                                <a href="<?= base_url("report") ?>">Report All</a>
+                                <a href="<?= base_url("report/report_saldo_akhir") ?>">Saldo Akhir Stock</a>
+                            </div>
+                        </div>
+                        <?php } ?>
+
+                        <!-- <li><a href="<?= base_url("riwayat") ?>" class="btn btn-lg tekan text-white">Riwayat Keluar
                             Masuk</a></li>
                     <li><a href="<?= base_url("report/filgolongan") ?>" class="btn btn-lg tekan text-white">Report per
                             Gol</a></li>
                     <li><a href="<?= base_url("report") ?>" class="btn btn-lg tekan text-white">Report All</a></li> -->
 
 
-                    <?php
+                        <?php
                         $role = $this->session->userdata('role');
                         if ($role == 'admin') {
                         ?>
-                    <li><a href="<?= base_url('user.php') ?>" class="btn btn-lg tekan text-white">Admin</a>
-                        <?php } ?>
-                    </li>
+                        <li><a href="<?= base_url('user.php') ?>" class="btn btn-lg tekan text-white">Admin</a>
+                            <?php } ?>
+                        </li>
                 </ul>
             </div>
 

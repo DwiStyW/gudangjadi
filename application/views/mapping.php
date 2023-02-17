@@ -1,6 +1,3 @@
-<!-- Copyright 2018 Google LLC.
-SPDX-License-Identifier: Apache-2.0 -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -79,6 +76,21 @@ SPDX-License-Identifier: Apache-2.0 -->
 
         <div style="background-color:#fff">
             <div class="sparkline8-graph shadow">
+                <div class="blur" style="position:absolute;padding-left:10px;padding-right:10px">
+                    <?php 
+					$isi=$this->db->query("SELECT COUNT(status) as isi FROM `pallet` WHERE status='isi' GROUP BY status;");
+					foreach($isi->result_array() as $i){
+						$pisi=$i['isi'];
+					}
+					$total=$this->db->query("SELECT COUNT(*) as total FROM `pallet`");
+					foreach($total->result_array() as $t){
+						$ptotal=$t['total'];
+					}
+					$util=$pisi/$ptotal*100;
+					$output = number_format($util, 2, '.', '');
+					echo '<h5><b>Utilisasi : </b>'.$output.' %</h5>'
+					?>
+                </div>
                 <div style="overflow:auto">
                     <div style="width:4000px;">
                         <?php
@@ -91,6 +103,8 @@ SPDX-License-Identifier: Apache-2.0 -->
                                 foreach ($pallet->result_array() as $data) {
                                     $kdpallet = $data['kdpallet'];
                                     $warnap = $data['warna'];
+                                    $status = $data['status'];
+                                    $warnak = $data['warna2'];
                                 }
                                 $kondisi = $this->db->query("SELECT * FROM kondisi_gudang WHERE posisi='$a'");
                                 foreach ($kondisi->result_array() as $dat) {
@@ -98,7 +112,11 @@ SPDX-License-Identifier: Apache-2.0 -->
                                     $warnak = $dat['warna'];
                                 }
                                 if ($pallet->num_rows() > 0) {
-                                    echo '<a id="lihatPallet" onclick="modal(`'.$kdpallet.'`)" data-toggle="modal" data-target="#exampleModal" style="color:black;text-decoration:none"><div id="' . $kdpallet . '" draggable="true" data="' . $a . '" class="box" style="border: 1px solid #666;background-color: ' . $warnap . ';"><b>' . $kdpallet . '</b></div></a>';
+									if($status=='isi'){
+										echo '<a id="lihatPallet" onclick="modal(`'.$kdpallet.'`)" data-toggle="modal" data-target="#exampleModal" style="color:black;text-decoration:none"><div id="' . $kdpallet . '" draggable="true" data="' . $a . '" class="box" style="border: 1px solid #666;background-color: ' . $warnap . ';"><b>' . $kdpallet . '</b></div></a>';
+									}else{
+										echo '<a id="lihatPallet" onclick="modal(`'.$kdpallet.'`)" data-toggle="modal" data-target="#exampleModal" style="color:black;text-decoration:none"><div id="' . $kdpallet . '" draggable="true" data="' . $a . '" class="box" style="border: 1px solid #666;background-color: ' . $warnak . ';"><b>' . $kdpallet . '</b></div></a>';
+									}
                                 } elseif ($kondisi->num_rows() != 0) {
                                     echo '<div id="' . $ketkondisi . '" draggable="true" data="' . $a . '" class="box" style="border: 1px solid #666;background-color: ' . $warnak . ';"><b></b></div>';
                                 } else {
@@ -116,80 +134,82 @@ SPDX-License-Identifier: Apache-2.0 -->
 </body>
 
 <script>
-function modal(kdpallet){
-document.getElementById('exampleModalLabel').innerHTML = kdpallet;
-        console.log(kdpallet);
-        $.ajax({
-            url: "<?php echo site_url('mapping/getkdpallet'); ?>",
-            method: "POST",
-            data: {
-                kdpallet: kdpallet
-            },
-            async: true,
-            dataType: 'json',
-            success: function(data) {
-                var html ='';
-                for (i = 0; i < data.length; i++) {
-                    html += '<tr>'
-                    html += '<td>'+ parseInt(i+1) +'</td>'
-                    html += '<td>'+ data[i].tglform +'</td>'
-                    html += '<td>'+ data[i].nobatch +'</td>'
-                    html += '<td>'+ data[i].kode +'</td>'
-                    html += '<td>'+ data[i].nama +'</td>'
-                    var sat1 = Math.floor(data[i].qty / (data[i].max1*data[i].max2));
-                    var sisa  = data[i].qty - (sat1 * data[i].max1 * data[i].max2);
-                    var sat2  = Math.floor(sisa / data[i].max2);
-                    var sat3  = sisa - sat2 * data[i].max2;
-                    html += '<td>'+ sat1+' '+data[i].sat1 +'</td>'
-                    html += '<td>'+ sat2+' '+data[i].sat2 +'</td>'
-                    html += '<td>'+ sat3+' '+data[i].sat3 +'</td>'
-                    html += '</tr>'
-                }
-                console.log(html);
-                $('#isiPallet').html(html);
+function modal(kdpallet) {
+    document.getElementById('exampleModalLabel').innerHTML = kdpallet;
+    // console.log(kdpallet);
+    $.ajax({
+        url: "<?php echo site_url('mapping/getkdpallet'); ?>",
+        method: "POST",
+        data: {
+            kdpallet: kdpallet
+        },
+        async: true,
+        dataType: 'json',
+        success: function(data) {
+            var html = '';
+            for (i = 0; i < data.length; i++) {
+                html += '<tr>'
+                html += '<td>' + parseInt(i + 1) + '</td>'
+                // html += '<td>'+ data[i].tglform +'</td>'
+                html += '<td>' + data[i].nobatch + '</td>'
+                html += '<td>' + data[i].kode + '</td>'
+                html += '<td>' + data[i].nama + '</td>'
+                var sat1 = Math.floor(data[i].qty / (data[i].max1 * data[i].max2));
+                var sisa = data[i].qty - (sat1 * data[i].max1 * data[i].max2);
+                var sat2 = Math.floor(sisa / data[i].max2);
+                var sat3 = sisa - sat2 * data[i].max2;
+                html += '<td>' + sat1 + ' ' + data[i].sat1 + '</td>'
+                html += '<td>' + sat2 + ' ' + data[i].sat2 + '</td>'
+                html += '<td>' + sat3 + ' ' + data[i].sat3 + '</td>'
+                html += '</tr>'
             }
-        });
+            // console.log(data);
+            $('#isiPallet').html(html);
+        }
+    });
 }
 </script>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
-      </div>
-      <div class="modal-body">
-      <table id="table" data-toggle="table" data-pagination="false" data-search="false" data-show-columns="false"
-                data-show-pagination-switch="false" data-show-refresh="false" data-key-events="false"
-                data-show-toggle="false" data-resizable="false" data-cookie="true" data-cookie-id-table="saveId"
-                data-show-export="false" data-click-to-select="false" data-toolbar="#toolbar">
-                <thead>
-                    <tr>
-                        <th rowspan="2" style="vertical-align : middle;text-align:center;">No</th>
-                        <th rowspan="2">Tanggal Form</th>
-                        <th rowspan="2">No Batch</th>
-                        <th rowspan="2">Kode</th>
-                        <th rowspan="2">Nama Barang</th>
-                        <th colspan="3" style="vertical-align : middle;text-align:center;">saldo</th>
-                    </tr>
-                    <tr>
-                        <th>Sat 1</th>
-                        <th>Sat 2</th>
-                        <th>Sat 3</th>
-                    </tr>
-                </thead>
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+            </div>
+            <div class="modal-body">
+                <table id="table" data-toggle="table" data-pagination="false" data-search="false"
+                    data-show-columns="false" data-show-pagination-switch="false" data-show-refresh="false"
+                    data-key-events="false" data-show-toggle="false" data-resizable="false" data-cookie="true"
+                    data-cookie-id-table="saveId" data-show-export="false" data-click-to-select="false"
+                    data-toolbar="#toolbar">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="vertical-align : middle;text-align:center;">No</th>
+                            <!-- <th rowspan="2">Tanggal Form</th> -->
+                            <th rowspan="2">No Batch</th>
+                            <th rowspan="2">Kode</th>
+                            <th rowspan="2">Nama Barang</th>
+                            <th colspan="3" style="vertical-align : middle;text-align:center;">saldo</th>
+                        </tr>
+                        <tr>
+                            <th>Sat 1</th>
+                            <th>Sat 2</th>
+                            <th>Sat 3</th>
+                        </tr>
+                    </thead>
 
 
-                <tbody id="isiPallet">
-                </tbody>
-            </table>
+                    <tbody id="isiPallet">
+                    </tbody>
+                </table>
 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+
 </html>

@@ -36,13 +36,13 @@ date_default_timezone_set('Asia/Jakarta');
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">No SPPB</label>
+                                                        <label class="login2 pull-right pull-right-pro">No Form</label>
                                                     </div>
                                                     <div class="col-lg-5">
-                                                        <select id="nosppb" name="nosppb" type="select" class="form-control" required />
+                                                        <select id="noform" name="noform" type="select" class="form-control" required />
                                                         <option type="search"></option>
-                                                        <?php $nosppb = $this->db->where('ket',"OUT")->get("detailsalqty");
-                                                        foreach($nosppb->result() as $sppb){?>
+                                                        <?php $noform = $this->db->where('ket',"OUT")->get("detailsalqty");
+                                                        foreach($noform->result() as $sppb){?>
                                                         <option value="<?= $sppb->noform?>"><?= $sppb->noform?></option>
                                                         <?php }?>
 
@@ -125,7 +125,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                             Form</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="tglform" type="date" class="form-control" id="tglform" value="" required />
+                                                        <input name="tglform" type="date" class="form-control" id="tglform" value="" readonly required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -315,7 +315,7 @@ endif?>
 <script src="<?=base_url()?>assets/sweetalert2/swal2.js"></script>
 <script>
 $(document).ready(function() {
-    $('#nosppb').change(function() {
+    $('#noform').change(function() {
         var id = $(this).val();
         $.ajax({
             url: "<?php echo site_url('track/keluar_track/get_kode'); ?>",
@@ -353,6 +353,8 @@ $(document).ready(function() {
                 htmlq = '';
 
                 $('#qty').html(htmlq);
+                html2 = data[0].tglform;
+                $('#tglform').val(html2);
             }
         });
         return false;
@@ -360,13 +362,13 @@ $(document).ready(function() {
 
     $('#kode').change(function() {
         var id = $(this).val();
-        var nosppb = document.getElementById('nosppb').value;
+        var noform = document.getElementById('noform').value;
         $.ajax({
             url: "<?php echo site_url('track/keluar_track/get_batch'); ?>",
             method: "POST",
             data: {
                 id: id,
-                nosppb: nosppb
+                noform: noform
             },
             async: true,
             dataType: 'json',
@@ -406,8 +408,6 @@ $(document).ready(function() {
                     html += '<option value=' + data[i].nopallet + '>' + data[i]
                         .nopallet + '</option>';
                 }
-                html2 = data[0].tglform;
-                $('#tglform').val(html2);
                 $('#pallet').html(html);
             }
         });
@@ -432,14 +432,14 @@ $(document).ready(function() {
 
                 var html = '';
                 var html1 = '';
-                var jumlah = data[0].jumlah;
+                var jumlah = data[0].qty;
                 var max1   = data[0].max1;
                 var max2   = data[0].max2;
                 var sat1   = data[0].sat1;
                 var sat2   = data[0].sat2;
                 var sat3   = data[0].sat3;
 
-                var jum1  = Math.floor(data[0].jumlah / (max1 * max2 ));
+                var jum1  = Math.floor(data[0].qty / (max1 * max2 ));
                 var sisa  = jumlah - (jum1 * max1 * max2);
                 var jum2  = Math.floor(sisa / max2);
                 var jum3  = sisa - jum2 * max2;
@@ -450,20 +450,20 @@ $(document).ready(function() {
                 html1 = jumlah;
                 $('#jumlah').val(html1);
                 $('#qty').html(html);
-                console.log(jumlah);
+                // console.log(data);
             }
         });
         return false;
     });
     $('#kode').change(function() {
         var id = $(this).val();
-        var nosppb = document.getElementById('nosppb').value;
+        var noform = document.getElementById('noform').value;
         $.ajax({
             url: "<?php echo site_url('track/keluar_track/get_keluar'); ?>",
             method: "POST",
             data: {
                 id: id,
-                nosppb: nosppb,
+                noform: noform,
             },
             async: true,
             dataType: 'json',
@@ -471,14 +471,14 @@ $(document).ready(function() {
 
                 var html = '';
                 var html1 = '';
-                var jumlah = data[0].jumlah;
+                var jumlah = data[0].qty;
                 var max1   = data[0].max1;
                 var max2   = data[0].max2;
                 var sat1   = data[0].sat1;
                 var sat2   = data[0].sat2;
                 var sat3   = data[0].sat3;
 
-                var jum1  = Math.floor(data[0].jumlah / (max1 * max2 ));
+                var jum1  = Math.floor(data[0].qty / (max1 * max2 ));
                 var sisa  = jumlah - (jum1 * max1 * max2);
                 var jum2  = Math.floor(sisa / max2);
                 var jum3  = sisa - jum2 * max2;
@@ -488,7 +488,6 @@ $(document).ready(function() {
                 }
                 html1 = jumlah;
                 $('#keluaran').html(html);
-           
             }
         });
         return false;
@@ -508,14 +507,14 @@ $(document).ready(function() {
     $("#pallet").select2({
         placeholder: "Please Select",
     });
-    $("#nosppb").select2({
+    $("#noform").select2({
         placeholder: "Please Select",
     });
 });
 </script>
 <script>
 $(function() {
-    $("#nosppb").change(function() {
+    $("#noform").change(function() {
         $("#kode").select2('val', 'all');
         $("#batch").select2('val', 'all');
         $("#pallet").select2('val', 'all');

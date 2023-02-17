@@ -90,13 +90,11 @@
                                         <td><?php echo $m->suplai ?></td>
                                         <td><?php echo $m->cat ?></td>
                                         <td>
-                                            <a class="btn btn-sm btn-primary"
+                                            <button disabled class="btn btn-sm btn-primary"
                                                 href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>"><i
-                                                    class="fa fa-edit"></i> Edit</a>
-                                            <a class="btn btn-sm btn-danger"
-                                                href="<?= base_url("masuk/hapus_masuk/" . $m->no . "/" . $m->kode) ?>"
-                                                onclick="javascript: return confirm('Anda yakin hapus ?')"><i
-                                                    class="fa fa-trash"></i> Hapus</a>
+                                                    class="fa fa-edit"></i> Edit</button>
+                                                    <a onclick="hapus(`<?=$m->no?>`,`<?=$m->noform?>`,`<?=$m->nobatch?>`,`<?=$m->kode?>`,`<?= $sats1?>`,`<?= $sats2?>`,`<?= $sats3?>`,`<?= $m->sat1?>`,`<?= $m->sat2?>`,`<?= $m->sat3?>`)" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hapus_modal"><i
+                                                class="fa fa-trash"></i> Hapus</a>
                                         </td>
                                     </tr>
                                     <?php
@@ -201,10 +199,8 @@
                                             <a class="btn btn-sm btn-primary"
                                                 href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>"><i
                                                     class="fa fa-edit"></i> Edit</a>
-                                            <a class="btn btn-sm btn-danger"
-                                                href="<?= base_url("masuk/hapus_masuk/" . $m->no . "/" . $m->kode) ?>"
-                                                onclick="javascript: return confirm('Anda yakin hapus ?')"><i
-                                                    class="fa fa-trash"></i> Hapus</a>
+                                            <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hapus_modal"><i
+                                                    class="fa fa-trash"></i> Hapus</button>
                                         </td>
                                     </tr>
                                     <?php
@@ -218,6 +214,8 @@
         </div>
     </div>
 </div>
+
+<?php $this->load->view("masuk/modal_hapus")?>
 
 <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
 

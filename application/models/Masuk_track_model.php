@@ -63,20 +63,16 @@ class Masuk_track_model extends CI_Model
     }
 
     public function detsal(){
-        $this->db->select("*")->from("detailsalqty")->join("master","master.kode = detailsalqty.kode");
-        $this->db->group_by('detailsalqty.kode');
-        return $this->db->get()->result();
+        $query = $this->db->query("SELECT DISTINCT master.kode,nama FROM detailsalqty,master WHERE master.kode = detailsalqty.kode AND detailsalqty.ket = 'IN'");
+        return $query->result();
     }
 
     public function get_batch($kode){
         return $this->db->where('kode',$kode)->where('ket','IN')->get('detailsalqty');
     }
     function get_qty($id,$kode){
-		$this->db->select('sum(qty) as jumlah,max1,max2,sat1,sat2,sat3,detailsalqty.tglform');
-        $this->db->from('detailsalqty');
-        $this->db->join('master','master.kode = detailsalqty.kode');
-        $this->db->where('detailsalqty.kode', $kode)->where('nobatch', $id)->where('ket','IN');
-		return $this->db->get();
+		$query = $this->db->query("SELECT detailsalqty.qty,max1,max2,sat1,sat2,sat3,detailsalqty.tglform,detailsalqty.noform from detailsalqty,master where master.kode = detailsalqty.kode AND ket = 'IN' AND detailsalqty.kode='$kode' AND nobatch = '$id'");
+        return $query;
 	}
 
     //get where

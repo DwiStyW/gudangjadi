@@ -238,16 +238,15 @@ date_default_timezone_set('Asia/Jakarta');
                                                                         <td><?php echo $m->ket; ?></td>
                                                                         <td><?php echo $m->tanggal; ?></td>
                                                                         <?php if ($m->ket == "Output") { ?>
-                                                                            <td><a href="<?= base_url("keluar/edit_keluar/" . $m->no) ?>" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i>
-                                                                                    Edit </a></td>
+                                                                            <td><button disaled href="<?= base_url("keluar/edit_keluar/" . $m->no) ?>" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i>
+                                                                                    Edit </button></td>
                                                                             <td><a href="<?= base_url("keluar/hapus_keluar/" . $m->no . "/" . $m->kode) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</a>
                                                                             </td>
                                                                         <?php } else { ?>
-                                                                            <td><a href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i>
-                                                                                    Edit </a></td>
-                                                                            <td><a href="<?= base_url("masuk/hapus_masuk/" . $m->no . "/" . $m->kode) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')" class="btn btn-danger btn-sm">
-                                                                                    <i class="fa fa-trash"></i> Hapus
-                                                                                </a>
+                                                                            <td><button disabled href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i>
+                                                                                    Edit </button></td>
+                                                                            <td><a onclick="hapus(`<?=$k->no?>`,`<?=$k->noform?>`,`<?=$k->nobatch?>`,`<?=$k->kode?>`,`<?= $sats1?>`,`<?= $sats2?>`,`<?= $sats3?>`,`<?= $k->sat1?>`,`<?= $k->sat2?>`,`<?= $k->sat3?>`)" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hapus_modal"><i
+                                                class="fa fa-trash"></i> Hapus</a>
                                                                             </td>
                                                                         <?php } ?>
 
@@ -273,6 +272,7 @@ date_default_timezone_set('Asia/Jakarta');
     </div>
 </div>
 <!-- Data table area End-->
+<?php $this->load->view('keluar/modal_hapus')?>
 
 <script>
     function search() {

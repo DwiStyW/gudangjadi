@@ -63,9 +63,8 @@ class Keluar_track_model extends CI_Model
     }
 
     public function detsal(){
-        $this->db->select("*")->from("detailsalqty")->where('ket','OUT')->join("master","master.kode = detailsalqty.kode");
-        $this->db->group_by('detailsalqty.kode');
-        return $this->db->get()->result();
+        $query = $this->db->query("SELECT DISTINCT master.kode,nama FROM detailsalqty,master WHERE master.kode = detailsalqty.kode AND detailsalqty.ket = 'IN'");
+        return $query->result();
     }
 
     //get where
@@ -94,30 +93,24 @@ class Keluar_track_model extends CI_Model
         $this->db->delete($table);
     }
 
-    function get_kode($nosppb){
-		$query = $this->db->where('noform', $nosppb)->join('master','detailsalqty.kode = master.kode')->group_by('nobatch')->get('detailsalqty');
+    function get_kode($noform){
+		$query = $this->db->query("SELECT DISTINCT detailsalqty.kode,nama,detailsalqty.tglform FROM detailsalqty,master WHERE detailsalqty.kode=master.kode AND noform='$noform'");
 		return $query;
 	}
     function get_batch($kode){
-		$query = $this->db->where('kode', $kode)->group_by('nobatch')->get('detailsal');
+		$query = $this->db->query("SELECT DISTINCT nobatch FROM detailsal where kode = '$kode'");
 		return $query;
 	}
 	function get_pallet($batch,$kode){
-		$query = $this->db->where('kode', $kode)->where('nobatch', $batch)->group_by('nopallet')->get('detailsal');
+		$query = $this->db->query("SELECT nopallet FROM detailsal where kode='$kode' AND nobatch='$batch'");
 		return $query;
 	}
 	function get_qty($id,$kode,$batch){
-		$this->db->select('sum(qty) as jumlah,max1,max2,sat1,sat2,sat3');
-        $this->db->from('detailsal');
-        $this->db->join('master','master.kode = detailsal.kode');
-        $this->db->where('detailsal.kode', $kode)->where('nopallet',$id)->where('nobatch', $batch);
-		return $this->db->get();
+        $query = $this->db->query("SELECT detailsal.qty,max1,max2,sat1,sat2,sat3 from detailsal,master where master.kode = detailsal.kode AND detailsal.kode='$kode' AND nobatch = '$batch' AND nopallet = '$id'");
+        return $query;
 	}
-	function get_keluar($id,$nosppb){
-		$this->db->select('sum(qty) as jumlah,max1,max2,sat1,sat2,sat3');
-        $this->db->from('detailsalqty');
-        $this->db->join('master','master.kode = detailsalqty.kode');
-        $this->db->where('detailsalqty.kode', $id)->where('ket','OUT')->where('detailsalqty.noform',$nosppb);
-		return $this->db->get();
+	function get_keluar($id,$noform){
+        $query = $this->db->query("SELECT detailsalqty.qty,max1,max2,sat1,sat2,sat3,detailsalqty.tglform FROM detailsalqty,master WHERE master.kode=detailsalqty.kode AND detailsalqty.ket='OUT' AND detailsalqty.noform='$noform' AND detailsalqty.kode='$id'");
+		return $query;
 	}
 }

@@ -48,7 +48,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                         <th data-field="no">No</th>
                                         <th data-field="tglform">Tgl Form</th>
                                         <th data-field="noform">No Form</th>
-                                        <th data-field="nobatch">No Batch</th>
+                                        <th data-field="nobatch">No SPPB</th>
                                         <th data-field="kode">Kode Barang</th>
                                         <th data-field="nama">Nama Barang</th>
                                         <th data-field="satuan1">Satuan 1</th>
@@ -87,8 +87,9 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                             <td><a href="<?= base_url("penginput/user/" . $k->adm) ?>"><?php echo $k->username; ?><a />
                                             </td>
                                             <td>
-                                                <a class="btn btn-sm btn-primary" href="<?= base_url("keluar/edit_keluar/" . $k->no) ?>"><i class="fa fa-edit"></i> Edit</a>
-                                                <a class="btn btn-sm btn-danger" href="<?= base_url("keluar/hapus_keluar/" . $k->no . "/" . $k->kode) ?>" onclick="javascript: return confirm('Anda yakin hapus ?')"><i class="fa fa-trash"></i> Hapus</a>
+                                                <button disabled class="btn btn-sm btn-primary" href="<?= base_url("keluar/edit_keluar/" . $k->no) ?>"><i class="fa fa-edit"></i> Edit</button>
+                                                <a onclick="hapus(`<?=$k->no?>`,`<?=$k->noform?>`,`<?=$k->nobatch?>`,`<?=$k->kode?>`,`<?= $sats1?>`,`<?= $sats2?>`,`<?= $sats3?>`,`<?= $k->sat1?>`,`<?= $k->sat2?>`,`<?= $k->sat3?>`)" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hapus_modal"><i
+                                                class="fa fa-trash"></i> Hapus</a>
                                             </td>
                                         </tr>
                                     <?php
@@ -198,6 +199,8 @@ ini_set('date.timezone', 'Asia/Jakarta');
         </div>
     </div>
 </div>
+
+<?php $this->load->view('keluar/modal_hapus')?>
 
 <script>
     function go() {

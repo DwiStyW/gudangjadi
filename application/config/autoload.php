@@ -134,7 +134,8 @@ $autoload['language'] = array();
 */
 $autoload['model'] = array(
     'auth_model', 
-    'report_model',  
+    'report_model', 
+    'report_model_track',  
     'master_model', 
     'home_model', 
     'golongan_model',
