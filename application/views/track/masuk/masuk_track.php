@@ -60,15 +60,27 @@
                                         <th data-field="tanggal">Tgl Input</th>
                                         <th data-field="oleh">Oleh</th>
                                         <th data-field="cat">Catatan</th>
+                                        <th data-field="expdate">Expired Date</th>
                                         <th data-field="aksi">Aksi</th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($masuk as $m) { ?>
+                                    <?php foreach ($masuk as $m) {
+                                        $batch = $m->nobatch;
+                                        $tahun = strrev(substr(substr($batch, -6), 0, 2));
+                                        $bulan = substr(substr($batch, -6), 2, 2);
+                                        $gabung = $bulan . '/01/' . (2000 + $tahun);
+                                        $tglprod = date("Y-m-d", strtotime($gabung));
+                                        $bulan1 =  $m->expdate;
+                                        $tglexp = date("Y-m-d", strtotime('+' . $bulan1 . ' month', strtotime($tglprod)));
+
+                                        $awal  = date_create($tglexp);
+                                        $akhir = date_create(); // waktu sekarang
+                                        $diff  = date_diff($akhir, $awal); ?>
                                     <tr>
                                     <td><?php echo ++$start; ?></td>
-                                        <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?></td>
+                                        <td><?php echo $m->tanggalform; ?></td>
                                         <td><?php echo $m->noform; ?></td>
                                         <td><?php echo $m->kode; ?></td>
                                         <td><?php echo $m->nama; ?></td>
@@ -91,12 +103,14 @@
                                         <td><a href="<?= base_url("penginput/user/" . $m->adm) ?>"><?php echo $m->username ?>
                                         </td>
                                         <td><?php echo $m->cat ?></td>
+                                        <td><?php echo $diff->y . ' tahun ' . $diff->m . ' bulan ';?>
+                                            </td>
                                         <td>
-                                            <button disabled class="btn btn-sm btn-primary"
+                                            <a class="btn btn-sm btn-primary"
                                                 href="<?= base_url("track/masuk_track/edit_masuk_track/" . $m->no) ?>">
                                                 <i class="fa fa-edit"></i> Edit</button>
                                             <a class="btn btn-sm btn-danger"
-                                                href="<?= base_url("track/masuk_track/hapus/" . $m->no . "/" . $m->kode."/".$m->nopallet."/".$m->nobatch."/".$m->masuk."/".$m->noform) ?>"
+                                                href="<?= base_url("track/masuk_track/hapus/" . $m->no) ?>"
                                                 onclick="javascript: return confirm('Anda yakin hapus ?')"><i
                                                     class="fa fa-trash"></i> Hapus</a>
                                         </td>

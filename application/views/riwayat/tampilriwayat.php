@@ -8,7 +8,6 @@ if ($code == "") {
     $code = 0;
 }
 ?>
-<div class="layarlebar">
     <div class="admin-dashone-data-table-area mg-b-40">
         <div class="container " style="position:relative;top:-250px;z-index: 1">
             <div class="d-flex">
@@ -183,8 +182,8 @@ if ($code == "") {
                                             <?php } ?>
                                         </tr>
                                     <?php }
-                                    $allin = $this->db->query("SELECT SUM(masuk) AS sumIn FROM riwayat WHERE  keluar=0 && kode='$code' && tglform between '$start' AND '$end'");
-                                    $allout = $this->db->query("SELECT SUM(keluar) AS sumOut FROM riwayat WHERE masuk=0 && kode='$code' && tglform between '$start' AND '$end'");
+                                    $allin = $this->db->query("SELECT SUM(masuk) AS sumIn FROM riwayat WHERE  keluar='0'&& kode='$code' && tglform between '$start' AND '$end'");
+                                    $allout = $this->db->query("SELECT SUM(keluar) AS sumOut FROM riwayat WHERE masuk='0' && kode='$code' && tglform between '$start' AND '$end'");
                                     foreach ($allin->result() as $m) {
                                         $totalM = $m->sumIn;
                                     }
@@ -228,5 +227,4 @@ if ($code == "") {
             </div>
         </div>
     </div>
-</div>
 <!-- Data table area End-->

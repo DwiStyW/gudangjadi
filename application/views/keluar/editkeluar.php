@@ -45,6 +45,48 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">No
+                                                                Form</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="noform" type="text" class="form-control"
+                                                                id="noform" value="<?php echo $r->noform; ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Tanggal
+                                                                SPPB</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="tglsppb" type="date" class="form-control"
+                                                                id="tglsppb" value="<?php echo $r->tglsppb; ?>"
+                                                                required />
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">No
+                                                                SPPB</label>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input name="nosppb" type="text" class="form-control"
+                                                                id="nosppb" value="<?php echo $r->nobatch; ?>"
+                                                                required />
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
                                                 <?php
                                                     $query = $this->db->query("SELECT * FROM master WHERE kode = '$r->kode'");
                                                     foreach ($query->result() as $master) {
@@ -70,18 +112,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group-inner">
-                                                    <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <label class="login2 pull-right pull-right-pro">No
-                                                                Form</label>
-                                                        </div>
-                                                        <div class="col-lg-9">
-                                                            <input name="noform" type="text" class="form-control"
-                                                                id="noform" value="<?php echo $r->noform; ?>" />
-                                                        </div>
-                                                    </div>
-                                                </div>
+
                                                 <?php
                                                     // Perhitungan 3 Satuan
                                                     $sats1  = floor($r->keluar / ($max1 * $max2));
@@ -183,7 +214,7 @@
                                                             <div class="col-lg-3"></div>
                                                             <div class="col-lg-9">
                                                                 <div class="login-horizental cancel-wp pull-left">
-                                                                    <a href="<?= base_url('masuk') ?>"><button
+                                                                    <a href="<?= base_url('keluar') ?>"><button
                                                                             class="btn btn-white"
                                                                             type="button">Kembali</button></a>
                                                                     <button

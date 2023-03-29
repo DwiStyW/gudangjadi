@@ -134,7 +134,7 @@ $autoload['language'] = array();
 */
 $autoload['model'] = array(
     'auth_model', 
-    'report_model',  
+    'report_model', 
     'report_model_track',  
     'master_model', 
     'home_model', 
@@ -143,5 +143,7 @@ $autoload['model'] = array(
     'jenis_model',
     'keluar_model',
     'masuk_track_model',
-    'keluar_track_model'
+    'keluar_track_model',
+    'saldo_model',
+    'konversi_model'
 );

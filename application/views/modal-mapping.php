@@ -1,55 +1,58 @@
 <script>
-function modal(kdpallet){
-document.getElementById('exampleModalLabel').innerHTML = kdpallet;
-        // console.log(kdpallet);
-        $.ajax({
-            url: "<?php echo site_url('mapping/getkdpallet'); ?>",
-            method: "POST",
-            data: {
-                kdpallet: kdpallet
-            },
-            async: true,
-            dataType: 'json',
-            success: function(data) {
-                var html ='';
-                for (i = 0; i < data.length; i++) {
-                    var tahunKebalik = data[i].nobatch.slice(parseInt(data[i].nobatch.length-6),parseInt(data[i].nobatch.length-4));
-                    var tahun = parseInt(tahunKebalik.split('').reverse().join(''))+parseInt(2000);
-                    var bulan = data[i].nobatch.slice(parseInt(data[i].nobatch.length-4),parseInt(data[i].nobatch.length-2));
-                    var tanggal = data[i].nobatch.slice(parseInt(data[i].nobatch.length-2),data[i].nobatch.length);
-                    var tahun_exp = parseInt(data[i].expdate)+parseInt(tahun);
-                    var join = tahun_exp+'-'+bulan+'-'+tanggal;
-                    var expdate = parseInt(data[i].expdate) * 365 * 24 * 3600;
-                    var tgl_exp = new Date(join);
-                    var now = new Date().getTime();
-                    var tWaktu = parseInt(tgl_exp.getTime())-parseInt(now);
-                    var tHari = Math.floor(parseInt(tWaktu)/(1000*60*60*24));
-            
-                    html += '<tr>'
-                    html += '<td>'+ parseInt(i+1) +'</td>'
-                    // html += '<td>'+ data[i].tglform +'</td>'
-                    html += '<td>'+ data[i].nobatch +'</td>'
-                    html += '<td>'+ data[i].kode +'</td>'
-                    html += '<td>'+ data[i].nama +'</td>'
-                    var sat1 = Math.floor(data[i].qty / (data[i].max1*data[i].max2));
-                    var sisa  = data[i].qty - (sat1 * data[i].max1 * data[i].max2);
-                    var sat2  = Math.floor(sisa / data[i].max2);
-                    var sat3  = sisa - sat2 * data[i].max2;
-                    html += '<td>'+ sat1+' '+data[i].sat1 +'</td>'
-                    html += '<td>'+ sat2+' '+data[i].sat2 +'</td>'
-                    html += '<td>'+ sat3+' '+data[i].sat3 +'</td>'
-                    html += '<td>'+ parseInt(data[i].expdate*12)+' Bulan'+'</td>'
-                    html += '<td>'+ tHari+' hari ' +'</td>'
-                    html += '</tr>'
-                }
-                // console.log(data);
-                $('#isiPallet').html(html);
-            }
-        });
+  function modal(kdpallet){
+    document.getElementById('exampleModalLabel').innerHTML = kdpallet;
+    // console.log(kdpallet);
+    $.ajax({
+      url: "<?php echo site_url('mapping/getkdpallet'); ?>",
+      method: "POST",
+      data: {
+      kdpallet: kdpallet
+      },
+      async: true,
+      dataType: 'json',
+      success: function(data) {
+        var html ='';
+        for (i = 0; i < data.length; i++) {
+        var tahunKebalik = data[i].nobatch.slice(parseInt(data[i].nobatch.length-6),parseInt(data[i].nobatch.length-4));
+        var tahun = parseInt(tahunKebalik.split('').reverse().join(''))+parseInt(2000);
+        var bulan = data[i].nobatch.slice(parseInt(data[i].nobatch.length-4),parseInt(data[i].nobatch.length-2));
+        // var tanggal = data[i].nobatch.slice(parseInt(data[i].nobatch.length-2),data[i].nobatch.length);
+        var tanggal = '01';
+        var tahun_exp = (parseInt(data[i].expdate)/12)+parseInt(tahun);
+        var join = tahun_exp+'-'+bulan+'-'+tanggal;
+        var expdate = parseInt(data[i].expdate);
+        var tgl_exp = new Date(join);
+        var now = new Date().getTime();
+        var tWaktu = parseInt(tgl_exp.getTime())-parseInt(now);
+        var tHari = Math.floor(parseInt(tWaktu)/(3600*24*1000));
+        var hBulan = Math.floor(parseInt(tHari)/30)
+        var tTahun = Math.floor(parseInt(hBulan)/12)
+        var tBulan = Math.floor(((parseInt(hBulan)/12)-tTahun)*12)
+
+          html += '<tr>'
+          html += '<td>'+ parseInt(i+1) +'</td>'
+          // html += '<td>'+ data[i].tglform +'</td>'
+          html += '<td>'+ data[i].nobatch +'</td>'
+          html += '<td>'+ data[i].kode +'</td>'
+          html += '<td>'+ data[i].nama +'</td>'
+          var sat1 = Math.floor(data[i].qty / (data[i].max1*data[i].max2));
+          var sisa  = data[i].qty - (sat1 * data[i].max1 * data[i].max2);
+          var sat2  = Math.floor(sisa / data[i].max2);
+          var sat3  = sisa - sat2 * data[i].max2;
+          html += '<td>'+ sat1+' '+data[i].sat1 +'</td>'
+          html += '<td>'+ sat2+' '+data[i].sat2 +'</td>'
+          html += '<td>'+ sat3+' '+data[i].sat3 +'</td>'
+          html += '<td>'+ parseInt(data[i].expdate)+' Bulan'+'</td>'
+          html += '<td>'+ tTahun+' Tahun ' + tBulan+' Bulan'+'</td>'
+          html += '</tr>'
+          }
+          // console.log(data);
+          $('#isiPallet').html(html);
+          }
+    });
 }
 </script>
 
-<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">

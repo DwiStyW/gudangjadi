@@ -302,14 +302,14 @@ $(document).ready(function() {
             success: function(data) {
 
                 var html = '';
-                var jumlah = data[0].jumlah;
+                var jumlah = data[0].qty;
                 var max1   = data[0].max1;
                 var max2   = data[0].max2;
                 var sat1   = data[0].sat1;
                 var sat2   = data[0].sat2;
                 var sat3   = data[0].sat3;
                 
-                var jum1  = Math.floor(data[0].jumlah / (max1 * max2 ));
+                var jum1  = Math.floor(data[0].qty / (max1 * max2 ));
                 var sisa  = jumlah - (jum1 * max1 * max2);
                 var jum2  = Math.floor(sisa / max2);
                 var jum3  = sisa - jum2 * max2;

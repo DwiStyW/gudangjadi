@@ -4,7 +4,7 @@ class Masuk_model extends CI_Model
     // Get data barang masuk
     public function tampil_barang_masuk($limit, $start,$keyword)
     {
-        $this->db->Select("*")
+        $this->db->Select("*,riwayat.tglform as tanggalform")
             ->from('riwayat')
             ->join("master","master.kode=riwayat.kode") 
             ->join("tb_user", "riwayat.adm=tb_user.user_id")

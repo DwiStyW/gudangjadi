@@ -3,7 +3,7 @@ class Keluar_track_model extends CI_Model
 {
     public function tampil_keluar_track($limit,$start,$keyword=null)
     {
-        $this->db->Select("*")
+        $this->db->Select("*,riwayattrack.tglform as tanggalform")
             ->from('riwayattrack,master,tb_user')
             ->where("master.kode=riwayattrack.kode AND riwayattrack.masuk=0 AND riwayattrack.adm=tb_user.user_id")
             ->order_by('riwayattrack.no', 'DESC');
@@ -11,6 +11,7 @@ class Keluar_track_model extends CI_Model
                 $this->db->group_start();
                 $this->db->like('nobatch',$keyword);
                 $this->db->or_like('nopallet',$keyword);
+                $this->db->or_like('noform',$keyword);
                 $this->db->or_like('riwayattrack.kode',$keyword);
                 $this->db->or_like('master.nama',$keyword);
                 $this->db->or_like('riwayattrack.tglform',$keyword);
@@ -24,7 +25,7 @@ class Keluar_track_model extends CI_Model
 
     public function total_keluar_track($keyword=null)
     {
-        $this->db->select('*');
+        $this->db->select('*,riwayattrack.tglform as tanggalform');
         $this->db->from('riwayattrack');
         $this->db->join('master', 'master.kode=riwayattrack.kode')->join('tb_user','tb_user.user_id=riwayattrack.adm');
         $this->db->where('masuk=0');
@@ -32,6 +33,7 @@ class Keluar_track_model extends CI_Model
             $this->db->group_start();
             $this->db->like('nobatch',$keyword);
             $this->db->or_like('nopallet',$keyword);
+            $this->db->or_like('noform',$keyword);
             $this->db->or_like('riwayattrack.kode',$keyword);
             $this->db->or_like('master.nama',$keyword);
             $this->db->or_like('riwayattrack.tglform',$keyword);
@@ -63,9 +65,8 @@ class Keluar_track_model extends CI_Model
     }
 
     public function detsal(){
-        $this->db->select("*")->from("detailsalqty")->where('ket','OUT')->join("master","master.kode = detailsalqty.kode");
-        $this->db->group_by('detailsalqty.kode');
-        return $this->db->get()->result();
+        $query = $this->db->query("SELECT DISTINCT master.kode,nama FROM detailsalqty,master WHERE master.kode = detailsalqty.kode AND detailsalqty.ket = 'IN'");
+        return $query->result();
     }
 
     //get where
@@ -95,29 +96,23 @@ class Keluar_track_model extends CI_Model
     }
 
     function get_kode($noform){
-		$query = $this->db->where('noform', $noform)->join('master','detailsalqty.kode = master.kode')->group_by('nobatch')->get('detailsalqty');
+		$query = $this->db->query("SELECT DISTINCT detailsalqty.kode,nama,detailsalqty.tglform FROM detailsalqty,master WHERE detailsalqty.kode=master.kode AND noform='$noform'");
 		return $query;
 	}
     function get_batch($kode){
-		$query = $this->db->where('kode', $kode)->group_by('nobatch')->get('detailsal');
+		$query = $this->db->query("SELECT DISTINCT nobatch FROM detailsal where kode = '$kode'");
 		return $query;
 	}
 	function get_pallet($batch,$kode){
-		$query = $this->db->where('kode', $kode)->where('nobatch', $batch)->group_by('nopallet')->get('detailsal');
+		$query = $this->db->query("SELECT nopallet FROM detailsal where kode='$kode' AND nobatch='$batch'");
 		return $query;
 	}
 	function get_qty($id,$kode,$batch){
-		$this->db->select('sum(qty) as jumlah,max1,max2,sat1,sat2,sat3');
-        $this->db->from('detailsal');
-        $this->db->join('master','master.kode = detailsal.kode');
-        $this->db->where('detailsal.kode', $kode)->where('nopallet',$id)->where('nobatch', $batch);
-		return $this->db->get();
+        $query = $this->db->query("SELECT detailsal.qty,max1,max2,sat1,sat2,sat3 from detailsal,master where master.kode = detailsal.kode AND detailsal.kode='$kode' AND nobatch = '$batch' AND nopallet = '$id'");
+        return $query;
 	}
 	function get_keluar($id,$noform){
-		$this->db->select('sum(qty) as jumlah,max1,max2,sat1,sat2,sat3');
-        $this->db->from('detailsalqty');
-        $this->db->join('master','master.kode = detailsalqty.kode');
-        $this->db->where('detailsalqty.kode', $id)->where('ket','OUT')->where('detailsalqty.noform',$noform);
-		return $this->db->get();
+        $query = $this->db->query("SELECT detailsalqty.qty,max1,max2,sat1,sat2,sat3,detailsalqty.tglform FROM detailsalqty,master WHERE master.kode=detailsalqty.kode AND detailsalqty.ket='OUT' AND detailsalqty.noform='$noform' AND detailsalqty.kode='$id'");
+		return $query;
 	}
 }

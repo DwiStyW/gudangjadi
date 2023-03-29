@@ -146,7 +146,7 @@ SPDX-License-Identifier: Apache-2.0 -->
     }
 
     .sampah {
-        width: 200px;
+        width: auto;
         border: 1px solid #666;
         border-radius: .5em;
         padding: 10px;
@@ -218,10 +218,11 @@ SPDX-License-Identifier: Apache-2.0 -->
 							?>
                     </div>
                 </div>
-                <div style="display: flex;flex-wrap:wrap;" class="justify-content-center">
-                    <div style="max-width:100%;width:82%">
+                <!-- <div class="row justify-content-center">
+                    <div class="col-lg-9 col-md-12">
                         <div class="kotak">
-                            <button class="btn btn-sm btn-primary" style="display:flex">Tambah</button>
+                            <button class="btn btn-sm btn-primary" style="display:flex" data-toggle="modal"
+                                data-target="#tambahpallet">Tambah</button>
                             <div class="new-pallet">
                                 <?php 
 								$pallet=$this->db->query("SELECT * FROM pallet WHERE posisi=''");
@@ -232,48 +233,8 @@ SPDX-License-Identifier: Apache-2.0 -->
 							?>
                             </div>
                         </div>
-                        <div class="kotak">
-                            <button class="btn btn-sm btn-primary" style="display:flex">Tambah</button>
-                            <div class="new-pallet">
-                                <?php 
-									$q1=$this->db->query("SELECT * FROM kondisi_gudang  WHERE posisi=''");
-									foreach($q1->result_array() as $dq1){
-										$warnadq1[]=$dq1['warna'];
-										$ketdq1[]=$dq1['id'];
-
-									}
-									$q2=$this->db->query("SELECT * FROM kondisi_gudang group by warna");
-									$rq2=$q2->num_rows();
-									echo '<div style="display: flex;flex-wrap:wrap;justify-content: start;">';
-									foreach ($q2->result_array() as $dq2){
-										$vwar=$dq2['warna'];
-										$vket=$dq2['id'];
-										echo '<div><div class="cardd"><h6 class="texte">'.$dq2['ket'].'</h6></div>';
-
-										$q3=$this->db->query("SELECT * FROM kondisi_gudang where warna='$vwar' and posisi=''");
-										foreach ($q3->result_array() as $dq3){
-											echo '<div style="margin-left:10px;"><div id="'.$dq3['id'].'" draggable="true" data="" class="box" style="border: 1px solid #666;background-color:'.$dq3['warna'].';"><b></b></div></div>';
-										}
-										echo '</div>';
-									}
-									echo '</div>';
-									$angka=1;
-									for($i=1;$i<=5;$i++){
-										echo '<div style="display:flex">';
-										for($j=1;$j<=6;$j++){
-											$a=$angka++;
-											if (isset($warnadq1[$a-1])!=null){
-												// echo $warnadq1[$a-1];
-												// echo '<div id="'.$ketdq1[$a-1].'" draggable="true" data="" class="box" style="border: 1px solid #666;background-color:'.$warnadq1[$a-1].';"><b></b></div>';
-											}
-										}
-											echo '</div>';
-									}
-									?>
-                            </div>
-                        </div>
                     </div>
-                    <div class="kotak">
+                    <div class="col-lg-3 col-md-12">
                         <h5>Sampah</h5>
                         <div class="sampah">
                             <div style="overflow:auto;margin-top:10px">
@@ -293,12 +254,47 @@ SPDX-License-Identifier: Apache-2.0 -->
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
 </body>
 
-
+<!-- Modal -->
+<!-- <div class="modal fade" id="tambahpallet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Tambah Pallet Baru</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Nomor Pallet</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1">
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label for="warna1">Warna Ketika isi</label>
+                            <input type="color" value="#d9b432" class="form-control" id="warna1">
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="warna2">Warna Ketika Kosong</label>
+                            <input type="color" value="#f7e7ad" class="form-control" id="warna2">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div> -->
 
 </html>

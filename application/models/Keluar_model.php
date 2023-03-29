@@ -4,7 +4,7 @@ class Keluar_model extends CI_Model
     //get data barang keluar
     public function tampil_barang_keluar($limit, $start, $keyword=null)
     {
-        $this->db->select('*');
+        $this->db->select('*,riwayat.tglform as tanggalform');
         $this->db->from('riwayat,master,tb_user');
         $this->db->where("master.kode=riwayat.kode AND riwayat.masuk=0 AND riwayat.adm=tb_user.user_id");
         $this->db->order_by('riwayat.no', 'DESC');

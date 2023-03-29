@@ -9,7 +9,7 @@
                 <div class="d-flex">
                     <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
                         <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
-                            <h1>Report per Golongan</h1>
+                        <h1>Report per Golongan</h1>
                         </div>
                     </div>
                     <div style="background-color:#fff">

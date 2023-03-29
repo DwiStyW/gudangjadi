@@ -1,6 +1,3 @@
-<!-- Copyright 2018 Google LLC.
-SPDX-License-Identifier: Apache-2.0 -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -79,6 +76,21 @@ SPDX-License-Identifier: Apache-2.0 -->
 
         <div style="background-color:#fff">
             <div class="sparkline8-graph shadow">
+                <div class="blur" style="position:absolute;padding-left:10px;padding-right:10px">
+                    <?php 
+					$isi=$this->db->query("SELECT COUNT(status) as isi FROM `pallet` WHERE status='isi' GROUP BY status;");
+					foreach($isi->result_array() as $i){
+						$pisi=$i['isi'];
+					}
+					$total=$this->db->query("SELECT COUNT(*) as total FROM `pallet`");
+					foreach($total->result_array() as $t){
+						$ptotal=$t['total'];
+					}
+					$util=$pisi/$ptotal*100;
+					$output = number_format($util, 2, '.', '');
+					echo '<h5><b>Utilisasi : </b>'.$output.' %</h5>'
+					?>
+                </div>
                 <div style="overflow:auto">
                     <div style="width:4000px;">
                         <?php
@@ -91,6 +103,8 @@ SPDX-License-Identifier: Apache-2.0 -->
                                 foreach ($pallet->result_array() as $data) {
                                     $kdpallet = $data['kdpallet'];
                                     $warnap = $data['warna'];
+                                    $status = $data['status'];
+                                    $warnak = $data['warna2'];
                                 }
                                 $kondisi = $this->db->query("SELECT * FROM kondisi_gudang WHERE posisi='$a'");
                                 foreach ($kondisi->result_array() as $dat) {
@@ -98,7 +112,11 @@ SPDX-License-Identifier: Apache-2.0 -->
                                     $warnak = $dat['warna'];
                                 }
                                 if ($pallet->num_rows() > 0) {
-                                    echo '<a id="lihatPallet" onclick="modal(`'.$kdpallet.'`)" data-toggle="modal" data-target="#exampleModal" style="color:black;text-decoration:none"><div id="' . $kdpallet . '" draggable="true" data="' . $a . '" class="box" style="border: 1px solid #666;background-color: ' . $warnap . ';"><b>' . $kdpallet . '</b></div></a>';
+									if($status=='isi'){
+										echo '<a id="lihatPallet" onclick="modal(`'.$kdpallet.'`)" data-toggle="modal" data-target="#exampleModal" style="color:black;text-decoration:none"><div id="' . $kdpallet . '" draggable="true" data="' . $a . '" class="box" style="border: 1px solid #666;background-color: ' . $warnap . ';"><b>' . $kdpallet . '</b></div></a>';
+									}else{
+										echo '<a id="lihatPallet" onclick="modal(`'.$kdpallet.'`)" data-toggle="modal" data-target="#exampleModal" style="color:black;text-decoration:none"><div id="' . $kdpallet . '" draggable="true" data="' . $a . '" class="box" style="border: 1px solid #666;background-color: ' . $warnak . ';"><b>' . $kdpallet . '</b></div></a>';
+									}
                                 } elseif ($kondisi->num_rows() != 0) {
                                     echo '<div id="' . $ketkondisi . '" draggable="true" data="' . $a . '" class="box" style="border: 1px solid #666;background-color: ' . $warnak . ';"><b></b></div>';
                                 } else {
@@ -114,5 +132,7 @@ SPDX-License-Identifier: Apache-2.0 -->
         </div>
     </div>
 </body>
-<?php $this->load->view('modal-mapping');?>
+
+<?php $this->load->view("modal-mapping")?>
+
 </html>

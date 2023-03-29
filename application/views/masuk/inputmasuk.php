@@ -73,7 +73,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">No Batch</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="nobatch" type="text" class="form-control" placeholder="Nomor Batch" required />
+                                                        <input name="nobatch" onchange="validation()" id="nobatch" type="text" class="form-control" placeholder="Nomor Batch" required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -235,25 +235,22 @@ date_default_timezone_set('Asia/Jakarta');
                                                                     <td><?php echo $m->ket; ?></td>
                                                                     <td><?php echo $m->tanggal; ?></td>
                                                                     <?php if ($m->ket == "Output") { ?>
-                                                                    <td><a href="<?= base_url("keluar/edit_keluar/" . $m->no) ?>"
+                                                                    <td><button disabled href="<?= base_url("keluar/edit_keluar/" . $m->no) ?>"
                                                                             class="btn btn-primary btn-sm"><i
                                                                                 class="fa fa-edit"></i>
-                                                                            Edit </a></td>
+                                                                            Edit </button></td>
                                                                     <td><a href="<?= base_url("keluar/hapus_keluar/" . $m->no . "/" . $m->kode) ?>"
                                                                             onclick="javascript: return confirm('Anda yakin hapus ?')"
                                                                             class="btn btn-danger btn-sm"><i
                                                                                 class="fa fa-trash"></i> Hapus</a>
                                                                     </td>
                                                                     <?php } else { ?>
-                                                                    <td><a href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>"
+                                                                    <td><button disabled href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>"
                                                                             class="btn btn-primary btn-sm"><i
                                                                                 class="fa fa-edit"></i>
-                                                                            Edit </a></td>
-                                                                    <td><a href="<?= base_url("masuk/hapus_masuk/" . $m->no . "/" . $m->kode) ?>"
-                                                                            onclick="javascript: return confirm('Anda yakin hapus ?')"
-                                                                            class="btn btn-danger btn-sm">
-                                                                            <i class="fa fa-trash"></i> Hapus
-                                                                        </a>
+                                                                            Edit </button></td>
+                                                                    <td><a onclick="hapus(`<?=$m->no?>`,`<?=$m->noform?>`,`<?=$m->nobatch?>`,`<?=$m->kode?>`,`<?= $sats1?>`,`<?= $sats2?>`,`<?= $sats3?>`,`<?= $m->sat1?>`,`<?= $m->sat2?>`,`<?= $m->sat3?>`)" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hapus_modal"><i
+                                                class="fa fa-trash"></i> Hapus</a>
                                                                     </td>
                                                                     <?php } ?>
 
@@ -277,6 +274,7 @@ date_default_timezone_set('Asia/Jakarta');
         </div>
     </div>
 </div>
+<?php $this->load->view('masuk/modal_hapus')?>
 <!-- Data table area End-->
 
 <!-- mobile -->
@@ -376,3 +374,17 @@ Swal.fire({
 </script>
 <?php
 endif ?>
+
+<script>
+    function validation(){
+        var nobatch = document.getElementById("nobatch").value
+        var tahunKebalik = nobatch.slice(parseInt(nobatch.length-6),parseInt(nobatch.length-4));
+        var tahun = parseInt(tahunKebalik.split('').reverse().join(''));
+        var bulan = nobatch.slice(parseInt(nobatch.length-4),parseInt(nobatch.length-2));
+
+        if(parseInt(bulan)>12){
+            window.alert('nomor batch tidak valid!');
+            document.getElementById("nobatch").value = ""
+        }
+    }
+</script>
