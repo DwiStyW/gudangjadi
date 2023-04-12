@@ -23,7 +23,7 @@ class Masuk extends CI_Controller
             $data['keyword']=$this->session->userdata('keyword_masuk');
         }
         //untuk pagination
-        $config['base_url'] = 'http://localhost/gudangtrial/masuk/index';
+        $config['base_url'] = 'http://192.168.10.38/gudangauditmasuk/index';
         $config['total_rows'] = $this->masuk_model->total_barang_masuk($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
@@ -216,7 +216,7 @@ class Masuk extends CI_Controller
             $saldoakhir = $data2->saldo - $qtyawal + $jumlah; 
         }
         //datalama detailsalqty
-        $tampil = $this->db->where('kode',$kode)->where('noform',$noformawal)->where('nobatch',$nobatchawal)->WHERE('ket','IN')->get('detailsalqty');
+        $tampil = $this->db->where('kode',$kode)->where('nobatch',$nobatchawal)->WHERE('ket','IN')->get('detailsalqty');
         $cek = $tampil->num_rows();
         foreach ($tampil->result() as $data) {
             $qtyakhir = $data->qty - $qtyawal + $jumlah;
@@ -299,7 +299,7 @@ class Masuk extends CI_Controller
                 }
 
                 //ambil databaru
-                $tampil3 = $this->db->where('kode',$kode)->where('noform',$noform)->where('nobatch',$nobatch)->WHERE('ket','IN')->get('detailsalqty');
+                $tampil3 = $this->db->where('kode',$kode)->where('nobatch',$nobatch)->WHERE('ket','IN')->get('detailsalqty');
                 $cek1 = $tampil3->num_rows();
                 foreach ($tampil3->result() as $datanew) {
                     $qtynew = $datanew->qty + $jumlah;
@@ -367,7 +367,7 @@ class Masuk extends CI_Controller
         );
 
         //untuk detailsalqty
-        $dsq = $this->db->where('kode',$kode)->where('noform',$noform)->where('ket','IN')->where('nobatch',$nobatch)->get('detailsalqty');
+        $dsq = $this->db->where('kode',$kode)->where('ket','IN')->where('nobatch',$nobatch)->get('detailsalqty');
         foreach($dsq->result() as $d){
             $qty = $d->qty;
         }
@@ -424,7 +424,7 @@ class Masuk extends CI_Controller
         $noform = $this->input->post('noform', true);
         $kode = $this->input->post('kode', true);
         $nobatch = $this->input->post('nobatch', true);
-        $query = $this->db->join('master','master.kode = detailsalqty.kode')->where('noform',$noform)->where('nobatch',$nobatch)->where('ket','IN')->where('detailsalqty.kode',$kode)->get('detailsalqty');
+        $query = $this->db->join('master','master.kode = detailsalqty.kode')->where('nobatch',$nobatch)->where('ket','IN')->where('detailsalqty.kode',$kode)->get('detailsalqty');
         if($query->num_rows()>0){
             $data = $query->result();
         }else{
