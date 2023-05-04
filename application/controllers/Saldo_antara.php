@@ -1,9 +1,9 @@
 <?php
-class SaldoAntara extends CI_Controller{
+class Saldo_antara extends CI_Controller{
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->userdata('role') != 'track' && $this->session->userdata('role') != 'admin' && $this->session->userdata('role') != 'manager') {
+        if ($this->session->userdata('role') != 'track' && $this->session->userdata('role') == 'admin' && $this->session->userdata('role') != 'manager') {
             $this->session->set_flashdata('pesan', '<div class="fade show" style="color:red" role="alert">
   Anda Belum Login!
 </div><br>');
@@ -24,9 +24,9 @@ class SaldoAntara extends CI_Controller{
         }
 
         //untuk pagination
-        $this->load->model('Saldo_model');
+        $this->load->model('Saldo_model_A');
         $config['base_url'] = 'http://localhost/gudangtrial/saldo_antara/index';
-        $config['total_rows'] = $this->Saldo_model->total_saldo($data['keyword']);
+        $config['total_rows'] = $this->Saldo_model_A->total_saldo_A($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
         if ($range == null) {
@@ -36,11 +36,11 @@ class SaldoAntara extends CI_Controller{
         }
         $this->pagination->initialize($config);
 
-        $data['start'] = $this->uri->segment(4);
-        $data['saldo'] = $this->Saldo_model->tampil_saldo($config['per_page'], $data['start'], $data['keyword']);
+        $data['start'] = $this->uri->segment(3);
+        $data['saldo'] = $this->Saldo_model_A->tampil_saldo_A($config['per_page'], $data['start'], $data['keyword']);
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
-        $this->load->view("saldo_antara", $data);
+        $this->load->view("track/saldo_antara", $data);
         $this->load->view("_partials/footer");
     }
 }

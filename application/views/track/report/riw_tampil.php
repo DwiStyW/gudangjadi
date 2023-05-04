@@ -39,6 +39,7 @@ if ($code == "") {
                                         <th rowspan="2">No Form</th>
                                         <th rowspan="2">Kode Barang</th>
                                         <th rowspan="2">Nama Barang</th>
+                                        <th rowspan="2">No Batch</th>
                                         <th colspan="3">Masuk</th>
                                         <th colspan="3">Keluar</th>
                                         <th colspan="3">Saldo</th>
@@ -94,6 +95,7 @@ if ($code == "") {
                                                 <td><?= $r->noform ?></td>
                                                 <td><?= $r->kode ?></td>
                                                 <td><?= $r->nama ?></td>
+                                                <td><?= $r->nobatch ?></td>
                                                 <?php
                                                 $satss1  = floor($r->masuk / ($r->max1 * $r->max2));
                                                 $sisa   = $r->masuk - ($satss1 * $r->max1 * $r->max2);
@@ -137,6 +139,7 @@ if ($code == "") {
                                                 <td><?= $r->noform ?></td>
                                                 <td><?= $r->kode ?></td>
                                                 <td><?= $r->nama ?></td>
+                                                <td><?= $r->nobatch ?></td>
                                                 <?php
                                                 $stn1  = floor($r->masuk / ($r->max1 * $r->max2));
                                                 $ssa   = $r->masuk - ($stn1 * $r->max1 * $r->max2);

@@ -23,7 +23,7 @@ class Masuk extends CI_Controller
             $data['keyword']=$this->session->userdata('keyword_masuk');
         }
         //untuk pagination
-        $config['base_url'] = 'http://192.168.10.38/gudangauditmasuk/index';
+        $config['base_url'] = 'http://localhost/gudangtrial/masuk/index';
         $config['total_rows'] = $this->masuk_model->total_barang_masuk($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
@@ -258,13 +258,11 @@ class Masuk extends CI_Controller
         );
         //kondisi awal
         $where2 = array(
-            'noform'=>$noformawal,
             'kode'=>$kode,
             'nobatch'=>$nobatchawal,
         );
         //kondisi baru
         $where3 = array(
-            'noform'=>$noform,
             'kode'=>$kode,
             'nobatch'=>$nobatch,
         );

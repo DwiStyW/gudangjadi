@@ -221,37 +221,41 @@ class Masuk_track extends CI_Controller
             'nobatch' => $nobatch,
             'noform'  => $noform
         );
-
-        if ($qty1 >= $jumlah && $jumlah>0) {
-            $this->db->trans_start();
-            $this->masuk_track_model->tambah($data, 'riwayattrack'); //id hapus riwayat
-            $this->masuk_track_model->update($where, $data1, 'master'); //kode kurangi saldo dengan jumlah masuk
-            $this->masuk_track_model->update($where1, $data2, 'pallet'); //nopallet kurangi qty pallet dengan jumlah masuk
-            if ($que->num_rows() > 0) {
-                $this->masuk_track_model->update($where4, $data6, 'detailsal'); //kode & nobatch kurangi qty detailsal dengan jumlah masuk
-            } else {
-                $this->masuk_track_model->tambah($data4, 'detailsal'); //ketika qty = 0 hapus
-            }
-            if ($hitung > 0) {
-                $this->masuk_track_model->update($where3, $data5, 'detailsalqty'); //kode nobatch nopallet ditambah jumlah masuk
-            } else {
-                $this->masuk_track_model->hapus($where3, 'detailsalqty'); // insert dengan qty jumlah masuk
-            }
-            // if ($tgl == date("Y-m-d")) {
-            //     $this->masuk_track_model->update($where2, $data3, 'utilisasi'); //tgl detailsalqty && num rows>0 if pallet status berubah jadi kosong maka pallet in -1
-            // } else {
-            //     $this->masuk_track_model->tambah($data3, 'utilisasi'); //insert tgl detailsalqty ubah pallet kosong menjadi isi
-            // }
-            $this->db->trans_complete();
-
-            if ($this->db->trans_status() === false) {
-                $this->session->set_flashdata('gagal', 'Input error!');
-            } else {
-                $this->session->set_flashdata('sukses', 'Input success!');
-            }
+        $cek = $this->db->where('tglform', $tglform)->where('kode', $kode)->where('nobatch', $nobatch)->where('nopallet', $nopallet)->where('masuk', $jumlah)->get('riwayattrack');
+        if($cek->num_rows()>0) {
+            $this->session->set_flashdata('gagal', 'Data telah di input sebelumnya!');
         } else {
-            $this->session->set_flashdata('gagal', 'Saldo tidak mencukupi!');
+    if ($qty1 >= $jumlah && $jumlah>0) {
+        $this->db->trans_start();
+        $this->masuk_track_model->tambah($data, 'riwayattrack'); //id hapus riwayat
+        $this->masuk_track_model->update($where, $data1, 'master'); //kode kurangi saldo dengan jumlah masuk
+        $this->masuk_track_model->update($where1, $data2, 'pallet'); //nopallet kurangi qty pallet dengan jumlah masuk
+        if ($que->num_rows() > 0) {
+            $this->masuk_track_model->update($where4, $data6, 'detailsal'); //kode & nobatch kurangi qty detailsal dengan jumlah masuk
+        } else {
+            $this->masuk_track_model->tambah($data4, 'detailsal'); //ketika qty = 0 hapus
         }
+        if ($hitung > 0) {
+            $this->masuk_track_model->update($where3, $data5, 'detailsalqty'); //kode nobatch nopallet ditambah jumlah masuk
+        } else {
+            $this->masuk_track_model->hapus($where3, 'detailsalqty'); // insert dengan qty jumlah masuk
+        }
+        // if ($tgl == date("Y-m-d")) {
+        //     $this->masuk_track_model->update($where2, $data3, 'utilisasi'); //tgl detailsalqty && num rows>0 if pallet status berubah jadi kosong maka pallet in -1
+        // } else {
+        //     $this->masuk_track_model->tambah($data3, 'utilisasi'); //insert tgl detailsalqty ubah pallet kosong menjadi isi
+        // }
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === false) {
+            $this->session->set_flashdata('gagal', 'Input error!');
+        } else {
+            $this->session->set_flashdata('sukses', 'Input success!');
+        }
+    } else {
+        $this->session->set_flashdata('gagal', 'Saldo tidak mencukupi!');
+    }
+}
         redirect('track/masuk_track/input_masuk_track');
     }
     public function edit_masuk_track($no)
