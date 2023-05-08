@@ -143,5 +143,8 @@ $autoload['model'] = array(
     'jenis_model',
     'keluar_model',
     'masuk_track_model',
-    'keluar_track_model'
+    'keluar_track_model',
+    'saldo_model',
+    'saldo_model_a',
+    'konversi_model'
 );

@@ -66,7 +66,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                     ?>
                                         <tr>
                                             <td><?php echo ++$start; ?></td>
-                                            <td><?php echo date("d-m-Y", strtotime($k->tglform)); ?></td>
+                                            <td><?php echo date("d-m-Y", strtotime($k->tanggalform)); ?></td>
                                             <td><?php echo $k->noform ?></td>
                                             <td><?php echo $k->nobatch ?></td>
                                             <td><?php echo $k->kode ?></td>
@@ -87,7 +87,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                             <td><a href="<?= base_url("penginput/user/" . $k->adm) ?>"><?php echo $k->username; ?><a />
                                             </td>
                                             <td>
-                                                <button disabled class="btn btn-sm btn-primary" href="<?= base_url("keluar/edit_keluar/" . $k->no) ?>"><i class="fa fa-edit"></i> Edit</button>
+                                                <a class="btn btn-sm btn-primary" href="<?= base_url("keluar/edit_keluar/" . $k->no) ?>"><i class="fa fa-edit"></i> Edit</a>
                                                 <a onclick="hapus(`<?=$k->no?>`,`<?=$k->noform?>`,`<?=$k->nobatch?>`,`<?=$k->kode?>`,`<?= $sats1?>`,`<?= $sats2?>`,`<?= $sats3?>`,`<?= $k->sat1?>`,`<?= $k->sat2?>`,`<?= $k->sat3?>`)" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hapus_modal"><i
                                                 class="fa fa-trash"></i> Hapus</a>
                                             </td>

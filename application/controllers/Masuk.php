@@ -23,7 +23,7 @@ class Masuk extends CI_Controller
             $data['keyword']=$this->session->userdata('keyword_masuk');
         }
         //untuk pagination
-        $config['base_url'] = 'http://gudangjadi_CI/masuk/index';
+        $config['base_url'] = 'http://localhost/gudangjadi_CI/masuk/index';
         $config['total_rows'] = $this->masuk_model->total_barang_masuk($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
@@ -186,14 +186,13 @@ class Masuk extends CI_Controller
         $this->load->view('_partials/footer');
     }
 
-    //updateMasuk
     public function update_masuk()
     {
         $no         = $this->input->post('no');
         $date       = $this->input->post('tgl');
         $kode       = $this->input->post('kode');
         $noform     = $this->input->post('noform');
-        $nobatch     = $this->input->post('nobatch');
+        $nobatch    = $this->input->post('nobatch');
         $sat1       = $this->input->post('sats1');
         $sat2       = $this->input->post('sats2');
         $sat3       = $this->input->post('sats3');
@@ -202,62 +201,141 @@ class Masuk extends CI_Controller
         $cat        = $this->input->post('cat');
         $ket        = "revisiIN";
 
+        $tampil1 = $this->db->query("select * from riwayat WHERE no='$no'");
+        foreach ($tampil1->result() as $data1) {
+            $noformawal = $data1->noform;
+            $nobatchawal = $data1->nobatch;
+            $qtyawal = $data1->masuk;
+        }
+
         $tampil2 = $this->db->query("select * from master WHERE kode ='$kode'");
         foreach ($tampil2->result() as $data2) {
             $sats1    = $sat1 * $data2->max1 * $data2->max2;
             $sats2    = $sat2 * $data2->max2;
-            $jumlah = $sats1 + $sats2 + $sat3;
+            $jumlah   = $sats1 + $sats2 + $sat3;
+            $saldoakhir = $data2->saldo - $qtyawal + $jumlah; 
         }
-        $tampil1 = $this->db->query("select * from riwayat WHERE no='$no'");
-        foreach ($tampil1->result() as $data1) {
-            $awal = $data1->masuk;
-        }
-        $tampil = $this->db->query("select * from master WHERE kode ='$kode'");
+        //datalama detailsalqty
+        $tampil = $this->db->where('kode',$kode)->where('nobatch',$nobatchawal)->WHERE('ket','IN')->get('detailsalqty');
+        $cek = $tampil->num_rows();
         foreach ($tampil->result() as $data) {
-            $update = $data->saldo - $awal + $jumlah;
-        }
+            $qtyakhir = $data->qty - $qtyawal + $jumlah;
+            $hpsdsq   = $data->qty - $qtyawal;
+        } 
+        // data saldo
+        $data = array(
+            'saldo' => $saldoakhir,
+            'tgl_update' => $date,
+            'tglform' => $tglform
+        );
+        $where = array(
+            'kode' => $kode
+        );
 
-        if ($update < 0) {
-            $this->session->set_flashdata("gagal", "JUMLAH STOK MINUS !!!");
-            redirect("masuk");
-        } else {
-            // update saldo
-            $data = array(
-                'saldo' => $update,
-                'tgl_update' => $date,
-                'tglform' => $tglform
-            );
-            $where = array(
-                'kode' => $kode
-            );
+        //data riwayat
+        $data1 = array(
+            'noform' => $noform,
+            'nobatch' => $nobatch,
+            'kode' => $kode,
+            'masuk' => $jumlah,
+            'tglform' => $tglform,
+            'saldo' => $qtyakhir,
+            'tanggal' => $date,
+            'ket' => $ket,
+            'adm' => $adm,
+            'cat' => $cat
+        );
+        $where1 = array(
+            'no' => $no
+        );
+        
+        //data detailsalqty
+        $data2 = array(
+            'qty' => $qtyakhir
+        );
+        $data3 = array(
+            'qty' => $hpsdsq
+        );
+        //kondisi awal
+        $where2 = array(
+            'kode'=>$kode,
+            'nobatch'=>$nobatchawal,
+        );
+        //kondisi baru
+        $where3 = array(
+            'kode'=>$kode,
+            'nobatch'=>$nobatch,
+        );
 
-            //update riwayat
-            $data1 = array(
-                'noform' => $noform,
-                'nobatch' => $nobatch,
-                'kode' => $kode,
-                'masuk' => $jumlah,
-                'tglform' => $tglform,
-                'saldo' => $update,
-                'tanggal' => $date,
-                'ket' => $ket,
-                'adm' => $adm,
-                'cat' => $cat
-            );
-            $where1 = array(
-                'no' => $no
-            );
+        
+        if($cek>0){
+       
+        
+            //rubah qty saja
+            if($nobatch==$nobatchawal&$noform==$noformawal) {
+                if ($qtyakhir>0) {
+                    $this->db->trans_start();
+                    $this->masuk_model->update($where2, $data2, 'detailsalqty');
+                    $this->masuk_model->update($where, $data, 'master');
+                    $this->masuk_model->update($where1, $data1, 'riwayat');
+                    $this->db->trans_complete();
+                } else {
+                    $this->session->set_flashdata("gagal", "JUMLAH STOK MINUS !!!");
+                    redirect("masuk");
+                }
+            } else {
+                //beda nobatch atau noform
+                //hapus atau edit datalama
+                if($hpsdsq==0){
+                    //hapus detailsalqty lama bila 0
+                    $this->db->trans_start();
+                    $this->masuk_model->hapus($where2, 'detailsalqty');
+                } else {
+                    //update detailsalqty lama tidak 0
+                    $this->db->trans_start();
+                    $this->masuk_model->update($where2, $data3, 'detailsalqty');
+                }
 
-            $this->db->trans_start();
-            $this->masuk_model->update($where, $data, 'master');
-            $this->masuk_model->update($where1, $data1, 'riwayat');
-            $this->db->trans_complete();
-
-            if($this->db->trans_status()===FALSE){
-                $this->session->set_flashdata('gagal', 'Update Barang Masuk Error!');
-            }else{
-                $this->session->set_flashdata('sukses', 'Update Barang Masuk Success!');
+                //ambil databaru
+                $tampil3 = $this->db->where('kode',$kode)->where('nobatch',$nobatch)->WHERE('ket','IN')->get('detailsalqty');
+                $cek1 = $tampil3->num_rows();
+                foreach ($tampil3->result() as $datanew) {
+                    $qtynew = $datanew->qty + $jumlah;
+                }
+                if($cek1>0){
+                    //jika detailsalqty baru ada saldo
+                    $data4 = array(
+                        'qty' => $qtynew
+                    );
+                    //update detailsalqty baru
+                    $this->masuk_model->update($where3, $data4, 'detailsalqty');
+                } else {
+                    //tambah detailsalqty baru
+                    $data5 = array(
+                        'qty' => $jumlah,
+                        'noform'=>$noform,
+                        'kode'=>$kode,
+                        'nobatch'=>$nobatch,
+                        'tglform'=>$tglform,
+                        'ket'=>'IN'
+                    );
+                    $this->masuk_model->tambah($data5,'detailsalqty');
+                }
+                $this->masuk_model->update($where, $data, 'master');
+                $this->masuk_model->update($where1, $data1, 'riwayat');
+                $this->db->trans_complete();
             }
+
+            if ($this->db->trans_status()===false) {
+                $this->session->set_flashdata('gagal', 'Edit Barang Masuk Error!');
+            } else {
+                $this->session->set_flashdata('sukses', 'Edit Barang Masuk Success!');
+            }
+            redirect("masuk");
+        } else { 
+            //else keberadaan kosong
+            $this->session->set_flashdata("gagal", "Gagal ! ! Barang Telah di pindah Ke Pallet !!!");
+            redirect("masuk");
         }
     }
     public function hapus_masuk()
@@ -287,7 +365,7 @@ class Masuk extends CI_Controller
         );
 
         //untuk detailsalqty
-        $dsq = $this->db->where('kode',$kode)->where('noform',$noform)->where('ket','IN')->where('nobatch',$nobatch)->get('detailsalqty');
+        $dsq = $this->db->where('kode',$kode)->where('ket','IN')->where('nobatch',$nobatch)->get('detailsalqty');
         foreach($dsq->result() as $d){
             $qty = $d->qty;
         }
@@ -344,7 +422,7 @@ class Masuk extends CI_Controller
         $noform = $this->input->post('noform', true);
         $kode = $this->input->post('kode', true);
         $nobatch = $this->input->post('nobatch', true);
-        $query = $this->db->join('master','master.kode = detailsalqty.kode')->where('noform',$noform)->where('nobatch',$nobatch)->where('ket','IN')->where('detailsalqty.kode',$kode)->get('detailsalqty');
+        $query = $this->db->join('master','master.kode = detailsalqty.kode')->where('nobatch',$nobatch)->where('ket','IN')->where('detailsalqty.kode',$kode)->get('detailsalqty');
         if($query->num_rows()>0){
             $data = $query->result();
         }else{

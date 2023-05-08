@@ -27,7 +27,7 @@ class Keluar extends CI_Controller
         }
 
         //untuk pagination
-        $config['base_url'] = 'http://keluar/index';
+        $config['base_url'] = 'http://192.168.10.79gudangjadi_CI/keluar/index';
         $config['total_rows'] = $this->keluar_model->total_barang_keluar($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
@@ -104,7 +104,7 @@ class Keluar extends CI_Controller
                 'kode' => $koder,
                 'noform' => $noform,
                 'nobatch' => $nosppb,
-                'masuk' => 0,
+                'keluar' => 0,
                 'keluar' => $jumlah,
                 'saldo' => $hasil,
                 'ket' => 'Output',
@@ -113,7 +113,7 @@ class Keluar extends CI_Controller
             );
 
             //insert detailsalqty
-            $detsal = $this->db->where('kode', $koder)->where('ket', 'OUT')->where('nobatch', $nosppb)->where('noform',$noform)->get('detailsalqty');
+            $detsal = $this->db->where('kode', $koder)->where('ket', 'OUT')->where('noform',$noform)->get('detailsalqty');
             foreach ($detsal->result() as $det) {
                 $salqty[] = $det->qty;
             }
@@ -198,103 +198,161 @@ class Keluar extends CI_Controller
 
     public function update_keluar()
     {
-        $no = $this->input->post('no');
-        $date = $this->input->post('tgl');
-        $kode = $this->input->post('kode');
+        $no     = $this->input->post('no');
+        $date   = $this->input->post('tgl');
+        $kode   = $this->input->post('kode');
         $noform = $this->input->post('noform');
-        $nobatch = $this->input->post('nobatch');
-        $sat1 = $this->input->post('sats1');
-        $sat2 = $this->input->post('sats2');
-        $sat3 = $this->input->post('sats3');
-        $tglform = $this->input->post('tglform');
-        $adm = $this->input->post('adm');
-        $cat = $this->input->post('cat');
-        $ket = "revisiOUT";
+        $nosppb = $this->input->post('nosppb');
+        $sat1   = $this->input->post('sats1');
+        $sat2   = $this->input->post('sats2');
+        $sat3   = $this->input->post('sats3');
+        $tglform= $this->input->post('tglform');
+        $tglsppb= $this->input->post('tglsppb');
+        $adm    = $this->input->post('adm');
+        $cat    = $this->input->post('cat');
+        $ket    = "revisiOUT";
 
-        $tampil2 = $this->db->query("SELECT * FROM master WHERE kode='$kode'");
-        foreach ($tampil2->result() as $data2) {
-            $max1 = $data2->max1;
-            $max2 = $data2->max2;
-        }
-
-        $sats1 = $sat1 * $max1 * $max2;
-        $sats2 = $sat2 * $max2;
-        $jumlah = $sats1 + $sats2 + $sat3;
-
-        $tampil1 = $this->db->query("SELECT * FROM riwayat WHERE no='$no'");
+        $tampil1 = $this->db->where('no',$no)->get('riwayat');
         foreach ($tampil1->result() as $data1) {
+            $noformawal = $data1->noform;
+            $qtyawal = $data1->keluar;
         }
-        $tampil = $this->db->query("SELECT * FROM master WHERE kode='$kode'");
+        $tampil2 = $this->db->where('kode',$kode)->get('master');
+        foreach ($tampil2->result() as $data2) {
+            $sats1    = $sat1 * $data2->max1 * $data2->max2;
+            $sats2    = $sat2 * $data2->max2;
+            $jumlah   = $sats1 + $sats2 + $sat3;
+            $saldoakhir = $data2->saldo + $qtyawal - $jumlah; 
+        }
+        // echo $saldoakhir."  ";
+        // echo $qtyawal."  ";
+        // echo $jumlah."  ";
+        // echo $data2->saldo."  ";
+
+    
+        //datalama detailsalqty
+        $tampil = $this->db->where('kode',$kode)->where('noform',$noformawal)->WHERE('ket','OUT')->get('detailsalqty');
+        $cek = $tampil->num_rows();
         foreach ($tampil->result() as $data) {
-        }
-        $awal = $data1->keluar;
-        $update = $data->saldo + $awal - $jumlah;
+            $qtyakhir = $data->qty - $qtyawal + $jumlah;
+            $hpsdsq   = $data->qty - $qtyawal;
+        } 
+        // data saldo
+        $data = array(
+            'saldo' => $saldoakhir,
+            'tgl_update' => $date,
+            'tglform' => $tglform
+        );
+        $where = array(
+            'kode' => $kode
+        );
 
-        if ($update < 0) {
-            $this->session->set_flashdata('gagal', 'JUMLAH STOK MINUS !!!');
-            redirect("keluar/input_keluar");
-        } else {
-            //update saldo
-            $data3 = array(
-                'saldo' => $update,
-                'tanggal' => $date,
-                'tglform' => $tglform,
-            );
+        //data riwayat
+        $data1 = array(
+            'noform' => $noform,
+            'nobatch' => $nosppb,
+            'kode' => $kode,
+            'keluar' => $jumlah,
+            'tglsppb' => $tglsppb,
+            'tglform' => $tglform,
+            'saldo' => $qtyakhir,
+            'tanggal' => $date,
+            'ket' => $ket,
+            'adm' => $adm,
+            'cat' => $cat
+        );
+        $where1 = array(
+            'no' => $no
+        );
+        
+        //data detailsalqty
+        $data2 = array(
+            'qty' => $qtyakhir
+        );
+        $data3 = array(
+            'qty' => $hpsdsq
+        );
+        //kondisi awal
+        $where2 = array(
+            'noform'=>$noformawal,
+            'kode'=>$kode,
+            'ket'=>'OUT'
+        );
+        //kondisi baru
+        $where3 = array(
+            'noform'=>$noform,
+            'kode'=>$kode,
+            'ket'=>'OUT'
+        );
 
-            $where1 = array(
-                'kode' => $kode,
-            );
-
-            //update riwayat
-            $data4 = array(
-                'kode' => $kode,
-                'noform' => $noform,
-                'nobatch' => $nobatch,
-                'keluar' => $jumlah,
-                'tglform' => $tglform,
-                'saldo' => $update,
-                'tanggal' => $date,
-                'ket' => $ket,
-                'adm' => $adm,
-            );
-            $where2 = array(
-                'no' => $no,
-            );
-
-            //update keluar
-            $data5 = array(
-                'noform' => $noform,
-                'kode' => $kode,
-                'jumlah' => $jumlah,
-                'tglform' => $tglform,
-                'saldo' => $update,
-                'tanggal' => $date,
-                'adm' => $adm,
-            );
-            $where3 = array(
-                'no' => $no,
-            );
-            $this->db->trans_start();
-            $this->keluar_model->update($where1, $data3, 'saldo');
-            $this->keluar_model->update($where2, $data4, 'master');
-            if ($this->db->trans_status() === false) {
-                $this->session->set_flashdata('gagal', 'Update Barang Keluar Error!');
+        if($cek>0){
+            //rubah qty saja
+            if($noform==$noformawal) {
+                if ($qtyakhir>0) {
+                    $this->db->trans_start();
+                    $this->keluar_model->update($where2, $data2, 'detailsalqty');
+                    $this->keluar_model->update($where, $data, 'master');
+                    $this->keluar_model->update($where1, $data1, 'riwayat');
+                    $this->db->trans_complete();
+                } else {
+                    $this->session->set_flashdata("gagal", "JUMLAH STOK MINUS !!!");
+                    redirect("keluar");
+                }
             } else {
-                $this->session->set_flashdata('sukses', 'Update Barang Keluar Success!');
-            }
-            redirect('keluar');
+                //beda nobatch atau noform
+                //hapus atau edit datalama
+                if($hpsdsq==0){
+                    //hapus detailsalqty lama bila 0
+                    $this->db->trans_start();
+                    $this->keluar_model->hapus($where2, 'detailsalqty');
+                } else {
+                    //update detailsalqty lama tidak 0
+                    $this->db->trans_start();
+                    $this->keluar_model->update($where2, $data3, 'detailsalqty');
+                }
 
-            // if (isset($data3) && isset($data4) && isset($data5) && isset($where1) && isset($where2) && isset($where3)) {
-            //     $this->keluar_model->update($where1, $data3, 'saldo');
-            //     $this->keluar_model->update($where2, $data4, 'riwayat');
-            //     $this->keluar_model->update($where3, $data5, 'keluar');
-            //     $this->session->set_flashdata('sukses', 'Update Barang Keluar Success!');
-            //     redirect('keluar');
-            // } else {
-            //     $this->session->set_flashdata('gagal', 'Update Barang Keluar Error!');
-            //     redirect('keluar');
-            // }
+                //ambil databaru
+                $tampil3 = $this->db->where('kode',$kode)->where('noform',$noform)->WHERE('ket','OUT')->get('detailsalqty');
+                $cek1 = $tampil3->num_rows();
+                foreach ($tampil3->result() as $datanew) {
+                    $qtynew = $datanew->qty + $jumlah;
+                }
+                if($cek1>0){
+                    //jika detailsalqty baru ada saldo
+                    $data4 = array(
+                        'qty' => $qtynew
+                    );
+                    //update detailsalqty baru
+                    $this->keluar_model->update($where3, $data4, 'detailsalqty');
+                } else {
+                    //tambah detailsalqty baru
+                    $data5 = array(
+                        'qty' => $jumlah,
+                        'noform'=>$noform,
+                        'kode'=>$kode,
+                        'tglform'=>$tglform,
+                        'nobatch'=>'',
+                        'ket'=>'OUT'
+                    );
+                    $this->keluar_model->tambah($data5,'detailsalqty');
+                }
+                $this->keluar_model->update($where, $data, 'master');
+                $this->keluar_model->update($where1, $data1, 'riwayat');
+                $this->db->trans_complete();
+            }
+
+            if ($this->db->trans_status()===false) {
+                $this->session->set_flashdata('gagal', 'Edit Barang keluar Error!');
+            } else {
+                $this->session->set_flashdata('sukses', 'Edit Barang keluar Success!');
+            }
+            redirect("keluar");
+        } else { 
+            //else keberadaan kosong
+            $this->session->set_flashdata("gagal", "Gagal ! ! Barang Telah di pindah Ke Pallet !!!");
+            redirect("keluar");
         }
+        
     }
 
     public function hapus_keluar()
@@ -334,10 +392,9 @@ class Keluar extends CI_Controller
         $where2 = array(
             'noform'=>$noform,
             'kode'=>$kode,
-            'nobatch'=>$nobatch,
         );
         $cek_dsq = $qty - $awal;
-
+        
         if($cek_dsq < 0){
             $this->session->set_flashdata("gagal", "JUMLAH STOK MINUS !!!");
             redirect("keluar");
@@ -346,9 +403,9 @@ class Keluar extends CI_Controller
             $this->keluar_model->update($where, $data2, 'master');
             $this->keluar_model->hapus($where1, 'riwayat');
             if ($cek_dsq == 0) {
-                $this->masuk_model->hapus($where2, 'detailsalqty');
+                $this->keluar_model->hapus($where2, 'detailsalqty');
             } else {
-                $this->masuk_model->update($where2, $data3, 'detailsalqty');
+                $this->keluar_model->update($where2, $data3, 'detailsalqty');
             }
             $this->db->trans_complete();
             if ($this->db->trans_status() === false) {

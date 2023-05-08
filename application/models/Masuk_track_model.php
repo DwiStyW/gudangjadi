@@ -3,7 +3,7 @@ class Masuk_track_model extends CI_Model
 {
     public function tampil_masuk_track($limit,$start,$keyword=null)
     {
-        $this->db->Select("*")
+        $this->db->Select("*,riwayattrack.tglform as tanggalform")
             ->from('riwayattrack,master,tb_user')
             ->where("master.kode=riwayattrack.kode AND riwayattrack.keluar=0 AND riwayattrack.adm=tb_user.user_id")
             ->order_by('riwayattrack.no', 'DESC');
@@ -11,6 +11,7 @@ class Masuk_track_model extends CI_Model
                 $this->db->group_start();
                 $this->db->like('nobatch',$keyword);
                 $this->db->or_like('nopallet',$keyword);
+                $this->db->or_like('noform',$keyword);
                 $this->db->or_like('riwayattrack.kode',$keyword);
                 $this->db->or_like('master.nama',$keyword);
                 $this->db->or_like('riwayattrack.tglform',$keyword);
@@ -32,6 +33,7 @@ class Masuk_track_model extends CI_Model
             $this->db->group_start();
             $this->db->like('nobatch',$keyword);
             $this->db->or_like('nopallet',$keyword);
+            $this->db->or_like('noform',$keyword);
             $this->db->or_like('riwayattrack.kode',$keyword);
             $this->db->or_like('master.nama',$keyword);
             $this->db->or_like('riwayattrack.tglform',$keyword);

@@ -39,9 +39,47 @@ class saldo_track extends CI_Controller
 
         $data['start'] = $this->uri->segment(4);
         $data['saldo'] = $this->Saldo_model->tampil_saldo($config['per_page'], $data['start'], $data['keyword']);
+        $data['kode']= $this->db->query("SELECT DISTINCT kode FROM detailsal");
+        $data['batch']= $this->db->query("SELECT DISTINCT nobatch FROM detailsal");
+        $data['pallet']= $this->db->query("SELECT DISTINCT nopallet FROM detailsal");
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("track/saldo", $data);
         $this->load->view("_partials/footer");
+    }
+
+    public function filter(){
+        $kode=$this->input->post('kode');
+        $batch=$this->input->post('batch');
+        $pallet=$this->input->post('pallet');
+        //diisi semua
+        if($kode!=null and $batch!=null and $pallet!=null){
+            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.kode',$kode)->where('detailsal.nobatch',$batch)->where('detailsal.nopallet',$pallet)->get('detailsal')->result();
+        }
+        //diisi kode dan batch
+        elseif($kode!=null and $batch!=null and $pallet==null){
+            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.kode',$kode)->where('detailsal.nobatch',$batch)->get('detailsal')->result();
+        }
+        //diisi kode dan pallet
+        elseif($kode!=null and $batch==null and $pallet!=null){
+            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.kode',$kode)->where('detailsal.nopallet',$pallet)->get('detailsal')->result();
+        }
+        //diisi batch dan pallet
+        elseif($kode==null and $batch!=null and $pallet!=null){
+            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.nobatch',$batch)->where('detailsal.nopallet',$pallet)->get('detailsal')->result();
+        }
+        //diisi kode
+        elseif($kode!=null and $batch==null and $pallet==null){
+            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.kode',$kode)->get('detailsal')->result();
+        }
+        //diisi batch
+        elseif($kode==null and $batch!=null and $pallet==null){
+            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.nobatch',$batch)->get('detailsal')->result();
+        }
+        //diisi pallet
+        elseif($kode==null and $batch==null and $pallet!=null){
+            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.nopallet',$pallet)->get('detailsal')->result();
+        }
+        echo json_encode($data);
     }
 }

@@ -3,7 +3,7 @@ class Keluar_track_model extends CI_Model
 {
     public function tampil_keluar_track($limit,$start,$keyword=null)
     {
-        $this->db->Select("*")
+        $this->db->Select("*,riwayattrack.tglform as tanggalform")
             ->from('riwayattrack,master,tb_user')
             ->where("master.kode=riwayattrack.kode AND riwayattrack.masuk=0 AND riwayattrack.adm=tb_user.user_id")
             ->order_by('riwayattrack.no', 'DESC');
@@ -11,6 +11,7 @@ class Keluar_track_model extends CI_Model
                 $this->db->group_start();
                 $this->db->like('nobatch',$keyword);
                 $this->db->or_like('nopallet',$keyword);
+                $this->db->or_like('noform',$keyword);
                 $this->db->or_like('riwayattrack.kode',$keyword);
                 $this->db->or_like('master.nama',$keyword);
                 $this->db->or_like('riwayattrack.tglform',$keyword);
@@ -24,7 +25,7 @@ class Keluar_track_model extends CI_Model
 
     public function total_keluar_track($keyword=null)
     {
-        $this->db->select('*');
+        $this->db->select('*,riwayattrack.tglform as tanggalform');
         $this->db->from('riwayattrack');
         $this->db->join('master', 'master.kode=riwayattrack.kode')->join('tb_user','tb_user.user_id=riwayattrack.adm');
         $this->db->where('masuk=0');
@@ -32,6 +33,7 @@ class Keluar_track_model extends CI_Model
             $this->db->group_start();
             $this->db->like('nobatch',$keyword);
             $this->db->or_like('nopallet',$keyword);
+            $this->db->or_like('noform',$keyword);
             $this->db->or_like('riwayattrack.kode',$keyword);
             $this->db->or_like('master.nama',$keyword);
             $this->db->or_like('riwayattrack.tglform',$keyword);
