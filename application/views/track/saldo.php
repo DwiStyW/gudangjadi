@@ -9,7 +9,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
                 <div class="main-sparkline8-hd justify-content-between"
                     style="display:flex; flex:wrap;padding-top:20px;padding-bottom:20px;padding-left:20px;">
                     <h1>Detail Saldo Gudang jadi<h1>
-                            <div style="width:100%; padding-right:20px">
+                            <div id="src" style="width:100%; padding-right:20px">
                                     <form action="<?=base_url('track/saldo_track/index')?>" method="post">
                                     <div style="display:flex; flex:wrap">
                                         <div style="width:100%">
@@ -32,7 +32,6 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                     </form>
                                     <?php }?>
                             </div>
-
                 </div>
             </div>
         </div>
@@ -40,34 +39,40 @@ ini_set('date.timezone', 'Asia/Jakarta');
             <div class="sparkline8-graph">
                 <div class="datatable-dashv1-list custom-datatable-overright">
                     <div id="toolbarr">
-                        <div class="col-lg-4">
-                        <select class="form-control" onchange="filter()" name="kode" id="kode">
+                        <div class="col-lg-12">
+                        <select style="width:92%" onchange="filter()" name="kode" id="kode">
                             <option value=""></option>
+                            <option value="unset">Pilih barang</option>
                             <?php foreach($kode->result() as $kode){?>
-                                <option value="<?=$kode->kode?>"><?= $kode->kode?></option>
+                                <option value="<?=$kode->kode?>"><?= $kode->nama?></option>
                                 <?php } ?>
                         </select>
-                        </div>
-                        <div class="col-lg-4">
-                        <select class="form-control" onchange="filter()" name="batch" id="batch">
-                            <option value=""></option>
+                    </div>
+                        <div class="col-lg-12">
+                            <div class="col-lg-4">
+                                <select style="width:100%" onchange="filter()" name="batch" id="batch">
+                                    <option value=""></option>
+                                    <option value="unset">Pilih batch</option>
                             <?php foreach($batch->result() as $batch){?>
                             <option value="<?=$batch->nobatch?>"><?=$batch->nobatch?></option>
                             <?php } ?>
                         </select>
                         </div>
+                        <div id="reset" class="col-lg-4"></div>
                         <div class="col-lg-4">
-                        <select class="form-control" onchange="filter()" name="pallet" id="pallet">
+                        <select style="width:100%" onchange="filter()" name="pallet" id="pallet">
                             <option value=""></option>
+                            <option value="unset">Pilih pallet</option>
                             <?php foreach($pallet->result() as $pallet){?>
                             <option value="<?=$pallet->nopallet?>"><?=$pallet->nopallet?></option>
                             <?php } ?>
                         </select>
                         </div>
+                        </div>
                     </div>
                     <table id="table" data-toggle="table" data-pagination="false" data-search="false"
-                        data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="false"
-                        data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
+                        data-show-columns="true" data-show-pagination-switch="false" data-show-refresh="false"
+                        data-key-events="true" data-show-toggle="true" data-resizable="false" data-cookie="true"
                         data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true"
                         data-toolbar="#toolbarr">
                         <thead>
@@ -84,7 +89,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                 <th data-field="Exp">Expired Date</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="isi">
                             <?php
 foreach ($saldo as $s) {?>
                                 <?php
@@ -222,7 +227,7 @@ endif?>
 <script>
 $(document).ready(function() {
     $("#kode").select2({
-        placeholder: "Kode Produk",
+        placeholder: "Nama Produk",
     });
     $("#batch").select2({
         placeholder: "No. Batch",
@@ -252,16 +257,44 @@ $(document).ready(function() {
                 var html = '';
                 var i;
                 // html2 = "<table class='table table-bordered' id='table' data-toggle='table' data-pagination='true' data-search='false'data-show-columns='true' data-show-pagination-switch='true' data-show-refresh='true' data-key-events='true' data-show-toggle='true' data-resizable='true' data-cookie='true' data-cookie-id-table='saveId' data-show-export='true' data-click-to-select='true' data-toolbar='#toolbarr'>"
-                html="<thead><tr>"
-                html+="<th data-field='no'>No</th><th data-field='nobatch'>No Batch</th><th data-field='kode'>Kode Barang</th><th data-field='nama'>Nama Barang</th><th data-field='batch'>No Pallet</th><th data-field='sat1'>Satuan 1</th><th data-field='sat2'>Satuan 2</th><th data-field='sat3'>Satuan 3</th><th data-field='Exp'>Expired Date</th></tr></thead><tbody>"                                
+                // html="<thead><tr>"
+                // html+="<th data-field='no'>No</th><th data-field='nobatch'>No Batch</th><th data-field='kode'>Kode Barang</th><th data-field='nama'>Nama Barang</th><th data-field='batch'>No Pallet</th><th data-field='sat1'>Satuan 1</th><th data-field='sat2'>Satuan 2</th><th data-field='sat3'>Satuan 3</th><th data-field='Exp'>Expired Date</th></tr></thead><tbody>"                              
                             
                 for (i = 0; i < data.length; i++) {
-                    html+="<tr><td>"+parseInt(i+1)+"</td><td>"+data[i].nobatch+"</td><td>"+data[i].kode+"</td><td>"+data[i].nama+"</td><td>"+data[i].nopallet+"</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>"
+                    var tahunKebalik = data[i].nobatch.slice(parseInt(data[i].nobatch.length-6),parseInt(data[i].nobatch.length-4));
+                    var tahun = parseInt(tahunKebalik.split('').reverse().join(''))+parseInt(2000);
+                    var bulan = data[i].nobatch.slice(parseInt(data[i].nobatch.length-4),parseInt(data[i].nobatch.length-2));
+                    // var tanggal = data[i].nobatch.slice(parseInt(data[i].nobatch.length-2),data[i].nobatch.length);
+                    var tanggal = '01';
+                    var tahun_exp = (parseInt(data[i].expdate)/12)+parseInt(tahun);
+                    var join = tahun_exp+'-'+bulan+'-'+tanggal;
+                    var expdate = parseInt(data[i].expdate);
+                    var tgl_exp = new Date(join);
+                    var now = new Date().getTime();
+                    var tWaktu = parseInt(tgl_exp.getTime())-parseInt(now);
+                    var tHari = Math.floor(parseInt(tWaktu)/(3600*24*1000));
+                    var hBulan = Math.floor(parseInt(tHari)/30)
+                    var tTahun = Math.floor(parseInt(hBulan)/12)
+                    var tBulan = Math.floor(((parseInt(hBulan)/12)-tTahun)*12)
+                    var sat1 = Math.floor(data[i].qty / (data[i].max1*data[i].max2));
+                    var sisa  = data[i].qty - (sat1 * data[i].max1 * data[i].max2);
+                    var sat2  = Math.floor(sisa / data[i].max2);
+                    var sat3  = sisa - sat2 * data[i].max2;
+                    if(tTahun < 0){
+                        tTahun = 0;
+                    }
+                    if(tBulan < 0){
+                        tBulan = 0;
+                    }
+                    html+="<tr><td>"+parseInt(i+1)+"</td><td>"+data[i].nobatch+"</td><td>"+data[i].kode+"</td><td>"+data[i].nama+"</td><td>"+data[i].nopallet+"</td><td>"+sat1+" "+data[i].sat1+"</td><td>"+sat2+" "+data[i].sat2+"</td><td>"+sat3+" "+data[i].sat3+"</td><td>"+ tTahun+' Tahun ' + tBulan+' Bulan'+"</td></tr>"
                 }
-                html+="</tbody>"
                 html1=''
-                $('#table').html(html);
+                html2=''
+                html2+='<a style="width:100%" href="<?= base_url("track/saldo_track")?>"><b>Reset</b></a>'
+                $('#isi').html(html);
                 $('#hide').html(html1);
+                $('#src').html(html1);
+                $('#reset').html(html2);
                 // console.log(data)
             }
         });

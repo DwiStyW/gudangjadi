@@ -39,7 +39,7 @@ class saldo_track extends CI_Controller
 
         $data['start'] = $this->uri->segment(4);
         $data['saldo'] = $this->Saldo_model->tampil_saldo($config['per_page'], $data['start'], $data['keyword']);
-        $data['kode']= $this->db->query("SELECT DISTINCT kode FROM detailsal");
+        $data['kode']= $this->db->query("SELECT DISTINCT detailsal.kode,nama FROM detailsal inner join master on master.kode=detailsal.kode");
         $data['batch']= $this->db->query("SELECT DISTINCT nobatch FROM detailsal");
         $data['pallet']= $this->db->query("SELECT DISTINCT nopallet FROM detailsal");
         $this->load->view("_partials/header");
@@ -52,6 +52,15 @@ class saldo_track extends CI_Controller
         $kode=$this->input->post('kode');
         $batch=$this->input->post('batch');
         $pallet=$this->input->post('pallet');
+        if($kode=="unset"){
+            $kode=null;
+        }
+        if($batch=="unset"){
+            $batch=null;
+        }
+        if($pallet=="unset"){
+            $pallet=null;
+        }
         //diisi semua
         if($kode!=null and $batch!=null and $pallet!=null){
             $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.kode',$kode)->where('detailsal.nobatch',$batch)->where('detailsal.nopallet',$pallet)->get('detailsal')->result();
@@ -79,6 +88,9 @@ class saldo_track extends CI_Controller
         //diisi pallet
         elseif($kode==null and $batch==null and $pallet!=null){
             $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.nopallet',$pallet)->get('detailsal')->result();
+        }
+        else{
+            $data = $this->db->join('master','master.kode=detailsal.kode')->order_by('no','DESC')->get('detailsal')->result();
         }
         echo json_encode($data);
     }
