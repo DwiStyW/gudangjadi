@@ -280,6 +280,12 @@ $(document).ready(function() {
                     var sisa  = data[i].qty - (sat1 * data[i].max1 * data[i].max2);
                     var sat2  = Math.floor(sisa / data[i].max2);
                     var sat3  = sisa - sat2 * data[i].max2;
+                    if(tTahun < 0){
+                        tTahun = 0;
+                    }
+                    if(tBulan < 0){
+                        tBulan = 0;
+                    }
                     html+="<tr><td>"+parseInt(i+1)+"</td><td>"+data[i].nobatch+"</td><td>"+data[i].kode+"</td><td>"+data[i].nama+"</td><td>"+data[i].nopallet+"</td><td>"+sat1+" "+data[i].sat1+"</td><td>"+sat2+" "+data[i].sat2+"</td><td>"+sat3+" "+data[i].sat3+"</td><td>"+ tTahun+' Tahun ' + tBulan+' Bulan'+"</td></tr>"
                 }
                 html1=''
