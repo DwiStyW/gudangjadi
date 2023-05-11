@@ -104,7 +104,7 @@
             <li><a href="<?php echo site_url('api/example/users/id/1/format/xml'); ?>">User #1</a> - get it in XML (users/id/1/format/xml)</li>
             <li><a href="<?php echo site_url('api/example/users/id/1?format=xml'); ?>">User #1</a> - get it in XML (users/id/1?format=xml)</li>
             <li><a href="<?php echo site_url('api/example/users/1.xml'); ?>">User #1</a> - get it in XML (users/1.xml)</li>
-            <li><a id="ajax" href="<?php echo site_url('api/example/users/format/json'); ?>">Users</a> - get it in JSON (AJAX request)</li>
+            <li><a id="ajax" href="<?php echo site_url('api/detailsal_api'); ?>">Users</a> - get it in JSON (AJAX request)</li>
             <li><a href="<?php echo site_url('api/example/users.html'); ?>">Users</a> - get it in HTML (users.html)</li>
             <li><a href="<?php echo site_url('api/example/users/format/html'); ?>">Users</a> - get it in HTML (users/format/html)</li>
             <li><a href="<?php echo site_url('api/example/users?format=html'); ?>">Users</a> - get it in HTML (users?format=html)</li>
@@ -142,7 +142,15 @@
          */
         function _ajaxDone(data) {
             // The 'data' parameter is an array of objects that can be iterated over
-            _alert(_JSON.stringify(data, null, 2));
+            var table=''
+            var i = 0
+            table += "<table border=2><thead><tr><td>No</td><td>kode</td><td>batch</td><td>pallet</td><td>qty</td></tr></thead><tbody>"
+            for(i=0; i< data.length;i++){
+                table += "<tr><td>"+parseInt(i+1)+"</td><td>"+data[i].kode+"</td><td>"+data[i].nobatch+"</td><td>"+data[i].nopallet+"</td><td>"+data[i].qty+"</td></tr>"
+            }
+            table+="</tbody><table>"
+            document.getElementById('body').innerHTML = table;
+            console.log(data.length);
         }
 
         /**
