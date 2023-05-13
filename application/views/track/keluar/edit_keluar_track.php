@@ -30,7 +30,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         $detailsalqty = 0;
                                                     }
                                                     ?>
-                                            <input type="hidden" id="jumlah" name="isi_pallet">
+                                            <input type="text" id="jumlah" name="isi_pallet">
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -147,7 +147,8 @@ date_default_timezone_set('Asia/Jakarta');
                                                     ?>
                                                     <h5 id="qty"><?= $sats1.' '.$m->sat1.' '.$sats2.' '.$m->sat2.' '.$sats3.' '.$m->sat3?></h5>
                                                     <input type="hidden" id="qtypalletlama" value="<?= $sats1.' '.$m->sat1.' '.$sats2.' '.$m->sat2.' '.$sats3.' '.$m->sat3?>">
-                                                    <input type="hidden" name="isi_pallet" value="<?= $isi?>">
+                                                    <input type="text" name="isi_pallet" value="<?= $isi?>">
+                                                    <input type="text" name="isi_pallet" value="<?= $k->keluar?>">
                                                     </div>
                                                     </div>
                                                 </div>
@@ -294,7 +295,7 @@ date_default_timezone_set('Asia/Jakarta');
         var sald2 = sal2 * <?=$max1?>;
         var total = parseInt(sald1)+parseInt(sald2)+parseInt(sal3);
         if(document.getElementById('nopallet').value == "" && document.getElementById('batch').value !=""){
-            if(total > saldo || total<0){
+            if(total > saldo && total<0){
                 document.getElementById('data').submit();
             }else{
                 Swal.fire({

@@ -500,7 +500,10 @@ class Keluar_track extends CI_Controller
         $noform = $this->input->post('noform');
         $adm = $this->input->post('adm');
         $cat = $this->input->post('cat');
-        $isi_pallet = $this->input->post('isi_pallet');
+        $cekdetsal = $this->db->where('kode',$kode)->where('nobatch',$nobatch)->where("nopallet",$nopallet)->get('detailsal');
+        foreach($cekdetsal->result() as $isi){
+            echo $isi_pallet = $isi->qty;
+        }
 
         //konversi 3 satuan
         $master = $this->db->query("SELECT * FROM master where kode='$kode'");
@@ -581,7 +584,11 @@ class Keluar_track extends CI_Controller
                     $detsal = $this->db->where('nobatch', $nobatchlama)->where('kode', $kodelama)->where('nopallet', $nopalletlama)->get('detailsal');
                     foreach($detsal->result() as $ds){
                     if ($nopallet==$nopalletlama) {
-                        $qtyds = $ds->qty + $qtyrt-$jumlah;
+                        if($detsal->num_rows()<1){
+                            $qtyds = $qtyrt - $jumlah;
+                        }else{
+                            $qtyds = $ds->qty + $qtyrt-$jumlah;
+                        }
                     }else{
                         $qtyds = $ds->qty+$jumlah;    
                     }
@@ -592,7 +599,7 @@ class Keluar_track extends CI_Controller
                         'kode'=>$kodelama,
                         'nobatch'=>$nobatchlama,
                         'nopallet'=>$nopalletlama,
-                        'qty'=>$jumlah,
+                        'qty'=>abs($qtyrt-$jumlah),
                     );
                     $wheredspalsama=array(
                         'nobatch'=>$nobatchlama,
@@ -610,7 +617,7 @@ class Keluar_track extends CI_Controller
                         'kode'=>$kodelama,
                         'nobatch'=>$nobatchlama,
                         'nopallet'=>$nopalletlama,
-                        'qty'=>$qtyrt,
+                        'qty'=>$dsb->qty - $qtydsbaru,
                     );
                     $wheredspalbaru=array(
                         'nobatch'=>$nobatchlama,
@@ -630,7 +637,7 @@ class Keluar_track extends CI_Controller
                         'saldo'=>0,
                         'statpallet'=>$status,
                         'nopallet'=>$nopalletlama,
-                        'ket' => 'revisiIN'
+                        'ket' => 'revisiOUT'
                     );
 
                     //untuk pallet
@@ -683,8 +690,8 @@ class Keluar_track extends CI_Controller
 
                     $this->db->trans_start();
                         $this->keluar_track_model->update($wherert, $updatert, 'riwayattrack');
-                        $this->keluar_track_model->update($wherem, $updatem, 'master');
                     if($nopallet == $nopalletlama){
+                        $this->keluar_track_model->update($wherem, $updatem, 'master');
                         if ($detsal->num_rows()>0) {
                             $this->keluar_track_model->update($wheredspalsama, $updatedspalsama, 'detailsal');
                         }else{
@@ -704,23 +711,19 @@ class Keluar_track extends CI_Controller
                             $this->keluar_track_model->tambah($tambahrt, 'riwayattrack');
                         }
                         
-                        if($qtydsbaru==0){
-                            $this->keluar_track_model->hapus($wheredspalbaru,'detailsal');
-                            $this->keluar_track_model->update($wheredspalbaru, $updatedspalbaru, 'detailsal');
-                        }
-                            if($detsal->num_rows()>0){
+                            if($detsal->num_rows()>0) {
                                 $this->keluar_track_model->update($wheredspalsama, $updatedspalsama, 'detailsal');
                                 $this->keluar_track_model->update($wheredspalbaru, $updatedspalbaru, 'detailsal');
-                            }else{
+                            } else {
                                 $this->keluar_track_model->update($wheredspalbaru, $updatedspalbaru, 'detailsal');
                                 $this->keluar_track_model->tambah($tambahdspalganti, 'detailsal');
                             }
-                        
                         $this->keluar_track_model->update($wherepalletlama,$datapalletganti,'pallet');
                         $this->keluar_track_model->update($wherepalletbaru,$datapalletbaru,'pallet');
                     }
                     
                     $this->db->trans_complete();
+                    $this->keluar_track_model->hapus(array("qty"=>0),"detailsal");
 
                     if ($this->db->trans_status()===false) {
                         $this->session->set_falshdata('gagal', 'Gagal di edit!');

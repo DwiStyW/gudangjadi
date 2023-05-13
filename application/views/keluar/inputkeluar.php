@@ -245,7 +245,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                                         <?php } else { ?>
                                                                             <td><button disabled href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i>
                                                                                     Edit </button></td>
-                                                                            <td><a onclick="hapus(`<?=$k->no?>`,`<?=$k->noform?>`,`<?=$k->nobatch?>`,`<?=$k->kode?>`,`<?= $sats1?>`,`<?= $sats2?>`,`<?= $sats3?>`,`<?= $k->sat1?>`,`<?= $k->sat2?>`,`<?= $k->sat3?>`)" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hapus_modal"><i
+                                                                            <td><a onclick="hapus(`<?=$m->no?>`,`<?=$m->noform?>`,`<?=$m->nobatch?>`,`<?=$m->kode?>`,`<?= $sats1?>`,`<?= $sats2?>`,`<?= $sats3?>`,`<?= $k->sat1?>`,`<?= $k->sat2?>`,`<?= $k->sat3?>`)" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hapus_modal"><i
                                                 class="fa fa-trash"></i> Hapus</a>
                                                                             </td>
                                                                         <?php } ?>
