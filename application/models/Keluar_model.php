@@ -50,7 +50,7 @@ class Keluar_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('riwayat,master');
-        $this->db->where("master.kode=riwayat.kode");
+        $this->db->where("master.kode=riwayat.kode")->like("ket","OUT");
         $this->db->order_by('riwayat.no', 'DESC')->limit(20);
         return $this->db->get()->result();
     }

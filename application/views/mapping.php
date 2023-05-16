@@ -73,7 +73,7 @@
                 <h1>Layout Mapping</h1>
             </div>
         </div>
-
+        
         <div style="background-color:#fff">
             <div class="sparkline8-graph shadow">
                 <div class="blur" style="position:absolute;padding-left:10px;padding-right:10px">
@@ -90,6 +90,7 @@
 					$output = number_format($util, 2, '.', '');
 					echo '<h5><b>Utilisasi : </b>'.$output.' %</h5>'
 					?>
+                    <!-- <a href="<?= base_url('mapping/status')?>" class="btn btn-sm btn-primary">Refresh</a> -->
                 </div>
                 <div style="overflow:auto">
                     <div style="width:4000px;">

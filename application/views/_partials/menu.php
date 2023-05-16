@@ -184,9 +184,9 @@
                         <div class="dropdown-content">
                             <a href="<?= base_url("saldo_antara") ?>">Produk Belum di Pallet</a>
                             <a href="<?= base_url("track/saldo_track") ?>">Detail Saldo</a>
-                            <a href="<?= base_url("mapping") ?>">Layout Maping</a>
-                            <!-- <a href="<?= base_url("mapping2") ?>"> -->
-                            <a href="#">
+                            <a href="<?= base_url("mapping/status") ?>">Layout Maping</a>
+                            <a href="<?= base_url("mapping2") ?>">
+                            <!-- <a href="#"> -->
                                 Edit Layout</a>
                         </div>
                     </div>

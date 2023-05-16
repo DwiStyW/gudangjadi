@@ -302,11 +302,11 @@ class Masuk_track extends CI_Controller
         }
         // echo $qtydipallet-$qtyrt;
         if($detailsal->num_rows()<1){
-            $this->session->set_flashdata('gagal','Saldo Minus! $detailsal->num_rows()<1');
+            $this->session->set_flashdata('gagal','Saldo Minus!');
         }else{
             $cek1 = $qtydipallet-$qtyrt;
             if($cek1 < 0){
-                $this->session->set_flashdata('gagal','Saldo Minus!');
+                $this->session->set_flashdata('gagal','Barang di pallet sudah pernah di keluarkan!');
             }else{
                 //konversi 3 satuan
                 $master = $this->db->query("SELECT * FROM master where kode='$kodelama'");
@@ -525,7 +525,7 @@ class Masuk_track extends CI_Controller
                                 }else{
                                     $this->masuk_track_model->tambah($tambahkepalletbaru, 'detailsal');
                                 }
-                                $this->masuk_track_model->tambah($tambahkepalletbaru, 'detailsal');
+                                // $this->masuk_track_model->tambah($tambahkepalletbaru, 'detailsal');
                             } else {
                                 $this->masuk_track_model->update($wheredetsalpalletlama, $detsalpalletlama, 'detailsal');
                                 if($baru->num_rows()>0){

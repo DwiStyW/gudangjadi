@@ -37,6 +37,17 @@ class Home extends CI_Controller
         }
         $this->pagination->initialize($config);
 
+        $this->db->query("UPDATE pallet SET status = 'kosong'");
+        $this->db->query("UPDATE pallet SET qty = 0");
+        $detailsal = $this->db->query("SELECT nopallet,sum(qty) as qty FROM `detailsal` GROUP BY nopallet");
+        foreach($detailsal->result() as $detsal){
+            $nopallet = $detsal->nopallet;
+            $qty = $detsal->qty;
+            $this->db->query('UPDATE pallet SET qty = "'.$qty.'" WHERE kdpallet = "'.$nopallet.'"');
+            $this->db->query('UPDATE pallet SET status = "isi" WHERE kdpallet = "'.$nopallet.'"');
+            // echo "<table><tr><td>". $i++ ."</td><td>".$nopallet."</td><td>".$qty."</td></tr></table>";
+        }
+
         $data['start'] = $this->uri->segment(3);
         $data['saldo'] = $this->home_model->tampil_saldo($config['per_page'], $data['start'],$data['keyword']);
         $data['riwayat'] = $this->home_model->tampil_riwayat();
