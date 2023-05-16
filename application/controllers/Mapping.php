@@ -16,6 +16,7 @@ class Mapping extends CI_Controller
     }
     public function index()
     {
+        error_reporting(0);
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("mapping");
@@ -38,7 +39,6 @@ class Mapping extends CI_Controller
         $this->db->query("UPDATE pallet SET status = 'kosong'");
         $this->db->query("UPDATE pallet SET qty = 0");
         $detailsal = $this->db->query("SELECT nopallet,sum(qty) as qty FROM `detailsal` GROUP BY nopallet");
-        $i=1;
         foreach($detailsal->result() as $detsal){
             $nopallet = $detsal->nopallet;
             $qty = $detsal->qty;
@@ -46,7 +46,6 @@ class Mapping extends CI_Controller
             $this->db->query('UPDATE pallet SET status = "isi" WHERE kdpallet = "'.$nopallet.'"');
             // echo "<table><tr><td>". $i++ ."</td><td>".$nopallet."</td><td>".$qty."</td></tr></table>";
         }
-    
     redirect('mapping');
     }
 }

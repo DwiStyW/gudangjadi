@@ -30,7 +30,6 @@ date_default_timezone_set('Asia/Jakarta');
                                                         $detailsalqty = 0;
                                                     }
                                                     ?>
-                                            <input type="text" id="jumlah" name="isi_pallet">
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -147,8 +146,8 @@ date_default_timezone_set('Asia/Jakarta');
                                                     ?>
                                                     <h5 id="qty"><?= $sats1.' '.$m->sat1.' '.$sats2.' '.$m->sat2.' '.$sats3.' '.$m->sat3?></h5>
                                                     <input type="hidden" id="qtypalletlama" value="<?= $sats1.' '.$m->sat1.' '.$sats2.' '.$m->sat2.' '.$sats3.' '.$m->sat3?>">
-                                                    <input type="text" name="isi_pallet" value="<?= $isi?>">
-                                                    <input type="text" name="isi_pallet" value="<?= $k->keluar?>">
+                                                    <input type="hidden" id="isi" value="<?= $isi?>">
+                                                    <input type="hidden" id="jumlah" name="isi_pallet" value="<?= $isi?>">
                                                     </div>
                                                     </div>
                                                 </div>
@@ -294,18 +293,18 @@ date_default_timezone_set('Asia/Jakarta');
         var sald1 = sal1 * <?=$max1 * $max2?>;
         var sald2 = sal2 * <?=$max1?>;
         var total = parseInt(sald1)+parseInt(sald2)+parseInt(sal3);
-        if(document.getElementById('nopallet').value == "" && document.getElementById('batch').value !=""){
-            if(total > saldo && total<0){
-                document.getElementById('data').submit();
-            }else{
-                Swal.fire({
-            icon: 'warning',
-            html: "<h1><b>Peringatan!</b><h1><h5>Saldo tidak mencukupi!</h5>",
-            showConfirmButton: true,
-            allowOutsideClick: false,
-            width: 300,
-            })
-            }
+        if(document.getElementById('nopallet').value != "" && document.getElementById('batch').value !=""){
+            // if(total > saldo && total<0){
+            //     document.getElementById('data').submit();
+            // }else{
+            //     Swal.fire({
+            // icon: 'warning',
+            // html: "<h1><b>Peringatan!</b><h1><h5>Saldo tidak mencukupi!</h5>",
+            // showConfirmButton: true,
+            // allowOutsideClick: false,
+            // width: 300,
+            // })
+            // }
         }else{
             Swal.fire({
             icon: 'warning',
@@ -358,6 +357,7 @@ endif?>
     function getisi(){
         if(document.getElementById('pallet').value==document.getElementById('nopalletlama').value){
             document.getElementById('qty').innerHTML = document.getElementById('qtypalletlama').value
+            document.getElementById('jumlah').value=document.getElementById("isi").value
         }
     }
 </script>

@@ -500,10 +500,7 @@ class Keluar_track extends CI_Controller
         $noform = $this->input->post('noform');
         $adm = $this->input->post('adm');
         $cat = $this->input->post('cat');
-        $cekdetsal = $this->db->where('kode',$kode)->where('nobatch',$nobatch)->where("nopallet",$nopallet)->get('detailsal');
-        foreach($cekdetsal->result() as $isi){
-            echo $isi_pallet = $isi->qty;
-        }
+        $isi_pallet = $this->input->post("isi_pallet");
 
         //konversi 3 satuan
         $master = $this->db->query("SELECT * FROM master where kode='$kode'");
@@ -689,8 +686,8 @@ class Keluar_track extends CI_Controller
                     $wherepalletbaru = array('kdpallet'=>$nopallet);
 
                     $this->db->trans_start();
-                        $this->keluar_track_model->update($wherert, $updatert, 'riwayattrack');
                     if($nopallet == $nopalletlama){
+                        $this->keluar_track_model->update($wherert, $updatert, 'riwayattrack');
                         $this->keluar_track_model->update($wherem, $updatem, 'master');
                         if ($detsal->num_rows()>0) {
                             $this->keluar_track_model->update($wheredspalsama, $updatedspalsama, 'detailsal');
@@ -707,10 +704,14 @@ class Keluar_track extends CI_Controller
                             $this->keluar_track_model->tambah($tambahdsq, 'detailsalqty');
                         }
                     }else{
-                        if($qtyrt-$jumlah!=0){
-                            $this->keluar_track_model->tambah($tambahrt, 'riwayattrack');
-                        }
-                        
+                        if($jumlah<=$qtyrt) {
+                            if($qtyrt-$jumlah!=0) {
+                                $this->keluar_track_model->tambah($tambahrt, 'riwayattrack');
+                                $this->keluar_track_model->update($wherert, $updatert, 'riwayattrack');
+                            }else{
+                                $this->keluar_track_model->update($wherert, $updatert, 'riwayattrack');
+                            }
+
                             if($detsal->num_rows()>0) {
                                 $this->keluar_track_model->update($wheredspalsama, $updatedspalsama, 'detailsal');
                                 $this->keluar_track_model->update($wheredspalbaru, $updatedspalbaru, 'detailsal');
@@ -718,8 +719,11 @@ class Keluar_track extends CI_Controller
                                 $this->keluar_track_model->update($wheredspalbaru, $updatedspalbaru, 'detailsal');
                                 $this->keluar_track_model->tambah($tambahdspalganti, 'detailsal');
                             }
-                        $this->keluar_track_model->update($wherepalletlama,$datapalletganti,'pallet');
-                        $this->keluar_track_model->update($wherepalletbaru,$datapalletbaru,'pallet');
+                            $this->keluar_track_model->update($wherepalletlama, $datapalletganti, 'pallet');
+                            $this->keluar_track_model->update($wherepalletbaru, $datapalletbaru, 'pallet');
+                        }else{
+                            $this->session->set_flashdata("gagal","barang yang di pindah melebihi jumlah!");
+                        }
                     }
                     
                     $this->db->trans_complete();
