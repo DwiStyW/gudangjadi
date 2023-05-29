@@ -14,34 +14,10 @@ class saldo_track extends CI_Controller
 
     public function index()
     {
-        $this->load->library('pagination');
-        //untuk search
-        $keyword=$this->input->post('keyword');
-        if(isset($keyword)){
-            $data['keyword']=$this->input->post('keyword');
-            $this->session->set_userdata('keyword_saldo',$data['keyword']);
-        }else{
-            $data['keyword']=$this->session->userdata('keyword_saldo');
-        }
-
-        //untuk pagination
-        $this->load->model('Saldo_model');
-        $config['base_url'] = 'http://localhost/gudangtrial/track/saldo_track/index';
-        $config['total_rows'] = $this->Saldo_model->total_saldo($data['keyword']);
-        $range = $this->input->post('range');
-        $config['per_page'] = $range;
-        if ($range == null) {
-            $config['per_page'] = 10;
-        } elseif ($range == "all") {
-            $config['per_page'] = null;
-        }
-        $this->pagination->initialize($config);
-
-        $data['start'] = $this->uri->segment(4);
-        $data['saldo'] = $this->Saldo_model->tampil_saldo($config['per_page'], $data['start'], $data['keyword']);
-        $data['kode']= $this->db->query("SELECT DISTINCT detailsal.kode,nama FROM detailsal inner join master on master.kode=detailsal.kode");
+        $data['saldo'] = $this->saldo_model->tampilkan();
+        $data['kode']= $this->db->query("SELECT DISTINCT detailsal.kode,nama FROM detailsal inner join master on master.kode=detailsal.kode order by kode");
         $data['batch']= $this->db->query("SELECT DISTINCT nobatch FROM detailsal");
-        $data['pallet']= $this->db->query("SELECT DISTINCT nopallet FROM detailsal");
+        $data['pallet']= $this->db->query("SELECT DISTINCT nopallet FROM detailsal order by nopallet");
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("track/saldo", $data);
@@ -63,35 +39,90 @@ class saldo_track extends CI_Controller
         }
         //diisi semua
         if($kode!=null and $batch!=null and $pallet!=null){
-            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.kode',$kode)->where('detailsal.nobatch',$batch)->where('detailsal.nopallet',$pallet)->get('detailsal')->result();
+            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.kode',$kode)->where('detailsal.nobatch',$batch)->where('detailsal.nopallet',$pallet)->get('detailsal');
         }
         //diisi kode dan batch
         elseif($kode!=null and $batch!=null and $pallet==null){
-            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.kode',$kode)->where('detailsal.nobatch',$batch)->get('detailsal')->result();
+            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.kode',$kode)->where('detailsal.nobatch',$batch)->get('detailsal');
         }
         //diisi kode dan pallet
         elseif($kode!=null and $batch==null and $pallet!=null){
-            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.kode',$kode)->where('detailsal.nopallet',$pallet)->get('detailsal')->result();
+            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.kode',$kode)->where('detailsal.nopallet',$pallet)->get('detailsal');
         }
         //diisi batch dan pallet
         elseif($kode==null and $batch!=null and $pallet!=null){
-            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.nobatch',$batch)->where('detailsal.nopallet',$pallet)->get('detailsal')->result();
+            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.nobatch',$batch)->where('detailsal.nopallet',$pallet)->get('detailsal');
         }
         //diisi kode
         elseif($kode!=null and $batch==null and $pallet==null){
-            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.kode',$kode)->get('detailsal')->result();
+            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.kode',$kode)->get('detailsal');
         }
         //diisi batch
         elseif($kode==null and $batch!=null and $pallet==null){
-            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.nobatch',$batch)->get('detailsal')->result();
+            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.nobatch',$batch)->get('detailsal');
         }
         //diisi pallet
         elseif($kode==null and $batch==null and $pallet!=null){
-            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.nopallet',$pallet)->get('detailsal')->result();
+            $data = $this->db->join('master','master.kode=detailsal.kode')->where('detailsal.nopallet',$pallet)->get('detailsal');
         }
         else{
-            $data = $this->db->join('master','master.kode=detailsal.kode')->order_by('no','DESC')->get('detailsal')->result();
+            $data = $this->db->join('master', 'master.kode=detailsal.kode')->order_by('no','DESC')->get('detailsal');
         }
-        echo json_encode($data);
+
+        $no=1;
+        foreach($data->result() as $s){
+            $sats1 = floor($s->qty / ($s->max1 * $s->max2));
+            $sisa = $s->qty - ($sats1 * $s->max1 * $s->max2);
+            $sats2 = floor($sisa / $s->max2);
+            $sats3 = $sisa - $sats2 * $s->max2;
+
+            // perhitungan expdate
+            $batch = $s->nobatch;
+            $tahun = strrev(substr(substr($batch, -6), 0, 2));
+            $bulan = substr(substr($batch, -6), 2, 2);
+            $gabung = $bulan . '/01/' . (2000 + $tahun);
+            $tglprod = date("Y-m-d", strtotime($gabung));
+            $bulan1 = $s->expdate;
+            $tglexp = date("Y-m-d", strtotime('+' . $bulan1 . ' month', strtotime($tglprod)));
+
+            $awal = date_create($tglexp);
+            $akhir = date_create(); // waktu sekarang
+            $diff = date_diff($akhir, $awal);
+            $bln=$diff->y*12+$diff->m;
+            
+            if ($diff->y == 0 && $diff->m <= 3){
+                $test[]=array(
+                    "no"=>$no++,
+                    "nobatch"=>"<p style='color:red'><b>".$s->nobatch."</b></p>",
+                    "kode"=>"<p style='color:red'><b>".$s->kode."</b></p>",
+                    "nama"=>"<p style='color:red'><b>".$s->nama."</b></p>",
+                    "nopallet"=>"<p style='color:red'><b>".$s->nopallet."</b></p>",
+                    "sat1"=>"<p style='color:red'><b>".$sats1.' '.$s->sat1."</b></p>",
+                    "sat2"=>"<p style='color:red'><b>".$sats2.' '.$s->sat2."</b></p>",
+                    "sat3"=>"<p style='color:red'><b>".$sats3.' '.$s->sat3."</b></p>",
+                    "exp"=>$diff->y.' tahun '.$diff->m.' bulan ',
+                    "ed"=>$bln,
+                );
+            }else{
+                $test[]=array(
+                    "no"=>$no++,
+                    "nobatch"=>$s->nobatch,
+                    "kode"=>$s->kode,
+                    "nama"=>$s->nama,
+                    "nopallet"=>$s->nopallet,
+                    "sat1"=>$sats1.' '.$s->sat1,
+                    "sat2"=>$sats2.' '.$s->sat2,
+                    "sat3"=>$sats3.' '.$s->sat3,
+                    "exp"=>$diff->y.' tahun '.$diff->m.' bulan ',
+                    "ed"=>$bln,
+                );
+            }
+        }
+        $kosong="not found";
+        if($data->num_rows()>0){
+            echo json_encode($test);
+        }else{
+            echo json_encode($kosong);
+        }
     }
 }

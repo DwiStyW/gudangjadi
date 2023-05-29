@@ -27,7 +27,7 @@ class Keluar extends CI_Controller
         }
 
         //untuk pagination
-        $config['base_url'] = 'http://192.168.10.79gudangjadi_CI/keluar/index';
+        $config['base_url'] = 'localhost/gudangjadi_CI/keluar/index';
         $config['total_rows'] = $this->keluar_model->total_barang_keluar($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;

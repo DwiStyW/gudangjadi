@@ -319,7 +319,7 @@ class Masuk_track extends CI_Controller
                 $jumlah = $sats1 + $sats2 + $sat3;
 
                 if($qtyterlama < $jumlah){
-                $this->session->set_flashdata('gagal','Saldo Minus! $qtyterlama < $jumlah');
+                $this->session->set_flashdata('gagal','Saldo Minus!');
                 }else{
                     $detailsalqty = $this->db->where('nobatch',$nobatchlama)->where('kode',$kodelama)->get('detailsalqty');
                     if($detailsalqty->num_rows()>0){

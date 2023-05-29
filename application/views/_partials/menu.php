@@ -171,9 +171,9 @@
             <!-- web menu -->
             <div class="position-relative contentt layarlebar">
                 <ul class="nav nav-tabs d-flex justify-content-between custom-menu-wrap">
-                    <li><a href="<?= base_url("home") ?>" class="btn btn-lg tekan text-white">Home</a></li>
-                    <li><a href="<?= base_url("master") ?>" class="btn btn-lg tekan text-white">Master Produk</a></li>
                     <?php if($this->session->userdata('role')=="track"){?>
+                        <li><a href="<?= base_url("home") ?>" class="btn btn-lg tekan text-white">Home</a></li>
+                        <li><a href="<?= base_url("master") ?>" class="btn btn-lg tekan text-white">Master Produk</a></li>
                     <li><a href="<?= base_url("track/masuk_track") ?>" class="btn btn-lg tekan text-white">Produk
                             Masuk</a></li>
 
@@ -201,15 +201,13 @@
                             <a href="<?= base_url("track/report/repall") ?>">Report All</a>
                             <a href="<?= base_url("track/report/repsa") ?>">Saldo Akhir Stock</a>
                         </div>
-                        <?php } elseif($this->session->userdata('role')=="user" || $this->session->userdata('role')=="admin" || $this->session->userdata('role')=="manager"){?>
+                        <?php } elseif($this->session->userdata('role')=="user" || $this->session->userdata('role')=="admin"){?>
+                        <li><a href="<?= base_url("home") ?>" class="btn btn-lg tekan text-white">Home</a></li>
+                        <li><a href="<?= base_url("master") ?>" class="btn btn-lg tekan text-white">Master Produk</a></li>
                         <li><a href="<?= base_url("masuk") ?>" class="btn btn-lg tekan text-white">Produk Masuk</a>
                         </li>
                         <li><a href="<?= base_url("keluar") ?>" class="btn btn-lg tekan text-white">Produk Keluar</a>
                         </li>
-
-                        <?php } ?>
-
-                        <?php if($this->session->userdata('role') != "track"){?>
                         <div class="dropdown">
                             <button class="dropbtn">Report <i class="fa fa-chevron-down fa-xs"></i></button>
                             <div class="dropdown-content">
@@ -222,14 +220,12 @@
                                 <a href="<?= base_url("report/report_saldo_akhir") ?>">Saldo Akhir Stock</a>
                             </div>
                         </div>
+                        <?php }elseif($this->session->userdata('role')=="manager"){?>
+                            <li><a href="<?= base_url("dashboard") ?>" class="btn btn-lg tekan text-white">Dashboard</a></li>
+                            <li><a href="<?= base_url("home") ?>" class="btn btn-lg tekan text-white">Home</a></li>
+                            <li><a href="<?= base_url("manager/saldo") ?>" class="btn btn-lg tekan text-white">Saldo</a></li>
+                            <li><a href="<?= base_url("manager/track") ?>" class="btn btn-lg tekan text-white">Tracking</a></li>
                         <?php } ?>
-
-                        <!-- <li><a href="<?= base_url("riwayat") ?>" class="btn btn-lg tekan text-white">Riwayat Keluar
-                            Masuk</a></li>
-                    <li><a href="<?= base_url("report/filgolongan") ?>" class="btn btn-lg tekan text-white">Report per
-                            Gol</a></li>
-                    <li><a href="<?= base_url("report") ?>" class="btn btn-lg tekan text-white">Report All</a></li> -->
-
 
                         <?php
                         $role = $this->session->userdata('role');
