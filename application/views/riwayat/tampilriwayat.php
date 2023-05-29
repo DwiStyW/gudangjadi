@@ -8,6 +8,7 @@ if ($code == "") {
     $code = 0;
 }
 ?>
+<div class="layarlebar">
     <div class="admin-dashone-data-table-area mg-b-40">
         <div class="container " style="position:relative;top:-250px;z-index: 1">
             <div class="d-flex">
@@ -36,8 +37,9 @@ if ($code == "") {
                                         <th rowspan="2">No</th>
                                         <th rowspan="2">Tgl Form</th>
                                         <th rowspan="2">No Form</th>
-                                        <th rowspan="2">Kode Barang</th>
-                                        <th rowspan="2">Nama Barang</th>
+                                        <th rowspan="2">No Batch</th>
+                                        <th rowspan="2">Kode Produk</th>
+                                        <th rowspan="2">Nama Produk</th>
                                         <th colspan="3">Masuk</th>
                                         <th colspan="3">Keluar</th>
                                         <th colspan="3">Saldo</th>
@@ -85,12 +87,19 @@ if ($code == "") {
                                     </tr>
                                     <?php
                                     $no = 1;
-                                    foreach ($riwayat as $r) { ?>
+                                    foreach ($riwayat as $r) {
+                                        if($r->masuk==""){
+                                            $r->masuk=0;
+                                        }
+                                        if($r->keluar==""){
+                                            $r->keluar=0;
+                                        } ?>
                                         <tr>
                                             <?php if ($no == 1) { ?>
                                                 <td><?= $no++ ?></td>
-                                                <td><?= $r->tglform ?></td>
+                                                <td><?= $r->tanggalform ?></td>
                                                 <td><?= $r->noform ?></td>
+                                                <td><?= $r->nobatch ?></td>
                                                 <td><?= $r->kode ?></td>
                                                 <td><?= $r->nama ?></td>
                                                 <?php
@@ -132,8 +141,9 @@ if ($code == "") {
                                             <?php } else { ?>
 
                                                 <td><?= $no++ ?></td>
-                                                <td><?= $r->tglform ?></td>
+                                                <td><?= $r->tanggalform ?></td>
                                                 <td><?= $r->noform ?></td>
+                                                <td><?= $r->nobatch ?></td>
                                                 <td><?= $r->kode ?></td>
                                                 <td><?= $r->nama ?></td>
                                                 <?php
@@ -182,8 +192,8 @@ if ($code == "") {
                                             <?php } ?>
                                         </tr>
                                     <?php }
-                                    $allin = $this->db->query("SELECT SUM(masuk) AS sumIn FROM riwayat WHERE  keluar='0'&& kode='$code' && tglform between '$start' AND '$end'");
-                                    $allout = $this->db->query("SELECT SUM(keluar) AS sumOut FROM riwayat WHERE masuk='0' && kode='$code' && tglform between '$start' AND '$end'");
+                                    $allin = $this->db->query("SELECT SUM(masuk) AS sumIn FROM riwayat WHERE  keluar=0 && kode='$code' && tglform between '$start' AND '$end'");
+                                    $allout = $this->db->query("SELECT SUM(keluar) AS sumOut FROM riwayat WHERE masuk=0 && kode='$code' && tglform between '$start' AND '$end'");
                                     foreach ($allin->result() as $m) {
                                         $totalM = $m->sumIn;
                                     }
@@ -227,4 +237,5 @@ if ($code == "") {
             </div>
         </div>
     </div>
+</div>
 <!-- Data table area End-->

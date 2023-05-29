@@ -96,6 +96,14 @@ function topFunction() {
 <script src="<?= base_url() ?>assets/js/data-table/bootstrap-table-resizable.js"></script>
 <script src="<?= base_url() ?>assets/js/data-table/colResizable-1.5.source.js"></script>
 <script src="<?= base_url() ?>assets/js/data-table/bootstrap-table-export.js"></script>
+<script src="<?= base_url() ?>assets/datatables/jquery.dataTables.min.js"></script>
+<script src="<?= base_url()?>assets/datatables/dataTables.buttons.min.js"></script>
+<script src="<?= base_url()?>assets/datatables/buttons.flash.min.js"></script>
+<script src="<?= base_url()?>assets/datatables/jszip.min.js"></script>
+<script src="<?= base_url()?>assets/datatables/pdfmake.min.js"></script>
+<script src="<?= base_url()?>assets/datatables/vfs_fonts.js"></script>
+<script src="<?= base_url()?>assets/datatables/buttons.html5.min.js"></script>
+<script src="<?= base_url()?>assets/datatables/buttons.print.min.js"></script>
 <!-- switcher JS
 		============================================ -->
 <script src="<?= base_url() ?>assets/js/switcher/styleswitch.js"></script>

@@ -71,6 +71,8 @@ $_SESSION['start_time'] = time(); ?>
     <!-- responsive CSS
 		============================================ -->
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/responsive.css">
+    <link rel="stylesheet" href="<?= base_url() ?>assets/datatables/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/datatables/buttons.dataTables.min.css">
     <!-- modernizr JS
 		============================================ -->
     <script src="<?= base_url() ?>assets/js/vendor/modernizr-2.8.3.min.js"></script>

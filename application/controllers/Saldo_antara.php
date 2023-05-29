@@ -25,7 +25,7 @@ class Saldo_antara extends CI_Controller{
 
         //untuk pagination
         $this->load->model('Saldo_model_A');
-        $config['base_url'] = 'http://localhost/gudangjadi_CI/saldo_antara/index';
+        $config['base_url'] = 'http://192.168.10.99/gudangtrial/saldo_antara/index';
         $config['total_rows'] = $this->Saldo_model_A->total_saldo_A($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;

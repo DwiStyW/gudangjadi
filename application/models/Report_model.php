@@ -3,7 +3,7 @@ class Report_model extends CI_Model
 {
     public function filriwayat($kode, $where, $where1)
     {
-        $this->db->select("*");
+        $this->db->select("*,riwayat.tglform as tanggalform");
         $this->db->from("riwayat, master");
         if ($kode != "" || $kode != 0) {
             $this->db->where("riwayat.kode='$kode' AND master.kode=riwayat.kode AND riwayat.tglform between '$where' AND '$where1'");

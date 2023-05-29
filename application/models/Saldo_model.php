@@ -36,4 +36,11 @@ class saldo_model extends CI_Model
             }
         return $this->db->count_all_results();
     }
+    public function tampilkan(){
+        $this->db->select('*');
+        $this->db->from('detailsal');
+        $this->db->join('master', 'master.kode=detailsal.kode');
+        $this->db->order_by("no","DESC");
+        return $this->db->get()->result();
+    }
 }

@@ -26,7 +26,7 @@ class Master extends CI_Controller
         }
 
         //set config
-        $config['base_url'] = 'http://localhost/gudangjadi_CI/master/index';
+        $config['base_url'] = 'http://192.168.10.99/gudangtrial/master/index';
         $config['total_rows'] = $this->master_model->total_master($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;

@@ -26,7 +26,7 @@ class Home extends CI_Controller
         }
 
         //set config
-        $config['base_url'] = 'http://localhost/gudangjadi_CI/home/index';
+        $config['base_url'] = 'http://192.168.10.99/gudangtrial/home/index';
         $config['total_rows'] = $this->home_model->total_saldo($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;

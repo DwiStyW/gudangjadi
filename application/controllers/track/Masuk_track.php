@@ -24,7 +24,7 @@ class Masuk_track extends CI_Controller
             $data['keyword'] = $this->session->userdata('keyword_masuk_track');
         }
         //untuk pagination
-        $config['base_url'] = 'http://localhost/gudangjadi_CI/track/masuk_track/index';
+        $config['base_url'] = 'http://localhost/gudangtrial/track/masuk_track/index';
         $config['total_rows'] = $this->masuk_track_model->total_masuk_track($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;
@@ -319,7 +319,7 @@ class Masuk_track extends CI_Controller
                 $jumlah = $sats1 + $sats2 + $sat3;
 
                 if($qtyterlama < $jumlah){
-                $this->session->set_flashdata('gagal','Saldo Minus! $qtyterlama < $jumlah');
+                $this->session->set_flashdata('gagal','Saldo Minus!');
                 }else{
                     $detailsalqty = $this->db->where('nobatch',$nobatchlama)->where('kode',$kodelama)->get('detailsalqty');
                     if($detailsalqty->num_rows()>0){

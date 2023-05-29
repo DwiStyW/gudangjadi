@@ -80,7 +80,7 @@
                                         $diff  = date_diff($akhir, $awal); ?>
                                     <tr>
                                     <td><?php echo ++$start; ?></td>
-                                        <td><?php echo $m->tanggalform; ?></td>
+                                        <td><?php echo date("d-m-Y", strtotime($m->tanggalform)); ?></td>
                                         <td><?php echo $m->noform; ?></td>
                                         <td><?php echo $m->kode; ?></td>
                                         <td><?php echo $m->nama; ?></td>
@@ -108,7 +108,7 @@
                                         <td>
                                             <a class="btn btn-sm btn-primary"
                                                 href="<?= base_url("track/masuk_track/edit_masuk_track/" . $m->no) ?>">
-                                                <i class="fa fa-edit"></i> Edit</button>
+                                                <i class="fa fa-edit"></i> Edit</a>
                                             <a class="btn btn-sm btn-danger"
                                                 href="<?= base_url("track/masuk_track/hapus/" . $m->no) ?>"
                                                 onclick="javascript: return confirm('Anda yakin hapus ?')"><i

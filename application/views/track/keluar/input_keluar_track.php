@@ -73,7 +73,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                     </div>
                                                 </div>
                                             </div>
-                                                
+                                                <?php $batch = $this->db->where('kode', $this->uri->segment(4))->group_by("nobatch")->get('detailsal')?>
                                             <?php
                                                 $mas = $this->db->where('kode', $this->uri->segment(4))->get('master');
                                                 foreach ($mas->result() as $m) {

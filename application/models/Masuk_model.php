@@ -17,6 +17,7 @@ class Masuk_model extends CI_Model
                 $this->db->or_like('master.nama',$keyword);
                 $this->db->or_like('riwayat.tglform',$keyword);
                 $this->db->or_like('tanggal',$keyword);
+                $this->db->or_like('nobatch',$keyword);
                 $this->db->or_like('tb_user.username',$keyword);
                 $this->db->group_end();
                 }
@@ -32,6 +33,7 @@ class Masuk_model extends CI_Model
         if($keyword){
             $this->db->group_start();
             $this->db->like('noform',$keyword);
+            $this->db->like('nobatch',$keyword);
             $this->db->or_like('riwayat.kode',$keyword);
             $this->db->or_like('master.nama',$keyword);
             $this->db->or_like('riwayat.tglform',$keyword);
@@ -52,7 +54,7 @@ class Masuk_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('riwayat');
-        $this->db->join('master', 'master.kode=riwayat.kode')->like("ket","IN");
+        $this->db->join('master', 'master.kode=riwayat.kode');
         $this->db->order_by('riwayat.no', 'DESC')->limit(20);
         return $this->db->get()->result();
     }

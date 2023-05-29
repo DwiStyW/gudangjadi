@@ -11,7 +11,6 @@ class Masuk_track_model extends CI_Model
                 $this->db->group_start();
                 $this->db->like('nobatch',$keyword);
                 $this->db->or_like('nopallet',$keyword);
-                $this->db->or_like('noform',$keyword);
                 $this->db->or_like('riwayattrack.kode',$keyword);
                 $this->db->or_like('master.nama',$keyword);
                 $this->db->or_like('riwayattrack.tglform',$keyword);
@@ -33,7 +32,6 @@ class Masuk_track_model extends CI_Model
             $this->db->group_start();
             $this->db->like('nobatch',$keyword);
             $this->db->or_like('nopallet',$keyword);
-            $this->db->or_like('noform',$keyword);
             $this->db->or_like('riwayattrack.kode',$keyword);
             $this->db->or_like('master.nama',$keyword);
             $this->db->or_like('riwayattrack.tglform',$keyword);

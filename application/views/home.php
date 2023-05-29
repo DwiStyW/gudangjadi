@@ -35,6 +35,9 @@
                     <div class="sparkline8-graph shadow">
                         <div class="datatable-dashv1-list custom-datatable-overright"
                             style="margin-left:10px;margin-right:10px;padding-bottom:10px">
+                            <div id="toolbar">
+                                <a href="<?= base_url("konversisatuan")?>" class="btn btn-sm btn-primary">Konversi satuan</a>
+                            </div>
 
                             <table id="table" data-toggle="table" data-pagination="false" data-search="false"
                                 data-show-columns="true" data-show-pagination-switch="false" data-show-refresh="true"
