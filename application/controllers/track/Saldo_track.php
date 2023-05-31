@@ -138,4 +138,59 @@ class saldo_track extends CI_Controller
             echo json_encode($kosong);
         }
     }
+
+    public function getbatch(){
+        $kode=$this->input->post("kode");
+        if($kode == "unset"){
+            $data = $this->db->query("SELECT DISTINCT nobatch FROM detailsal")->result();
+        }else{
+            $data = $this->db->query("SELECT DISTINCT nobatch FROM detailsal where kode='$kode'")->result();
+        }
+        echo json_encode($data);
+    }
+    public function getpallet(){
+        $kode=$this->input->post("kode");
+        if($kode == "unset"){
+            $data = $this->db->query("SELECT DISTINCT nopallet FROM detailsal")->result();
+        }else{
+            $data = $this->db->query("SELECT DISTINCT nopallet FROM detailsal where kode='$kode'")->result();
+        }
+        echo json_encode($data);
+    }
+    public function getkode(){
+        $batch=$this->input->post("batch");
+        if($batch == "unset"){
+            $data = $this->db->query("SELECT DISTINCT detailsal.kode,master.nama FROM detailsal,master where detailsal.kode=master.kode order by kode")->result();
+        }else{
+            $data = $this->db->query("SELECT DISTINCT detailsal.kode,master.nama FROM detailsal,master where detailsal.kode=master.kode and nobatch='$batch' order by kode")->result();
+        }
+        echo json_encode($data);
+    }
+    public function getnopallet(){
+        $batch=$this->input->post("batch");
+        if($batch == "unset"){
+            $data = $this->db->query("SELECT DISTINCT nopallet FROM detailsal")->result();
+        }else{
+            $data = $this->db->query("SELECT DISTINCT nopallet FROM detailsal where nobatch='$batch'")->result();
+        }
+        echo json_encode($data);
+    }
+    public function getpkode(){
+        $pallet=$this->input->post("pallet");
+        if($pallet == "unset"){
+            $data = $this->db->query("SELECT DISTINCT detailsal.kode,master.nama FROM detailsal,master where detailsal.kode=master.kode order by kode")->result();
+        }else{
+            $data = $this->db->query("SELECT DISTINCT detailsal.kode,master.nama FROM detailsal,master where detailsal.kode=master.kode and nopallet='$pallet' order by kode")->result();
+        }
+        echo json_encode($data);
+    }
+    public function getnobatch(){
+        $pallet=$this->input->post("pallet");
+        if($pallet == "unset"){
+            $data = $this->db->query("SELECT DISTINCT nobatch FROM detailsal")->result();
+        }else{
+            $data = $this->db->query("SELECT DISTINCT nobatch FROM detailsal where nopallet='$pallet'")->result();
+        }
+        echo json_encode($data);
+    }
 }
