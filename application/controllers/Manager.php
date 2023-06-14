@@ -15,9 +15,25 @@ class Manager extends CI_Controller{
     }
 
     public function saldo(){
-        $riw = $this->db->join("master","master.kode = riwayat.kode")->get("riwayat")->result();
+        $this->load->view("manager/saldo");
+    }
+
+    public function tampil(){
+        $riw= $this->db->join("master","master.kode = riwayat.kode")->order_by("no","DESC")->get("riwayat")->result();
         $no=0;
         foreach($riw as $r){
+            if($r->masuk>0){
+                $sats1  = floor($r->masuk / ($r->max1 * $r->max2));
+                $sisa   = $r->masuk - ($sats1 * $r->max1 * $r->max2);
+                $sats2  = floor($sisa / $r->max2);
+                $sats3  = $sisa - $sats2 * $r->max2;
+            }
+            if($r->keluar>0){
+                $sats1  = floor($r->keluar / ($r->max1 * $r->max2));
+                $sisa   = $r->keluar - ($sats1 * $r->max1 * $r->max2);
+                $sats2  = floor($sisa / $r->max2);
+                $sats3  = $sisa - $sats2 * $r->max2;
+            }
             $riwayat[]=array(
                 "no"=>$no=$no+1,
                 "kode"=>$r->kode,
@@ -25,12 +41,14 @@ class Manager extends CI_Controller{
                 "tglform"=>$r->tglform,
                 "noform"=>$r->noform,
                 "nobatch"=>$r->nobatch,
+                "sats1"=>$sats1.' '.$r->sat1,
+                "sats2"=>$sats2.' '.$r->sat2,
+                "sats3"=>$sats3.' '.$r->sat3,
                 "ket"=>$r->ket,
                 "cat"=>$r->cat,
                 "tanggal"=>$r->tanggal,
             );
         }
-        // $data["riwayat"]= json_encode($riwayat);
-        $this->load->view("manager/saldo",$riwayat);
+        echo json_encode($riwayat);
     }
 }

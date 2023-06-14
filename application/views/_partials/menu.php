@@ -222,9 +222,8 @@
                         </div>
                         <?php }elseif($this->session->userdata('role')=="manager"){?>
                             <li><a href="<?= base_url("dashboard") ?>" class="btn btn-lg tekan text-white">Dashboard</a></li>
-                            <li><a href="<?= base_url("home") ?>" class="btn btn-lg tekan text-white">Home</a></li>
-                            <li><a href="<?= base_url("manager/saldo") ?>" class="btn btn-lg tekan text-white">Saldo</a></li>
-                            <li><a href="<?= base_url("manager/track") ?>" class="btn btn-lg tekan text-white">Tracking</a></li>
+                            <li><a href="<?= base_url("manager/saldo") ?>" class="btn btn-lg tekan text-white">Saldo Keseluruhan</a></li>
+                            <li><a href="<?= base_url("manager/track") ?>" class="btn btn-lg tekan text-white">Saldo Tracking</a></li>
                         <?php } ?>
 
                         <?php
