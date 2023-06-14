@@ -383,6 +383,10 @@ class Masuk_track extends CI_Controller
                     $wheremaster = array('kode'=> $kodelama);
 
                     //untuk detailsal
+                    $baru = $this->db->where('nobatch',$nobatchlama)->where('kode',$kodelama)->where('nopallet',$nopallet)->get('detailsal');
+                    foreach($baru->result() as $b){
+                        $qtybaru = $b->qty;
+                    }
                     if ($nopallet == $nopalletlama) {
                         $qtydetailsal = $qtydipallet - $qtyrt + $jumlah;
                         $datadetailsal = array('qty'=>$qtydetailsal);
@@ -392,10 +396,6 @@ class Masuk_track extends CI_Controller
                             'kode'=>$kodelama
                         );
                     }else{
-                        $baru = $this->db->where('nobatch',$nobatchlama)->where('kode',$kodelama)->where('nopallet',$nopallet)->get('detailsal');
-                        foreach($baru->result() as $b){
-                            $qtybaru = $b->qty;
-                        }
                         $qtydipalletlama = $qtydipallet - $jumlah;
                         $detsalpalletlama = array('qty'=>$qtydipalletlama);
                         $wheredetsalpalletlama = array(

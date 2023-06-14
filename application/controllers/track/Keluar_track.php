@@ -220,7 +220,7 @@ class Keluar_track extends CI_Controller
         'ket' => 'OUT'
     );
 
-    $cek = $this->db->where('tglform', $tglform)->where('kode', $kode)->where('nobatch', $nobatch)->where('nopallet', $nopallet)->where('keluar', $jumlah)->get('riwayattrack');
+    $cek = $this->db->where("noform",$noform)->where('tglform', $tglform)->where('kode', $kode)->where('nobatch', $nobatch)->where('nopallet', $nopallet)->where('keluar', $jumlah)->get('riwayattrack');
     if($cek->num_rows()>0) {
         $this->session->set_flashdata('gagal', 'Data telah di input sebelumnya!');
     } else {

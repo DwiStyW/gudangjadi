@@ -40,7 +40,7 @@ $mulai = date('Y-m-d', strtotime('-1 days', strtotime($start)));
                                 <tbody>
                                     <?php
                                     $tampil = $this->db->query("SELECT * FROM master, riwayat  WHERE master.kode=riwayat.kode && riwayat.tglform between '$mulai' AND '$end' ORDER BY kdgol ASC, riwayat.kode ASC");
-                                    $tampil1 = $this->db->query("SELECT * FROM master ORDER BY kdgol ASC, nama ASC");
+                                    $tampil1 = $this->db->query("SELECT * FROM master ORDER BY kode ASC, nama ASC");
 
                                     $no = 1;
                                     foreach ($tampil1->result() as $data) {

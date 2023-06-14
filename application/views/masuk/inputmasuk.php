@@ -73,7 +73,8 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">No Batch</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="nobatch" onchange="validation()" id="nobatch" type="text" class="form-control" placeholder="Nomor Batch" required />
+                                                        <input name="nobatch" onkeyup="validation()" id="nobatch" type="text" class="form-control" placeholder="Nomor Batch" required />
+                                                        <span id="warning" class="text-danger"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -383,8 +384,7 @@ endif ?>
         var bulan = nobatch.slice(parseInt(nobatch.length-4),parseInt(nobatch.length-2));
 
         if(parseInt(bulan)>12){
-            window.alert('nomor batch tidak valid!');
-            document.getElementById("nobatch").value = ""
+            document.getElementById("warning").innerHTML='Nomor batch tidak valid!';
         }
     }
 </script>

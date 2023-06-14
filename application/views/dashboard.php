@@ -28,8 +28,8 @@
                         </div>
                         <div style="background-color:#fff">
                           <div class="sparkline8-graph">
-                            <div class="d-flex justify-content-center" style="width:50%; height:50%;">
-                              <canvas id="myChart"></canvas>
+                            <div class="d-flex justify-content-center">
+                              <canvas id="pieChart"></canvas>
                             </div>
                           </div>
                         </div>
@@ -41,18 +41,35 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  const ctx = document.getElementById('myChart');
+  // const ctx = document.getElementById('myChart');
 
-  new Chart(ctx, {
+  // new Chart(ctx, {
+  //   type: 'pie',
+  //   data: {
+  //     labels: ['Terpakai','Tidak terpakai'],
+  //     datasets: [{
+  //       backgroundColor:['RGBA(255, 69, 0, 1.0)','RGB(34, 139, 34, 1.0)'],
+  //       label: 'Jumlah',
+  //       data: [<?=$terpakai?>,<?=$takterpakai?>],
+  //       borderWidth: 1
+  //     }]
+  //   },
+  // });
+
+  //pie
+  var ctxP = document.getElementById("pieChart").getContext('2d');
+  var myPieChart = new Chart(ctxP, {
     type: 'pie',
     data: {
-      labels: ['Terpakai','Tidak terpakai'],
+      labels: ["Terpakai", "Tidak Terpakai"],
       datasets: [{
-        backgroundColor:['RGBA(255, 69, 0, 1.0)','RGB(34, 139, 34, 1.0)'],
-        label: 'Jumlah',
-        data: [<?=$terpakai?>,<?=$takterpakai?>],
-        borderWidth: 1
+        data: [<?= $terpakai ?>, <?= $takterpakai?>],
+        backgroundColor: ["#F7464A", "#46BFBD"],
+        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1"]
       }]
     },
+    options: {
+      responsive: true
+    }
   });
 </script>

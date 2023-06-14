@@ -15,6 +15,22 @@ class Manager extends CI_Controller{
     }
 
     public function saldo(){
-        $this->load->view("manager/saldo");
+        $riw = $this->db->join("master","master.kode = riwayat.kode")->get("riwayat")->result();
+        $no=0;
+        foreach($riw as $r){
+            $riwayat[]=array(
+                "no"=>$no=$no+1,
+                "kode"=>$r->kode,
+                "nama"=>$r->nama,
+                "tglform"=>$r->tglform,
+                "noform"=>$r->noform,
+                "nobatch"=>$r->nobatch,
+                "ket"=>$r->ket,
+                "cat"=>$r->cat,
+                "tanggal"=>$r->tanggal,
+            );
+        }
+        // $data["riwayat"]= json_encode($riwayat);
+        $this->load->view("manager/saldo",$riwayat);
     }
 }

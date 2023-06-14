@@ -16,89 +16,26 @@ $this->load->view('_partials/menu');
                     <div class="sparkline8-graph shadow">
                         <a href="<?= base_url("home")?>"><button class="btn btn-white" type="button">Kembali</button></a>
                         <div class="tabel-responsive" style="margin-left:10px;margin-right:10px;padding-bottom:10px">
-                            <table class="table table-bordered" id="tabel">
-                                <thead>
-                                    <tr>
-                                        <th>test</th>
-                                        <th>test</th>
-                                        <th>test</th>
-                                        <th>test</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                    </tr>
-                                    <tr>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                    </tr>
-                                    <tr>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                    </tr>
-                                    <tr>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                    </tr>
-                                    <tr>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                    </tr>
-                                    <tr>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                    </tr>
-                                    <tr>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                    </tr>
-                                    <tr>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                    </tr>
-                                    <tr>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                    </tr>
-                                    <tr>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                    </tr>
-                                    <tr>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                    </tr>
-                                    <tr>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                    </tr>
-                                </tbody>
+                            <table class="table table-bordered" width="100%" id="tabel">
+                               <thead>
+                                <tr>
+                                    <!-- <th>No</th> -->
+                                    <th>No. Form</th>
+                                    <th>Tanggal Form</th>
+                                    <th>Kode Produk</th>
+                                    <th>Nama Produk</th>
+                                    <th>No. Batch</th>
+                                    <!-- <th>Satuan1</th>
+                                    <th>Satuan2</th>
+                                    <th>Satuan3</th> -->
+                                    <th>Keterangan</th>
+                                    <!-- <th>Supplier</th> -->
+                                    <th>Tgl Input</th>
+                                    <th>Catatan</th>
+                                </tr>
+                               </thead>
+                               <tbody>
+                               </tbody>
                             </table>
                         </div>
                     </div>
@@ -110,9 +47,23 @@ $this->load->view('_partials/menu');
 <!-- Data table area End-->
 <?php $this->load->view('_partials/footer');?>
 <script>
+    var riwayat = <?= json_encode($riwayat)?>;
+    console.log(riwayat)
     $(document).ready( function() {
     $("#tabel").DataTable({
-        dom: 'Bfrtip',
+        data:riwayat,
+        columns:[
+            // {data:"no"},
+            {data:"noform"},
+            {data:"tglform"},
+            {data:"kode"},
+            {data:"nama"},
+            {data:"nobatch"},
+            {data:"ket"},
+            {data:"tanggal"},
+            {data:"cat"},
+        ],
+        dom: 'lBfrtip',
         buttons: [
             'copy','excel','pdf','print'
         ],
