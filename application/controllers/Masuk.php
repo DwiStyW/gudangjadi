@@ -1,4 +1,10 @@
 <?php
+/**
+ * @property session $session
+ * @property db $db
+ * @property masuk_model $masuk_model
+ * @property input $input
+ */
 class Masuk extends CI_Controller
 {
     public function __construct()
@@ -13,33 +19,36 @@ class Masuk extends CI_Controller
     }
     public function index()
     {
-        $this->load->library('pagination');
-        //untuk search
-        $keyword=$this->input->post('keyword');
-        if(isset($keyword)){
-            $data['keyword']=$this->input->post('keyword');
-            $this->session->set_userdata('keyword_masuk',$data['keyword']);
-        }else{
-            $data['keyword']=$this->session->userdata('keyword_masuk');
+        $data['masuk'] = $this->masuk_model->tampil_barang_masuk();
+        $this->load->view("masuk/masuk",$data);
+    }
+    public function getmasuk()
+    {
+        $data = $this->masuk_model->tampil_barang_masuk();
+        $no = 0;
+        foreach($data as $d){
+            $sats1  = floor($d->masuk / ($d->max1 * $d->max2));
+            $sisa   = $d->masuk - ($sats1 * $d->max1 * $d->max2);
+            $sats2  = floor($sisa / $d->max2);
+            $sats3  = $sisa - $sats2 * $d->max2;
+            $test[]=array(
+                "id"=>$no=$no+1,
+                "tglform"=>date("d-m-Y", strtotime($d->tanggalform)),
+                "noform"=>$d->noform,
+                "kode"=>$d->kode,
+                "nama"=>$d->nama,
+                "nobatch"=>$d->nobatch,
+                "sats1"=>$sats1.' '.$d->sat1,
+                "sats2"=>$sats2.' '.$d->sat2,
+                "sats3"=>$sats3.' '.$d->sat3,
+                "tanggal"=>$d->tanggal,
+                "adm"=>$d->username,
+                "suplai"=>$d->suplai,
+                "cat"=>$d->cat,
+                "aksi"=>'<a class="btn btn-sm btn-primary" href="'. base_url("masuk/edit_masuk/". $d->no).'" ><i class="fa fa-edit"></i> Edit</a><a onclick="hapus(`'.$d->no.'`,`'.$d->noform.'`,`'.$d->nobatch.'`,`'.$d->kode.'`,`'. $sats1.'`,`'. $sats2.'`,`'. $sats3.'`,`'. $d->sat1.'`,`'.$d->sat2.'`,`'.$d->sat3.'`)" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hapus_modal"><i class="fa fa-trash"></i> Hapus</a>'
+            );
         }
-        //untuk pagination
-        $config['base_url'] = 'http://localhost/gudangtrial/masuk/index';
-        $config['total_rows'] = $this->masuk_model->total_barang_masuk($data['keyword']);
-        $range = $this->input->post('range');
-        $config['per_page'] = $range;
-        if ($range == null) {
-            $config['per_page'] = 10;
-        } elseif ($range == "all") {
-            $config['per_page'] = null;
-        }
-        $this->pagination->initialize($config);
-
-        $data['start'] = $this->uri->segment(3);
-        $data['masuk'] = $this->masuk_model->tampil_barang_masuk($config['per_page'], $data['start'], $data['keyword']);
-        $this->load->view("_partials/header");
-        $this->load->view("_partials/menu");
-        $this->load->view("masuk/masuk", $data);
-        $this->load->view("_partials/footer");
+        echo json_encode($test);
     }
 
     // load view input barang masuk

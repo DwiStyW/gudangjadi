@@ -1,4 +1,12 @@
 <?php
+/**
+ * @property  session $session
+ * @property  input $input
+ * @property  db $db
+ * @property  keluar_model $keluar_model
+ * @property  keluar_track_model $keluar_track_model
+ * 
+ */
 class Keluar extends CI_Controller
 {
     public function __construct()
@@ -16,34 +24,8 @@ class Keluar extends CI_Controller
     }
     public function index()
     {
-        $this->load->library('pagination');
-        //untuk search
-        $keyword = $this->input->post('keyword');
-        if (isset($keyword)) {
-            $data['keyword'] = $this->input->post('keyword');
-            $this->session->set_userdata('keyword', $data['keyword']);
-        } else {
-            $data['keyword'] = $this->session->userdata('keyword');
-        }
-
-        //untuk pagination
-        $config['base_url'] = 'localhost/gudangjadi_CI/keluar/index';
-        $config['total_rows'] = $this->keluar_model->total_barang_keluar($data['keyword']);
-        $range = $this->input->post('range');
-        $config['per_page'] = $range;
-        if ($range == null) {
-            $config['per_page'] = 10;
-        } elseif ($range == "all") {
-            $config['per_page'] = null;
-        }
-        $this->pagination->initialize($config);
-
-        $data['start'] = $this->uri->segment(3);
-        $data["keluar"] = $this->keluar_model->tampil_barang_keluar($config['per_page'], $data['start'], $data['keyword']);
-        $this->load->view("_partials/header");
-        $this->load->view("_partials/menu");
+        $data["keluar"] = $this->keluar_model->tampil_barang_keluar();
         $this->load->view("keluar/keluar", $data);
-        $this->load->view("_partials/footer");
     }
 
     public function input_keluar()

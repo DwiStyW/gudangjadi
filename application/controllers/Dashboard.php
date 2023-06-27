@@ -1,4 +1,7 @@
 <?php 
+/**
+* @property db $db
+*/
 class Dashboard extends CI_Controller{
     public function index(){
         // $jumlah = $this->db->select("nopallet")->group_by("nopallet")->get("detailsal")->num_rows();

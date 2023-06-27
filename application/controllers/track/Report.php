@@ -1,4 +1,12 @@
 <?php
+/**
+ * @property  session $session
+ * @property  input $input
+ * @property  db $db
+ * @property  report_model_track $report_model_track
+ * @property  report_model $report_model
+ * 
+ */
 class Report extends CI_Controller{
     public function __construct()
     {

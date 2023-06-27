@@ -1,5 +1,7 @@
 <?php
 ini_set('date.timezone', 'Asia/Jakarta');
+$this->load->view("_partials/header");
+$this->load->view("_partials/menu");
 ?>
 <div class="layarlebar">
     <div class="admin-dashone-data-table-area mg-b-40">
@@ -7,37 +9,12 @@ ini_set('date.timezone', 'Asia/Jakarta');
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
                 <div class="main-sparkline8-hd justify-content-between" style="display:flex; flex:wrap;padding-top:20px;padding-bottom:20px;padding-left:20px;">
-                        <h1>Master Produk Gudang<h1>
-                        <div style="width:100%; padding-right:20px">
-                                    <form action="<?= base_url('master/index')?>" method="post">
-                                    <div style="display:flex; flex:wrap">
-                                        <div style="width:100%">
-                                            <?php if(isset($keyword)){?>
-                                                <input type="text" name="keyword" value="<?= $keyword?>" placeholder="Cari Master Produk..." class="form-control">
-                                            <?php }else{ ?>
-                                                <input type="text" name="keyword" placeholder="Cari Master Produk..." class="form-control">
-                                                <?php } ?>
-                                        </div>
-                                        <div style="width:auto">
-                                            <button type="submit" name="submit" class="btn btn-primary">Cari</button>
-                                        </div>
-                                    </form>
-                                    <?php if($keyword != null){?>
-                                    <form action="<?=base_url('master/index')?>" method="post">
-                                    <input type="hidden" name="keyword" value="">
-                                        <div style="width:auto">
-                                        <button class="btn btn-light" type="submit">Reset</button>
-                                        </div>
-                                    </form>
-                                    <?php } ?>
-                                </div>
-                                </div>
-                    </div>
+                    <h1>Master Produk Gudang<h1>
                 </div>
                 <div style="background-color:#fff">
                     <div class="sparkline8-graph shadow">
                         <div class="datatable-dashv1-list custom-datatable-overright" style="margin-left:10px;margin-right:10px;padding-bottom:10px">
-                            <div id="toolbar">
+                            <div style="margin-bottom:20px">
                             <a href="<?= base_url("master/input_master") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Input
                                         Master</button></a>
                                 <a href="<?= base_url("golongan") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Master
@@ -47,7 +24,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                 <!-- <a target="_blank" href="printmaster.php"><button class="btn btn-sm btn-success login-submit-cs" type="submit">Print Master</button></a> -->
                                 <a href="<?= base_url("home")?>"><button class="btn btn-white" type="button">Kembali</button></a>
                             </div>
-                            <table id="table" data-toggle="table" data-pagination="false" data-search="false" data-show-columns="true" data-show-pagination-switch="false" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
+                            <table id="tabel" class="table table-responsive table-bordered">
                                 <thead>
                                     <tr>
                                         <th data-field="no">No</th>
@@ -68,10 +45,11 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                 </thead>
                                 <tbody>
                                     <?php
+                                    $no=0;
                                     foreach ($master as $m) {
                                     ?>
                                         <tr>
-                                            <td><?php echo ++$start; ?></td>
+                                            <td><?php echo $no+=1; ?></td>
                                             <td><?php echo $m->kode ?></td>
                                             <td><?php echo $m->nama; ?></td>
                                             <td><?php echo $m->ukuran ?></td>
@@ -93,20 +71,6 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                     } ?>
                                 </tbody>
                             </table>
-                            <div style="width:100%;margin-top:20px; display:flex; flex:wrap" class="justify-content-between">
-                                <form action="<?= base_url('master') ?>" id="go" method="post">
-                                <div style="width:100px">
-                                    <select class="form-control" name="range" onchange="go()">
-                                        <option disabled selected value>Row</option>
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="all">Show All</option>
-                                    </select>
-                                    </div>
-                                </form>
-                                <?=$this->pagination->create_links();?>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -139,7 +103,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                 <!-- <a target="_blank" href="printmaster.php"><button class="btn btn-sm btn-success login-submit-cs" type="submit">Print Master</button></a> -->
                                 <a href="index.php"><button class="btn btn-white" type="button">Kembali</button></a>
                             </div>
-                            <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbarr">
+                            <table id="tabel" >
                                 <thead>
                                     <tr>
                                         <th data-field="no">No</th>
@@ -191,6 +155,17 @@ ini_set('date.timezone', 'Asia/Jakarta');
         </div>
     </div>
 </div>
+<?php $this->load->view("_partials/footer");?>
+<script>
+    $(document).ready(function(){
+        $("#tabel").DataTable({
+            dom: 'lBfrtip',
+            buttons: [
+                'copy','excel','pdf','print'
+            ],
+        })
+    })
+</script>
 <script>
     function go() {
         document.getElementById('go').submit();

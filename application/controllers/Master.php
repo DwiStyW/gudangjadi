@@ -1,4 +1,12 @@
 <?php
+/**
+ * @property  session $session
+ * @property  input $input
+ * @property  db $db
+ * @property  golongan_model $golongan_model
+ * @property  master_model $master_model
+ * 
+ */
 class Master extends CI_Controller
 {
     public function __construct()
@@ -13,38 +21,10 @@ class Master extends CI_Controller
     }
     public function index()
     {
-        //load library
-        $this->load->library('pagination');
-
-        //untuk search
-        $keyword=$this->input->post('keyword');
-        if(isset($keyword)){
-            $data['keyword']=$this->input->post('keyword');
-            $this->session->set_userdata('keyword',$data['keyword']);
-        }else{
-            $data['keyword']=$this->session->userdata('keyword');
-        }
-
-        //set config
-        $config['base_url'] = 'http://localhost/gudangtrial/master/index';
-        $config['total_rows'] = $this->master_model->total_master($data['keyword']);
-        $range = $this->input->post('range');
-        $config['per_page'] = $range;
-        if ($range == null) {
-            $config['per_page'] = 10;
-        } elseif ($range == "all") {
-            $config['per_page'] = null;
-        }
-        $this->pagination->initialize($config);
-
-        $data['start'] = $this->uri->segment(3);
-        $data['master'] = $this->master_model->tampil_master($config['per_page'], $data['start'],$data['keyword']);
+        $data['master'] = $this->master_model->tampil_master();
         $data['golongan'] = $this->golongan_model->tampil_golongan();
         $data['jenis'] = $this->master_model->tampil_jenis();
-        $this->load->view("_partials/header");
-        $this->load->view("_partials/menu");
         $this->load->view("master/master", $data);
-        $this->load->view("_partials/footer");
     }
 
     public function input_master(){

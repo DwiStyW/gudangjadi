@@ -28,7 +28,6 @@ $this->load->view('_partials/menu');
                             <tr>
                                 <th>No</th>
                                 <th>No. Form</th>
-                                <th>Tanggal Form</th>
                                 <th>Kode Produk</th>
                                 <th>Nama Produk</th>
                                 <th>No. Batch</th>
@@ -36,9 +35,6 @@ $this->load->view('_partials/menu');
                                 <th>Satuan2</th>
                                 <th>Satuan3</th>
                                 <th>Keterangan</th>
-                                <!-- <th>Supplier</th> -->
-                                <th>Tgl Input</th>
-                                <th>Catatan</th>
                             </tr>
                            </thead>
                            <tbody>
@@ -55,7 +51,7 @@ $this->load->view('_partials/menu');
 <script>
     $.ajax({
         dataType:"json",
-        url:"<?= base_url("manager/tampil")?>",
+        url:"<?= base_url("manager/tampil_dsq")?>",
         async:true,
         success: function(riwayat){
             document.getElementById("loading").hidden=true;
@@ -67,7 +63,6 @@ $this->load->view('_partials/menu');
                 columns:[
                     {data:"no"},
                     {data:"noform"},
-                    {data:"tglform"},
                     {data:"kode"},
                     {data:"nama"},
                     {data:"nobatch"},
@@ -75,8 +70,6 @@ $this->load->view('_partials/menu');
                     {data:"sats2"},
                     {data:"sats3"},
                     {data:"ket"},
-                    {data:"tanggal"},
-                    {data:"cat"},
                 ],
                 dom: 'lBfrtip',
                 buttons: [

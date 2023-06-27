@@ -2,7 +2,7 @@
 class Masuk_model extends CI_Model
 {
     // Get data barang masuk
-    public function tampil_barang_masuk($limit, $start,$keyword)
+    public function tampil_barang_masuk()
     {
         $this->db->Select("*,riwayat.tglform as tanggalform")
             ->from('riwayat')
@@ -10,17 +10,7 @@ class Masuk_model extends CI_Model
             ->join("tb_user", "riwayat.adm=tb_user.user_id")
             ->where("riwayat.keluar=0")
             ->order_by('riwayat.no', 'DESC');
-            if($keyword){
-                $this->db->group_start();
-                $this->db->like('noform',$keyword);
-                $this->db->or_like('riwayat.kode',$keyword);
-                $this->db->or_like('master.nama',$keyword);
-                $this->db->or_like('riwayat.tglform',$keyword);
-                $this->db->or_like('tanggal',$keyword);
-                $this->db->or_like('tb_user.username',$keyword);
-                $this->db->group_end();
-                }
-        return $this->db->get('', $limit, $start)->result();
+        return $this->db->get()->result();
     }
 
     public function total_barang_masuk($keyword=null)

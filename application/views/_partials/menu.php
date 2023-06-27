@@ -223,7 +223,8 @@
                         <?php }elseif($this->session->userdata('role')=="manager"){?>
                             <li><a href="<?= base_url("dashboard") ?>" class="btn btn-lg tekan text-white">Dashboard</a></li>
                             <li><a href="<?= base_url("manager/saldo") ?>" class="btn btn-lg tekan text-white">Saldo Keseluruhan</a></li>
-                            <li><a href="<?= base_url("manager/track") ?>" class="btn btn-lg tekan text-white">Saldo Tracking</a></li>
+                            <li><a href="<?= base_url("manager/detailsalqty") ?>" class="btn btn-lg tekan text-white">Barang Belum Proses</a></li>
+                            <li><a href="<?= base_url("manager/saldo_track") ?>" class="btn btn-lg tekan text-white">Saldo Tracking</a></li>
                         <?php } ?>
 
                         <?php

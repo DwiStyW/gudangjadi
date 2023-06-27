@@ -1,4 +1,12 @@
 <?php
+/**
+ * @property  session $session
+ * @property  input $input
+ * @property  db $db
+ * @property  uri $uri
+ * @property  pagination $pagination
+ * @property  report_model $report_model
+ */
 class Settings extends CI_Controller
 {
     public function __construct()

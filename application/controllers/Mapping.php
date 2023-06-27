@@ -1,4 +1,9 @@
 <?php
+/**
+ * @property  session $session
+ * @property  input $input
+ * @property  db $db
+ */
 class Mapping extends CI_Controller
 {
     public function __construct()

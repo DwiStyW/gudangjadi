@@ -1,4 +1,10 @@
 <?php
+/**
+ * @property session $session
+ * @property input $input
+ * @property db $db
+ * 
+ */
 class Manager extends CI_Controller{
     public function __construct()
     {
@@ -47,6 +53,69 @@ class Manager extends CI_Controller{
                 "ket"=>$r->ket,
                 "cat"=>$r->cat,
                 "tanggal"=>$r->tanggal,
+            );
+        }
+        echo json_encode($riwayat);
+    }
+    public function saldo_track(){
+        $this->load->view("manager/saldo_track");
+    }
+
+    public function tampil_track(){
+        $riw= $this->db->join("master","master.kode = riwayattrack.kode")->order_by("no","DESC")->get("riwayattrack")->result();
+        $no=0;
+        foreach($riw as $r){
+            if($r->masuk>0){
+                $sats1  = floor($r->masuk / ($r->max1 * $r->max2));
+                $sisa   = $r->masuk - ($sats1 * $r->max1 * $r->max2);
+                $sats2  = floor($sisa / $r->max2);
+                $sats3  = $sisa - $sats2 * $r->max2;
+            }
+            if($r->keluar>0){
+                $sats1  = floor($r->keluar / ($r->max1 * $r->max2));
+                $sisa   = $r->keluar - ($sats1 * $r->max1 * $r->max2);
+                $sats2  = floor($sisa / $r->max2);
+                $sats3  = $sisa - $sats2 * $r->max2;
+            }
+            $riwayattrack[]=array(
+                "no"=>$no=$no+1,
+                "kode"=>$r->kode,
+                "nama"=>$r->nama,
+                "tglform"=>$r->tglform,
+                "noform"=>$r->noform,
+                "nobatch"=>$r->nobatch,
+                "nopallet"=>$r->nopallet,
+                "sats1"=>$sats1.' '.$r->sat1,
+                "sats2"=>$sats2.' '.$r->sat2,
+                "sats3"=>$sats3.' '.$r->sat3,
+                "ket"=>$r->ket,
+                "cat"=>$r->cat,
+                "tanggal"=>$r->tanggal,
+            );
+        }
+        echo json_encode($riwayattrack);
+    }
+    public function detailsalqty(){
+        $this->load->view("manager/detailsalqty");
+    }
+    public function tampil_dsq(){
+        $riw=$this->db->join("master","master.kode=detailsalqty.kode")->get("detailsalqty")->result();
+        $no=0;
+        foreach($riw as $r){
+                $sats1  = floor($r->qty / ($r->max1 * $r->max2));
+                $sisa   = $r->qty - ($sats1 * $r->max1 * $r->max2);
+                $sats2  = floor($sisa / $r->max2);
+                $sats3  = $sisa - $sats2 * $r->max2;
+            $riwayat[]=array(
+                "no"=>$no=$no+1,
+                "kode"=>$r->kode,
+                "nama"=>$r->nama,
+                "noform"=>$r->noform,
+                "nobatch"=>$r->nobatch,
+                "sats1"=>$sats1.' '.$r->sat1,
+                "sats2"=>$sats2.' '.$r->sat2,
+                "sats3"=>$sats3.' '.$r->sat3,
+                "ket"=>$r->ket,
             );
         }
         echo json_encode($riwayat);

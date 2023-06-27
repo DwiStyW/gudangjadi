@@ -84,7 +84,7 @@ $_SESSION['start_time'] = time(); ?>
         title="color-two" media="screen" />
     <link rel="alternate stylesheet" type="text/css" href="<?= base_url() ?>assets/css/switcher/color-three.css"
         title="color-three" media="screen" />
-    <link rel="alternate stylesheet" type="text/css" href="<?= base_url() ?>assets/css/switcher/color-four.css"
+        <link rel="alternate stylesheet" type="text/css" href="<?= base_url() ?>assets/css/switcher/color-four.css"
         title="color-four" media="screen" />
     <link rel="alternate stylesheet" type="text/css" href="<?= base_url() ?>assets/css/switcher/color-five.css"
         title="color-five" media="screen" />
@@ -95,10 +95,14 @@ $_SESSION['start_time'] = time(); ?>
     <link rel="alternate stylesheet" type="text/css" href="<?= base_url() ?>assets/css/switcher/color-eight.css"
         title="color-eight" media="screen" />
     <link rel="alternate stylesheet" type="text/css" href="<?= base_url() ?>assets/css/switcher/color-nine.css"
-        title="color-nine" media="screen" />
+    title="color-nine" media="screen" />
     <link rel="alternate stylesheet" type="text/css" href="<?= base_url() ?>assets/css/switcher/color-ten.css"
-        title="color-ten" media="screen" />
+    title="color-ten" media="screen" />
     <link rel="stylesheet" href="<?= base_url() ?>assets/select2-master/dist/css/select2.min.css" />
     <!-- <link id="pagestyle" href="<?= base_url()?>assets/css/soft-design-system-no-tb.css" rel="stylesheet" /> -->
-
-</head>
+    <!-- loader -->
+    <link rel="stylesheet" href="<?= base_url()?>assets/css/loader.css">
+    <!-- card -->
+    <link rel="stylesheet" href="<?= base_url()?>assets/css/card.css">
+  </head>
+  

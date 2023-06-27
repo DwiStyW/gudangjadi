@@ -1,4 +1,12 @@
 <?php
+/**
+ * @property  session $session
+ * @property  input $input
+ * @property  db $db
+ * @property  uri $uri
+ * @property  pagination $pagination
+ * @property  Saldo_model_A $Saldo_model_A
+ */
 class Saldo_antara extends CI_Controller{
     public function __construct()
     {

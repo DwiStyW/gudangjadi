@@ -1,4 +1,11 @@
 <?php
+/**
+ * @property  session $session
+ * @property  input $input
+ * @property  db $db
+ * @property  golongan_model $golongan_model
+ * 
+ */
 class Golongan extends CI_Controller
 {
     public function __construct()

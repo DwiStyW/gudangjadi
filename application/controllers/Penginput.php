@@ -1,4 +1,8 @@
 <?php
+/**
+ * @property masuk_model $masuk_model
+ * @property session $session
+ */
 class Penginput extends CI_Controller
 {
     public function __construct()

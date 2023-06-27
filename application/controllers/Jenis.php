@@ -1,4 +1,11 @@
 <?php
+/**
+ * @property  session $session
+ * @property  input $input
+ * @property  db $db
+ * @property  jenis_model $jenis_model
+ * 
+ */
 class Jenis extends CI_Controller
 {
     public function __construct()

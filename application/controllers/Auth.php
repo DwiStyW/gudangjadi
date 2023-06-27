@@ -1,4 +1,10 @@
 <?php
+/**
+ * @property  form_validation $form_validation
+ * @property  session $session
+ * @property  auth_model $auth_model
+ * 
+ */
 class Auth extends CI_Controller
 {
     public function login()

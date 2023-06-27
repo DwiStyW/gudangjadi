@@ -1,4 +1,9 @@
 <?php
+/**
+ * @property input $input
+ * @property report_model $report_model
+ * @property session $session
+ */
 class Riwayat extends CI_Controller
 {
     public function __construct()

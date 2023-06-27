@@ -1,49 +1,26 @@
 <?php
     ini_set('date.timezone', 'Asia/Jakarta');
+    $this->load->view("_partials/header");
+    $this->load->view("_partials/menu");
 ?>
 <!-- <div class="layarlebar"> -->
     <div class="admin-dashone-data-table-area mg-b-40">
-        <div class="container" style="position:relative;top:-250px;z-index: 1">
+        <div class="container-fluid" style="margin-left:40px;margin-right:40px;position:relative;top:-250px;z-index: 1">
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
                 <div class="main-sparkline8-hd justify-content-between" style="display:flex; flex:wrap;padding-top:20px;padding-bottom:20px;padding-left:20px;">
-                        <h1>Barang Jadi Masuk<h1>
-                        <div style="width:100%; padding-right:20px">
-                                    <form action="<?= base_url('track/masuk_track/index')?>" method="post">
-                                    <div style="display:flex; flex:wrap">
-                                        <div style="width:100%">
-                                            <?php if(isset($keyword)){?>
-                                                <input type="text" name="keyword" value="<?= $keyword?>" placeholder="Cari Produk Masuk..." class="form-control">
-                                            <?php }else{ ?>
-                                                <input type="text" name="keyword" placeholder="Cari Produk Masuk..." class="form-control">
-                                                <?php } ?>
-                                        </div>
-                                        <div style="width:auto">
-                                            <button type="submit" name="submit" class="btn btn-primary">Cari</button>
-                                        </div>
-                                    </form>
-                                    <?php if($keyword != null){?>
-                                    <form action="<?=base_url('track/masuk_track/index')?>" method="post">
-                                    <input type="hidden" name="keyword" value="">
-                                        <div style="width:auto">
-                                        <button class="btn btn-light" type="submit">Reset</button>
-                                        </div>
-                                    </form>
-                                    <?php } ?>
-                                </div>
-                                </div>
-                    </div>
+                    <h1>Barang Jadi Masuk<h1>
                 </div>
                 <div style="background-color:#fff">
                     <div class="sparkline8-graph">
-                        <div class="datatable-dashv1-list custom-datatable-overright">
-                            <div id="toolbarr">
+                        <div class="datatable-dashv1-list custom-datatable-overright table-responsive">
+                            <div id="toolbarr" style="margin-bottom:20px">
                                 <a href="<?= base_url("track/masuk_track/input_masuk_track") ?>"><button
                                         class="btn btn-sm btn-primary login-submit-cs" type="submit">Input Bahan
                                         Masuk</button></a>
                                 <a href="<?= base_url("home")?>"><button class="btn btn-white" type="button">Kembali</button></a>
                             </div>
-                            <table id="table" data-toggle="table" data-pagination="false" data-search="false" data-show-columns="true" data-show-pagination-switch="false" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbarr">
+                            <table id="tabel" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th data-field="no">No</th>
@@ -66,7 +43,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($masuk as $m) {
+                                    <?php 
+                                    $no=0;
+                                    foreach ($masuk as $m) {
                                         $batch = $m->nobatch;
                                         $tahun = strrev(substr(substr($batch, -6), 0, 2));
                                         $bulan = substr(substr($batch, -6), 2, 2);
@@ -79,7 +58,7 @@
                                         $akhir = date_create(); // waktu sekarang
                                         $diff  = date_diff($akhir, $awal); ?>
                                     <tr>
-                                    <td><?php echo ++$start; ?></td>
+                                    <td><?php echo $no+=1; ?></td>
                                         <td><?php echo $m->tanggalform; ?></td>
                                         <td><?php echo $m->noform; ?></td>
                                         <td><?php echo $m->kode; ?></td>
@@ -119,20 +98,6 @@
                                         } ?>
                                 </tbody>
                             </table>
-                            <div style="width:100%;margin-top:20px; display:flex; flex:wrap" class="justify-content-between">
-                                <form action="<?= base_url('track/masuk_track') ?>" id="go" method="post">
-                                <div style="width:100px">
-                                    <select class="form-control" name="range" onchange="go()">
-                                        <option disabled selected value>Row</option>
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="all">Show All</option>
-                                    </select>
-                                    </div>
-                                </form>
-                                <?=$this->pagination->create_links();?>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -141,6 +106,17 @@
     </div>
 <!-- </div> -->
 <!-- Data table area End-->
+<?php $this->load->view("_partials/footer"); ?>
+<script>
+    $(document).ready(function(){
+        $("#tabel").DataTable({
+            dom: 'lBfrtip',
+            buttons: [
+                'copy','excel','pdf','print'
+            ],
+        })
+    })
+</script>
 
 <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
 

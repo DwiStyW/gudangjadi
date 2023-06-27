@@ -2,23 +2,13 @@
 class Keluar_model extends CI_Model
 {
     //get data barang keluar
-    public function tampil_barang_keluar($limit, $start, $keyword=null)
+    public function tampil_barang_keluar()
     {
         $this->db->select('*,riwayat.tglform as tanggalform');
         $this->db->from('riwayat,master,tb_user');
         $this->db->where("master.kode=riwayat.kode AND riwayat.masuk=0 AND riwayat.adm=tb_user.user_id");
         $this->db->order_by('riwayat.no', 'DESC');
-        if($keyword){
-        $this->db->group_start();
-        $this->db->like('noform',$keyword);
-        $this->db->or_like('riwayat.kode',$keyword);
-        $this->db->or_like('master.nama',$keyword);
-        $this->db->or_like('riwayat.tglform',$keyword);
-        $this->db->or_like('tanggal',$keyword);
-        $this->db->or_like('tb_user.username',$keyword);
-        $this->db->group_end();
-        }
-        return $this->db->get('', $limit, $start)->result();
+        return $this->db->get()->result();
     }
 
     public function total_barang_keluar($keyword=null)

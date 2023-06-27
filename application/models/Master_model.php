@@ -2,26 +2,13 @@
 class Master_model extends CI_Model
 {
     // Get data master
-    public function tampil_master($limit, $start,$keyword)
+    public function tampil_master()
     {
         $this->db->select('master.*,golongan.namagol,jenis.namajenis');
         $this->db->from('master,golongan,jenis');
         $this->db->where('master.kdgol = golongan.id AND master.kdjenis = jenis.id');
         $this->db->order_by('master.id', 'DESC');
-        if($keyword){
-            $this->db->group_start();
-            $this->db->like('kode',$keyword);
-            $this->db->or_like('nama',$keyword);
-            $this->db->or_like('ukuran',$keyword);
-            $this->db->or_like('sat1',$keyword);
-            $this->db->or_like('max1',$keyword);
-            $this->db->or_like('sat2',$keyword);
-            $this->db->or_like('sat3',$keyword);
-            $this->db->or_like('namagol',$keyword);
-            $this->db->or_like('namajenis',$keyword);
-            $this->db->group_end();
-            }
-        return $this->db->get('', $limit, $start)->result();
+        return $this->db->get()->result();
     }
     public function total_master($keyword)
     {
