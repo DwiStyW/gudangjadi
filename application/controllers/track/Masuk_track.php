@@ -25,6 +25,49 @@ class Masuk_track extends CI_Controller
         $this->load->view("track/masuk/masuk_track", $data);
     }
 
+    public function get_masuk(){
+        $get = $this->masuk_track_model->tampil_masuk_track();
+        $no=1;
+        foreach($get as $m){
+            $batch = $m->nobatch;
+            $tahun = strrev(substr(substr($batch, -6), 0, 2));
+            $bulan = substr(substr($batch, -6), 2, 2);
+            $gabung = $bulan . '/01/' . (2000 + $tahun);
+            $tglprod = date("Y-m-d", strtotime($gabung));
+            $bulan1 =  $m->expdate;
+            $tglexp = date("Y-m-d", strtotime('+' . $bulan1 . ' month', strtotime($tglprod)));
+
+            $awal  = date_create($tglexp);
+            $akhir = date_create(); // waktu sekarang
+            $diff  = date_diff($akhir, $awal);
+
+            $sats1  = floor($m->masuk / ($m->max1 * $m->max2));
+            $sisa   = $m->masuk - ($sats1 * $m->max1 * $m->max2);
+            $sats2  = floor($sisa / $m->max2);
+            $sats3  = $sisa - $sats2 * $m->max2;
+
+            $data[] = array(
+                "no"=>$no++,
+                "tglform"=>$m->tanggalform,
+                "noform"=>$m->noform,
+                "kode"=>$m->kode,
+                "nama"=>$m->nama,
+                "nobatch"=>$m->nobatch,
+                "nopallet"=>$m->nopallet,
+                "statpallet"=>$m->statpallet,
+                "sat1"=>$sats1.' '.$m->sat1,
+                "sat2"=>$sats2.' '.$m->sat2,
+                "sat3"=>$sats3.' '.$m->sat3,
+                "tanggal"=>$m->tanggal,
+                "adm"=>$m->username,
+                "cat"=>$m->cat,
+                "exp"=>$diff->y . ' tahun ' . $diff->m . ' bulan ',
+                "aksi"=> '<a class="btn btn-sm btn-primary" href="'. base_url("track/masuk_track/edit_masuk_track/" . $m->no) .'"> <i class="fa fa-edit"></i> Edit</button> <a class="btn btn-sm btn-danger" onclick="konfirmasi(`'.$m->no.'`)"><i class="fa fa-trash"></i> Hapus</a>'
+            );
+        }
+        echo json_encode($data);
+    }
+
     public function input_masuk_track()
     {
         $data['master'] = $this->masuk_track_model->detsal();

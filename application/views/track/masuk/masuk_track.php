@@ -3,132 +3,76 @@
     $this->load->view("_partials/header");
     $this->load->view("_partials/menu");
 ?>
-<!-- <div class="layarlebar"> -->
-    <div class="admin-dashone-data-table-area mg-b-40">
-        <div class="container-fluid" style="margin-left:40px;margin-right:40px;position:relative;top:-250px;z-index: 1">
-            <div class="d-flex">
+<div class="container" style="position:relative;top:-250px;z-index: 1">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="shadow mb-4">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
-                <div class="main-sparkline8-hd justify-content-between" style="display:flex; flex:wrap;padding-top:20px;padding-bottom:20px;padding-left:20px;">
-                    <h1>Barang Jadi Masuk<h1>
+                    <div class="main-sparkline8-hd justify-content-between" style="display:flex; flex:wrap;padding-top:20px;padding-bottom:20px;padding-left:20px;">
+                        <h1>Barang Jadi Masuk<h1>
+                    </div>
                 </div>
                 <div style="background-color:#fff">
-                    <div class="sparkline8-graph">
-                        <div class="datatable-dashv1-list custom-datatable-overright table-responsive">
-                            <div id="toolbarr" style="margin-bottom:20px">
-                                <a href="<?= base_url("track/masuk_track/input_masuk_track") ?>"><button
-                                        class="btn btn-sm btn-primary login-submit-cs" type="submit">Input Bahan
-                                        Masuk</button></a>
-                                <a href="<?= base_url("home")?>"><button class="btn btn-white" type="button">Kembali</button></a>
-                            </div>
-                            <table id="tabel" class="table table-bordered table-striped">
+                    <div class="sparkline8-graph shadow">
+                        <div id="loading" class="text-center">
+                            <div class="spinner-grow mr-3" style="color:dimgray"></div>
+                            <div class="spinner-grow mr-3" style="color:dimgray"></div>
+                            <div class="spinner-grow mr-3" style="color:dimgray"></div>
+                            <div class="spinner-grow mr-3" style="color:dimgray"></div>
+                            <div class="spinner-grow mr-3" style="color:dimgray"></div>
+                            <div class="spinner-grow mr-3" style="color:dimgray"></div>
+                        </div>
+                        <div id="toolbarr" hidden>
+                            <a href="<?= base_url("track/masuk_track/input_masuk_track") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Input Bahan Masuk</button></a>
+                            <a href="<?= base_url("home")?>"><button class="btn btn-white" type="button">Kembali</button></a>
+                        </div>
+                        <div class="table-responsive">
+                            <table hidden id="masuk" class="table table-bordered table-striped">
                                 <thead>
-                                    <tr>
-                                        <th data-field="no">No</th>
-                                        <th data-field="tglform">Tgl Form</th>
-                                        <th data-field="noform">No Form</th>
-                                        <th data-field="kode">Kode Barang</th>
-                                        <th data-field="nama">Nama Barang</th>
-                                        <th data-field="batch">No Batch</th>
-                                        <th data-field="nopallet">No Pallet</th>
-                                        <th data-field="statpallet">Status</th>
-                                        <th data-field="satuan1">Satuan 1</th>
-                                        <th data-field="satuan2">Satuan 2</th>
-                                        <th data-field="satuan3">Satuan 3</th>
-                                        <th data-field="tanggal">Tgl Input</th>
-                                        <th data-field="oleh">Oleh</th>
-                                        <th data-field="cat">Catatan</th>
-                                        <th data-field="expdate">Expired Date</th>
-                                        <th data-field="aksi">Aksi</th>
-
-                                    </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
-                                    $no=0;
-                                    foreach ($masuk as $m) {
-                                        $batch = $m->nobatch;
-                                        $tahun = strrev(substr(substr($batch, -6), 0, 2));
-                                        $bulan = substr(substr($batch, -6), 2, 2);
-                                        $gabung = $bulan . '/01/' . (2000 + $tahun);
-                                        $tglprod = date("Y-m-d", strtotime($gabung));
-                                        $bulan1 =  $m->expdate;
-                                        $tglexp = date("Y-m-d", strtotime('+' . $bulan1 . ' month', strtotime($tglprod)));
-
-                                        $awal  = date_create($tglexp);
-                                        $akhir = date_create(); // waktu sekarang
-                                        $diff  = date_diff($akhir, $awal); ?>
-                                    <tr>
-                                    <td><?php echo $no+=1; ?></td>
-                                        <td><?php echo $m->tanggalform; ?></td>
-                                        <td><?php echo $m->noform; ?></td>
-                                        <td><?php echo $m->kode; ?></td>
-                                        <td><?php echo $m->nama; ?></td>
-                                        <td><?php echo $m->nobatch; ?></td>
-                                        <td><?php echo $m->nopallet?></td>
-                                        <td><?php echo $m->statpallet?></td>
-                                        <?php
-                                                //Perhitungan 3 Satuan
-
-                                                $sats1  = floor($m->masuk / ($m->max1 * $m->max2));
-                                                $sisa   = $m->masuk - ($sats1 * $m->max1 * $m->max2);
-                                                $sats2  = floor($sisa / $m->max2);
-                                                $sats3  = $sisa - $sats2 * $m->max2;
-
-                                                ?>
-                                        <td><?php echo $sats1; ?> <?php echo $m->sat1 ?></td>
-                                        <td><?php echo $sats2; ?> <?php echo $m->sat2 ?></td>
-                                        <td><?php echo $sats3; ?> <?php echo $m->sat3 ?></td>
-                                        <td><?php echo $m->tanggal; ?></td>
-                                        <td><a href="<?= base_url("penginput/user/" . $m->adm) ?>"><?php echo $m->username ?>
-                                        </td>
-                                        <td><?php echo $m->cat ?></td>
-                                        <td><?php echo $diff->y . ' tahun ' . $diff->m . ' bulan ';?>
-                                            </td>
-                                        <td>
-                                            <a class="btn btn-sm btn-primary"
-                                                href="<?= base_url("track/masuk_track/edit_masuk_track/" . $m->no) ?>">
-                                                <i class="fa fa-edit"></i> Edit</button>
-                                            <a class="btn btn-sm btn-danger"
-                                                href="<?= base_url("track/masuk_track/hapus/" . $m->no) ?>"
-                                                onclick="javascript: return confirm('Anda yakin hapus ?')"><i
-                                                    class="fa fa-trash"></i> Hapus</a>
-                                        </td>
-                                    </tr>
-                                    <?php
-                                        } ?>
                                 </tbody>
                             </table>
+                        </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<!-- </div> -->
+</div>
 <!-- Data table area End-->
-<?php $this->load->view("_partials/footer"); ?>
-<script>
-    $(document).ready(function(){
-        $("#tabel").DataTable({
-            dom: 'lBfrtip',
-            buttons: [
-                'copy','excel','pdf','print'
-            ],
-        })
-    })
-</script>
-
+<?php $this->load->view("_partials/footer") ?>
 <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
 
 <script>
     function go() {
         document.getElementById('go').submit();
     }
+    function konfirmasi(no){
+        Swal.fire({
+            title:"<h2><b>Konfirmasi.</b></h2>",
+            icon:"warning",
+            html:"<h4>anda yakin ingin hapus?</h4>",
+            showConfirmButton:true,
+            showCancelButton:true,
+            confirmButtonColor:"red",
+            confirmButtonText:"<p style='font-size:15px'>Hapus</p>",
+            cancelButtonText:"<p style='font-size:15px'>Batal</p>",
+            width:"40rem",
+        }).then((result) => {
+            if(result.isConfirmed){
+                window.location="<?=base_url('track/masuk_track/hapus/')?>"+no;
+            }else{
+                result.dismiss
+            }
+        })
+    }
 </script>
 
 <?php if ($this->session->flashdata('sukses')) : ?>
 <script>
-Swal.fire({
+    Swal.fire({
     icon: 'success',
     position: 'top-end',
     title: '<?= $this->session->flashdata('sukses') ?>',
@@ -142,8 +86,8 @@ Swal.fire({
 
 <?php if ($this->session->flashdata('gagal')) : ?>
 <script>
-Swal.fire({
-    icon: 'error',
+    Swal.fire({
+        icon: 'error',
     position: 'top-end',
     title: '<?= $this->session->flashdata('gagal') ?>',
     showConfirmButton: false,
@@ -154,3 +98,40 @@ Swal.fire({
 </script>
 <?php
     endif ?>
+<script>
+    $.ajax({
+        dataType:"json",
+        url:'<?= base_url("track/masuk_track/get_masuk");?>',
+        success:function(isi){
+            document.getElementById("loading").hidden=true;
+            document.getElementById("masuk").hidden=false;
+            document.getElementById("toolbarr").hidden=false;
+            $("table").DataTable({
+                destroy:true,
+                data:isi,
+                columns:[
+                    {title:"No",data:"no"},
+                    {title:"Tgl Form",data:"tglform"},
+                    {title:"No. Form",data:"noform"},
+                    {title:"Kode Barang",data:"kode"},
+                    {title:"Nama Barang",data:"nama"},
+                    {title:"No. Batch",data:"nobatch"},
+                    {title:"No. Pallet",data:"nopallet"},
+                    {title:"Status",data:"statpallet"},
+                    {title:"sat1",data:"sat1"},
+                    {title:"sat2",data:"sat2"},
+                    {title:"sat3",data:"sat3"},
+                    {title:"Tgl Input",data:"tanggal"},
+                    {title:"Oleh",data:"adm"},
+                    {title:"Catatan",data:"cat"},
+                    {title:"Expired Date",data:"exp"},
+                    {title:"Aksi",data:"aksi"},
+                ],
+                dom: 'lBfrtip',
+                buttons: [
+                    'copy','excel','pdf','print'
+                ],
+            });
+        },
+    })
+</script>

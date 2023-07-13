@@ -28,6 +28,32 @@ class Keluar extends CI_Controller
         $this->load->view("keluar/keluar", $data);
     }
 
+    public function getkeluar(){
+        $get = $this->keluar_model->tampil_barang_keluar();
+        $no=1;
+        foreach($get as $get){
+            $sats1  = floor($get->keluar / ($get->max1 * $get->max2));
+            $sisa   = $get->keluar - ($sats1 * $get->max1 * $get->max2);
+            $sats2  = floor($sisa / $get->max2);
+            $sats3  = $sisa - $sats2 * $get->max2;
+            $data[] =array(
+                "no"=>$no++,
+                "tglform"=>date("d-m-Y", strtotime($get->tanggalform)),
+                "noform"=>$get->noform,
+                "nosppb"=>$get->nobatch,
+                "kode"=>$get->kode,
+                "nama"=>$get->nama,
+                "sat1"=>$sats1.' '.$get->sat1,
+                "sat2"=>$sats2.' '.$get->sat2,
+                "sat3"=>$sats3.' '.$get->sat3,
+                "tanggal"=>$get->tanggal,
+                "penginput"=>$get->username,
+                "aksi"=>'<a class="btn btn-sm btn-primary" href="'. base_url("keluar/edit_keluar/" . $get->no) .'"><i class="fa fa-edit"></i> Edit</a><a onclick="hapus(`'.$get->no.'`,`'.$get->noform.'`,`'.$get->nobatch.'`,`'.$get->kode.'`,`'. $sats1.'`,`'. $sats2.'`,`'. $sats3.'`,`'. $get->sat1.'`,`'. $get->sat2.'`,`'. $get->sat3.'`)" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hapus_modal"><i class="fa fa-trash"></i> Hapus</a>'
+            );
+        }
+        echo json_encode($data);
+    }
+
     public function input_keluar()
     {
         $data['masuk'] = $this->keluar_model->riwayat_all();

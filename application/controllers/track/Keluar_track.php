@@ -26,6 +26,35 @@ class Keluar_track extends CI_Controller
         $this->load->view("track/keluar/keluar_track", $data);
 
     }
+
+    public function getkeluar(){
+        $get = $this->keluar_track_model->tampil_keluar_track();
+        $no=1;
+        foreach($get as $m){
+            $sats1  = floor($m->keluar / ($m->max1 * $m->max2));
+            $sisa   = $m->keluar - ($sats1 * $m->max1 * $m->max2);
+            $sats2  = floor($sisa / $m->max2);
+            $sats3  = $sisa - $sats2 * $m->max2;
+            $data[]=array(
+                "no"=>$no++,
+                "tglform"=>date("d-m-Y", strtotime($m->tanggalform)),
+                "noform"=>$m->noform,
+                "kode"=>$m->kode,
+                "nama"=>$m->nama,
+                "nobatch"=>$m->nobatch,
+                "nopallet"=>$m->nopallet,
+                "status"=>$m->statpallet,
+                "sat1"=>$sats1.' '.$m->sat1,
+                "sat2"=>$sats2.' '.$m->sat2,
+                "sat3"=>$sats3.' '.$m->sat3,
+                "tanggal"=>$m->tanggal,
+                "adm"=>$m->username,
+                "cat"=>$m->cat,
+                "aksi"=>'<a class="btn btn-sm btn-primary mb-2" href="'. base_url("track/keluar_track/edit_keluar_track/" . $m->no) .'"><i class="fa fa-edit"></i> Edit</a><br><a class="btn btn-sm btn-danger" onclick="konfirmasi(`'. $m->no .'`)"><i class="fa fa-trash"></i> Hapus</a>'
+            );
+        }
+        echo json_encode($data);
+    }
     public function input_keluar_track()
     {
         $data['master'] = $this->keluar_track_model->detsal();

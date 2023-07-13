@@ -1,4 +1,10 @@
 <?php
+/** 
+* @property session $session
+* @property db $db
+* @property saldo_model $saldo_model
+* @property input $input
+*/
 class saldo_track extends CI_Controller
 {
     public function __construct()

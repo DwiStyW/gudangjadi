@@ -139,7 +139,6 @@ ini_set('date.timezone', 'Asia/Jakarta');
     </div>
 </div>
 </div>
-<"row justify-content-between"<l><"row"<B><f>>>t<"row justify-content-between"ip>
 <!-- </div> -->
 <!-- Data table area End-->
 
