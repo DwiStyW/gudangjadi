@@ -91,6 +91,19 @@ $this->load->view("masuk/modal_hapus");
                     'copy','excel','pdf','print'
                 ],
             })
+        },
+        error: function (xhr, textStatus, exceptionThrown) {
+            document.getElementById("loading").hidden=true
+            document.getElementById("masuk").hidden=false
+            document.getElementById("toolbarr").hidden=false
+            $("#masuk").DataTable({
+                data:[
+                    {data:"Data Tidak ditemukan!"}
+                ],
+                columns:[
+                    {title:"Tabel",data:"data"},
+                ],
+            })
         }
     })
 

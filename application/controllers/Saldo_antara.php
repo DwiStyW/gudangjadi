@@ -3,9 +3,6 @@
  * @property  session $session
  * @property  input $input
  * @property  db $db
- * @property  uri $uri
- * @property  pagination $pagination
- * @property  Saldo_model_A $Saldo_model_A
  */
 class Saldo_antara extends CI_Controller{
     public function __construct()
@@ -19,36 +16,55 @@ class Saldo_antara extends CI_Controller{
         }
     }
 
-    public function index()
+    public function in()
     {
-        $this->load->library('pagination');
-        //untuk search
-        $keyword=$this->input->post('keyword');
-        if(isset($keyword)){
-            $data['keyword']=$this->input->post('keyword');
-            $this->session->set_userdata('keyword_saldo_A',$data['keyword']);
-        }else{
-            $data['keyword']=$this->session->userdata('keyword_saldo_A');
-        }
+        $this->load->view("track/saldo_antara");
+    }
+    public function out()
+    {
+        $this->load->view("track/saldo_out");
+    }
 
-        //untuk pagination
-        $this->load->model('Saldo_model_A');
-        $config['base_url'] = 'http://localhost/gudangtrial/saldo_antara/index';
-        $config['total_rows'] = $this->Saldo_model_A->total_saldo_A($data['keyword']);
-        $range = $this->input->post('range');
-        $config['per_page'] = $range;
-        if ($range == null) {
-            $config['per_page'] = 10;
-        } elseif ($range == "all") {
-            $config['per_page'] = null;
+    public function getdetailsalin(){
+        $get=$this->db->Select("*")->from('detailsalqty')->where("ket","IN")->join("master","master.kode=detailsalqty.kode") ->order_by('detailsalqty.id', 'DESC')->get()->result();
+        $no=1;
+        foreach($get as $s){
+            $sats1  = floor($s->qty / ($s->max1 * $s->max2));
+            $sisa   = $s->qty - ($sats1 * $s->max1 * $s->max2);
+            $sats2  = floor($sisa / $s->max2);
+            $sats3  = $sisa - $sats2 * $s->max2;
+            $data[]=array(
+                "no"=> $no++,
+                "nobatch"=>$s->nobatch,
+                "kode"=>$s->kode,
+                "nama"=>$s->nama,
+                "sat1"=>$sats1.' '.$s->sat1,
+                "sat2"=>$sats2.' '.$s->sat2,
+                "sat3"=>$sats3.' '.$s->sat3,
+                "ket"=>$s->ket,
+            );
         }
-        $this->pagination->initialize($config);
-
-        $data['start'] = $this->uri->segment(3);
-        $data['saldo'] = $this->Saldo_model_A->tampil_saldo_A($config['per_page'], $data['start'], $data['keyword']);
-        $this->load->view("_partials/header");
-        $this->load->view("_partials/menu");
-        $this->load->view("track/saldo_antara", $data);
-        $this->load->view("_partials/footer");
+        echo json_encode($data);
+    }
+    public function getdetailsalout(){
+        $get=$this->db->Select("*")->from('detailsalqty')->where("ket","OUT")->join("master","master.kode=detailsalqty.kode") ->order_by('detailsalqty.id', 'DESC')->get()->result();
+        $no=1;
+        foreach($get as $s){
+            $sats1  = floor($s->qty / ($s->max1 * $s->max2));
+            $sisa   = $s->qty - ($sats1 * $s->max1 * $s->max2);
+            $sats2  = floor($sisa / $s->max2);
+            $sats3  = $sisa - $sats2 * $s->max2;
+            $data[]=array(
+                "no"=> $no++,
+                "noform"=>$s->noform,
+                "kode"=>$s->kode,
+                "nama"=>$s->nama,
+                "sat1"=>$sats1.' '.$s->sat1,
+                "sat2"=>$sats2.' '.$s->sat2,
+                "sat3"=>$sats3.' '.$s->sat3,
+                "ket"=>$s->ket,
+            );
+        }
+        echo json_encode($data);
     }
 }

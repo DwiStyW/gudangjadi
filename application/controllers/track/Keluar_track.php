@@ -22,8 +22,7 @@ class Keluar_track extends CI_Controller
 
     public function index()
     {
-        $data['keluar'] = $this->keluar_track_model->tampil_keluar_track();
-        $this->load->view("track/keluar/keluar_track", $data);
+        $this->load->view("track/keluar/keluar_track");
 
     }
 
@@ -105,12 +104,6 @@ class Keluar_track extends CI_Controller
         $quty = $qu->qty;
     }
 
-    //get permintaan keluar
-    $sppb = $this->db->where('kode', $kode)->where('noform', $noform)->where('ket', 'OUT')->get('detailsalqty');
-    foreach ($sppb->result() as $s) {
-        $permintaan = $s->qty;
-    }
-
     // get status pallet
     $pallet = $this->db->query("SELECT * FROM pallet where kdpallet='$nopallet'");
     foreach ($pallet->result() as $p):
@@ -139,148 +132,19 @@ class Keluar_track extends CI_Controller
     } else {
         $statusr = 'OUT';
     }
-    $data = array(
-        'tglform' => $tglform,
-        'noform' => $noform,
-        'kode' => $kode,
-        'nobatch' => $nobatch,
-        'nopallet' => $nopallet,
-        'statpallet' => $statusr,
-        'masuk' => '',
-        'keluar' => $jumlah,
-        'saldo' => $saldo_track,
-        'tanggal' => date("Y-m-d H:i:s"),
-        'ket' => 'output',
-        'adm' => $adm,
-        'cat' => $cat,
-    );
-
-    // untuk master
-    $data1 = array(
-        'tglform' => $tglform,
-        'tgl_update' => date("Y-m-d H:i:s"),
-        'saldo_track' => $saldo_track,
-    );
-    $where = array('kode' => $kode);
-
-    // untuk pallet
-    if ($hitung > 0) {
-        $data2 = array(
-            'status' => 'isi',
-            'qty' => $qty - $jumlah,
-        );
-    } else {
-        $data2 = array(
-            'status' => 'kosong',
-            'qty' => $qty - $jumlah,
-        );
+    //detailsalqty
+    $detailsalqty = $this->db->where('kode', $kode)->where('noform', $noform)->where('ket', 'OUT')->get('detailsalqty');
+    foreach($detailsalqty as $dsq){
+        $qtybelumkeluar = $dsq->qty;
+        
     }
-    $where1 = array('kdpallet' => $nopallet);
 
-    //untuk utilisasi
-    $total = $this->db->query("SELECT sum(palletin) as totin, sum(palletout) as totout FROM utilisasi");
-    foreach ($total->result() as $t) {
-        $masuk = $t->totin;
-        $keluar = $t->totout;
-    }
-    $pemakaian_pallet = $masuk - $keluar;
-    $query = $this->db->order_by('no', 'DESC')->limit(1)->get('utilisasi');
-    $pallet = $this->db->get('pallet');
-    foreach ($query->result() as $que) {
-        $out = $que->palletout;
-        $in = $que->palletin;
-        $tgl = $que->tgl;
-    }
-    $jum = $permintaan - $jumlah;
-    $hitung_pallet = $isi_pallet - $jumlah;
-    if($tgl != date("Y-m-d")) {
-        $in = 0;
-        $out= 0;
-    }
-    if ($hitung_pallet > 0) {
-        $data3 = array(
-            'tgl' => date("Y-m-d"),
-            'palletin' => $in,
-            'palletout' => $out,
-            'utilisasi' => ($masuk - $keluar) / $pallet->num_rows() * 100,
-        );
-    } else {
-        $data3 = array(
-            'tgl' => date("Y-m-d"),
-            'palletin' => $in,
-            'palletout' => $out + 1,
-            'utilisasi' => ($masuk - $keluar - 1) / $pallet->num_rows() * 100,
-        );
-    }
-    $where2 = array('tgl' => date("Y-m-d"));
-
-    // untuk detailsal
-    $data4 = array(
-        'qty' => $quty - $jumlah,
-    );
-    $where3 = array(
-        'kode' => $kode,
-        'nobatch' => $nobatch,
-        'nopallet' => $nopallet,
-    );
-
-    //untuk detailsalqty
-    $data5 = array('qty' => $permintaan - $jumlah);
-    $where4 = array(
-        'kode' => $kode,
-        'noform' => $noform,
-        'ket' => 'OUT'
-    );
-
-    $cek = $this->db->where("noform",$noform)->where('tglform', $tglform)->where('kode', $kode)->where('nobatch', $nobatch)->where('nopallet', $nopallet)->where('keluar', $jumlah)->get('riwayattrack');
-    if($cek->num_rows()>0) {
-        $this->session->set_flashdata('gagal', 'Data telah di input sebelumnya!');
-    } else {
-
-    if ($jumlah <= $saldo) {
-        if ($quty < 0) {
-            $this->session->set_flashdata('gagal', 'Tidak ada barang dalam pallet!');
+        if ($this->db->trans_status() === false) {
+            $this->session->set_flashdata('gagal', 'gagal diedit!');
         } else {
-            if ($jumlah > $isi_pallet) {
-                $this->session->set_flashdata('gagal', 'Barang di pallet tidak mencukupi!');
-            } else {
-                if ($jumlah > $permintaan) {
-                    $this->session->set_flashdata('gagal', 'Jumlah inputan anda melebihi permintaan!');
-                } else {
-                    $this->db->trans_start();
-                    if ($jum > 0) {
-                        $this->keluar_track_model->update($where4, $data5, 'detailsalqty');
-                    } else {
-                        $this->keluar_track_model->hapus($where4, 'detailsalqty');
-                    }
-                    $this->keluar_track_model->tambah($data, 'riwayattrack');
-                    $this->keluar_track_model->update($where, $data1, 'master');
-                    $this->keluar_track_model->update($where1, $data2, 'pallet');
-                    if ($quty - $jumlah > 0) {
-                        $this->keluar_track_model->update($where3, $data4, 'detailsal');
-                    } else {
-                        $this->keluar_track_model->hapus($where3, 'detailsal');
-                    }
-                    // if ($tgl == date("Y-m-d")) {
-                    //     $this->keluar_track_model->update($where2, $data3, 'utilisasi');
-                    // } else {
-                    //     $this->keluar_track_model->tambah($data3, 'utilisasi');
-                    // }
-                    $this->db->trans_complete();
-
-                    if ($this->db->trans_status() === false) {
-                        $this->session->set_flashdata('gagal', 'Input error!');
-                    } else {
-                        $this->session->set_flashdata('sukses', 'Input success!');
-                    }
-                }
-            }
+            $this->session->set_flashdata('sukses', 'berhasil diedit!');
         }
-        } else {
-            $this->session->set_flashdata('gagal', 'Saldo tidak mencukupi!');
-        }
-    }
-        redirect('track/keluar_track/input_keluar_track');
+    redirect('track/keluar_track/input_keluar_track');
 }
 
     public function hapus($no)

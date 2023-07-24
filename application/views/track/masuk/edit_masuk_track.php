@@ -73,7 +73,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">No Batch</label>
                                                     </div>
                                                     <div class="col-lg-5">
-                                                        <input readonly type="text" class="form-control" value="<?= $mter->nobatch?>">
+                                                        <input readonly type="text" class="form-control" name="nobatch" value="<?= $mter->nobatch?>">
                                                         <!-- <select id="batch" onchange="getqty()" class="form-control"  name="nobatch" type="select" required>
                                                             <?php  $detailsalqty = $this->db->where('kode',$mter->kode)->where('nobatch',$mter->nobatch)->get('detailsalqty');?>
                                                             <option hidden selected value="<?= $mter->nobatch ?>"><?= $mter->nobatch ?></option>

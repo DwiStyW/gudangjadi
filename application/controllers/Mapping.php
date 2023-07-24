@@ -41,16 +41,21 @@ class Mapping extends CI_Controller
         echo json_encode($data);
     }
     public function status(){
-        $this->db->query("UPDATE pallet SET status = 'kosong'");
-        $this->db->query("UPDATE pallet SET qty = 0");
-        $detailsal = $this->db->query("SELECT nopallet,sum(qty) as qty FROM `detailsal` GROUP BY nopallet");
-        foreach($detailsal->result() as $detsal){
-            $nopallet = $detsal->nopallet;
-            $qty = $detsal->qty;
-            $this->db->query('UPDATE pallet SET qty = "'.$qty.'" WHERE kdpallet = "'.$nopallet.'"');
-            $this->db->query('UPDATE pallet SET status = "isi" WHERE kdpallet = "'.$nopallet.'"');
-            // echo "<table><tr><td>". $i++ ."</td><td>".$nopallet."</td><td>".$qty."</td></tr></table>";
-        }
-    redirect('mapping');
+    //     $this->db->query("UPDATE pallet SET status = 'kosong'");
+    //     $this->db->query("UPDATE pallet SET qty = 0");
+    //     $detailsal = $this->db->query("SELECT nopallet,sum(qty) as qty FROM `detailsal` GROUP BY nopallet");
+    //     foreach($detailsal->result() as $detsal){
+    //         $nopallet = $detsal->nopallet;
+    //         $qty = $detsal->qty;
+    //         $this->db->query('UPDATE pallet SET qty = "'.$qty.'" WHERE kdpallet = "'.$nopallet.'"');
+    //         $this->db->query('UPDATE pallet SET status = "isi" WHERE kdpallet = "'.$nopallet.'"');
+    //         // echo "<table><tr><td>". $i++ ."</td><td>".$nopallet."</td><td>".$qty."</td></tr></table>";
+    //     }
+    // redirect('mapping');
+    error_reporting(0);
+        $this->load->view("_partials/header");
+        $this->load->view("_partials/menu");
+        $this->load->view("mapping");
+        $this->load->view("_partials/footer");
     }
 }

@@ -112,7 +112,7 @@
                 columns:[
                     {title:"No",data:"no"},
                     {title:"Tgl Form",data:"tglform"},
-                    {title:"No. Form",data:"noform"},
+                    // {title:"No. Form",data:"noform"},
                     {title:"Kode Barang",data:"kode"},
                     {title:"Nama Barang",data:"nama"},
                     {title:"No. Batch",data:"nobatch"},
@@ -124,7 +124,7 @@
                     {title:"Tgl Input",data:"tanggal"},
                     {title:"Oleh",data:"adm"},
                     {title:"Catatan",data:"cat"},
-                    {title:"Expired Date",data:"exp"},
+                    // {title:"Expired Date",data:"exp"},
                     {title:"Aksi",data:"aksi"},
                 ],
                 dom: 'lBfrtip',
@@ -133,5 +133,18 @@
                 ],
             });
         },
+        error: function (xhr, textStatus, exceptionThrown) {
+            document.getElementById("loading").hidden=true
+            document.getElementById("masuk").hidden=false
+            document.getElementById("toolbarr").hidden=false
+            $("table").DataTable({
+                data:[
+                    {data:"Data Tidak ditemukan!"}
+                ],
+                columns:[
+                    {title:"Tabel",data:"data"},
+                ],
+            })
+        }
     })
 </script>

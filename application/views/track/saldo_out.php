@@ -10,7 +10,7 @@
             <div class="shadow mb-4">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
                     <div class="main-sparkline8-hd justify-content-between" style="display:flex; flex:wrap;padding-top:20px;padding-bottom:20px;padding-left:20px;">
-                        <h1>Detail produk jadi belum terpallet<h1>
+                        <h1>Detail produk jadi belum di keluarkan<h1>
                     </div>
                 </div>
                 <div style="background-color:#fff">
@@ -54,7 +54,7 @@ function go() {
 <script>
     $.ajax({
         dataType:"json",
-        url:'<?= base_url("saldo_antara/getdetailsalin")?>',
+        url:'<?= base_url("saldo_antara/getdetailsalout")?>',
         success:function(isi){
             document.getElementById("loading").hidden=true
             document.getElementById("table").hidden=false
@@ -63,7 +63,7 @@ function go() {
                 data:isi,
                 columns:[
                     {title:"No",data:"no"},
-                    {title:"No. Batch",data:"nobatch"},
+                    {title:"No. Form",data:"noform"},
                     {title:"Kode Produk",data:"kode"},
                     {title:"Nama Produk",data:"nama"},
                     {title:"Satuan 1",data:"sat1"},

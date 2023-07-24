@@ -182,7 +182,8 @@
                     <div class="dropdown">
                         <button class="dropbtn">Saldo <i class="fa fa-chevron-down fa-xs"></i></button>
                         <div class="dropdown-content">
-                            <a href="<?= base_url("saldo_antara") ?>">Produk Belum di Pallet</a>
+                            <a href="<?= base_url("saldo_antara/in") ?>">Produk Belum di Pallet</a>
+                            <a href="<?= base_url("saldo_antara/out") ?>">Produk Belum di keluarkan</a>
                             <a href="<?= base_url("track/saldo_track") ?>">Detail Saldo</a>
                             <a href="<?= base_url("mapping/status") ?>">Layout Maping</a>
                             <a href="<?= base_url("mapping2") ?>">
