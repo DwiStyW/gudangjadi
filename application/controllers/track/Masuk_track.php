@@ -25,20 +25,12 @@ class Masuk_track extends CI_Controller
     }
 
     public function get_masuk(){
-        $get = $this->masuk_track_model->tampil_masuk_track();
+        $get = $this->db->Select("*,riwayattrack.tglform as tanggalform")
+        ->from('riwayattrack,master,tb_user')
+        ->where("master.kode=riwayattrack.kode AND riwayattrack.keluar=0 AND riwayattrack.adm=tb_user.user_id")
+        ->order_by('riwayattrack.no', 'DESC')->get()->result();
         $no=1;
         foreach($get as $m){
-            $batch = $m->nobatch;
-            $tahun = strrev(substr(substr($batch, -6), 0, 2));
-            $bulan = substr(substr($batch, -6), 2, 2);
-            $gabung = $bulan . '/01/' . (2000 + $tahun);
-            $tglprod = date("Y-m-d", strtotime($gabung));
-            $bulan1 =  $m->expdate;
-            $tglexp = date("Y-m-d", strtotime('+' . $bulan1 . ' month', strtotime($tglprod)));
-
-            $awal  = date_create($tglexp);
-            $akhir = date_create(); // waktu sekarang
-            $diff  = date_diff($akhir, $awal);
 
             $sats1  = floor($m->masuk / ($m->max1 * $m->max2));
             $sisa   = $m->masuk - ($sats1 * $m->max1 * $m->max2);
@@ -60,7 +52,6 @@ class Masuk_track extends CI_Controller
                 "tanggal"=>$m->tanggal,
                 "adm"=>$m->username,
                 "cat"=>$m->cat,
-                "exp"=>$diff->y . ' tahun ' . $diff->m . ' bulan ',
                 "aksi"=> '<a class="btn btn-sm btn-primary" href="'. base_url("track/masuk_track/edit_masuk_track/" . $m->no) .'"> <i class="fa fa-edit"></i> Edit</button> <a class="btn btn-sm btn-danger" onclick="konfirmasi(`'.$m->no.'`)"><i class="fa fa-trash"></i> Hapus</a>'
             );
         }
@@ -326,7 +317,7 @@ class Masuk_track extends CI_Controller
             $saldo_track=$mt->saldo_track;
         }
         $detailsal = $this->db->where('nobatch',$nobatchlama)->where('nopallet',$nopalletlama)->where('kode',$kodelama)->get('detailsal');
-        if($detailsal->num_rows()<1){
+        if($detailsal->num_rows()<0){
             $this->session->set_flashdata('gagal','Saldo Minus!');
         }else{
                 //konversi 3 satuan
@@ -359,13 +350,13 @@ class Masuk_track extends CI_Controller
                         );
                         }
                     }else{
-                        $qtybelumdipallet = $qtyrt-$jumlah;
+                        $qtybelumdipallet = $qtyrt;
                         $tambahdsq=array(
                             "kode"=>$kodelama,
                             "tglform"=>$tglform,
                             "nobatch"=>$nobatchlama,
                             "noform"=>"",
-                            "qty"=>$qtybelumdipallet,
+                            "qty"=>$qtybelumdipallet-$jumlah,
                             "ket"=>"IN"
                         );
                     }
@@ -390,18 +381,8 @@ class Masuk_track extends CI_Controller
                     if ($nopallet==$nopalletlama) {
                         //riwayattrack
                         $datart=array(
-                            'kode'=>$kodelama,
-                            'noform'=>$noform,
-                            'nobatch'=>$nobatchlama,
-                            'tglform'=>$tglform,
-                            'tanggal'=>date("Y-m-d H:i:s"),
                             'masuk'=>$jumlah,
-                            'keluar'=>0,
-                            'cat' => $cat,
-                            'adm' => $adm,
-                            'saldo'=>0,
-                            'statpallet'=>$status,
-                            'nopallet'=>$nopallet,
+                            'nopallet'=>$nopalletlama,
                             'ket' => 'revisiIN'
                         );
                         $wherert=array('no'=>$no);
@@ -421,20 +402,9 @@ class Masuk_track extends CI_Controller
                             "status"=>"isi"
                         );
                         $wherepallet=array("kdpallet"=>$nopalletlama);
-
                     }else{
                         $datart=array(
-                            'kode'=>$kodelama,
-                            'noform'=>$noform,
-                            'nobatch'=>$nobatchlama,
-                            'tglform'=>$tglform,
-                            'tanggal'=>date("Y-m-d H:i:s"),
                             'masuk'=>$jumlah,
-                            'keluar'=>0,
-                            'cat' => $cat,
-                            'adm' => $adm,
-                            'saldo'=>0,
-                            'statpallet'=>$status,
                             'nopallet'=>$nopallet,
                             'ket' => 'revisiIN'
                         );
@@ -461,8 +431,8 @@ class Masuk_track extends CI_Controller
                         );
                         $wherepalletbaru=array("kdpallet"=>$nopallet);
                     }
-                    
-                    $this->db->trans_start();
+
+                    // $this->db->trans_start();
                     if($qtybelumdipallet-$jumlah>=0) {
                         if($detailsalqty->num_rows()>0) {
                             $this->db->where($wherert)->update("riwayattrack", $datart);
