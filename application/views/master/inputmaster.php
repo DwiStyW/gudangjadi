@@ -67,7 +67,7 @@
                                                                 1</label>
                                                         </div>
                                                         <div class="col-lg-9">
-                                                            <input name="max1" type="text" class="form-control" placeholder="masukkan isi satuan 1" id="max1" />
+                                                            <input name="max1" type="number" class="form-control" placeholder="masukkan isi satuan 1" id="max1" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -89,7 +89,7 @@
                                                                 2</label>
                                                         </div>
                                                         <div class="col-lg-9">
-                                                            <input name="max2" type="text" class="form-control" placeholder="masukkan isi satuan 2" id="max2" />
+                                                            <input name="max2" type="number" class="form-control" placeholder="masukkan isi satuan 2" id="max2" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -142,10 +142,10 @@
                                                  <div class="form-group-inner">
                                                     <div class="row">
                                                         <div class="col-lg-3">
-                                                            <label class="login2 pull-right pull-right-pro">ExpDate</label>
+                                                            <label class="login2 pull-right pull-right-pro">ExpDate(Bulan)</label>
                                                         </div>
                                                         <div class="col-lg-9">
-                                                            <input name="expdate" type="text" class="form-control" placeholder="masukkan expdate" id="expdate" />
+                                                            <input name="expdate" type="text" class="form-control" placeholder="masukkan expdate (Bulan)" id="expdate" />
                                                         </div>
                                                     </div>
                                                 </div>

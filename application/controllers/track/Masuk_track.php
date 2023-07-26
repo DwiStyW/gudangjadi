@@ -387,8 +387,16 @@ class Masuk_track extends CI_Controller
                         );
                         $wherert=array('no'=>$no);
                         //detailsal
+                        $detailsallama=$this->db->where("nobatch",$nobatchlama)->where("nopallet",$nopalletlama)->where("kode",$kodelama)->get("detailsal");
+                        if($detailsallama->num_rows()>0){
+                            foreach($detailsallama->result() as $dsb){
+                                $qtyl = array($dsb->qty);
+                            }
+                        }else{
+                            $qtyl=0;
+                        }
                         $datads=array(
-                            "qty"=>$jumlah
+                            "qty"=>$qtyl-$qtyrt+$jumlah
                         );
                         $whereds=array(
                             "kode"=>$kodelama,
@@ -410,60 +418,134 @@ class Masuk_track extends CI_Controller
                         );
                         $wherert=array('no'=>$no);
 
-                        $datads=array(
-                            "nopallet"=>$nopallet,
-                            "qty"=>$jumlah
-                        );
+                        $detailsalbaru=$this->db->where("nobatch",$nobatchlama)->where("nopallet",$nopallet)->where("kode",$kodelama)->get("detailsal");
+                        if($detailsalbaru->num_rows()>0){
+                            foreach($detailsalbaru->result() as $dsb){
+                                $qty = array($dsb->qty);
+                            }
+                            $datads=array(
+                                "nopallet"=>$nopallet,
+                                "qty"=>$qty[0]+$jumlah,
+                            );
+                        }else{
+                            $tambahdatads=array(
+                                "tgl"=>date("Y-m-d H:i:s"),
+                                "kode"=>$kodelama,
+                                "nobatch"=>$nobatchlama,
+                                "nopallet"=>$nopallet,
+                                "qty"=>$jumlah,
+                            );
+                        }
+                        $detailsallama=$this->db->where("nobatch",$nobatchlama)->where("nopallet",$nopalletlama)->where("kode",$kodelama)->get("detailsal");
+                        if($detailsallama->num_rows()>0){
+                            foreach($detailsallama->result() as $dsb){
+                                $qtyl = array($dsb->qty);
+                            }
+                        }else{
+                            $qtyl=0;
+                        }
+
                         $whereds=array(
+                            "kode"=>$kodelama,
+                            "nobatch"=>$nobatchlama,
+                            "nopallet"=>$nopallet,
+                        );
+                        $datads1=array(
+                            "nopallet"=>$nopalletlama,
+                            "qty"=>$qtyl[0]-$qtyrt,
+                        );
+                        $wheredsl=array(
                             "kode"=>$kodelama,
                             "nobatch"=>$nobatchlama,
                             "nopallet"=>$nopalletlama,
                         );
 
+                        $palletbaru = $this->db->where("kdpallet",$nopallet)->get("pallet")->result();
+                        foreach($palletbaru as $pb){
+                            $qtypb = $pb->qty;
+                        }
+                        $palletlama = $this->db->where("kdpallet",$nopalletlama)->get("pallet")->result();
+                        foreach($palletlama as $pl){
+                            $qtypl = $pl->qty;
+                        }
+
+                        if($qtypb[0]+$jumlah==0){
+                            $statusb="kosong";
+                        }else{
+                            $statusb="isi";
+                        }
+                        if($qtypl[0]-$qtyrt==0){
+                            $statusl="kosong";
+                        }else{
+                            $statusl="isi";
+                        }
+
                         $datapalletlama=array(
-                            "qty"=>0,
-                            "status"=>"kosong"
+                            "qty"=>$qtypl-$qtyrt,
+                            "status"=>$statusl
                         );
                         $wherepalletlama=array("kdpallet"=>$nopalletlama);
                         $datapalletbaru=array(
-                            "qty"=>$jumlah,
-                            "status"=>"isi"
+                            "qty"=>$qtypb+$jumlah,
+                            "status"=>$statusb,
                         );
                         $wherepalletbaru=array("kdpallet"=>$nopallet);
                     }
 
-                    // $this->db->trans_start();
+                    $this->db->trans_start();
                     if($qtybelumdipallet-$jumlah>=0) {
+
+                        //update riwayattrack baru
+                        $this->db->where($wherert)->update("riwayattrack", $datart);
+                        
+                        //kondisi jika detailsalqty tidak ada
                         if($detailsalqty->num_rows()>0) {
-                            $this->db->where($wherert)->update("riwayattrack", $datart);
                             $this->db->where($wheredsq)->update("detailsalqty", $datadsq);
-                            $this->db->where($whereds)->update("detailsal",$datads);
-                            if($nopallet==$nopalletlama){
-                                $this->db->where($wherepallet)->update("pallet",$datapallet);
-                            }else{
-                                $this->db->where($wherepalletlama)->update("pallet",$datapalletlama);
-                                $this->db->where($wherepalletbaru)->update("pallet",$datapalletbaru);
-                            }
                         } else {
-                            $this->db->where($wherert)->update("riwayattrack", $datart);
                             $this->db->insert("detailsalqty",$tambahdsq);
-                            $this->db->where($whereds)->update("detailsal",$datads);
-                            if($nopallet==$nopalletlama){
-                                $this->db->where($wherepallet)->update("pallet",$datapallet);
-                            }else{
-                                $this->db->where($wherepalletlama)->update("pallet",$datapalletlama);
-                                $this->db->where($wherepalletbaru)->update("pallet",$datapalletbaru);
-                            }
                         }
+                        
+                        
+                        //Kondisi perpindahan pallet
+                        if($nopallet==$nopalletlama){
+                            $this->db->where($wherepallet)->update("pallet",$datapallet);
+                            //update detailsal baru
+                            $this->db->where($whereds)->update("detailsal",$datads);
+                        }else{
+                            //kondisi pallet baru
+                            if($detailsalbaru->num_rows()>0){
+                                //update detailsal baru
+                                $this->db->where($whereds)->update("detailsal",$datads);
+                            }else{
+                                //tambah detailsal baru
+                                $this->db->insert("detailsal",$tambahdatads);
+                            }
+                            //keadaan pallet lama
+                            $this->db->where($wheredsl)->update("detailsal",$datads1);
+
+                            $this->db->where($wherepalletlama)->update("pallet",$datapalletlama);
+                            $this->db->where($wherepalletbaru)->update("pallet",$datapalletbaru);
+                        }
+
+                        //hapus detailsalqty jika qty = 0
                         $this->db->where("qty",0)->delete("detailsalqty");
+
+                        //update saldo_track master
                         $this->db->where($wheremaster)->update("master",$datamaster);
+
+                        //hapus deailsal jika qty = 0
                         $this->db->where("qty",0)->delete("detailsal");
+
+                        //untuk hapus riwayattrack jika masuk dan keluar = 0
                         $this->db->where("masuk",0)->where("keluar",0)->delete("riwayattrack");
+
+                        //untuk status pallet
                         $this->db->where("status","isi")->where("qty",0)->update("pallet",array("status"=>"kosong"));
                         $this->db->where("status","kosong")->where("qty > 0")->update("pallet",array("status"=>"kosong"));
                     }
                     $this->db->trans_complete();
 
+                    //untuk pesan alert
                     if($this->db->trans_status() === false){
                         $this->session->set_flashdata('gagal','Gagal di edit!');
                     }else{
@@ -471,6 +553,7 @@ class Masuk_track extends CI_Controller
                     }
                 }
         }
+        // echo json_encode($datapalletlama);
         redirect('track/masuk_track');
     }
 
