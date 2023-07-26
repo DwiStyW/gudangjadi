@@ -491,65 +491,69 @@ class Masuk_track extends CI_Controller
                         );
                         $wherepalletbaru=array("kdpallet"=>$nopallet);
                     }
-
-                    $this->db->trans_start();
-                    if($qtybelumdipallet-$jumlah>=0) {
-
-                        //update riwayattrack baru
-                        $this->db->where($wherert)->update("riwayattrack", $datart);
-                        
-                        //kondisi jika detailsalqty tidak ada
-                        if($detailsalqty->num_rows()>0) {
-                            $this->db->where($wheredsq)->update("detailsalqty", $datadsq);
-                        } else {
-                            $this->db->insert("detailsalqty",$tambahdsq);
-                        }
-                        
-                        
-                        //Kondisi perpindahan pallet
-                        if($nopallet==$nopalletlama){
-                            $this->db->where($wherepallet)->update("pallet",$datapallet);
-                            //update detailsal baru
-                            $this->db->where($whereds)->update("detailsal",$datads);
-                        }else{
-                            //kondisi pallet baru
-                            if($detailsalbaru->num_rows()>0){
-                                //update detailsal baru
-                                $this->db->where($whereds)->update("detailsal",$datads);
-                            }else{
-                                //tambah detailsal baru
-                                $this->db->insert("detailsal",$tambahdatads);
-                            }
-                            //keadaan pallet lama
-                            $this->db->where($wheredsl)->update("detailsal",$datads1);
-
-                            $this->db->where($wherepalletlama)->update("pallet",$datapalletlama);
-                            $this->db->where($wherepalletbaru)->update("pallet",$datapalletbaru);
-                        }
-
-                        //hapus detailsalqty jika qty = 0
-                        $this->db->where("qty",0)->delete("detailsalqty");
-
-                        //update saldo_track master
-                        $this->db->where($wheremaster)->update("master",$datamaster);
-
-                        //hapus deailsal jika qty = 0
-                        $this->db->where("qty",0)->delete("detailsal");
-
-                        //untuk hapus riwayattrack jika masuk dan keluar = 0
-                        $this->db->where("masuk",0)->where("keluar",0)->delete("riwayattrack");
-
-                        //untuk status pallet
-                        $this->db->where("status","isi")->where("qty",0)->update("pallet",array("status"=>"kosong"));
-                        $this->db->where("status","kosong")->where("qty > 0")->update("pallet",array("status"=>"kosong"));
-                    }
-                    $this->db->trans_complete();
-
-                    //untuk pesan alert
-                    if($this->db->trans_status() === false){
-                        $this->session->set_flashdata('gagal','Gagal di edit!');
+                    if($qtyl[0]<$jumlah){
+                        $this->session->set_flashdata("gagal","dipallet ".$nopalletlama." barang ".$kodelama." tersisa: ".$qtyl[0]);
                     }else{
-                        $this->session->set_flashdata('sukses', 'Berhasil di edit!');
+                        if($qtybelumdipallet-$jumlah>=0) {
+                            $this->db->trans_start();
+
+                            //update riwayattrack baru
+                            $this->db->where($wherert)->update("riwayattrack", $datart);
+
+                            //kondisi jika detailsalqty tidak ada
+                            if($detailsalqty->num_rows()>0) {
+                                $this->db->where($wheredsq)->update("detailsalqty", $datadsq);
+                            } else {
+                                $this->db->insert("detailsalqty", $tambahdsq);
+                            }
+
+                            //Kondisi perpindahan pallet
+                            if($nopallet==$nopalletlama) {
+                                $this->db->where($wherepallet)->update("pallet", $datapallet);
+                                //update detailsal baru
+                                $this->db->where($whereds)->update("detailsal", $datads);
+                            } else {
+                                //kondisi pallet baru
+                                if($detailsalbaru->num_rows()>0) {
+                                    //update detailsal baru
+                                    $this->db->where($whereds)->update("detailsal", $datads);
+                                } else {
+                                    //tambah detailsal baru
+                                    $this->db->insert("detailsal", $tambahdatads);
+                                }
+                                //keadaan pallet lama
+                                $this->db->where($wheredsl)->update("detailsal", $datads1);
+
+                                $this->db->where($wherepalletlama)->update("pallet", $datapalletlama);
+                                $this->db->where($wherepalletbaru)->update("pallet", $datapalletbaru);
+                            }
+
+                            //hapus detailsalqty jika qty = 0
+                            $this->db->where("qty", 0)->delete("detailsalqty");
+
+                            //update saldo_track master
+                            $this->db->where($wheremaster)->update("master", $datamaster);
+
+                            //hapus deailsal jika qty = 0
+                            $this->db->where("qty", 0)->delete("detailsal");
+
+                            //untuk hapus riwayattrack jika masuk dan keluar = 0
+                            $this->db->where("masuk", 0)->where("keluar", 0)->delete("riwayattrack");
+
+                            //untuk status pallet
+                            $this->db->where("status", "isi")->where("qty", 0)->update("pallet", array("status"=>"kosong"));
+                            $this->db->where("status", "kosong")->where("qty > 0")->update("pallet", array("status"=>"kosong"));
+                            $this->db->trans_complete();
+                        } else {
+                            $this->session->set_flashdata("gagal", "barang belum dipallet saat ini:" .$qtybelumdipallet);
+                        }
+
+                        //untuk pesan alert
+                        if($this->db->trans_status() === false) {
+                            $this->session->set_flashdata('gagal', 'Gagal di edit!');
+                        } else {
+                            $this->session->set_flashdata('sukses', 'Berhasil di edit!');
+                        }
                     }
                 }
         }
