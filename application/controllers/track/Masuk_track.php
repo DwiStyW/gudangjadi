@@ -392,17 +392,24 @@ class Masuk_track extends CI_Controller
                             foreach($detailsallama->result() as $dsb){
                                 $qtyl = array($dsb->qty);
                             }
+                            $datads=array(
+                                "qty"=>$qtyl[0]-$qtyrt+$jumlah
+                            );
+                            $whereds=array(
+                                "kode"=>$kodelama,
+                                "nobatch"=>$nobatchlama,
+                                "nopallet"=>$nopalletlama,
+                            );
                         }else{
                             $qtyl=0;
+                            $tambahdatads=array(
+                                "tgl"=>date("Y-m-d H:i:s"),
+                                "kode"=>$kodelama,
+                                "nobatch"=>$nobatchlama,
+                                "nopallet"=>$nopallet,
+                                "qty"=>$jumlah,
+                            );
                         }
-                        $datads=array(
-                            "qty"=>$qtyl-$qtyrt+$jumlah
-                        );
-                        $whereds=array(
-                            "kode"=>$kodelama,
-                            "nobatch"=>$nobatchlama,
-                            "nopallet"=>$nopalletlama,
-                        );
 
                         //pallet
                         $datapallet=array(
@@ -417,7 +424,6 @@ class Masuk_track extends CI_Controller
                             'ket' => 'revisiIN'
                         );
                         $wherert=array('no'=>$no);
-
                         $detailsalbaru=$this->db->where("nobatch",$nobatchlama)->where("nopallet",$nopallet)->where("kode",$kodelama)->get("detailsal");
                         if($detailsalbaru->num_rows()>0){
                             foreach($detailsalbaru->result() as $dsb){
@@ -428,12 +434,16 @@ class Masuk_track extends CI_Controller
                                 "qty"=>$qty[0]+$jumlah,
                             );
                         }else{
+                            $keluar=$this->db->where("kode",$kodelama)->where("nobatch",$nobatchlama)->where("nopallet",$nopallet)->where("masuk",0)->get("riwayattrack");
+                            foreach($keluar->result() as $k){
+                                $qtykeluar = $k->keluar;
+                            }
                             $tambahdatads=array(
                                 "tgl"=>date("Y-m-d H:i:s"),
                                 "kode"=>$kodelama,
                                 "nobatch"=>$nobatchlama,
                                 "nopallet"=>$nopallet,
-                                "qty"=>$jumlah,
+                                "qty"=>abs($jumlah-$qtykeluar),
                             );
                         }
                         $detailsallama=$this->db->where("nobatch",$nobatchlama)->where("nopallet",$nopalletlama)->where("kode",$kodelama)->get("detailsal");
@@ -491,8 +501,9 @@ class Masuk_track extends CI_Controller
                         );
                         $wherepalletbaru=array("kdpallet"=>$nopallet);
                     }
-                    if($qtyl[0]<$jumlah){
-                        $this->session->set_flashdata("gagal","dipallet ".$nopalletlama." barang ".$kodelama." tersisa: ".$qtyl[0]);
+                    $keluar=$this->db->where("kode",$kodelama)->where("nobatch",$nobatchlama)->where("nopallet",$nopalletlama)->where("masuk",0)->get("riwayattrack");
+                    if($keluar->num_rows()>0){
+                        $this->session->set_flashdata("gagal","barang ".$kodelama."<br> No. Batch ".$nobatchlama."<br> dipallet ".$nopalletlama ."<br> Pernah dikeluarkan");
                     }else{
                         if($qtybelumdipallet-$jumlah>=0) {
                             $this->db->trans_start();
@@ -542,7 +553,7 @@ class Masuk_track extends CI_Controller
 
                             //untuk status pallet
                             $this->db->where("status", "isi")->where("qty", 0)->update("pallet", array("status"=>"kosong"));
-                            $this->db->where("status", "kosong")->where("qty > 0")->update("pallet", array("status"=>"kosong"));
+                            $this->db->where("status", "kosong")->where("qty > 0")->update("pallet", array("status"=>"isi"));
                             $this->db->trans_complete();
                         } else {
                             $this->session->set_flashdata("gagal", "barang belum dipallet saat ini:" .$qtybelumdipallet);

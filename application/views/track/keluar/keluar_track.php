@@ -76,6 +76,19 @@
                 ],
             })
         },
+        error: function (xhr, textStatus, exceptionThrown) {
+            document.getElementById("loading").hidden=true;
+            document.getElementById("tabel").hidden=false;
+            document.getElementById("toolbarr").hidden=false;
+            $("#tabel").DataTable({
+                data:[
+                    {data:"Data Tidak ditemukan!"}
+                ],
+                columns:[
+                    {title:"Tabel",data:"data"},
+                ],
+            })
+        }
     })
 </script>
 <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>

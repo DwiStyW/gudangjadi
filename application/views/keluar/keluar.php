@@ -117,6 +117,18 @@ endif ?>
                     'copy','excel','pdf','print'
                 ],
             })
+        },error: function (xhr, textStatus, exceptionThrown) {
+            document.getElementById("loading").hidden=true
+            document.getElementById("keluar").hidden=false
+            document.getElementById("toolbarr").hidden=false
+            $("#keluar").DataTable({
+                data:[
+                    {data:"Data Tidak ditemukan!"}
+                ],
+                columns:[
+                    {title:"Tabel",data:"data"},
+                ],
+            })
         }
     })
 </script>

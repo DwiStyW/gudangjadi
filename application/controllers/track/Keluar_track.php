@@ -104,6 +104,12 @@ class Keluar_track extends CI_Controller
         $quty = $qu->qty;
     }
 
+    //get permintaan keluar
+    $sppb = $this->db->where('kode', $kode)->where('noform', $noform)->where('ket', 'OUT')->get('detailsalqty');
+    foreach ($sppb->result() as $s) {
+        $permintaan = $s->qty;
+    }
+
     // get status pallet
     $pallet = $this->db->query("SELECT * FROM pallet where kdpallet='$nopallet'");
     foreach ($pallet->result() as $p):
@@ -132,19 +138,148 @@ class Keluar_track extends CI_Controller
     } else {
         $statusr = 'OUT';
     }
-    //detailsalqty
-    $detailsalqty = $this->db->where('kode', $kode)->where('noform', $noform)->where('ket', 'OUT')->get('detailsalqty');
-    foreach($detailsalqty as $dsq){
-        $qtybelumkeluar = $dsq->qty;
-        
-    }
+    $data = array(
+        'tglform' => $tglform,
+        'noform' => $noform,
+        'kode' => $kode,
+        'nobatch' => $nobatch,
+        'nopallet' => $nopallet,
+        'statpallet' => $statusr,
+        'masuk' => '',
+        'keluar' => $jumlah,
+        'saldo' => $saldo_track,
+        'tanggal' => date("Y-m-d H:i:s"),
+        'ket' => 'output',
+        'adm' => $adm,
+        'cat' => $cat,
+    );
 
-        if ($this->db->trans_status() === false) {
-            $this->session->set_flashdata('gagal', 'gagal diedit!');
+    // untuk master
+    $data1 = array(
+        'tglform' => $tglform,
+        'tgl_update' => date("Y-m-d H:i:s"),
+        'saldo_track' => $saldo_track,
+    );
+    $where = array('kode' => $kode);
+
+    // untuk pallet
+    if ($hitung > 0) {
+        $data2 = array(
+            'status' => 'isi',
+            'qty' => $qty - $jumlah,
+        );
+    } else {
+        $data2 = array(
+            'status' => 'kosong',
+            'qty' => $qty - $jumlah,
+        );
+    }
+    $where1 = array('kdpallet' => $nopallet);
+
+    //untuk utilisasi
+    $total = $this->db->query("SELECT sum(palletin) as totin, sum(palletout) as totout FROM utilisasi");
+    foreach ($total->result() as $t) {
+        $masuk = $t->totin;
+        $keluar = $t->totout;
+    }
+    $pemakaian_pallet = $masuk - $keluar;
+    $query = $this->db->order_by('no', 'DESC')->limit(1)->get('utilisasi');
+    $pallet = $this->db->get('pallet');
+    foreach ($query->result() as $que) {
+        $out = $que->palletout;
+        $in = $que->palletin;
+        $tgl = $que->tgl;
+    }
+    $jum = $permintaan - $jumlah;
+    $hitung_pallet = $isi_pallet - $jumlah;
+    if($tgl != date("Y-m-d")) {
+        $in = 0;
+        $out= 0;
+    }
+    if ($hitung_pallet > 0) {
+        $data3 = array(
+            'tgl' => date("Y-m-d"),
+            'palletin' => $in,
+            'palletout' => $out,
+            'utilisasi' => ($masuk - $keluar) / $pallet->num_rows() * 100,
+        );
+    } else {
+        $data3 = array(
+            'tgl' => date("Y-m-d"),
+            'palletin' => $in,
+            'palletout' => $out + 1,
+            'utilisasi' => ($masuk - $keluar - 1) / $pallet->num_rows() * 100,
+        );
+    }
+    $where2 = array('tgl' => date("Y-m-d"));
+
+    // untuk detailsal
+    $data4 = array(
+        'qty' => $quty - $jumlah,
+    );
+    $where3 = array(
+        'kode' => $kode,
+        'nobatch' => $nobatch,
+        'nopallet' => $nopallet,
+    );
+
+    //untuk detailsalqty
+    $data5 = array('qty' => $permintaan - $jumlah);
+    $where4 = array(
+        'kode' => $kode,
+        'noform' => $noform,
+        'ket' => 'OUT'
+    );
+
+    $cek = $this->db->where("noform",$noform)->where('tglform', $tglform)->where('kode', $kode)->where('nobatch', $nobatch)->where('nopallet', $nopallet)->where('keluar', $jumlah)->get('riwayattrack');
+    if($cek->num_rows()>0) {
+        $this->session->set_flashdata('gagal', 'Data telah di input sebelumnya!');
+    } else {
+
+    if ($jumlah <= $saldo) {
+        if ($quty < 0) {
+            $this->session->set_flashdata('gagal', 'Tidak ada barang dalam pallet!');
         } else {
-            $this->session->set_flashdata('sukses', 'berhasil diedit!');
+            if ($jumlah > $isi_pallet) {
+                $this->session->set_flashdata('gagal', 'Barang di pallet tidak mencukupi!');
+            } else {
+                if ($jumlah > $permintaan) {
+                    $this->session->set_flashdata('gagal', 'Jumlah inputan anda melebihi permintaan!');
+                } else {
+                    $this->db->trans_start();
+                    if ($jum > 0) {
+                        $this->keluar_track_model->update($where4, $data5, 'detailsalqty');
+                    } else {
+                        $this->keluar_track_model->hapus($where4, 'detailsalqty');
+                    }
+                    $this->keluar_track_model->tambah($data, 'riwayattrack');
+                    $this->keluar_track_model->update($where, $data1, 'master');
+                    $this->keluar_track_model->update($where1, $data2, 'pallet');
+                    if ($quty - $jumlah > 0) {
+                        $this->keluar_track_model->update($where3, $data4, 'detailsal');
+                    } else {
+                        $this->keluar_track_model->hapus($where3, 'detailsal');
+                    }
+                    // if ($tgl == date("Y-m-d")) {
+                    //     $this->keluar_track_model->update($where2, $data3, 'utilisasi');
+                    // } else {
+                    //     $this->keluar_track_model->tambah($data3, 'utilisasi');
+                    // }
+                    $this->db->trans_complete();
+
+                    if ($this->db->trans_status() === false) {
+                        $this->session->set_flashdata('gagal', 'Input error!');
+                    } else {
+                        $this->session->set_flashdata('sukses', 'Input success!');
+                    }
+                }
+            }
         }
-    redirect('track/keluar_track/input_keluar_track');
+        } else {
+            $this->session->set_flashdata('gagal', 'Saldo tidak mencukupi!');
+        }
+    }
+        redirect('track/keluar_track/input_keluar_track');
 }
 
     public function hapus($no)
@@ -387,232 +522,174 @@ class Keluar_track extends CI_Controller
         $sats1 = $sat1 * $max1 * $max2;
         $sats2 = $sat2 * $max2;
         $jumlah = $sats1 + $sats2 + $sat3;
-        if ($jumlah > $permintaanterlama) {
-            $this->session->set_flashdata('gagal', 'Inputan melebihi permintaan!');
-        } else {
-            if ($jumlah > $isi_pallet) {
-                $this->session->set_flashdata('gagal', 'Saldo dalam pallet tidak cukup!');
-            } else {
-                //riwayattrack
-                $riwayattrack = $this->db->where('no', $no)->get('riwayattrack');
-                foreach ($riwayattrack->result() as $rt) {
-                    $nobatchlama = $rt->nobatch;
-                    $kodelama = $rt->kode;
-                    $nopalletlama = $rt->nopallet;
-                    $qtyrt = $rt->keluar;
-                }
-                if ($qtyrt==$jumlah && $nopallet==$nopalletlama) {
-                    $this->session->set_flashdata('gagal', 'Tidak ada data yang di ubah!');
-                }else{
-                    $wherert = array('no' => $no);
-                    $statpallet = $this->db->where('kdpallet', $nopallet)->get('pallet');
-                    foreach ($statpallet->result() as $sp) {
-                        $statuspallet = $sp->status;
-                    }
-                    if ($statuspallet == "kosong") {
-                        $status="IN";
-                    } else {
-                        $status="NONE";
-                    }
-                    $updatert = array(
-                        'keluar' => $jumlah,
-                        'adm' => $adm,
-                        'cat' => $cat,
-                        'nopallet' => $nopallet,
-                    );
+            //riwayattrack
+            $riwayattrack = $this->db->where('no', $no)->get('riwayattrack');
+            foreach ($riwayattrack->result() as $rt) {
+                $noformlama = $rt->noform;
+                $nobatchlama = $rt->nobatch;
+                $kodelama = $rt->kode;
+                $nopalletlama = $rt->nopallet;
+                $qtyrt = $rt->keluar;
+            }
+        $detailsalqty = $this->db->where("kode",$kodelama)->where("noform",$noformlama)->get("detailsalqty");   
+        if($detailsalqty->num_rows()>0){
+            foreach($detailsalqty->result() as $dsq){
+            $qtybelumdipallet = $qtyrt + $dsq->qty;
+            //detailsalqty
+            $datadsq=array(
+                "qty"=>$qtybelumdipallet-$jumlah
+            );
+            $wheredsq=array(
+                "noform"=>$noformlama,
+                "kode"=>$kodelama,
+                "ket"=>"OUT",
+            );
+            }
+        }else{
+            $qtybelumdipallet = $qtyrt;
+            $tambahdsq=array(
+                "kode"=>$kodelama,
+                "tglform"=>$tglform,
+                "nobatch"=>"",
+                "noform"=>$noformlama,
+                "qty"=>$qtybelumdipallet-$jumlah,
+                "ket"=>"OUT"
+            );
+        }
+        $master = $this->db->where("kode",$kodelama)->get("master")->result();
+        foreach($master as $m){
+            $saldo_t = $m->saldo_track+$qtyrt-$jumlah;
+        } 
+        $datamaster=array("saldo_track"=>$saldo_t);
+        $wheremaster=array("kode"=>$kodelama);
+        $datart=array(
+            "nopallet"=>$nopallet,
+            "keluar"=>$jumlah,
+            "ket"=>"revisiOut"
+        );
+        $wherert=array("no"=>$no);
 
-                    //untuk master
-                    $master=$this->db->where('kode', $kodelama)->get('master');
-                    foreach ($master->result() as $m) {
-                        $saldo_track = $m->saldo_track + $qtyrt - $jumlah;
-                    }
-                    $updatem = array('saldo_track'=> $saldo_track);
-                    $wherem = array('kode'=>$kodelama);
+        //untuk detailsal
+        if($nopallet == $nopalletlama){
+            $detailsal = $this->db->where("kode",$kodelama)->where("nobatch",$nobatchlama)->where("nopallet",$nopalletlama)->get("detailsal");
+            foreach($detailsal->result() as $ds){
+                $qtyds = $ds->qty;
+            }
+            $datads = array(
+                "qty"=>$qtyds+$qtyrt-$jumlah
+            );
+            $whereds=array(
+                "kode"=>$kodelama,
+                "nobatch"=>$nobatchlama,
+                "nopallet"=>$nopallet,
+            );
+            $tambahds = array(
+                "tgl"=>date("Y-m-d H:i:s"),
+                "kode"=>$kodelama,
+                "nobatch"=>$nobatchlama,
+                "nopallet"=>$nopallet,
+                "qty"=>$qtyrt-$jumlah
+            );
 
-                    //untuk detailsalqty
-                    $detsalqty = $this->db->where('kode', $kodelama)->where('noform', $noform)->where('ket', 'OUT')->get('detailsalqty');
-                    foreach ($detsalqty->result() as $dsq) {
-                        if ($detsalqty->num_rows()>0) {
-                            $qtydsq = $dsq->qty + $qtyrt-$jumlah;
-                        } else {
-                            $qtydsq=$qtyrt-$jumlah;
-                        }
-                    }
-                    $updatedsq = array('qty' => $qtydsq);
-                    $wheredsq = array(
-                        'kode'=>$kodelama,
-                        'noform'=>$noform,
-                        'ket'=>'OUT'
-                    );
-                    $tambahdsq=array(
-                        'kode'=>$kodelama,
-                        'noform'=>$noform,
-                        'nobatch'=>"",
-                        'tglform'=>$tglform,
-                        'qty'=>$qtyrt-$jumlah,
-                        'ket'=>'OUT'
-                    );
+            $pallet = $this->db->where("kdpallet",$nopallet)->get("pallet")->result();
+            foreach($pallet as $p){
+                $datapallet = array("qty"=>$p->qty+$qtyrt-$jumlah);
+                $wherepallet = array("kdpallet"=>$nopallet);
+            }
+        }else{
+            $detailsallama = $this->db->where("kode",$kodelama)->where("nobatch",$nobatchlama)->where("nopallet",$nopalletlama)->get("detailsal");
+            foreach($detailsallama->result() as $ds){
+                $qtyds = $ds->qty;
+            }
+            $datadsl = array(
+                "nopallet"=>$nopalletlama,
+                "qty"=>$qtyds+$qtyrt
+            );
+            $wheredsl=array(
+                "kode"=>$kodelama,
+                "nobatch"=>$nobatchlama,
+                "nopallet"=>$nopalletlama,
+            );
+            $detailsalbaru = $this->db->where("kode",$kodelama)->where("nobatch",$nobatchlama)->where("nopallet",$nopallet)->get("detailsal");
+            foreach($detailsalbaru->result() as $ds){
+                $qtyds = $ds->qty;
+            }
+            $datadsb = array(
+                "nopallet"=>$nopallet,
+                "qty"=>$qtyds-$jumlah
+            );
+            $wheredsb=array(
+                "kode"=>$kodelama,
+                "nobatch"=>$nobatchlama,
+                "nopallet"=>$nopallet,
+            );
+            $tambahdsl = array(
+                "tgl"=>date("Y-m-d H:i:s"),
+                "kode"=>$kodelama,
+                "nobatch"=>$nobatchlama,
+                "nopallet"=>$nopalletlama,
+                "qty"=>$qtyrt
+            );
 
-                    //untuk detailsal
-                    $detsal = $this->db->where('nobatch', $nobatchlama)->where('kode', $kodelama)->where('nopallet', $nopalletlama)->get('detailsal');
-                    foreach($detsal->result() as $ds){
-                    if ($nopallet==$nopalletlama) {
-                        if($detsal->num_rows()<1){
-                            $qtyds = $qtyrt - $jumlah;
-                        }else{
-                            $qtyds = $ds->qty + $qtyrt-$jumlah;
-                        }
-                    }else{
-                        $qtyds = $ds->qty+$jumlah;    
-                    }
-                    }
-                    $updatedspalsama = array('qty'=>$qtyds);
-                    $tambahdspalsama = array(
-                        'tgl' => $tglform,
-                        'kode'=>$kodelama,
-                        'nobatch'=>$nobatchlama,
-                        'nopallet'=>$nopalletlama,
-                        'qty'=>abs($qtyrt-$jumlah),
-                    );
-                    $wheredspalsama=array(
-                        'nobatch'=>$nobatchlama,
-                        'kode'=>$kodelama,
-                        'nopallet'=>$nopalletlama,
-                    );
-
-                    $detailsalbaru = $this->db->where('nopallet',$nopallet)->where('kode',$kodelama)->where('nobatch',$nobatchlama)->get('detailsal');
-                    foreach($detailsalbaru->result() as $dsb){
-                        $qtydsbaru = $dsb->qty-$jumlah;
-                    }
-                    $updatedspalbaru = array('qty'=>$qtydsbaru);
-                    $tambahdspalganti = array(
-                        'tgl' => $tglform,
-                        'kode'=>$kodelama,
-                        'nobatch'=>$nobatchlama,
-                        'nopallet'=>$nopalletlama,
-                        'qty'=>$dsb->qty - $qtydsbaru,
-                    );
-                    $wheredspalbaru=array(
-                        'nobatch'=>$nobatchlama,
-                        'kode'=>$kodelama,
-                        'nopallet'=>$nopallet,
-                    );
-                    $tambahrt=array(
-                        'kode'=>$kodelama,
-                        'noform'=>$noform,
-                        'nobatch'=>$nobatchlama,
-                        'tglform'=>$tglform,
-                        'tanggal'=>date("Y-m-d H:i:s"),
-                        'masuk'=>0,
-                        'keluar'=>abs($qtyrt-$jumlah),
-                        'cat' => $cat,
-                        'adm' => $adm,
-                        'saldo'=>0,
-                        'statpallet'=>$status,
-                        'nopallet'=>$nopalletlama,
-                        'ket' => 'revisiOUT'
-                    );
-
-                    //untuk pallet
-                    $pallet = $this->db->where('kdpallet',$nopalletlama)->get('pallet');
-                    foreach($pallet->result() as $p){
-                        $qtyp = $p->qty;
-                    }
-                    $qtypallet = $qtyp + $qtyrt - $jumlah;
-                    if ($qtypallet>0) {
-                        $datapalletsama = array(
-                            'qty'=>$qtypallet,
-                            'status'=>'isi'
-                        );
-                    }else{
-                        $datapalletsama = array(
-                            'qty'=>$qtypallet,
-                            'status'=>'kosong'
-                        );
-                    }
-                    $wherepalletlama = array('kdpallet'=>$nopalletlama);
-                    $palletbaru = $this->db->where('kdpallet',$nopallet)->get('pallet');
-                    foreach($palletbaru->result() as $p){
-                        $qtypb = $p->qty;
-                    }
-                    $qtypalletganti = $qtyp + $jumlah;
-                    $qtypalletbaru = $qtypb - $jumlah;
-                    if ($qtypalletbaru>0) {
-                        $datapalletbaru = array(
-                            'qty'=>$qtypalletbaru,
-                            'status'=>'isi'
-                        );
-                    }else{
-                        $datapalletbaru = array(
-                            'qty'=>$qtypalletbaru,
-                            'status'=>'kosong'
-                        );
-                    }
-                    if ($qtypallet>0) {
-                        $datapalletganti = array(
-                            'qty'=>$qtypalletganti,
-                            'status'=>'isi'
-                        );
-                    }else{
-                        $datapalletganti = array(
-                            'qty'=>$qtypalletganti,
-                            'status'=>'kosong'
-                        );
-                    }
-                    $wherepalletbaru = array('kdpallet'=>$nopallet);
-
-                    $this->db->trans_start();
-                    if($nopallet == $nopalletlama){
-                        $this->keluar_track_model->update($wherert, $updatert, 'riwayattrack');
-                        $this->keluar_track_model->update($wherem, $updatem, 'master');
-                        if ($detsal->num_rows()>0) {
-                            $this->keluar_track_model->update($wheredspalsama, $updatedspalsama, 'detailsal');
-                        }else{
-                            $this->keluar_track_model->tambah($tambahdspalsama, 'detailsal');
-                        }
-                        if ($detsalqty->num_rows()>0) {
-                            $this->keluar_track_model->update($wheredsq, $updatedsq, 'detailsalqty');
-                            if($qtydsq == 0){
-                                $this->keluar_track_model->hapus($wheredsq,'detailsalqty');
-                            }
-                        $this->keluar_track_model->update($wherepalletlama,$datapalletsama,'pallet');
-                        } else {
-                            $this->keluar_track_model->tambah($tambahdsq, 'detailsalqty');
-                        }
-                    }else{
-                        if($jumlah<=$qtyrt) {
-                            if($qtyrt-$jumlah!=0) {
-                                $this->keluar_track_model->tambah($tambahrt, 'riwayattrack');
-                                $this->keluar_track_model->update($wherert, $updatert, 'riwayattrack');
-                            }else{
-                                $this->keluar_track_model->update($wherert, $updatert, 'riwayattrack');
-                            }
-
-                            if($detsal->num_rows()>0) {
-                                $this->keluar_track_model->update($wheredspalsama, $updatedspalsama, 'detailsal');
-                                $this->keluar_track_model->update($wheredspalbaru, $updatedspalbaru, 'detailsal');
-                            } else {
-                                $this->keluar_track_model->update($wheredspalbaru, $updatedspalbaru, 'detailsal');
-                                $this->keluar_track_model->tambah($tambahdspalganti, 'detailsal');
-                            }
-                            $this->keluar_track_model->update($wherepalletlama, $datapalletganti, 'pallet');
-                            $this->keluar_track_model->update($wherepalletbaru, $datapalletbaru, 'pallet');
-                        }else{
-                            $this->session->set_flashdata("gagal","barang yang di pindah melebihi jumlah!");
-                        }
-                    }
-                    
-                    $this->db->trans_complete();
-                    $this->keluar_track_model->hapus(array("qty"=>0),"detailsal");
-
-                    if ($this->db->trans_status()===false) {
-                        $this->session->set_falshdata('gagal', 'Gagal di edit!');
-                    } else {
-                        $this->session->set_flashdata('sukses', 'Berhasil di edit!');
-                    }
-                }
+            $palletlama = $this->db->where("kdpallet",$nopalletlama)->get("pallet")->result();
+            foreach($palletlama as $pl){
+                $datapalletl = array("qty"=>$pl->qty+$qtyrt);
+                $wherepalletl = array("kdpallet"=>$nopalletlama);
+            }
+            $palletbaru = $this->db->where("kdpallet",$nopallet)->get("pallet")->result();
+            foreach($palletbaru as $pb){
+                $datapalletb = array("qty"=>$pb->qty-$jumlah);
+                $wherepalletb = array("kdpallet"=>$nopallet);
             }
         }
+        if($qtybelumdipallet>=$jumlah) {
+            if($qtyds+$qtyrt<$jumlah) {
+                $jum = $qtyds+$qtyrt;
+                $this->session->set_flashdata("gagal", "Barang di pallet ".$nopallet." tersisa: ". $jum);
+            } else {
+                $this->db->trans_start();
+                $this->db->where($wheremaster)->update("master", $datamaster);
+                $this->db->where($wherert)->update("riwayattrack", $datart);
+                if($detailsalqty->num_rows()>0) {
+                    $this->db->where($wheredsq)->update("detailsalqty", $datadsq);
+                } else {
+                    $this->db->insert("detailsalqty", $tambahdsq);
+                }
+                if($nopallet==$nopalletlama) {
+                    if($detailsal->num_rows()>0) {
+                        $this->db->where($whereds)->update("detailsal", $datads);
+                    } else {
+                        $this->db->insert("detailsal", $tambahds);
+                    }
+                    $this->db->where($wherepallet)->update("pallet", $datapallet);
+                } else {
+                    if($detailsallama->num_rows()>0) {
+                        $this->db->where($wheredsl)->update("detailsal", $datadsl);
+                    } else {
+                        $this->db->insert("detailsal", $tambahdsl);
+                    }
+                    $this->db->where($wheredsb)->update("detailsal", $datadsb);
+                    $this->db->where($wherepalletl)->update("pallet", $datapalletl);
+                    $this->db->where($wherepalletb)->update("pallet", $datapalletb);
+                }
+
+                $this->db->where('qty', 0)->delete("detailsalqty");
+                $this->db->where('qty', 0)->delete("detailsal");
+                $this->db->where("keluar", 0)->where("masuk", 0)->delete("riwayattrack");
+                $this->db->where("status", "isi")->where("qty", 0)->update("pallet", array("status"=>"kosong"));
+                $this->db->where("status", "kosong")->where("qty > 0")->update("pallet", array("status"=>"isi"));
+                $this->db->trans_complete();
+            }
+        }else{
+            $this->session->set_flashdata("gagal", "Permintaan yang dipelukan sebesar:" .$qtybelumdipallet);
+        }
+
+        if($this->db->trans_status() === false) {
+            $this->session->set_flashdata('gagal', 'Gagal di edit!');
+        } else {
+            $this->session->set_flashdata('sukses', 'Berhasil di edit!');
+        }
+
         redirect('track/keluar_track');
     }
 }
