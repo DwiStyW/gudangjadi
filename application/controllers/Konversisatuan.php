@@ -31,7 +31,7 @@ class Konversisatuan extends CI_Controller
             $data['keyword']=$this->session->userdata('keyword_konversi');
         }
         //untuk pagination
-        $config['base_url'] = 'http://localhost/gudangtrial/konversisatuan/index';
+        $config['base_url'] = 'http://192.168.10.99gudangtrial/konversisatuan/index';
         $config['total_rows'] = $this->konversi_model->total_konversi($data['keyword']);
         $range = $this->input->post('range');
         $config['per_page'] = $range;

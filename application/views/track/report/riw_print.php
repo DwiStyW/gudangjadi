@@ -16,6 +16,7 @@ Periode :
             <th rowspan="2" style="text-align: center">No Form</th>
             <th rowspan="2" style="text-align: center">Kode Barang</th>
             <th rowspan="2" style="text-align: center">Nama Barang</th>
+            <th rowspan="2" style="text-align: center">No Batch</th>
             <th colspan="3" style="text-align: center">Masuk</th>
             <th colspan="3" style="text-align: center">Keluar</th>
             <th colspan="3" style="text-align: center">Saldo</th>
@@ -72,6 +73,7 @@ foreach ($riwayat as $r) {?>
             <td><?=$r->noform?></td>
             <td><?=$r->kode?></td>
             <td><?=$r->nama?></td>
+            <td><?=$r->nobatch?></td>
             <?php
 $satss1 = floor($r->masuk / ($r->max1 * $r->max2));
     $sisa = $r->masuk - ($satss1 * $r->max1 * $r->max2);
@@ -115,6 +117,7 @@ $saldo_mutasi = $sals + $r->masuk - $r->keluar;
             <td><?=$r->noform?></td>
             <td><?=$r->kode?></td>
             <td><?=$r->nama?></td>
+            <td><?=$r->nobatch?></td>
             <?php
 $stn1 = floor($r->masuk / ($r->max1 * $r->max2));
     $ssa = $r->masuk - ($stn1 * $r->max1 * $r->max2);

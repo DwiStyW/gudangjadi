@@ -24,8 +24,8 @@ class Auth extends CI_Controller
             $auth = $this->auth_model->cek_login();
             if ($auth == FALSE) {
                 $this->session->set_flashdata('pesan', '<div class="" role="">
-  Username atau Password Anda Salah!
-</div>');
+                Username atau Password Anda Salah!
+                </div>');
                 redirect('auth/login');
             } else {
 
