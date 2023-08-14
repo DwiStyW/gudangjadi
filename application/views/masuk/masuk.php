@@ -23,12 +23,15 @@
                             <div class="spinner-grow mr-3" style="color:dimgray"></div>
                         </div>
                         <div id="toolbarr" hidden>
+                            <?php if($this->session->userdata('role')!="manager"){?>
                             <a href="<?= base_url("masuk/input_masuk") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Input Bahan Masuk</button></a>
                             <a href="<?= base_url("home")?>"><button class="btn btn-white" type="button">Kembali</button></a>
+                            <?php } ?>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-bordered table-responsive" hidden width="100%" id="masuk" cellspacing="0"></table>
                         </div>
+                        <div id="role" hidden><?=$this->session->userdata('role')?></div>
                     </div>
                 </div>
             </div>
@@ -68,6 +71,28 @@ $this->load->view("masuk/modal_hapus");
             document.getElementById("masuk").hidden=false
             document.getElementById("toolbarr").hidden=false
             // console.log(isi);
+            if(document.getElementById("role").innerHTML=="manager"){
+                $("#masuk").DataTable({
+                data:isi,
+                columns:[
+                    {title:"No",data:"id"},
+                    {title:"Tgl Form",data:"tglform"},
+                    {title:"No. Form",data:"noform"},
+                    {title:"Kode Produk",data:"kode"},
+                    {title:"Nama Produk",data:"nama"},
+                    {title:"No. Btach",data:"nobatch"},
+                    {title:"Satuan1",data:"sats1"},
+                    {title:"Satuan2",data:"sats2"},
+                    {title:"Satuan3",data:"sats3"},
+                    {title:"Tgl Input",data:"tanggal"},
+                    {title:"Penginput",data:"adm"},
+                ],
+                dom: 'lBfrtip',
+                buttons: [
+                    'copy','excel','pdf','print'
+                ],
+            })
+            }else{
             $("#masuk").DataTable({
                 data:isi,
                 columns:[
@@ -91,6 +116,7 @@ $this->load->view("masuk/modal_hapus");
                     'copy','excel','pdf','print'
                 ],
             })
+            }
         },
         error: function (xhr, textStatus, exceptionThrown) {
             document.getElementById("loading").hidden=true

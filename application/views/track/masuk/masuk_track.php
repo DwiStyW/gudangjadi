@@ -23,8 +23,10 @@
                             <div class="spinner-grow mr-3" style="color:dimgray"></div>
                         </div>
                         <div id="toolbarr" hidden>
+                            <?php if($this->session->userdata('role')!="manager"){?>
                             <a href="<?= base_url("track/masuk_track/input_masuk_track") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Input Bahan Masuk</button></a>
                             <a href="<?= base_url("home")?>"><button class="btn btn-white" type="button">Kembali</button></a>
+                            <?php } ?>
                         </div>
                         <div class="table-responsive">
                             <table hidden id="masuk" class="table table-bordered table-striped">
@@ -34,6 +36,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div id="role" hidden><?=$this->session->userdata('role')?></div>
                         </div>
                     </div>
                 </div>
@@ -106,33 +109,58 @@
             document.getElementById("loading").hidden=true;
             document.getElementById("masuk").hidden=false;
             document.getElementById("toolbarr").hidden=false;
-            $("table").DataTable({
-                destroy:true,
-                data:isi,
-                columns:[
-                    {title:"No",data:"no"},
-                    {title:"Tgl Form",data:"tglform"},
-                    // {title:"No. Form",data:"noform"},
-                    {title:"Kode Barang",data:"kode"},
-                    {title:"Nama Barang",data:"nama"},
-                    {title:"No. Batch",data:"nobatch"},
-                    {title:"No. Pallet",data:"nopallet"},
-                    {title:"Status",data:"statpallet"},
-                    {title:"sat1",data:"sat1"},
-                    {title:"sat2",data:"sat2"},
-                    {title:"sat3",data:"sat3"},
-                    {title:"Tgl Input",data:"tanggal"},
-                    {title:"Oleh",data:"adm"},
-                    {title:"Catatan",data:"cat"},
-                    // {title:"Expired Date",data:"exp"},
-                    {title:"Aksi",data:"aksi"},
-                ],
-                dom: 'lBfrtip',
-                buttons: [
-                    'copy','excel','pdf','print'
-                ],
-            });
-        },
+            if(document.getElementById('role').innerHTML=="manager"){
+                $("table").DataTable({
+                    destroy:true,
+                    data:isi,
+                    columns:[
+                        {title:"No",data:"no"},
+                        {title:"Tgl Form",data:"tglform"},
+                        {title:"Kode Barang",data:"kode"},
+                        {title:"Nama Barang",data:"nama"},
+                        {title:"No. Batch",data:"nobatch"},
+                        {title:"No. Pallet",data:"nopallet"},
+                        {title:"Status",data:"statpallet"},
+                        {title:"sat1",data:"sat1"},
+                        {title:"sat2",data:"sat2"},
+                        {title:"sat3",data:"sat3"},
+                        {title:"Tgl Input",data:"tanggal"},
+                        {title:"Oleh",data:"adm"},
+                    ],
+                    dom: 'lBfrtip',
+                    buttons: [
+                        'copy','excel','pdf','print'
+                    ],
+                });
+            }else{
+                $("table").DataTable({
+                    destroy:true,
+                    data:isi,
+                    columns:[
+                        {title:"No",data:"no"},
+                        {title:"Tgl Form",data:"tglform"},
+                        // {title:"No. Form",data:"noform"},
+                        {title:"Kode Barang",data:"kode"},
+                        {title:"Nama Barang",data:"nama"},
+                        {title:"No. Batch",data:"nobatch"},
+                        {title:"No. Pallet",data:"nopallet"},
+                        {title:"Status",data:"statpallet"},
+                        {title:"sat1",data:"sat1"},
+                        {title:"sat2",data:"sat2"},
+                        {title:"sat3",data:"sat3"},
+                        {title:"Tgl Input",data:"tanggal"},
+                        {title:"Oleh",data:"adm"},
+                        {title:"Catatan",data:"cat"},
+                        // {title:"Expired Date",data:"exp"},
+                        {title:"Aksi",data:"aksi"},
+                    ],
+                    dom: 'lBfrtip',
+                    buttons: [
+                        'copy','excel','pdf','print'
+                    ],
+                });
+            }
+            },
         error: function (xhr, textStatus, exceptionThrown) {
             document.getElementById("loading").hidden=true
             document.getElementById("masuk").hidden=false

@@ -22,12 +22,15 @@ $this->load->view("_partials/menu");
                             <div class="spinner-grow mr-3" style="color:dimgray"></div>
                         </div>
                         <div id="toolbarr" hidden>
+                            <?php if($this->session->userdata('role')!="manager"){?>
                             <a href="<?= base_url("keluar/input_keluar") ?>"><button class="btn btn-sm btn-primary login-submit-cs" type="submit">Input Bahan Keluar</button></a>
                             <a href="<?= base_url("home")?>"><button class="btn btn-white" type="button">Kembali</button></a>
+                            <?php } ?>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-bordered table-responsive" hidden width="100%" id="keluar" cellspacing="0"></table>
                         </div>
+                        <div id="role"><?=$this->session->userdata('role')?></div>
                     </div>
                 </div>
             </div>
@@ -96,27 +99,50 @@ endif ?>
             document.getElementById("loading").hidden=true;
             document.getElementById("keluar").hidden=false;
             document.getElementById("toolbarr").hidden=false
-            $("#keluar").DataTable({
-                data:isi,
-                columns:[
-                    {title:"No",data:"no"},
-                    {title:"Tgl Form",data:"tglform"},
-                    {title:"No. Form",data:"noform"},
-                    {title:"No. SPPB",data:"nosppb"},
-                    {title:"Kode Produk",data:"kode"},
-                    {title:"Nama Produk",data:"nama"},
-                    {title:"Satuan1",data:"sat1"},
-                    {title:"Satuan2",data:"sat2"},
-                    {title:"Satuan3",data:"sat3"},
-                    {title:"Tgl Input",data:"tanggal"},
-                    {title:"Penginput",data:"penginput"},
-                    {title:"Aksi",data:"aksi"},
-                ],
-                dom: 'lBfrtip',
-                buttons: [
-                    'copy','excel','pdf','print'
-                ],
-            })
+            if(document.getElementById('role').innerHTML=="manager"){
+                $("#keluar").DataTable({
+                    data:isi,
+                    columns:[
+                        {title:"No",data:"no"},
+                        {title:"Tgl Form",data:"tglform"},
+                        {title:"No. Form",data:"noform"},
+                        {title:"No. SPPB",data:"nosppb"},
+                        {title:"Kode Produk",data:"kode"},
+                        {title:"Nama Produk",data:"nama"},
+                        {title:"Satuan1",data:"sat1"},
+                        {title:"Satuan2",data:"sat2"},
+                        {title:"Satuan3",data:"sat3"},
+                        {title:"Tgl Input",data:"tanggal"},
+                        {title:"Penginput",data:"penginput"},
+                    ],
+                    dom: 'lBfrtip',
+                    buttons: [
+                        'copy','excel','pdf','print'
+                    ],
+                })
+            }else{
+                $("#keluar").DataTable({
+                    data:isi,
+                    columns:[
+                        {title:"No",data:"no"},
+                        {title:"Tgl Form",data:"tglform"},
+                        {title:"No. Form",data:"noform"},
+                        {title:"No. SPPB",data:"nosppb"},
+                        {title:"Kode Produk",data:"kode"},
+                        {title:"Nama Produk",data:"nama"},
+                        {title:"Satuan1",data:"sat1"},
+                        {title:"Satuan2",data:"sat2"},
+                        {title:"Satuan3",data:"sat3"},
+                        {title:"Tgl Input",data:"tanggal"},
+                        {title:"Penginput",data:"penginput"},
+                        {title:"Aksi",data:"aksi"},
+                    ],
+                    dom: 'lBfrtip',
+                    buttons: [
+                        'copy','excel','pdf','print'
+                    ],
+                })
+            }
         },error: function (xhr, textStatus, exceptionThrown) {
             document.getElementById("loading").hidden=true
             document.getElementById("keluar").hidden=false
