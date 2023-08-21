@@ -232,6 +232,7 @@
                         </div>
                     </div>
                             <li><a href="<?= base_url("manager/saldo_track") ?>" class="btn btn-lg tekan text-white">Saldo Tracking</a></li>
+                            <li><a href="<?= base_url("scanner") ?>" class="btn btn-lg tekan text-white">Detail isi Pallet</a></li>
                         <?php } ?>
 
                         <?php

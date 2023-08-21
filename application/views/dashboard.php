@@ -1,18 +1,20 @@
 <?php
-        $this->load->view("_partials/header");
-        $this->load->view("_partials/menu");
+  $this->load->view("_partials/header");
+  $this->load->view("_partials/menu");
 ?>
 <div class="admin-dashone-data-table-area mg-b-40">
   <div class="container" style="position:relative;top:-250px;z-index: 1">
     <div class="w-100" style="margin-bottom:20px">
       <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
         <div class="main-sparkline8-hd" style="padding-top:10px;padding-bottom:10px;padding-left:10px;">
-          <h1>HBJ Produksi<h1>
+          <h1>Barang Masuk<h1>
         </div>
       </div>
       <div style="background-color:#fff">
         <div class="sparkline8-graph">
           <div class="text-center">
+            <button class="btn bg-gradient-dark" style="height:100px;color:white">HBJ Produksi</button>
+            <span style="padding:10px;font-size:400%;width:auto">&#8594</span>
             <a href="<?= base_url("masuk")?>"><button class="btn bg-gradient-light" style="height:100px;color:black">Riwayat Masuk</button></a>
             <span style="padding:10px;font-size:400%;width:auto">&#8594</span>
             <a href="<?= base_url("saldo_antara/in")?>"><button class="btn bg-gradient-light" style="height:100px;color:black">Pending Masuk</button></a>
@@ -25,17 +27,19 @@
     <div class="w-100" style="margin-bottom:20px">
       <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
         <div class="main-sparkline8-hd" style="padding-top:10px;padding-bottom:10px;padding-left:10px;">
-          <h1>SPPB Produksi<h1>
-        </div>
-      </div>
-      <div style="background-color:#fff">
-        <div class="sparkline8-graph">
-          <div class="text-center">
-          <a href="<?= base_url("keluar")?>"><button class="btn bg-gradient-light" style="height:100px;color:black">Riwayat Keluar</button></a>
-            <span style="padding:10px;font-size:400%;width:auto">&#8594</span>
-            <a href="<?= base_url("saldo_antara/out")?>"><button class="btn bg-gradient-light" style="height:100px;color:black">Pending Keluar</button></a>
-            <span style="padding:10px;font-size:400%;width:auto">&#8594</span>
-            <a href="<?= base_url("track/keluar_track")?>"><button class="btn bg-gradient-light" style="height:100px;color:black">Tracking Keluar</button></a>
+          <h1>Barang Keluar<h1>
+            </div>
+          </div>
+          <div style="background-color:#fff">
+            <div class="sparkline8-graph">
+              <div class="text-center">
+                <button class="btn bg-gradient-dark" style="height:100px;color:white">SPPB PPIC</button>
+                <span style="padding:10px;font-size:400%;width:auto">&#8594</span>
+                <a href="<?= base_url("keluar")?>"><button class="btn bg-gradient-light" style="height:100px;color:black">Riwayat Keluar</button></a>
+                <span style="padding:10px;font-size:400%;width:auto">&#8594</span>
+                <a href="<?= base_url("saldo_antara/out")?>"><button class="btn bg-gradient-light" style="height:100px;color:black">Pending Keluar</button></a>
+                <span style="padding:10px;font-size:400%;width:auto">&#8594</span>
+                <a href="<?= base_url("track/keluar_track")?>"><button class="btn bg-gradient-light" style="height:100px;color:black">Tracking Keluar</button></a>
           </div>
         </div>
       </div>
