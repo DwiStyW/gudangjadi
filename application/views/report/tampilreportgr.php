@@ -7,7 +7,7 @@ foreach ($tampil2->result() as $gol) {
     $namagol = $gol->namagol;
 }
 ?>
-<div class="layarlebar">
+
     <div class="admin-dashone-data-table-area mg-b-40">
         <div class="container " style="position:relative;top:-250px;z-index: 1">
             <div class="d-flex">
@@ -25,7 +25,7 @@ foreach ($tampil2->result() as $gol) {
                 </div>
                 <div style="background-color:#fff">
                     <div class="sparkline8-graph">
-                        <div class="datatable-dashv1-list custom-datatable-overright">
+                        <div class="table-responsive datatable-dashv1-list custom-datatable-overright">
                             <div id="toolbar" style="margin-bottom:20px">
                                 Saldo Stok Golongan <b><?php echo $namagol; ?></b> Dari
                                 <b><?php echo date('d F Y', strtotime($start)); ?></b> hingga
@@ -149,5 +149,5 @@ foreach ($tampil2->result() as $gol) {
             </div>
         </div>
     </div>
-</div>
+
 <!-- Data table area End-->

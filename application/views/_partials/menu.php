@@ -93,7 +93,10 @@
                             </a>
                             <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated flipInX"
                                 style="position:fixed; margin-left:auto;margin-right:auto;width:100%;z-index:1000;background-color:whitesmoke">
-
+                                <?php
+                                $role = $this->session->userdata('role');
+                                if ($role == 'user') {
+                                ?>
                                 <li class="nav-tabs text-left"
                                     style="margin-left:20px;margin-right:20px;margin-top:20px;">
                                     <a href="<?= base_url("home") ?>"><b><i class="fa-home fa fa-lg"></i> Home</b></a>
@@ -136,13 +139,83 @@
                                                 class="fa-history fa"></i> Report
                                             Saldo Akhir</b></a>
                                 </li>
-                                <?php
-                                $role = $this->session->userdata('role');
-                                if ($role == 'admin') {
-                                ?>
+                                <!-- <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url('user.php') ?>"><b> Admin</b></a> -->
+                                    <?php }else if($role=="manager"){?>
+                                        <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("dashboard") ?>"><b><i class="fa-database fa "></i>
+                                            Dashboard</b></a>
+                                </li>
                                 <li class="nav-tabs text-left"
                                     style="margin-left:20px;margin-right:20px;margin-top:20px;">
-                                    <a href="<?= base_url('user.php') ?>"><b> Admin</b></a>
+                                    <a href="<?= base_url("manager/saldo") ?>"><b><i class="fa-database fa "></i>
+                                            Saldo Keseluruhan</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("saldo_antara/in") ?>"><b><i class="fa-database fa "></i>
+                                            Barang belum di Pallet</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("saldo_antara/out") ?>"><b><i class="fa-database fa "></i>
+                                            Barang belum di Keluarkan</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?=base_url("manager/saldo_track") ?>"><b><i class="fa-database fa "></i>
+                                            Saldo Tracking</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("scanner") ?>"><b><i class="fa-database fa "></i>
+                                            Detail Pallet</b></a>
+                                </li>
+                                    <?php } else if($role=="track"){?>
+                                        <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("home") ?>"><b><i class="fa-database fa "></i>
+                                            Home</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("master") ?>"><b><i class="fa-database fa "></i>
+                                            Master Barang</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("track/masuk_track") ?>"><b><i class="fa-database fa "></i>
+                                            Barang Masuk</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("track/keluar_track") ?>"><b><i class="fa-database fa "></i>
+                                            Barang Keluar</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("track/report/riwayat") ?>"><b><i class=" fa-calendar fa"></i> Riwayat
+                                            Keluar Masuk</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("track/report/filgolongan") ?>"><b><i class=" fa-table fa"></i>
+                                            Report per
+                                            Gol</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("track/report/repall") ?>"><b><i class="fa-history fa"></i> Report
+                                            All</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("track/report/repsa") ?>"><b><i
+                                                class="fa-history fa"></i> Report
+                                            Saldo Akhir</b></a>
+                                </li>
                                     <?php } ?>
                                 </li>
                                 <li class="nav-tabs text-left"

@@ -30,7 +30,7 @@ $this->load->view("_partials/menu");
                         <div class="table-responsive">
                             <table class="table table-bordered table-responsive" hidden width="100%" id="keluar" cellspacing="0"></table>
                         </div>
-                        <div id="role"><?=$this->session->userdata('role')?></div>
+                        <div id="role" hidden><?=$this->session->userdata('role')?></div>
                     </div>
                 </div>
             </div>

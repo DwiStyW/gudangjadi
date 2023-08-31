@@ -692,4 +692,66 @@ class Keluar_track extends CI_Controller
 
         redirect('track/keluar_track');
     }
+
+    public function scan_pallet(){
+        $nopallet = $this->input->post("nopallet");
+        $detailsal = $this->db->query("SELECT * FROM detailsal,master where nopallet='$nopallet' and detailsal.kode = master.kode")->result();
+        $no=1;
+        foreach($detailsal as $ds){
+            $sats1  = floor($ds->qty / ($ds->max1 * $ds->max2));
+            $sisa   = $ds->qty - ($sats1 * $ds->max1 * $ds->max2);
+            $sats2  = floor($sisa / $ds->max2);
+            $sats3  = $sisa - $sats2 * $ds->max2;
+            $data[] = array(
+                'no'=>$no++,
+                'nobatch'=>$ds->nobatch,
+                'kode'=>$ds->kode,
+                'nama'=>$ds->nama,
+                'nopallet'=>$nopallet,
+                'sat1'=>$sats1,
+                'sat2'=>$sats2,
+                'sat3'=>$sats3,
+                'aksi'=>'<form action="'.base_url("track/keluar_track/input_scan_keluar").'" method="post"><input type="text" hidden name="nobatch" value="'.$ds->nobatch.'"><input type="text" hidden name="kode" value="'.$ds->kode.'"><input type="text" hidden name="nama" value="'.$ds->nama.'"><input type="text" hidden name="nopallet" value="'.$ds->nopallet.'"><input type="text" hidden name="sats1" value="'.$sats1.'"><input type="text" hidden name="sats2" value="'.$sats2.'"><input type="text" hidden name="sats3" value="'.$sats3.'"><input type="text" hidden name="qty" value="'.$ds->qty.'"><button type="submit" class="btn btn-sm btn-primary">keluarkan</button></form>'
+            );
+        }
+        echo json_encode($data);
+    }
+    public function input_scan_keluar(){
+        $data['detailsal']=array(
+            'nobatch'   => $this->input->post("nobatch"),
+            'kode'      => $this->input->post("kode"),
+            'nama'      => $this->input->post("nama"),
+            'nopallet'  => $this->input->post("nopallet"),
+            'sats1'     => $this->input->post("sats1"),
+            'sats2'     => $this->input->post("sats2"),
+            'sats3'     => $this->input->post("sats3"),
+            'qty'       => $this->input->post("qty")
+        );
+        $this->load->view("_partials/header");
+        $this->load->view("_partials/menu");
+        $this->load->view("track/keluar/input_keluar_scan",$data);
+        $this->load->view("_partials/footer");
+    }
+
+    public function get_permintaan(){
+        $noform = $this->input->post("id");
+        $kode   = $this->input->post("kode");
+        $detailsalqty = $this->db->query("SELECT *,detailsalqty.tglform as tgl FROM detailsalqty inner join master on master.kode=detailsalqty.kode where detailsalqty.kode='$kode' and noform='$noform'");
+        foreach($detailsalqty->result() as $dsq){
+            $sats1  = floor($dsq->qty / ($dsq->max1 * $dsq->max2));
+            $sisa   = $dsq->qty - ($sats1 * $dsq->max1 * $dsq->max2);
+            $sats2  = floor($sisa / $dsq->max2);
+            $sats3  = $sisa - $sats2 * $dsq->max2;
+            $data[]=array(
+                "sats1"=>$sats1,
+                "sats2"=>$sats2,
+                "sats3"=>$sats3,
+                "tglform"=>$dsq->tgl,
+                "sat1"=>$dsq->sat1,
+                "sat2"=>$dsq->sat2,
+                "sat3"=>$dsq->sat3,
+            );
+        }
+        echo json_encode($data);
+    }
 }

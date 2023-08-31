@@ -2,7 +2,6 @@
     $this->load->view('_partials/header');
     $this->load->view('_partials/menu');
 ?>
-<div class="layarlebar">
     <div class="admin-dashone-data-table-area mg-b-40">
         <div class="container " style="position:relative;top:-250px;z-index: 1">
             <div class="d-flex">
@@ -12,9 +11,9 @@
                 </div>
                 <div style="background-color:#fff">
                     <div class="sparkline8-graph shadow">
-                        <div class="datatable-dashv1-list custom-datatable-overright"
+                        <div class="table-responsive datatable-dashv1-list custom-datatable-overright"
                             style="margin-left:10px;margin-right:10px;padding-bottom:10px">
-
+                
                             <table id="tabel" class="table table-responsive table-bordered">
                                 <thead>
 

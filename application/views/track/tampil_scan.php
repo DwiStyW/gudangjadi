@@ -2,7 +2,7 @@
 ini_set('date.timezone', 'Asia/Jakarta');
 ?>
 <div class="admin-dashone-data-table-area mg-b-40">
-    <div class="container-fluid" style="position:relative;top:-350px;z-index: 1">
+    <div class="container-fluid" style="position:relative;top:-250px;z-index: 1">
         <div class="d-flex">
             <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
                 <div class="main-sparkline8-hd justify-content-start"

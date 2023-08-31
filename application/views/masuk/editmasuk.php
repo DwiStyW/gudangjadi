@@ -2,7 +2,6 @@
     ini_set('date.timezone', 'Asia/Jakarta');
     ?>
 
-<div class="layarlebar">
     <div class="admin-dashone-data-table-area mg-b-40">
         <div class="container" style="position:relative;margin-top:-250px;padding-bottom:32px;z-index: 1">
             <div class="d-flex">
@@ -197,5 +196,4 @@
             </div>
         </div>
     </div>
-</div>
 <!-- Data table area End-->

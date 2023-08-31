@@ -7,10 +7,16 @@ date_default_timezone_set('Asia/Jakarta');
         <div class="container" style="position:relative;margin-top:-250px;padding-bottom:32px;z-index: 1">
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
-                    <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
-                        <h1>Input Produk Masuk<h1>
+                    <div class="main-sparkline8-hd justify-content-between" style="display:flex; flex:wrap;padding-top:20px;padding-bottom:20px;padding-left:20px;">
+                        <h1>Input Produk Masuk</h1>
+                        <div style="display:flex; flex:wrap;padding-right:20px">
+                            <div style="width:auto">
+                                <div data-target="#scanKeluar" data-toggle="modal" name="submit" class="btn btn-sm btn-warning">Scan Pallet</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
                 <div style="background-color:#fff">
                     <div class="sparkline12-graph">
                         <div class="basic-login-form-ad">
@@ -19,19 +25,6 @@ date_default_timezone_set('Asia/Jakarta');
                                     <div class="all-form-element-inner">
 
                                         <form enctype="multipart/form-data" id="data" action="<?= base_url("track/masuk_track/tambah_masuk_track") ?>" method="post" class="form">
-                                            
-                                            <!-- <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">No Form</label>
-                                                    </div>
-                                                    <div class="col-lg-9">
-                                                        <input name="noform" type="text" class="form-control" id="q" onkeyup="search()" placeholder="Nomor Form" required />
-                                                        <label class="login2 pull-left pull-right-pro" id="pesan"></label>
-                                                    </div>
-                                                </div>
-                                            </div> -->
-                                            <!-- kode barang -->
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">

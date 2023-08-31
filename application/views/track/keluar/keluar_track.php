@@ -36,7 +36,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div id="role"><?=$this->session->userdata('role')?></div>
+                        <div id="role" hidden><?=$this->session->userdata('role')?></div>
                     </div>
                 </div>
             </div>

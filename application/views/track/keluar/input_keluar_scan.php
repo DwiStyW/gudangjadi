@@ -11,7 +11,7 @@ date_default_timezone_set('Asia/Jakarta');
                         <h1>Input Produk Keluar</h1>
                         <div style="display:flex; flex:wrap;padding-right:20px">
                             <div style="width:auto">
-                                <div data-target="#scanKeluar" onclick="cam_on()" data-toggle="modal" name="submit" class="btn btn-sm btn-warning">Scan Pallet</div>
+                                <div data-target="#scanKeluar" data-toggle="modal" name="submit" class="btn btn-sm btn-warning">Scan Pallet</div>
                             </div>
                         </div>
                     </div>
@@ -25,34 +25,30 @@ date_default_timezone_set('Asia/Jakarta');
                                     <div class="all-form-element-inner">
 
                                         <form enctype="multipart/form-data" id="data" action="<?=base_url("track/keluar_track/tambah_keluar_track")?>" method="post" class="form">
-
-                                            <!-- <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">No Form</label>
-                                                    </div>
-                                                    <div class="col-lg-9">
-                                                        <input name="noform" type="text" class="form-control" id="q" onkeyup="search()" placeholder="Nomor Form" required />
-                                                        <label class="login2 pull-left pull-right-pro" id="pesan"></label>
-                                                    </div>
-                                                </div>
-                                            </div> -->
-                                            <!-- kode barang -->
-                                            <input type="hidden" id="jumlah" name="isi_pallet">
+                                            <input type="hidden" id="jumlah" name="isi_pallet" value="<?= $detailsal['qty']?>">
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">No Form</label>
                                                     </div>
                                                     <div class="col-lg-5">
+                                                        <?php
+                                                        $kode=$detailsal['kode'];
+                                                        $noform = $this->db->query("SELECT * FROM detailsalqty where ket='OUT' and kode='$kode'");
+                                                        if($noform->num_rows()>0){?>
                                                         <select id="noform" name="noform" type="select" class="form-control" required />
                                                         <option type="search"></option>
-                                                        <?php $noform = $this->db->query("SELECT DISTINCT noform FROM detailsalqty where ket='OUT'");
+                                                        <?php
                                                         foreach($noform->result() as $sppb){?>
-                                                        <option value="<?= $sppb->noform?>"><?= $sppb->noform?></option>
-                                                        <?php }?>
-
+                                                            <option value="<?= $sppb->noform?>"><?= $sppb->noform?></option>
+                                                        <?php } ?>
                                                         </select>
+                                                        <?php }else{ ?>
+                                                            <select id="noform" name="noform" type="select" class="form-control" disabled required>
+                                                                <option value selected disabled>Tidak ada permintaan</option>
+                                                            </select>
+                                                        <?php } ?>
+
                                                     </div>
                                                     <div style="display:flex; flex-wrap:wrap">
                                                     <div style="width:110px;padding-left:40px">
@@ -72,34 +68,19 @@ date_default_timezone_set('Asia/Jakarta');
                                                     </div>
                                                     <div class="col-lg-9">
                                                         <div class="form-select-list">
-                                                            <select id="kode" name="kode" class="form-control" required>
-                                                                <option type="search"></option>
-                                                            </select>
+                                                            <input id="kodetok" class="form-control" value="<?= "|". $detailsal['kode']."|-".$detailsal['nama'] ?>" readonly required>
+                                                            <input id="kode" name="kode" value="<?=$detailsal['kode']?>" hidden>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                                
-                                            <?php
-                                                $mas = $this->db->where('kode', $this->uri->segment(4))->get('master');
-                                                foreach ($mas->result() as $m) {
-                                                    $satuan1 = $m->sat1;
-                                                    $satuan2 = $m->sat2;
-                                                    $satuan3 = $m->sat3;
-                                                    $max1 = $m->max1;
-                                                    $max2 = $m->max2;
-                                                }
-                                                ?>
+                                            </div>                                            
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">No Batch</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <select id="batch" class="form-control" name="nobatch" type="select" required>
-                                                            <option type="search"></option>
-
-                                                        </select>
+                                                        <input id="batch" class="form-control" name="nobatch" value="<?= $detailsal['nobatch']?>" readonly type="text" required/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -109,17 +90,22 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">No Pallet</label>
                                                     </div>
                                                     <div class="col-lg-5">
-                                                        <select id="pallet" name="nopallet" type="select" class="form-control" required />
-                                                        <option type="search"></option>
-
-                                                        </select>
+                                                        <input id="pallet" name="nopallet" type="select" class="form-control" value="<?= $detailsal['nopallet']?>" readonly required />
                                                     </div>
                                                     <div style="display:flex; flex-wrap:wrap">
                                                     <div style="width:110px;padding-left:40px">
                                                     <label  class="login2 pull-right pull-right-pro">Isi:</label>
                                                     </div>
                                                     <div style="width:200px">
-                                                    <h5 id="qty"></h5>
+                                                    <?php
+                                                    $master = $this->db->query("SELECT * FROM master where kode='$kode'");
+                                                    foreach($master->result() as $m){
+                                                        $sat1 = $m->sat1;
+                                                        $sat2 = $m->sat2;
+                                                        $sat3 = $m->sat3;
+                                                    }
+                                                    ?>
+                                                    <h5><?= $detailsal['sats1']." ".$sat1." ".$detailsal['sats2']." ".$sat2." ".$detailsal['sats3']." ".$sat3 ?></h5>
                                                     </div>
                                                     </div>
                                                 </div>
@@ -141,7 +127,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">Satuan 1</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input id="sats1" name="sat1" type="number" class="form-control"
+                                                        <input id="sats1" name="sat1" type="number" value="<?= $detailsal['sats1']?>" class="form-control"
                                                             placeholder="Satuan 1">
                                                     </div>
                                                 </div>
@@ -152,7 +138,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">Satuan 2</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input id="sats2" name="sat2" type="number" class="form-control"
+                                                        <input id="sats2" name="sat2" type="number" value="<?= $detailsal['sats2']?>" class="form-control"
                                                             placeholder="Satuan 2">
                                                     </div>
                                                 </div>
@@ -163,7 +149,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">Satuan 3</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input id="sats3" name="sat3" type="number" class="form-control"
+                                                        <input id="sats3" name="sat3" type="number" value="<?= $detailsal['sats3']?>" class="form-control"
                                                             placeholder="Satuan 3">
                                                     </div>
                                                 </div>
@@ -239,12 +225,6 @@ date_default_timezone_set('Asia/Jakarta');
 <script src="<?=base_url()?>assets/select2-master/dist/js/select2.min.js"></script>
 <script src="<?=base_url()?>assets/sweetalert2/swal2.js"></script>
 <script>
-
-function cam_on(){
-    // var html5QrcodeScanner = new Html5QrcodeScanner(
-    //   "qr-reader", { fps: 10, qrbox: 200 });
-      console.log("test");
-  }
     function filsalmin(){
         var saldo = document.getElementById('jumlah').value;
         var sal1  = document.getElementById('sats1').value;
@@ -315,50 +295,35 @@ Swal.fire({
 <?php
 endif?>
 <script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery-3.3.1.js' ?>"></script>
-<script src="<?=base_url()?>assets/select2-master/dist/js/select2.min.js"></script>
-<script src="<?=base_url()?>assets/sweetalert2/swal2.js"></script>
+<script>
+$(document).ready(function() {
+    $("#noform").select2({
+        placeholder: "Please Select",
+    });
+});
+</script>
 <script>
 $(document).ready(function() {
     $('#noform').change(function() {
         var id = $(this).val();
+        var kode = document.getElementById("kode").value;
         $.ajax({
-            url: "<?php echo site_url('track/keluar_track/get_kode'); ?>",
+            url: "<?php echo site_url('track/keluar_track/get_permintaan'); ?>",
             method: "POST",
             data: {
-                id: id
+                id: id,
+                kode:kode
             },
             async: true,
             dataType: 'json',
             success: function(data) {
-                $("#kode").select2({
-                    placeholder: "Please Select",
-                });
-                $("#batch").select2({
-                    placeholder: "Please Select",
-                });
-                $("#pallet").select2({
-                    placeholder: "Please Select",
-                });
-
-                var html = '';
-                var i;
-                html = '<option selected type="search"></option>';
-                for (i = 0; i < data.length; i++) {
-                    html += '<option value=' + data[i].kode + '>' + data[i]
-                        .nama + '</option>';
-                }
-                $('#kode').html(html);
-
-                var htmlp = '';
-                htmlp = '<option selected type="search"></option>';
-                $('#pallet').html(htmlp);
-
-                var htmlq = '';
-                htmlq = '';
-
-                $('#qty').html(htmlq);
-                html2 = data[0].tglform;
+                var html2 = '';
+                html2 += data[0].tglform;
                 $('#tglform').val(html2);
+                var html =''
+                html+=data[0].sats1+" "+data[0].sat1+" "+data[0].sats2+" "+data[0].sat2+" "+data[0].sats3+" "+data[0].sat3;
+                document.getElementById("keluaran").innerHTML=html;
+                console.log(data);
             }
         });
         return false;
@@ -391,147 +356,5 @@ $(document).ready(function() {
         });
         return false;
     });
-    $('#batch').change(function() {
-        var id = $(this).val();
-        var kode = document.getElementById('kode').value;
-        $.ajax({
-            url: "<?php echo site_url('track/keluar_track/get_pallet'); ?>",
-            method: "POST",
-            data: {
-                id: id,
-                kode: kode
-            },
-            async: true,
-            dataType: 'json',
-            success: function(data) {
-
-                var html = '';
-                var i;
-                html = '<option selected type="search"></option>';
-                for (i = 0; i < data.length; i++) {
-                    html += '<option value=' + data[i].nopallet + '>' + data[i]
-                        .nopallet + '</option>';
-                }
-                $('#pallet').html(html);
-            }
-        });
-        return false;
-    });
-
-    $('#pallet').change(function() {
-        var id = $(this).val();
-        var kode = document.getElementById('kode').value;
-        var batch= document.getElementById('batch').value;
-        $.ajax({
-            url: "<?php echo site_url('track/keluar_track/get_qty'); ?>",
-            method: "POST",
-            data: {
-                id: id,
-                kode: kode,
-                batch: batch
-            },
-            async: true,
-            dataType: 'json',
-            success: function(data) {
-
-                var html = '';
-                var html1 = '';
-                var jumlah = data[0].qty;
-                var max1   = data[0].max1;
-                var max2   = data[0].max2;
-                var sat1   = data[0].sat1;
-                var sat2   = data[0].sat2;
-                var sat3   = data[0].sat3;
-
-                var jum1  = Math.floor(data[0].qty / (max1 * max2 ));
-                var sisa  = jumlah - (jum1 * max1 * max2);
-                var jum2  = Math.floor(sisa / max2);
-                var jum3  = sisa - jum2 * max2;
-
-                if(jumlah!=null){
-                html = "<h5>"+jum1+" "+sat1+" "+jum2+" "+sat2+" "+jum3+" "+sat3+"</h5>";
-                }
-                html1 = jumlah;
-                $('#jumlah').val(html1);
-                $('#qty').html(html);
-                // console.log(data);
-            }
-        });
-        return false;
-    });
-    $('#kode').change(function() {
-        var id = $(this).val();
-        var noform = document.getElementById('noform').value;
-        $.ajax({
-            url: "<?php echo site_url('track/keluar_track/get_keluar'); ?>",
-            method: "POST",
-            data: {
-                id: id,
-                noform: noform,
-            },
-            async: true,
-            dataType: 'json',
-            success: function(data) {
-
-                var html = '';
-                var html1 = '';
-                var jumlah = data[0].qty;
-                var max1   = data[0].max1;
-                var max2   = data[0].max2;
-                var sat1   = data[0].sat1;
-                var sat2   = data[0].sat2;
-                var sat3   = data[0].sat3;
-
-                var jum1  = Math.floor(data[0].qty / (max1 * max2 ));
-                var sisa  = jumlah - (jum1 * max1 * max2);
-                var jum2  = Math.floor(sisa / max2);
-                var jum3  = sisa - jum2 * max2;
-
-                if(jumlah!=null){
-                html = "<h5>"+jum1+" "+sat1+" "+jum2+" "+sat2+" "+jum3+" "+sat3+"</h5>";
-                }
-                html1 = jumlah;
-                $('#keluaran').html(html);
-            }
-        });
-        return false;
-    });
-
-
-});
-</script>
-<script>
-$(document).ready(function() {
-    $("#kode").select2({
-        placeholder: "Please Select",
-    });
-    $("#batch").select2({
-        placeholder: "Please Select",
-    });
-    $("#pallet").select2({
-        placeholder: "Please Select",
-    });
-    $("#noform").select2({
-        placeholder: "Please Select",
-    });
-});
-</script>
-<script>
-$(function() {
-    $("#noform").change(function() {
-        $("#kode").select2('val', 'all');
-        $("#batch").select2('val', 'all');
-        $("#pallet").select2('val', 'all');
-    });
-    $("#kode").change(function() {
-        $("#batch").select2('val', 'all');
-        $("#pallet").select2('val', 'all');
-    });
-    $("#batch").change(function() {
-        $("#pallet").select2('val', 'all');
-        $("#pallet").select2({
-            placeholder: "Please Select",
-        });
-    })
 });
 </script>

@@ -8,7 +8,6 @@ if ($code == "") {
     $code = 0;
 }
 ?>
-<div class="layarlebar">
     <div class="admin-dashone-data-table-area mg-b-40">
         <div class="container " style="position:relative;top:-250px;z-index: 1">
             <div class="d-flex">
@@ -25,7 +24,7 @@ if ($code == "") {
                                 <button class="btn btn-sm btn-success login-submit-cs" type="submit">Print</button></a>
                             <a href="<?= base_url("track/report/riwayat") ?>"><button class=" btn btn-white" type="button">Kembali</button></a>
                         </div>
-                        <div class="datatable-dashv1-list custom-datatable-overright">
+                        <div class="datatable-dashv1-list custom-datatable-overright table-responsive">
                             <div style="margin-bottom:20px">Periode :
                                 <?php echo date('d F Y', strtotime($start)); ?> hingga
                                 <?php echo date('d F Y', strtotime($end)); ?>
@@ -232,5 +231,4 @@ if ($code == "") {
             </div>
         </div>
     </div>
-</div>
 <!-- Data table area End-->

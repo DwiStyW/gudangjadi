@@ -1,5 +1,4 @@
 <!-- Data table area Start-->
-<div class="layarlebar">
     <div class="admin-dashone-data-table-area mg-b-40">
         <div class="container" style="position:relative;top:-250px;z-index: 1">
             <div class="d-flex">
@@ -173,7 +172,6 @@
             </div>
         </div>
     </div>
-</div>
 <!-- Data table area End-->
 <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
 <?php if ($this->session->flashdata('peringatan')) : ?>

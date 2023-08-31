@@ -22,8 +22,8 @@ $this->load->view('_partials/menu');
                         <div class="spinner-grow mr-3" style="color:dimgray"></div>
                         <div class="spinner-grow mr-3" style="color:dimgray"></div>
                     </div>
-                    <!-- <div class="tabel-responsive" style="margin-left:10px;margin-right:10px;padding-bottom:10px"> -->
-                        <table class="table table-bordered table-responsive" hidden width="100%" id="tabel">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" hidden width="100%" id="tabel">
                            <thead>
                             <tr>
                                 <th>No</th>
