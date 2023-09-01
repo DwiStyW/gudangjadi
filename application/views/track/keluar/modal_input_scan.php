@@ -6,26 +6,35 @@
         <h1 class="modal-title fs-5" id="exampleModalLabel">Scan QR Code</h1>
       </div>
       <div class="table-responsive container-fluid">
-      <div style="background-color:white;margin-bottom:20px" id="qr-reader"></div>
+        <div style="background-color:white;margin-bottom:20px" id="qr-reader"></div>
         <table class="table table-striped table-bordered w-100" id="table">
           <thead></thead>
           <tbody></tbody>
         </table>
-        </div>
+      </div>
       <div class="modal-footer">
         <!-- <a href="<?=base_url("track/keluar_track/input_keluar_track")?>"><button class="btn btn-secondary">Close</button></a> -->
-        <button onclick="camera_close()" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
-
+<!-- <script>
+$(document).ready(function() {
+    $("#btnScan").click(function(){
+      $("#table").DataTable({
+        destroy:true
+      })
+      console.log("test")
+    })
+  });
+</script> -->
 <script>
-  function camera_close(){
-    html5QrcodeScanner.clear()
-  }
+  var html5QrcodeScanner = new Html5QrcodeScanner(
+            "qr-reader", { fps: 10, qrbox: 200 });
   html5QrcodeScanner.render(onScanSuccess);
     function onScanSuccess(decodedText, decodedResult) {
+      document.getElementById("qr-reader").hidden=true;
       html5QrcodeScanner.clear();
       document.getElementById("qr-reader").remove();
       $.ajax({

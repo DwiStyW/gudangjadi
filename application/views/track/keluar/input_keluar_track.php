@@ -11,7 +11,7 @@ date_default_timezone_set('Asia/Jakarta');
                         <h1>Input Produk Keluar</h1>
                         <div style="display:flex; flex:wrap;padding-right:20px">
                             <div style="width:auto">
-                                <div data-target="#scanKeluar" onclick="cam_on()" data-toggle="modal" name="submit" class="btn btn-sm btn-warning">Scan Pallet</div>
+                                <div data-target="#scanKeluar" id="btnScan" data-toggle="modal" name="submit" class="btn btn-sm btn-warning">Scan Pallet</div>
                             </div>
                         </div>
                     </div>
@@ -240,11 +240,6 @@ date_default_timezone_set('Asia/Jakarta');
 <script src="<?=base_url()?>assets/sweetalert2/swal2.js"></script>
 <script>
 
-function cam_on(){
-    // var html5QrcodeScanner = new Html5QrcodeScanner(
-    //   "qr-reader", { fps: 10, qrbox: 200 });
-      console.log("test");
-  }
     function filsalmin(){
         var saldo = document.getElementById('jumlah').value;
         var sal1  = document.getElementById('sats1').value;
