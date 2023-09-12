@@ -11,7 +11,7 @@ date_default_timezone_set('Asia/Jakarta');
                         <h1>Input Produk Masuk</h1>
                         <div style="display:flex; flex:wrap;padding-right:20px">
                             <div style="width:auto">
-                                <div data-target="#scanKeluar" data-toggle="modal" name="submit" class="btn btn-sm btn-warning">Scan Pallet</div>
+                                <div data-target="#scanMasuk" data-toggle="modal" name="submit" class="btn btn-sm btn-warning">Scan Pallet</div>
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                                 <?php
                                                                 $no = 1;
                                                                 foreach ($master as $mter) { ?>
-                                                                    <option type="search"></option>
+                                                                    <!-- <option type="search"></option> -->
                                                                     <?php if($this->uri->segment(4)==$mter->kode){?>
                                                                     <option selected value="<?= $mter->kode ?>">
                                                                     <?= $mter->kode ?> - <?= $mter->nama ?>
@@ -217,7 +217,7 @@ date_default_timezone_set('Asia/Jakarta');
     </div>
 </div>
 <!-- Data table area End-->
-
+<?php $this->load->view("track/masuk/modal_input_scan") ?>
 <!-- mobile -->
 
 <script type="text/javascript" src="<?php echo base_url().'assets/js/jquery-3.3.1.js'?>"></script>

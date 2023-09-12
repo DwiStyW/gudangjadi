@@ -9,7 +9,7 @@
         <div style="background-color:white;margin-bottom:20px" id="qr-reader"></div>
     </div>
       <div class="modal-footer">
-        <a href="<?=base_url("track/keluar_track/input_keluar_track")?>"><button class="btn btn-secondary">Close</button></a>
+        <a href="<?= base_url("track/masuk_track/close")?>"><button class="btn btn-secondary">Close</button></a>
       </div>
     </div>
   </div>

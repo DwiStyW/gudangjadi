@@ -19,16 +19,6 @@
     </div>
   </div>
 </div>
-<!-- <script>
-$(document).ready(function() {
-    $("#btnScan").click(function(){
-      $("#table").DataTable({
-        destroy:true
-      })
-      console.log("test")
-    })
-  });
-</script> -->
 <script>
   var html5QrcodeScanner = new Html5QrcodeScanner(
             "qr-reader", { fps: 10, qrbox: 200 });

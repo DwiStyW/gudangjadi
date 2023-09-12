@@ -196,6 +196,26 @@
                                 </li>
                                 <li class="nav-tabs text-left"
                                     style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("saldo_antara/in") ?>"><b><i class="fa-database fa "></i>
+                                            Produk belum di pallet</b></a>
+                                </li>
+                                    <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("saldo_antara/out") ?>"><b><i class="fa-database fa "></i>
+                                            Produk belum di keluarkan</b></a>
+                                </li>
+                                    <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("track/saldo_track") ?>"><b><i class="fa-database fa "></i>
+                                            Detail Saldo</b></a>
+                                </li>
+                                    <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
+                                    <a href="<?= base_url("mapping/status") ?>"><b><i class="fa-database fa "></i>
+                                            Layout Mapping</b></a>
+                                </li>
+                                <li class="nav-tabs text-left"
+                                    style="margin-left:20px;margin-right:20px;margin-top:20px;">
                                     <a href="<?= base_url("track/report/riwayat") ?>"><b><i class=" fa-calendar fa"></i> Riwayat
                                             Keluar Masuk</b></a>
                                 </li>

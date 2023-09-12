@@ -5,7 +5,7 @@
       <div class="col-lg-6"></div>
         <div class="col-lg-12">
             <!-- scanner qrcode -->
-            <div style="background-color:white;margin-bottom:20px" id="qr-reader"></div>
+            <div style="background-color:white;margin-bottom:20px" id="qr-reader" allow="camera"></div>
             <!-- card 1 -->
             <div class="row">
               <div class="col-md-12">
@@ -39,6 +39,7 @@
     window.location = "<?= base_url("scanner/detailpallet/")?>"+`${decodedText}`;
 
 }
+// getUserMedia(constraints);
 var html5QrcodeScanner = new Html5QrcodeScanner(
 	"qr-reader", { fps: 10, qrbox: 200 });
 html5QrcodeScanner.render(onScanSuccess);

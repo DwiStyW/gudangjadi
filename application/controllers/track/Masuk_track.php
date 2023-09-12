@@ -733,4 +733,8 @@ class Masuk_track extends CI_Controller
         $data = $this->masuk_track_model->get_qty($id, $kode)->result();
         echo json_encode($data);
     }
+
+    public function close(){
+        echo "<script>window.history.go(-1)</script>";
+    }
 }

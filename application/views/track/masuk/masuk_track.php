@@ -102,6 +102,7 @@
 <?php
     endif ?>
 <script>
+    $(document).ready(function(){
     $.ajax({
         dataType:"json",
         url:'<?= base_url("track/masuk_track/get_masuk");?>',
@@ -175,4 +176,5 @@
             })
         }
     })
+});
 </script>
