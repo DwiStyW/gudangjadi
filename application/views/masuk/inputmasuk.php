@@ -191,7 +191,7 @@ date_default_timezone_set('Asia/Jakarta');
                                 <button onclick="submitall()" class="btn btn-success">Submit</button>
                             </div>
                         </div>
-                        <input type="text" id="count" value="0">
+                        <input type="text" hidden id="count" value="0">
             </div>
         </div>
     </div>
@@ -316,22 +316,11 @@ date_default_timezone_set('Asia/Jakarta');
                         timerProgressBar: true,
                         icon:"success",  
                         title:"Input berhasil!"      
-                    })
-                        document.getElementById('noform').value="";
-                        document.getElementById('kode0').value="";
-                        document.getElementById('sat10').value="";
-                        document.getElementById('sat20').value="";
-                        document.getElementById('sat30').value="";
-                        document.getElementById('cat0').value="";
-
-                        var count = document.getElementById("count").value
-                        for(let i=0;i<=count;i++){
-                            document.getElementById("destination"+i).innerHTML=""
+                    }).then((result)=>{
+                        if(result.isDismissed){
+                            window.history.go(0);
                         }
-                        document.getElementById("count").value = 0;
-                        document.getElementById("minus").disabled = true;
-                        document.getElementById("plus").disabled = false;
-                        
+                    })                        
                     },
                     error: function (xhr, textStatus, exceptionThrown) {
                         console.log(xhr+" "+textStatus+" "+exceptionThrown);
