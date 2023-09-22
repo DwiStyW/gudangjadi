@@ -8,7 +8,7 @@ date_default_timezone_set('Asia/Jakarta');
             <div class="d-flex">
                 <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block">
                     <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
-                        <h1>Input Produk Masuk<h1>
+                        <h1>Nomor Transaksi<h1>
                     </div>
                 </div>
                 <div style="background-color:#fff">
@@ -18,7 +18,7 @@ date_default_timezone_set('Asia/Jakarta');
                                 <div class="col-lg-12">
                                     <div class="all-form-element-inner">
 
-                                        <form enctype="multipart/form-data" action="<?= base_url("masuk/barang_masuk") ?>" method="post" class="form">
+                                        <!-- <form enctype="multipart/form-data" action="<?= base_url("masuk/tambah_masuk") ?>" method="post" class="form"> -->
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -36,11 +36,31 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">No Form</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="noform" type="text" class="form-control" id="q" onkeyup="search()" placeholder="Nomor Form" required />
+                                                        <input name="noform" type="text" class="form-control" id="noform" onkeyup="search()" placeholder="Nomor Form" required />
                                                         <label class="login2 pull-left pull-right-pro" id="pesan"></label>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-sm" id="minus" onclick="minus()" disabled style="margin-top:10px"><i class="fa fa-minus"></i></button>
+                    <button class="btn btn-primary btn-sm" id="plus" onclick="tambah()" style="margin-top:10px"><i class="fa fa-plus"></i></button>
+                    <div id="copy">
+                    <div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block; margin-top:10px">
+                        <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;">
+                            <h1>Input Produk Masuk<h1>
+                        </div>
+                    </div>
+                    <div style="background-color:#fff">
+                        <div class="sparkline12-graph">
+                            <div class="basic-login-form-ad">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="all-form-element-inner">
                                             <!-- kode barang -->
                                             <div class="form-group-inner">
                                                 <div class="row">
@@ -50,7 +70,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                     </div>
                                                     <div class="col-lg-9">
                                                         <div class="form-select-list">
-                                                            <select id="kode" name="kode" class="form-control" type="sumbit" onchange="filSatuan()" required>
+                                                            <select id="kode0" name="kode0" class="form-control" type="select" onchange="filSatuan()" required>
                                                                 <option type="search"></option>
                                                                 <?php
                                                                 $no = 1;
@@ -73,7 +93,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">No Batch</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="nobatch" onkeyup="validation()" id="nobatch" type="text" class="form-control" placeholder="Nomor Batch" required />
+                                                        <input name="nobatch0" id="nobatch0" type="text" class="form-control" placeholder="Nomor Batch" required />
                                                         <span id="warning" class="text-danger"></span>
                                                     </div>
                                                 </div>
@@ -84,11 +104,11 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">Satuan 1</label>
                                                     </div>
                                                     <div class="col-lg-7">
-                                                        <input name="sat1" type="number" class="form-control"
+                                                        <input name="sat10" id="sat10" type="number" class="form-control"
                                                             placeholder="Satuan 1">
                                                     </div>
                                                     <div class="col-lg-2">
-                                                        <input readonly id=sat1 class="form-control" value="">
+                                                        <input readonly id="sat1" class="form-control" value="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -98,7 +118,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">Satuan 2</label>
                                                     </div>
                                                     <div class="col-lg-7">
-                                                        <input name="sat2" type="number" class="form-control"
+                                                        <input name="sat20" id="sat20" type="number" class="form-control"
                                                             placeholder="Satuan 2">
                                                     </div>
                                                     <div class="col-lg-2">
@@ -112,7 +132,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">Satuan 3</label>
                                                     </div>
                                                     <div class="col-lg-7">
-                                                        <input name="sat3" type="number" class="form-control"
+                                                        <input name="sat30" id="sat30" type="number" class="form-control"
                                                             placeholder="Satuan 3">
                                                     </div>
                                                     <div class="col-lg-2">
@@ -128,7 +148,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                             Input</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="tgl" type="text" class="form-control" id="tgl"
+                                                        <input name="tgl0" type="text" class="form-control" id="tgl0"
                                                             value="<?php echo date("Y-m-d h:i:s"); ?>"
                                                             readonly="readonly" />
                                                     </div>
@@ -141,7 +161,7 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">Catatan</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <input name="cat" type="text" class="form-control" id="cat"
+                                                        <input name="cat0" type="text" class="form-control" id="cat0"
                                                             placeholder="Catatan" />
                                                     </div>
                                                 </div>
@@ -149,128 +169,29 @@ date_default_timezone_set('Asia/Jakarta');
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-9">
-                                                        <input name="adm" type="hidden" class="form-control" id="adm"
+                                                        <input name="adm" id="adm" type="hidden" class="form-control" id="adm"
                                                             value="<?= $this->session->userdata('user_id'); ?>" />
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group-inner">
-                                                <div class="login-btn-inner">
-                                                    <div class="row">
-                                                        <div class="col-lg-3"></div>
-                                                        <div class="col-lg-9">
-                                                            <div class="login-horizental cancel-wp pull-left">
-                                                                <a href="<?= base_url("masuk") ?>"><button class="btn btn-white" type="button">Kembali</button></a>
-                                                                <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Save Change</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                        <br>
-                                        <!-- Start Form -->
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="sparkline8-hd">
-                                                    <div class="main-sparkline8-hd">
-                                                        <h1>Form sudah input</h1>
-                                                    </div>
-                                                </div>
-                                                <div class="sparkline8-graph">
-                                                    <div class="datatable-dashv1-list custom-datatable-overright">
-                                                        <table data-toggle="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th data-field="no">No</th>
-                                                                    <th data-field="tglform">Tgl Form</th>
-                                                                    <th data-field="noform">No Form</th>
-                                                                    <th data-field="nobatch">No Batch</th>
-                                                                    <th data-field="kode">Kode Barang</th>
-                                                                    <th data-field="nama">Nama Barang</th>
-                                                                    <th data-field="satuan1">Satuan 1</th>
-                                                                    <th data-field="satuan2">Satuan 2</th>
-                                                                    <th data-field="satuan3">Satuan 3</th>
-                                                                    <th data-field="satuan3">ket</th>
-                                                                    <th data-field="tanggal">Tgl Input</th>
-                                                                    <th data-field="aksi" colspan=2>Aksi</th>
-
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody id="list">
-                                                                <?php
-                                                                $no = 1;
-                                                                foreach ($masuk as $m) {
-                                                                ?>
-                                                                <tr>
-                                                                    <td><?php echo $no++; ?></td>
-                                                                    <td><?php echo date("d-m-Y", strtotime($m->tglform)); ?>
-                                                                    </td>
-                                                                    <td><?php echo $m->noform; ?></td>
-                                                                    <td><?php echo $m->nobatch; ?></td>
-                                                                    <td><?php echo $m->kode; ?></td>
-                                                                    <td><?php echo $m->nama; ?></td>
-                                                                    <?php
-                                                                        if ($m->masuk == 0) {
-
-                                                                            //Perhitungan 3 Satuan
-                                                                            $sats1  = floor($m->keluar / ($m->max1 * $m->max2));
-                                                                            $sisa   = $m->keluar - ($sats1 * $m->max1 * $m->max2);
-                                                                            $sats2  = floor($sisa / $m->max2);
-                                                                            $sats3  = $sisa - $sats2 * $m->max2;
-                                                                        } else {
-
-                                                                            //Perhitungan 3 Satuan
-                                                                            $sats1  = floor($m->masuk / ($m->max1 * $m->max2));
-                                                                            $sisa   = $m->masuk - ($sats1 * $m->max1 * $m->max2);
-                                                                            $sats2  = floor($sisa / $m->max2);
-                                                                            $sats3  = $sisa - $sats2 * $m->max2;
-                                                                        }
-                                                                        ?>
-                                                                    <td><?php echo $sats1; ?> <?php echo $m->sat1 ?>
-                                                                    </td>
-                                                                    <td><?php echo $sats2; ?> <?php echo $m->sat2 ?>
-                                                                    </td>
-                                                                    <td><?php echo $sats3; ?> <?php echo $m->sat3 ?>
-                                                                    </td>
-                                                                    <td><?php echo $m->ket; ?></td>
-                                                                    <td><?php echo $m->tanggal; ?></td>
-                                                                    <?php if ($m->ket == "Output") { ?>
-                                                                    <td><button disabled href="<?= base_url("keluar/edit_keluar/" . $m->no) ?>"
-                                                                            class="btn btn-primary btn-sm"><i
-                                                                                class="fa fa-edit"></i>
-                                                                            Edit </button></td>
-                                                                    <td><a href="<?= base_url("keluar/hapus_keluar/" . $m->no . "/" . $m->kode) ?>"
-                                                                            onclick="javascript: return confirm('Anda yakin hapus ?')"
-                                                                            class="btn btn-danger btn-sm"><i
-                                                                                class="fa fa-trash"></i> Hapus</a>
-                                                                    </td>
-                                                                    <?php } else { ?>
-                                                                    <td><button disabled href="<?= base_url("masuk/edit_masuk/" . $m->no) ?>"
-                                                                            class="btn btn-primary btn-sm"><i
-                                                                                class="fa fa-edit"></i>
-                                                                            Edit </button></td>
-                                                                    <td><a onclick="hapus(`<?=$m->no?>`,`<?=$m->noform?>`,`<?=$m->nobatch?>`,`<?=$m->kode?>`,`<?= $sats1?>`,`<?= $sats2?>`,`<?= $sats3?>`,`<?= $m->sat1?>`,`<?= $m->sat2?>`,`<?= $m->sat3?>`)" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hapus_modal"><i
-                                                class="fa fa-trash"></i> Hapus</a>
-                                                                    </td>
-                                                                    <?php } ?>
-
-                                                                </tr>
-                                                                <?php
-                                                                } ?>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <!-- </form> -->
                                         </div>
-                                        <!-- End Form -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    </div>
+                    <?php for($i=0;$i<20;$i++){?>
+                        <div id="destination<?=$i?>"></div>
+                        <?php } ?>
+                        <div class="container-fluid" style="margin-top:20px">
+                            <div class="row justify-content-between ml-2 mr-2">
+                                <a href="<?= base_url("masuk") ?>" class="btn btn-secondary">Kembali</a>
+                                <button onclick="submitall()" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                        <input type="text" id="count" value="0">
             </div>
         </div>
     </div>
@@ -278,32 +199,162 @@ date_default_timezone_set('Asia/Jakarta');
 <?php $this->load->view('masuk/modal_hapus')?>
 <!-- Data table area End-->
 
-<!-- mobile -->
 
 <script src="<?= base_url() ?>assets/js/jquery-2.1.4.min.js"></script>
 <script src="<?= base_url() ?>assets/select2-master/dist/js/select2.min.js"></script>
 <script src="<?= base_url() ?>assets/sweetalert2/swal2.js"></script>
 <script>
-function search() {
-    var input, filter, ul, li, a, i;
-    input = document.getElementById("q");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("list");
-    li = ul.getElementsByTagName("tr");
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("td")[2];
-        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-            li[i].style.display = "none";
+    var count = document.getElementById("count").value;
+    var i = Number(count)+1;
+    function tambah(){
+        var count = document.getElementById("count").value;
+        var i = Number(count)+1;
+        document.getElementById("count").value = Number(count)+1;
+        document.getElementById("destination"+i).innerHTML = '<div class="bg-gradient-light" style="border-radius: 10px 10px 0px 0px; display:block; margin-top:10px"> <div class="main-sparkline8-hd" style="padding-top:20px;padding-bottom:20px;padding-left:20px;"> <h1>Input Produk Masuk<h1> </div> </div> <div style="background-color:#fff"> <div class="sparkline12-graph"> <div class="basic-login-form-ad"> <div class="row">  <div class="col-lg-12">  <div class="all-form-element-inner">  <!-- kode barang -->  <div class="form-group-inner">  <div class="row">  <div class="col-lg-3">  <label class="login2 pull-right pull-right-pro">Kode  Barang</label>  </div>  <div class="col-lg-9">  <div class="form-select-list">  <select id="kode'+i+'" name="kode" class="form-control" type="select" required>  <option type="search"></option>  <?php  $no = 1;  foreach ($master as $mter) { ?>  <option value="<?= $mter->kode ?>">   <?= $mter->nama ?> -|   <?= $mter->sat1 ?> |-| <?= $mter->sat2 ?> |-|   <?= $mter->sat3 ?> |-   <?= $mter->kode ?>  </option>  <?php } ?>  </select>  </div>  </div>  </div>  </div>  <div class="form-group-inner">  <div class="row">  <div class="col-lg-3">  <label class="login2 pull-right pull-right-pro">No Batch</label>  </div>  <div class="col-lg-9">  <input name="nobatch" id="nobatch'+i+'" type="text" class="form-control" placeholder="Nomor Batch" required />  <span id="warning" class="text-danger"></span>  </div>  </div>  </div>  <div class="form-group-inner">  <div class="row">  <div class="col-lg-3">  <label class="login2 pull-right pull-right-pro">Satuan 1</label>  </div>  <div class="col-lg-7">  <input name="sat1" id="sat1'+i+'" type="number" class="form-control"  placeholder="Satuan 1">  </div>  <div class="col-lg-2">  <input readonly id="'+i+'sat1" class="form-control" value="">  </div>  </div>  </div>  <div class="form-group-inner">  <div class="row">  <div class="col-lg-3">  <label class="login2 pull-right pull-right-pro">Satuan 2</label>  </div>  <div class="col-lg-7">  <input name="sat2" id="sat2'+i+'" type="number" class="form-control"  placeholder="Satuan 2">  </div>  <div class="col-lg-2">  <input readonly id="'+i+'sat2" class="form-control" value="">  </div>  </div>  </div>  <div class="form-group-inner">  <div class="row">  <div class="col-lg-3">  <label class="login2 pull-right pull-right-pro">Satuan 3</label>  </div>  <div class="col-lg-7">  <input name="sat3" id="sat3'+i+'" type="number" class="form-control"  placeholder="Satuan 3">  </div>  <div class="col-lg-2">  <input readonly id="'+i+'sat3" class="form-control" value="">  </div>  </div>  </div>  <div class="form-group-inner">  <div class="row">  <div class="col-lg-3">  <label class="login2 pull-right pull-right-pro">Tanggal  Input</label>  </div>  <div class="col-lg-9">  <input name="tgl" type="text" class="form-control" id="tgl'+i+'"  value="<?php echo date("Y-m-d h:i:s"); ?>"  readonly="readonly" />  </div>  </div>  </div>  <div class="form-group-inner">  <div class="row">  <div class="col-lg-3">  <label class="login2 pull-right pull-right-pro">Catatan</label>  </div>  <div class="col-lg-9">  <input name="cat" type="text" class="form-control" id="cat'+i+'"  placeholder="Catatan" />  </div>  </div>  </div>  <div class="form-group-inner">  <div class="row">  <div class="col-lg-9"></div>  </div>  </div>  <!-- </form> -->  </div>  </div> </div> </div> </div> </div>';
+        document.getElementById('minus').disabled = false;
+        if(parseInt(i)>=19){
+            document.getElementById('plus').disabled = true;
+        }
+        $("#kode"+i).select2({
+            placeholder:"please select"
+        });
+        //untuk field satuan
+        $(document).ready(function(){
+            $("#kode"+i).change(function(){
+                var isi = document.getElementById("kode"+i).value
+                $.ajax({
+                    dataType:"json",
+                    url:"<?= base_url("masuk/getsatuan")?>",
+                    method:"post",
+                    data:{
+                        kode:isi
+                    },
+                    success:function(data){
+                        document.getElementById(i+'sat1').placeholder = data.sat1;
+                        document.getElementById(i+'sat2').placeholder = data.sat2;
+                        document.getElementById(i+'sat3').placeholder = data.sat3;
+                        // console.log(data.sat3)
+                    }
+                })
+            })
+        });
+    }
+
+    function minus(){
+        var count = document.getElementById('count').value
+        var i = count
+        var d = document.getElementById("destination"+i);
+        document.getElementById('count').value = parseInt(i-1);
+        d.innerHTML = null;
+        document.getElementById('plus').disabled = false;
+        if(i<=1){
+            document.getElementById('minus').disabled = true;
         }
     }
-}
 
+    function submitall(){
+        var index = document.getElementById('count').value
+        var tglform = document.getElementById('tglform').value
+        var noform = document.getElementById('noform').value
+        var adm = document.getElementById("adm").value
+        var kode=[]
+        var nobatch=[]
+        var satuan1=[]
+        var satuan2=[]
+        var satuan3=[]
+        var tglinput=[]
+        var cat=[]
+        var status = true;
+        for(let i=0;i<=index;i++){
+            kode[i]=document.getElementById("kode"+i).value;
+            nobatch[i]=document.getElementById("nobatch"+i).value;
+            satuan1[i]=document.getElementById("sat1"+i).value;
+            satuan2[i]=document.getElementById("sat2"+i).value;
+            satuan3[i]=document.getElementById("sat3"+i).value;
+            tglinput[i]=document.getElementById("tgl"+i).value;
+            cat[i]=document.getElementById("cat"+i).value;
+            if(document.getElementById("kode"+i).value=="" || document.getElementById("nobatch"+i).value=="" || document.getElementById("sat1"+i).value=="" || document.getElementById('noform').value==""|| document.getElementById('sat2'+i).value==""|| document.getElementById('noform').value==""|| document.getElementById('sat3'+i).value==""){
+                status=false;
+            }
+        }
+        if(status == false){
+            Swal.fire({
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                icon:"warning",  
+                title:"Mohon lengkapi data!"      
+            })
+            document.getElementById('qty0').value="";
+        }else{
+
+            $.ajax({
+                url: "<?php echo site_url('masuk/tambah_masuk'); ?>",
+                method: "POST",
+                data: {
+                    index:index,
+                    tglform:tglform,
+                    noform:noform,
+                    kode:kode,
+                    nobatch: nobatch,
+                    sat1:satuan1,
+                    sat2:satuan2,
+                    sat3:satuan3,
+                    tgl:tglinput,
+                    cat:cat,
+                    adm:adm
+                },
+                async: true,
+                dataType: 'json',
+                success: function(html) {
+                    console.log(html);
+                    Swal.fire({
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true,
+                        icon:"success",  
+                        title:"Input berhasil!"      
+                    })
+                        document.getElementById('noform').value="";
+                        document.getElementById('kode0').value="";
+                        document.getElementById('sat10').value="";
+                        document.getElementById('sat20').value="";
+                        document.getElementById('sat30').value="";
+                        document.getElementById('cat0').value="";
+
+                        var count = document.getElementById("count").value
+                        for(let i=0;i<=count;i++){
+                            document.getElementById("destination"+i).innerHTML=""
+                        }
+                        document.getElementById("count").value = 0;
+                        document.getElementById("minus").disabled = true;
+                        document.getElementById("plus").disabled = false;
+                        
+                    },
+                    error: function (xhr, textStatus, exceptionThrown) {
+                        console.log(xhr+" "+textStatus+" "+exceptionThrown);
+                        Swal.fire({
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            timerProgressBar: true,
+                            icon:"error",  
+                            title:"Input gagal!"      
+                        })
+                    }
+            })
+        }
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+</script>
+<script>
 function filSatuan() {
-    var kode = document.getElementById('kode').options;
+    var kode = document.getElementById('kode0').options;
     // var val = document.getElementById('kode').value;
-    var index = document.getElementById('kode').selectedIndex;
+    var index = document.getElementById('kode0').selectedIndex;
     var text = kode[index].text;
     // document.getElementById('kod').placeholder = val;
 
@@ -323,26 +374,8 @@ function filSatuan() {
 
 <script>
 $(document).ready(function() {
-    $("#kode").select2({
+    $("#kode0").select2({
         placeholder: "Please Select",
-    });
-});
-</script>
-
-<script>
-$(document).ready(function() {
-    $('#q').blur(function() {
-        $('#pesan').html('<img style="margin-left:10px; width:10px" src="loading.gif">');
-        var q = $(this).val();
-
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo base_url('masuk/cekduplicate') ?>',
-            data: 'q=' + q,
-            success: function(data) {
-                $('#pesan').html(data);
-            }
-        })
     });
 });
 </script>
