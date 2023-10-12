@@ -1,4 +1,4 @@
-<script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
+<script src="<?= base_url()?>assets/qrcode-scanner/instascanner.min.js"></script>
     
   <div class="container" style="position:relative;top:-250px;z-index: 1">
     <div class="row">

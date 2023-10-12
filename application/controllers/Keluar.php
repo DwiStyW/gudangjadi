@@ -448,4 +448,84 @@ class Keluar extends CI_Controller
         }
         echo json_encode($data);
     }
+
+    public function tambah_keluar(){
+        for($i=0;$i<=$this->input->post('index');$i++){
+            $master = $this->db->where("kode",$this->input->post("kode")[$i])->get("master")->result();
+            foreach($master as $m){
+                $sats1  = $m->max1;
+                $sats2  = $m->max2;
+                $saldo  = $m->saldo;
+                $nama   = $m->nama;
+                // $jumlah = $sats1 + $sats2 + $this->input->post("sat3")[$i];
+            }
+            $sat1 = $sats1*$this->input->post("sat1")[$i]*$sats2;
+            $sat2 = $sats2*$this->input->post("sat2")[$i];
+            $jumlah = $sat1 + $sat2 + $this->input->post("sat3")[$i];
+            $sisa_saldo = $saldo - $jumlah;
+            $minus[]=array(
+                "no"=>$i+1,
+                "kode"=>$this->input->post("kode")[$i],
+                "nama"=>$nama,
+                "cek"=>$sisa_saldo,
+                "status"=>'<i class="fa fa-times-circle fa-lg text-danger"></i>'
+            );
+            $data[] = array(
+                'tglform'=>$this->input->post("tglform"),
+                'noform'=>$this->input->post("noform"),
+                'kode'=>$this->input->post("kode")[$i],
+                'nobatch'=>$this->input->post("nosppb"),
+                'tanggal'=>$this->input->post("tgl"),
+                'tglsppb'=>$this->input->post("tglsppb"),
+                'adm'=>$this->input->post("adm"),
+                'suplai'=>$this->input->post("supplier"),
+                'masuk'=>0,
+                'keluar'=>$jumlah,
+                'saldo'=>$sisa_saldo,
+                'cat'=>$this->input->post("cat"),
+                'ket'=>"Output"
+            );
+            $datamaster[]=array('saldo'=>$sisa_saldo);
+            $wheremaster[]=array('kode'=>$this->input->post("kode")[$i]);
+            $detsal = $this->db->where('kode',$this->input->post("kode")[$i])->where('ket','OUT')->where('noform',$this->input->post("noform"))->get('detailsalqty');
+            if($detsal->num_rows() > 0) {
+                foreach($detsal->result() as $det) {
+                    $salqty[] = $det->qty;
+                }
+            }else{
+                $salqty[]=0;
+            }
+            $total[] = $jumlah+$salqty[$i];
+            $datadsq[]=array(
+                'tglform'=>$this->input->post("tglform"),
+                'noform'=>$this->input->post("noform"),
+                'kode'=>$this->input->post("kode")[$i],
+                'qty'=>$jumlah,
+                'ket'=>'OUT'
+            );
+            $updatedsq[]=array('qty'=>$total[$i]);
+            $wheredsq[]=array(
+                'kode'=>$this->input->post('kode')[$i],
+                'noform'=>$this->input->post("noform"),
+            );
+
+            if($saldo - $jumlah >= 0) {
+                $this->db->trans_start();
+                $this->db->insert("riwayat", $data[$i]);
+                $this->db->where($wheremaster[$i])->update("master", $datamaster[$i]);
+                if($detsal->num_rows() > 0) {
+                    $this->db->where($wheredsq[$i])->update("detailsalqty", $updatedsq[$i]);
+                } else {
+                    $this->db->insert("detailsalqty", $datadsq[$i]);
+                }
+                $this->db->trans_complete();
+                if($this->db->trans_status()===FALSE){
+                    $minus[$i]["status"]='<i class="fa fa-times-circle fa-lg text-danger"></i>';
+                }else{
+                    $minus[$i]["status"]='<i class="fa fa-check-circle fa-lg text-success"></i>';
+                }
+            }
+        }
+        echo json_encode($minus);
+    }
 }

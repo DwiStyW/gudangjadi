@@ -737,4 +737,13 @@ class Masuk_track extends CI_Controller
     public function close(){
         echo "<script>window.history.go(-1)</script>";
     }
+
+    public function scan_input(){
+        $data['master'] = $this->masuk_track_model->detsal();
+        $data['masuk'] = $this->masuk_track_model->riwayat_all();
+        $this->load->view("_partials/header");
+        $this->load->view("_partials/menu");
+        $this->load->view("track/masuk/scan_innput_masuk",$data);
+        $this->load->view("_partials/footer");
+    }
 }

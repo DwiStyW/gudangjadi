@@ -1,15 +1,15 @@
-<script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
+<script src="<?= base_url()?>assets/qrcode-scanner/instascanner.min.js"></script>
 <div class="modal fade" id="scanMasuk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Scan QR Code</h1>
     </div>
-    <div class="table-responsive container-fluid">
+    <div id="isi" class="table-responsive container-fluid">
         <div style="background-color:white;margin-bottom:20px" id="qr-reader"></div>
     </div>
       <div class="modal-footer">
-        <a href="<?= base_url("track/masuk_track/close")?>"><button class="btn btn-secondary">Close</button></a>
+      <button type="button" id="reset" class="btn btn-secondary" data-dismiss="modal" onclick="reset()">Close</button>
       </div>
     </div>
   </div>
@@ -20,6 +20,6 @@
       "qr-reader", { fps: 10, qrbox: 200 });
   html5QrcodeScanner.render(onScanSuccess);
     function onScanSuccess(decodedText, decodedResult) {    
-        html5QrcodeScanner.clear();
+        window.location = '<?= base_url("track/masuk_track/scan_input/")?>'+`${decodedText}`
   }
 </script>

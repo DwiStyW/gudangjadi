@@ -448,6 +448,7 @@ class Masuk extends CI_Controller
                 "sat1"=>$q->sat1,
                 "sat2"=>$q->sat2,
                 "sat3"=>$q->sat3,
+                "nama"=>$q->nama
             );
         }
         echo json_encode($data);
@@ -456,7 +457,7 @@ class Masuk extends CI_Controller
     public function tambah_masuk(){
         $index = $this->input->post("index");
         for($i=0;$i<=$index;$i++){
-            $master = $this->db->where("kode",$this->input->post("kode")[$i])->get("master")->result();
+            $master = $this->db->where("kode",$this->input->post("kode"))->get("master")->result();
             foreach($master as $m){
                 $sats1  = $m->max1;
                 $sats2  = $m->max2;
@@ -468,7 +469,7 @@ class Masuk extends CI_Controller
             $jumlah = $sat1 + $sat2 + $this->input->post("sat3")[$i];
             $sisa_saldo = $saldo + $jumlah;
             $datariwayat[] = array(
-                "kode" => $this->input->post('kode')[$i],
+                "kode" => $this->input->post('kode'),
                 "nobatch" => $this->input->post('nobatch')[$i],
                 "masuk" => $jumlah,
                 "keluar"=> 0,
@@ -476,7 +477,7 @@ class Masuk extends CI_Controller
                 "tglform"=>$this->input->post("tglform"),
                 "noform"=>$this->input->post("noform"),
                 "adm"=>$this->input->post("adm"),
-                "cat"=>$this->input->post("cat")[$i],
+                "cat"=>$this->input->post("cat"),
                 "ket"=>"Input",
                 "tanggal"=>$this->input->post("tgl")[$i]
             );
@@ -484,19 +485,19 @@ class Masuk extends CI_Controller
                 'no' => '',
                 "tglform"=>$this->input->post("tglform"),
                 "noform"=>$this->input->post("noform"),
-                "kode" => $this->input->post('kode')[$i],
+                "kode" => $this->input->post('kode'),
                 "nobatch" => $this->input->post('nobatch')[$i],
                 'jumlah' => $sisa_saldo,
                 'tanggal' => $this->input->post("tgl")[$i],
                 'saldo' => $saldo,
                 'adm' => $this->input->post("adm"),
-                "cat"=>$this->input->post("cat")[$i],
+                "cat"=>$this->input->post("cat"),
             );
             $datamaster[] = array("saldo"=>$sisa_saldo);
-            $wheremaster[] = array("kode"=>$this->input->post("kode")[$i]);
+            $wheremaster[] = array("kode"=>$this->input->post("kode"));
 
         //untuk detailsalqty
-        $detsal = $this->db->where('kode',$this->input->post("kode")[$i])->where('ket','IN')->where('nobatch',$this->input->post("nobatch")[$i])->get('detailsalqty');
+        $detsal = $this->db->where('kode',$this->input->post("kode"))->where('ket','IN')->where('nobatch',$this->input->post("nobatch")[$i])->get('detailsalqty');
         if($detsal->num_rows() > 0) {
             foreach($detsal->result() as $det) {
                 $salqty[] = $det->qty;
@@ -507,17 +508,18 @@ class Masuk extends CI_Controller
         $total[] = $jumlah+$salqty[$i];
         $datadetailsalqty[] = array(
             'tglform' => $this->input->post('tglform'),
-            'kode'    => $this->input->post('kode')[$i],
+            'kode'    => $this->input->post('kode'),
             'noform'  => $this->input->post('noform'),
             'nobatch' => $this->input->post('nobatch')[$i],
             'qty'     => $total[$i],
             'ket'     => "IN"
         );
         $detailsalqtyupdate[] = array(
+            'noform'  => $this->input->post('noform'),
             'qty'=>$total[$i]
         );
         $wheredsqupdate[] = array(
-            'kode'    => $this->input->post('kode')[$i],
+            'kode'    => $this->input->post('kode'),
             'nobatch' => $this->input->post('nobatch')[$i],
             'ket'     => "IN"
         );
@@ -532,8 +534,13 @@ class Masuk extends CI_Controller
             $this->db->insert("detailsalqty",$datadetailsalqty[$i]);
         }
         $this->db->trans_complete();
-            }
-        // echo $this->db->trans_status();
-        echo json_encode($datariwayat);
+        }
+        if($this->db->trans_status()===FALSE){
+            $data=array("status"=>"failed");
+            echo json_encode($data);
+        }else{
+            $data = array("status"=>"success");
+            echo json_encode($data);
+        }
     }
 }
