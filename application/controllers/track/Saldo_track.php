@@ -95,8 +95,9 @@ class saldo_track extends CI_Controller
             $akhir = date_create(); // waktu sekarang
             $diff = date_diff($akhir, $awal);
             $bln=$diff->y*12+$diff->m;
+            $jarak = strtotime($tglexp)-strtotime(date("Y-m-d"));
             
-            if ($diff->y == 0 && $diff->m <= 3) {
+            if ($diff->y == 0 && $diff->m <= 6 && $bln<=12) {
                 $test[]=array(
                     "no"=>$no++,
                     "nobatch"=>"<p style='color:red'><b>".$s->nobatch."</b></p>",
@@ -109,19 +110,19 @@ class saldo_track extends CI_Controller
                     "exp"=>$diff->y.' tahun '.$diff->m.' bulan ',
                     "ed"=>$bln,
                 );
-            }elseif ($diff->y == 0 && $diff->m <= 6) {
-                $test[]=array(
-                    "no"=>$no++,
-                    "nobatch"=>"<p style='color:darkorange'><b>".$s->nobatch."</b></p>",
-                    "kode"=>"<p style='color:darkorange'><b>".$s->kode."</b></p>",
-                    "nama"=>"<p style='color:darkorange'><b>".$s->nama."</b></p>",
-                    "nopallet"=>"<p style='color:darkorange'><b>".$s->nopallet."</b></p>",
-                    "sat1"=>"<p style='color:darkorange'><b>".$sats1.' '.$s->sat1."</b></p>",
-                    "sat2"=>"<p style='color:darkorange'><b>".$sats2.' '.$s->sat2."</b></p>",
-                    "sat3"=>"<p style='color:darkorange'><b>".$sats3.' '.$s->sat3."</b></p>",
-                    "exp"=>$diff->y.' tahun '.$diff->m.' bulan ',
-                    "ed"=>$bln,
-                );
+            }elseif ($diff->y == 0 && $diff->m <= 9 && $jarak >= 0 && $bln<=12) {
+                    $test[] = array(
+                        "no" => $no++,
+                        "nobatch" => "<p style='color:darkorange'><b>" . $s->nobatch . "</b></p>",
+                        "kode" => "<p style='color:darkorange'><b>" . $s->kode . "</b></p>",
+                        "nama" => "<p style='color:darkorange'><b>" . $s->nama . "</b></p>",
+                        "nopallet" => "<p style='color:darkorange'><b>" . $s->nopallet . "</b></p>",
+                        "sat1" => "<p style='color:darkorange'><b>" . $sats1 . ' ' . $s->sat1 . "</b></p>",
+                        "sat2" => "<p style='color:darkorange'><b>" . $sats2 . ' ' . $s->sat2 . "</b></p>",
+                        "sat3" => "<p style='color:darkorange'><b>" . $sats3 . ' ' . $s->sat3 . "</b></p>",
+                        "exp" => $diff->y . ' tahun ' . $diff->m . ' bulan ',
+                        "ed" => $bln,
+                    );
             }else{
                 $test[]=array(
                     "no"=>$no++,
@@ -134,7 +135,7 @@ class saldo_track extends CI_Controller
                     "sat3"=>$sats3.' '.$s->sat3,
                     "exp"=>$diff->y.' tahun '.$diff->m.' bulan ',
                     "ed"=>$bln,
-                );
+                ); 
             }
         }
         $kosong="not found";
@@ -198,5 +199,20 @@ class saldo_track extends CI_Controller
             $data = $this->db->query("SELECT DISTINCT nobatch FROM detailsal where nopallet='$pallet'")->result();
         }
         echo json_encode($data);
+    }
+
+    public function saldo_exp(){
+        $data['saldo'] = $this->saldo_model->tampilkan();
+        $this->load->view("_partials/header");
+        $this->load->view("_partials/menu");
+        $this->load->view("track/saldo_exp", $data);
+        $this->load->view("_partials/footer");
+    }
+    public function saldo_mendekati_exp(){
+        $data['saldo'] = $this->saldo_model->tampilkan();
+        $this->load->view("_partials/header");
+        $this->load->view("_partials/menu");
+        $this->load->view("track/saldo_mendekati_exp", $data);
+        $this->load->view("_partials/footer");
     }
 }

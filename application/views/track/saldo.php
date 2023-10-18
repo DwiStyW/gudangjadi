@@ -43,6 +43,8 @@ ini_set('date.timezone', 'Asia/Jakarta');
             </div>
         </div>
         <div style="background-color:#fff">
+        <a href="<?= base_url("track/saldo_track/saldo_mendekati_exp")?>" class="btn btn-sm btn-warning" style="margin-top:10px; margin-left:20px">Warning</a>
+        <a href="<?= base_url("track/saldo_track/saldo_exp")?>" class="btn btn-sm btn-danger" style="margin-top:10px; margin-left:10px">Danger</a>
             <div class="sparkline8-graph">
                 <div class="datatable-dashv1-list custom-datatable-overright">
                     <div class="table-responsive">
@@ -87,9 +89,9 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                     $akhir = date_create(); // waktu sekarang
                                     $diff = date_diff($akhir, $awal);
                                     $bln=$diff->y*12+$diff->m;
+                                    $jarak = strtotime($tglexp)-strtotime(date("Y-m-d"));
                                     ?>
-    
-                                    <?php if ($diff->y == 0 && $diff->m <= 3) {?>
+                                    <?php if ($diff->y == 0 && $diff->m <= 6) {?>
                                     <tr style="color:red">
                                     <td><b><?php echo $no+=1; ?></b></td>
                                     <td><b><?php $batch = $s->nobatch;echo $batch;?></td>
@@ -102,7 +104,8 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                     <td><b><?php echo $diff->y.' tahun '.$diff->m.' bulan '?></b></td>
                                     <td><b><?php echo $bln?></b></td>
                                     </tr>
-                                    <?php } elseif ($diff->y == 0 && $diff->m <= 6) {?>
+                                    <?php } elseif ($diff->y == 0 && $diff->m <= 9) {
+                                        if($jarak>0){?>
                                         <tr style="color:darkorange">
                                         <td><b><?php echo $no+=1; ?></td></b>
                                         <td><b><?php $batch = $s->nobatch;echo $batch;?></b></td>
@@ -115,7 +118,21 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                         <td><b><?php echo $diff->y.' tahun '.$diff->m.' bulan '?></b></td>
                                         <td><b><?php echo $bln?></b></td>
                                         </tr>
-                                    <?php } else {?>
+                                    <?php }elseif($jarak<0){?>
+                                        <tr style="color:red">
+                                            <td><b><?php echo $no+=1; ?></b></td>
+                                            <td><b><?php $batch = $s->nobatch;echo $batch;?></td>
+                                            <td><b><?php echo $s->kode; ?></b></td>
+                                            <td><b><?php echo $s->nama; ?></b></td>
+                                            <td><b><?php echo $s->nopallet; ?></b></td>
+                                            <td><b><?php echo $sats1; ?> <?php echo $s->sat1 ?></b></td>
+                                            <td><b><?php echo $sats2; ?> <?php echo $s->sat2 ?></b></td>
+                                            <td><b><?php echo $sats3; ?> <?php echo $s->sat3 ?></b></td>
+                                            <td><b><?php echo $diff->y.' tahun '.$diff->m.' bulan '?></b></td>
+                                            <td><b><?php echo $bln?></b></td>
+                                        </tr>
+                                    <?php }
+                                } else {?>
                                         <tr>
                                     <td><?php echo $no+=1; ?></td>
                                     <!-- <td><?php echo date("d-m-Y", strtotime($s->tgl)); ?></td> -->
@@ -129,7 +146,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                     <td><b><?php echo $diff->y.' tahun '.$diff->m.' bulan '?></b></td>
                                     <td><?php echo $bln ?></td>
                                     </tr>
-                                    <?php }}?>
+                                    <?php }} ?>
                             </tbody>
                         </table>
                     </div>  
