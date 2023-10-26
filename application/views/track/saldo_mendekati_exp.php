@@ -49,7 +49,8 @@ ini_set('date.timezone', 'Asia/Jakarta');
     $sats3 = $sisa - $sats2 * $s->max2;
 
     // perhitungan expdate
-    $batch = $s->nobatch;
+    $string = $s->nobatch;
+    $batch = preg_replace("/[^0-9]/","",$string);
     $tahun = strrev(substr(substr($batch, -6), 0, 2));
     $bulan = substr(substr($batch, -6), 2, 2);
     $gabung = $bulan . '/01/' . (2000 + $tahun);
@@ -63,7 +64,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
     $bln = $diff->y * 12 + $diff->m;
     $jarak = strtotime($tglexp) - strtotime(date("Y-m-d"));
     ?>
-                                    <?php if ($diff->y == 0 && $diff->m <= 9 && $diff->m > 6 && $bln<=12 && $jarak>=0) {?>
+                                    <?php if ($diff->y == 0 && $diff->m <= 9 && $bulan<=12 && $jarak>=0 && $tahun+2000<=date("Y")) {?>
                                     <tr style="color:darkorange">
                                     <td><b><?php echo $no += 1; ?></b></td>
                                     <td><b><?php $batch = $s->nobatch;

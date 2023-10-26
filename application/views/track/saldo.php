@@ -43,8 +43,9 @@ ini_set('date.timezone', 'Asia/Jakarta');
             </div>
         </div>
         <div style="background-color:#fff">
-        <a href="<?= base_url("track/saldo_track/saldo_mendekati_exp")?>" class="btn btn-sm btn-warning" style="margin-top:10px; margin-left:20px">Warning</a>
-        <a href="<?= base_url("track/saldo_track/saldo_exp")?>" class="btn btn-sm btn-danger" style="margin-top:10px; margin-left:10px">Danger</a>
+        <a href="<?= base_url("track/saldo_track/saldo_mendekati_exp")?>" class="btn btn-sm btn-warning" style="margin-top:10px; margin-left:20px">Mendekati Expired</a>
+        <a href="<?= base_url("track/saldo_track/saldo_exp")?>" class="btn btn-sm btn-danger" style="margin-top:10px; margin-left:10px">Expired</a>
+        <a href="<?= base_url("track/saldo_track/batch")?>" class="btn btn-sm btn-primary" style="margin-top:10px; margin-left:10px">Unknown Batch</a>
             <div class="sparkline8-graph">
                 <div class="datatable-dashv1-list custom-datatable-overright">
                     <div class="table-responsive">
@@ -77,7 +78,8 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                     $sats3 = $sisa - $sats2 * $s->max2;
     
                                     // perhitungan expdate
-                                    $batch = $s->nobatch;
+                                    $string = $s->nobatch;
+                                    $batch = preg_replace("/[^0-9]/","",$string);
                                     $tahun = strrev(substr(substr($batch, -6), 0, 2));
                                     $bulan = substr(substr($batch, -6), 2, 2);
                                     $gabung = $bulan . '/01/' . (2000 + $tahun);

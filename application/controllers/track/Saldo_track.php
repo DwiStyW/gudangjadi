@@ -97,7 +97,7 @@ class saldo_track extends CI_Controller
             $bln=$diff->y*12+$diff->m;
             $jarak = strtotime($tglexp)-strtotime(date("Y-m-d"));
             
-            if ($diff->y == 0 && $diff->m <= 6 && $bln<=12) {
+            if ($diff->y == 0 && $diff->m <=0 && $bln<=12) {
                 $test[]=array(
                     "no"=>$no++,
                     "nobatch"=>"<p style='color:red'><b>".$s->nobatch."</b></p>",
@@ -213,6 +213,13 @@ class saldo_track extends CI_Controller
         $this->load->view("_partials/header");
         $this->load->view("_partials/menu");
         $this->load->view("track/saldo_mendekati_exp", $data);
+        $this->load->view("_partials/footer");
+    }
+    public function batch(){
+        $data['saldo'] = $this->saldo_model->tampilkan();
+        $this->load->view("_partials/header");
+        $this->load->view("_partials/menu");
+        $this->load->view("track/unknown_batch", $data);
         $this->load->view("_partials/footer");
     }
 }

@@ -16,7 +16,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
             </div>
         </div>
         <div style="background-color:#fff">
-        <a href="<?= base_url("track/saldo_track")?>" class="btn btn-sm btn-primary" style="margin:10px"><i class="fa fa-arrow-left"></i> Kembali</a>
+            <a href="<?= base_url("track/saldo_track")?>" class="btn btn-sm btn-primary" style="margin:10px"><i class="fa fa-arrow-left"></i> Kembali</a>
             <div class="sparkline8-graph">
                 <div class="datatable-dashv1-list custom-datatable-overright">
                     <div class="table-responsive">
@@ -41,45 +41,42 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                 $no=0;
                                 foreach ($saldo as $s) {?>
                                 <?php
-//Perhitungan 3 Satuan
+                                //Perhitungan 3 Satuan
 
-    $sats1 = floor($s->qty / ($s->max1 * $s->max2));
-    $sisa = $s->qty - ($sats1 * $s->max1 * $s->max2);
-    $sats2 = floor($sisa / $s->max2);
-    $sats3 = $sisa - $sats2 * $s->max2;
+                                    $sats1 = floor($s->qty / ($s->max1 * $s->max2));
+                                    $sisa = $s->qty - ($sats1 * $s->max1 * $s->max2);
+                                    $sats2 = floor($sisa / $s->max2);
+                                    $sats3 = $sisa - $sats2 * $s->max2;
 
-    // perhitungan expdate
-    $string = $s->nobatch;
-    $batch = preg_replace("/[^0-9]/","",$string);
-    $tahun = strrev(substr(substr($batch, -6), 0, 2));
-    $bulan = substr(substr($batch, -6), 2, 2);
-    $gabung = $bulan . '/01/' . (2000 + $tahun);
-    $tglprod = date("Y-m-d", strtotime($gabung));
-    $bulan1 = $s->expdate;
-    $tglexp = date("Y-m-d", strtotime('+' . $bulan1 . ' month', strtotime($tglprod)));
+                                    // perhitungan expdate
+                                    $string = $s->nobatch;
+                                    $batch = preg_replace("/[^0-9]/","",$string);
+                                    $tahun = strrev(substr(substr($batch, -6), 0, 2));
+                                    $bulan = substr(substr($batch, -6), 2, 2);
+                                    $gabung = $bulan . '/01/' . (2000 + $tahun);
+                                    $tglprod = date("Y-m-d", strtotime($gabung));
+                                    $bulan1 = $s->expdate;
+                                    $tglexp = date("Y-m-d", strtotime('+' . $bulan1 . ' month', strtotime($tglprod)));
 
-    $awal = date_create($tglexp);
-    $akhir = date_create(); // waktu sekarang
-    $diff = date_diff($akhir, $awal);
-    $bln = $diff->y * 12 + $diff->m;
-    $jarak = strtotime($tglexp) - strtotime(date("Y-m-d"));
-    ?>
-                                    <?php if ($tahun+2000<=date("Y") && $bulan<=12 && $jarak<=0) {?>
-                                    <tr style="color:red">
-                                    <td><b><?php echo $no += 1; ?></b></td>
-                                    <td><b><?php $batch = $s->nobatch;
-                                        // echo $tglexp.' / '.date("Y-m-d") ;
-                                        echo $batch;
-                                        ?>
-                                        </td>
-                                    <td><b><?php echo $s->kode; ?></b></td>
-                                    <td><b><?php echo $s->nama; ?></b></td>
-                                    <td><b><?php echo $s->nopallet; ?></b></td>
-                                    <td><b><?php echo $sats1; ?> <?php echo $s->sat1 ?></b></td>
-                                    <td><b><?php echo $sats2; ?> <?php echo $s->sat2 ?></b></td>
-                                    <td><b><?php echo $sats3; ?> <?php echo $s->sat3 ?></b></td>
-                                    <td><b><?php echo $diff->y . ' tahun ' . $diff->m . ' bulan '?></b></td>
-                                    <td><b><?php echo $bln?></b></td>
+                                    $awal = date_create($tglexp);
+                                    $akhir = date_create(); // waktu sekarang
+                                    $diff = date_diff($akhir, $awal);
+                                    $bln = $diff->y * 12 + $diff->m;
+                                    $jarak = strtotime($tglexp) - strtotime(date("Y-m-d"));
+                                    ?>
+                                    <?php if ($bulan>12) {?>
+                                    <tr>
+                                    <td><?php echo $no += 1; ?></td>
+                                    <td><?php $batch = $s->nobatch;
+                                        echo $batch;?></td>
+                                    <td><?php echo $s->kode; ?></td>
+                                    <td><?php echo $s->nama; ?></td>
+                                    <td><?php echo $s->nopallet; ?></td>
+                                    <td><?php echo $sats1; ?> <?php echo $s->sat1 ?></td>
+                                    <td><?php echo $sats2; ?> <?php echo $s->sat2 ?></td>
+                                    <td><?php echo $sats3; ?> <?php echo $s->sat3 ?></td>
+                                    <td><?php echo $diff->y . ' tahun ' . $diff->m . ' bulan '?></td>
+                                    <td><?php echo $bln?></td>
                                     </tr>
                                     <?php }
                                     } ?>
@@ -92,8 +89,6 @@ ini_set('date.timezone', 'Asia/Jakarta');
     </div>
 </div>
 </div>
-<!-- </div> -->
-<!-- Data table area End-->
 
 
 <script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery-3.3.1.js' ?>"></script>

@@ -46,7 +46,7 @@
     </div>
     <div class="row justify-content-between">
       <div class="col-lg-6">
-        <div style="background-color:#fff">
+        <div style="background-color:coral">
           <div class="sparkline8-graph">
             <div class="d-flex justify-content-center">
               <h3><b>Barang Belum di Pallet</b></h3>
@@ -57,12 +57,48 @@
         </div>
       </div>
       <div class="col-lg-6">
-        <div style="background-color:#fff;">
+        <div style="background-color:darkorange;">
           <div class="sparkline8-graph">
             <div class="d-flex justify-content-center">
               <h3><b>Barang Belum di Keluarkan</b></h3>
               <hr>
                 <h3>Jumlah : <?= $belumkeluar->num_rows(); ?> <a href="<?= base_url("saldo_antara/out")?>" class="btn btn-md btn-primary">Detail</a></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4" style="margin-top:20px">
+        <div style="background-color:darkslateblue;">
+          <div class="sparkline8-graph">
+            <div class="d-flex justify-content-center">
+              <h3><b>Barang Expired</b></h3>
+              <hr>
+                <h3>Jumlah : <?= $merah; ?> <a href="<?= base_url("track/saldo_track/saldo_exp")?>" class="btn btn-md btn-primary">Detail</a></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4" style="margin-top:20px">
+        <div style="background-color:#fff;">
+          <div class="sparkline8-graph">
+            <div class="d-flex justify-content-center">
+              <h3><b>Barang Mendekati Expired</b></h3>
+              <hr>
+                <h3>Jumlah : <?= $kuning; ?> <a href="<?= base_url("track/saldo_track/saldo_mendekati_exp")?>" class="btn btn-md btn-primary">Detail</a></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4" style="margin-top:20px">
+        <div style="background-color:#fff;">
+          <div class="sparkline8-graph">
+            <div class="d-flex justify-content-center">
+              <h3><b>Batch tidak diketahui</b></h3>
+              <?php if($unknown==""){
+                $unknown=0;
+                }?>
+              <hr>
+                <h3>Jumlah : <?= $unknown ?> <a href="<?= base_url("track/saldo_track/batch")?>" class="btn btn-md btn-primary">Detail</a></h3>
             </div>
           </div>
         </div>
@@ -120,56 +156,62 @@
 <?php $this->load->view("_partials/footer");?>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  $.ajax({
-    dataType:"json",
-    url:'<?= base_url("dashboard/refresh");?>',
-    async:true,
-    success:function(data){
-      document.getElementById("loading").hidden=true;
-      document.getElementById("loading1").hidden=true;
-      document.getElementById("pieChart").hidden=false;
-      document.getElementById("pieChart1").hidden=false;
-      document.getElementById("utilisasi").hidden=false;
-      document.getElementById("utilisasi1").hidden=false;
-      for(let i=0;i<data.length;i++){
-        var terpakai = data[i].terpakai;
-        var takterpakai = data[i].takterpakai;
+  $(document).ready(function(){
+    $.ajax({
+      dataType:"json",
+      url:'<?= base_url("dashboard/refresh");?>',
+      async:true,
+      success:function(data){
+        document.getElementById("loading").hidden=true;
+        document.getElementById("loading1").hidden=true;
+        document.getElementById("pieChart").hidden=false;
+        document.getElementById("pieChart1").hidden=false;
+        document.getElementById("utilisasi").hidden=false;
+        document.getElementById("utilisasi1").hidden=false;
+        for(let i=0;i<data.length;i++){
+          var terpakai = data[i].terpakai;
+          var takterpakai = data[i].takterpakai;
+        }
+        var utilisasi=Number(data.terpakai)/(Number(data.takterpakai)+Number(data.terpakai))*100
+        document.getElementById('utilisasi').innerHTML = "utilisasi pallet : "+utilisasi.toFixed(2)+"%";
+        var ctxP = document.getElementById("pieChart").getContext('2d');
+        var myPieChart = new Chart(ctxP, {
+          type: 'pie',
+          data: {
+            labels: ["Terpakai", "Tidak Terpakai"],
+            datasets: [{
+            data: [ data.terpakai, data.takterpakai],
+              backgroundColor: ["#F7464A", "#46BFBD"],
+              hoverBackgroundColor: ["#FF5A5E", "#5AD3D1"]
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false
+          }
+        });
+        var ctxP1 = document.getElementById("pieChart1").getContext('2d');
+        var myPieChart1 = new Chart(ctxP1, {
+          type: 'pie',
+          data: {
+            labels: ["Terpakai", "Tidak Terpakai"],
+            datasets: [{
+            data: [ 100, 0],
+              backgroundColor: ["#F7464A", "#46BFBD"],
+              hoverBackgroundColor: ["#FF5A5E", "#5AD3D1"]
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false
+          }
+        });
       }
-      var utilisasi=Number(data.terpakai)/(Number(data.takterpakai)+Number(data.terpakai))*100
-      document.getElementById('utilisasi').innerHTML = "utilisasi pallet : "+utilisasi.toFixed(2)+"%";
-      var ctxP = document.getElementById("pieChart").getContext('2d');
-      var myPieChart = new Chart(ctxP, {
-        type: 'pie',
-        data: {
-          labels: ["Terpakai", "Tidak Terpakai"],
-          datasets: [{
-          data: [ data.terpakai, data.takterpakai],
-            backgroundColor: ["#F7464A", "#46BFBD"],
-            hoverBackgroundColor: ["#FF5A5E", "#5AD3D1"]
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false
-        }
-      });
-      var ctxP1 = document.getElementById("pieChart1").getContext('2d');
-      var myPieChart1 = new Chart(ctxP1, {
-        type: 'pie',
-        data: {
-          labels: ["Terpakai", "Tidak Terpakai"],
-          datasets: [{
-          data: [ 100, 0],
-            backgroundColor: ["#F7464A", "#46BFBD"],
-            hoverBackgroundColor: ["#FF5A5E", "#5AD3D1"]
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false
-        }
-      });
-    }
-  })
+    })
+  });
   
+</script>
+<script>
+  var data = "<?= json_encode($merah)?>";
+  console.log(data);
 </script>
