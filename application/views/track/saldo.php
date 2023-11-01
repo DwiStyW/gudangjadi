@@ -62,7 +62,8 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                     <th data-field="sat2">Satuan 2</th>
                                     <th data-field="sat3">Satuan 3</th>
                                     <th data-field="Exp">Expired Date</th>
-                                    <th data-field="Exp_b">Exp</th>
+                                    <th data-field="selisih">selisih</th>
+                                    <th data-field="aksi">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="isi">
@@ -86,14 +87,13 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                     $tglprod = date("Y-m-d", strtotime($gabung));
                                     $bulan1 = $s->expdate;
                                     $tglexp = date("Y-m-d", strtotime('+' . $bulan1 . ' month', strtotime($tglprod)));
-    
+                                    $selisih=floor((strtotime($tglexp)-strtotime(date("Y-m")))/3600/24/30);
                                     $awal = date_create($tglexp);
                                     $akhir = date_create(); // waktu sekarang
                                     $diff = date_diff($akhir, $awal);
-                                    $bln=$diff->y*12+$diff->m;
                                     $jarak = strtotime($tglexp)-strtotime(date("Y-m-d"));
                                     ?>
-                                    <?php if ($diff->y == 0 && $diff->m <= 6) {?>
+                                    <?php if ($selisih<0) {?>
                                     <tr style="color:red">
                                     <td><b><?php echo $no+=1; ?></b></td>
                                     <td><b><?php $batch = $s->nobatch;echo $batch;?></td>
@@ -104,9 +104,10 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                     <td><b><?php echo $sats2; ?> <?php echo $s->sat2 ?></b></td>
                                     <td><b><?php echo $sats3; ?> <?php echo $s->sat3 ?></b></td>
                                     <td><b><?php echo $diff->y.' tahun '.$diff->m.' bulan '?></b></td>
-                                    <td><b><?php echo $bln?></b></td>
+                                    <td><b><?php echo $selisih?></b></td>
+                                    <td><button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#musnah" onclick="getid(`<?=$s->no?>`,`<?=$s->nobatch?>`,`<?=$s->kode?>`,`<?=$s->nopallet?>`,`<?=$sats1?>`,`<?=$sats2?>`,`<?=$sats3?>`,`<?=$s->sat1?>`,`<?=$s->sat2?>`,`<?=$s->sat3?>`,`<?=$s->nama?>`)">Musnahkan</button></td>
                                     </tr>
-                                    <?php } elseif ($diff->y == 0 && $diff->m <= 9) {
+                                    <?php } elseif ($selisih <= 9) {
                                         if($jarak>0){?>
                                         <tr style="color:darkorange">
                                         <td><b><?php echo $no+=1; ?></td></b>
@@ -118,7 +119,8 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                         <td><b><?php echo $sats2; ?> <?php echo $s->sat2 ?></b></td>
                                         <td><b><?php echo $sats3; ?> <?php echo $s->sat3 ?></b></td>
                                         <td><b><?php echo $diff->y.' tahun '.$diff->m.' bulan '?></b></td>
-                                        <td><b><?php echo $bln?></b></td>
+                                        <td><b><?php echo $selisih?></b></td>
+                                        <td><button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#musnah" onclick="getid(`<?=$s->no?>`,`<?=$s->nobatch?>`,`<?=$s->kode?>`,`<?=$s->nopallet?>`,`<?=$sats1?>`,`<?=$sats2?>`,`<?=$sats3?>`,`<?=$s->sat1?>`,`<?=$s->sat2?>`,`<?=$s->sat3?>`,`<?=$s->nama?>`)">Musnahkan</button></td>
                                         </tr>
                                     <?php }elseif($jarak<0){?>
                                         <tr style="color:red">
@@ -131,25 +133,27 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                             <td><b><?php echo $sats2; ?> <?php echo $s->sat2 ?></b></td>
                                             <td><b><?php echo $sats3; ?> <?php echo $s->sat3 ?></b></td>
                                             <td><b><?php echo $diff->y.' tahun '.$diff->m.' bulan '?></b></td>
-                                            <td><b><?php echo $bln?></b></td>
+                                            <td><b><?php echo $selisih?></b></td>
+                                            <td><button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#musnah" onclick="getid(`<?=$s->no?>`,`<?=$s->nobatch?>`,`<?=$s->kode?>`,`<?=$s->nopallet?>`,`<?=$sats1?>`,`<?=$sats2?>`,`<?=$sats3?>`,`<?=$s->sat1?>`,`<?=$s->sat2?>`,`<?=$s->sat3?>`,`<?=$s->nama?>`)">Musnahkan</button></td>
                                         </tr>
                                     <?php }
                                 } else {?>
                                         <tr>
-                                    <td><?php echo $no+=1; ?></td>
+                                    <td><?php echo $no += 1; ?></td>
                                     <!-- <td><?php echo date("d-m-Y", strtotime($s->tgl)); ?></td> -->
-                                    <td><?php $batch = $s->nobatch;echo $batch;?></td>
+                                    <td><?php $batch = $s->nobatch;
+                                    echo $batch;?></td>
                                     <td><?php echo $s->kode; ?></td>
                                     <td><?php echo $s->nama; ?></td>
                                     <td><?php echo $s->nopallet; ?></td>
                                     <td><?php echo $sats1; ?> <?php echo $s->sat1 ?></td>
                                     <td><?php echo $sats2; ?> <?php echo $s->sat2 ?></td>
                                     <td><?php echo $sats3; ?> <?php echo $s->sat3 ?></td>
-                                    <td><b><?php echo $diff->y.' tahun '.$diff->m.' bulan '?></b></td>
-                                    <td><?php echo $bln ?></td>
-                                    </tr>
+                                    <td><b><?php echo $diff->y . ' tahun ' . $diff->m . ' bulan '?></b></td>
+                                    <td><?php echo $selisih ?></td>
+                                    <td><button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#musnah" onclick="getid(`<?=$s->no?>`,`<?=$s->nobatch?>`,`<?=$s->kode?>`,`<?=$s->nopallet?>`,`<?=$sats1?>`,`<?=$sats2?>`,`<?=$sats3?>`,`<?=$s->sat1?>`,`<?=$s->sat2?>`,`<?=$s->sat3?>`,`<?=$s->nama?>`)">Musnahkan</button></td>
                                     <?php }} ?>
-                            </tbody>
+                                </tbody>
                         </table>
                     </div>  
                 </div>
@@ -161,10 +165,60 @@ ini_set('date.timezone', 'Asia/Jakarta');
 <!-- </div> -->
 <!-- Data table area End-->
 
+<div class="modal fade" id="musnah" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+        <form action="<?= base_url("track/pemusnahan/musnah")?>" method="post">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Pemusnahan Produk Expired</h1>
+            </div>
+            <div id="isi" class="table-responsive container-fluid">
+                <div id="text"></div>
+                <input type="hidden" id="id" name="id">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger">Musnahkan</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery-3.3.1.js' ?>"></script>
 <script src="<?=base_url()?>assets/select2-master/dist/js/select2.min.js"></script>
 <script src="<?=base_url()?>assets/sweetalert2/swal2.js"></script>
+
+<script>
+    function getid(id,nobatch,kode,pallet,qty1,qty2,qty3,sat1,sat2,sat3,nama){
+        document.getElementById("id").value = id;
+        var html = '';
+        html+="<table class='table table-bordered w-100'>";
+        html+=  "<tr>";
+        html+=      "<th>Tgl Form</th>";
+        html+=      "<th>Kode</th>";
+        html+=      "<th>Nama</th>";
+        html+=      "<th>No. Batch</th>";
+        html+=      "<th>No. Pallet</th>";
+        html+=      "<th>"+sat1+"</th>";
+        html+=      "<th>"+sat2+"</th>";
+        html+=      "<th>"+sat3+"</th>";
+        html+=  "</tr>";
+        html+=  "<tr>";
+        html+=      "<td><input type='date' id='tglform' class='form-control' name='tglform'></td>"
+        html+=      "<td>"+kode+"</td>";
+        html+=      "<td>"+nama+"</td>";
+        html+=      "<td>"+nobatch+"</td>";
+        html+=      "<td>"+pallet+"</td>";
+        html+=      "<td><input class='form-control' value='"+qty1+"' name='sat1'></td>";
+        html+=      "<td><input class='form-control' value='"+qty2+"' name='sat2'></td>";
+        html+=      "<td><input class='form-control' value='"+qty3+"' name='sat3'></td>";
+        html+=  "</tr>";
+        html+="</table>";
+        document.getElementById("text").innerHTML = html;
+        $('#tglform').select2()
+    }
+</script>
 
 <?php if ($this->session->flashdata('sukses')): ?>
 <script>

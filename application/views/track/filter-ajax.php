@@ -21,6 +21,10 @@
         dom: 'lBftip',
         buttons: [
             'copy','excel','print','pdf'
+        ],
+        order:[[9, 'asc']],
+        "columnDefs": [
+            { "visible": false, "targets": 9 }
         ]
     });
 });
@@ -56,6 +60,7 @@
                             {data:"sat3"},
                             {data:"exp"},
                             {data:"ed"},
+                            {data:"aksi"},
                         ],
                         "lengthMenu":[
                             [10,50,100,-1],
@@ -69,6 +74,10 @@
                         buttons: [
                             'copy','excel','print','pdf'
                         ],
+                        order:[[9, 'asc']],
+                        "columnDefs": [
+                            { "visible": false, "targets": 9 }
+                        ]
                     });
                 }
             }

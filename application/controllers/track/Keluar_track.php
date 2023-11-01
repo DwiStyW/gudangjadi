@@ -454,8 +454,49 @@ class Keluar_track extends CI_Controller
     public function get_batch()
     {
         $kode = $this->input->post('id', true);
-        $data = $this->keluar_track_model->get_batch($kode)->result();
-        // $data = $this->db->where('kode',$kode)->get('master')->result():
+        // $query = $this->keluar_track_model->get_batch($kode)->result();
+        $query = $this->keluar_track_model->get_batch($kode)->result();
+        $master = $this->db->where("kode",$kode)->get("master")->result();
+        foreach($master as $m){
+            $expdate = $m->expdate;
+        }
+        foreach($query as $b){
+            $nobatch = $b->nobatch;
+            $string = $nobatch;
+            $batch = preg_replace("/[^0-9]/","",$string);
+            $tahun = strrev(substr(substr($batch, -6), 0, 2));
+            $bulan = substr(substr($batch, -6), 2, 2);
+            $gabung = $bulan . '/01/' . (2000 + $tahun);
+            $tglprod = date("Y-m-d", strtotime($gabung));
+            $bulan1 = $expdate;
+            $tglexp = date("Y-m-d", strtotime('+' . $bulan1 . ' month', strtotime($tglprod)));
+            $selisih[]=floor((strtotime($tglexp)-strtotime(date("Y-m")))/3600/24/30);
+        }
+        $i=0;
+        $no=1;
+        foreach($query as $d){
+        if($selisih[$i]>=0) {
+            if($selisih[$i]<=9){
+                $data[] = array(
+                    "no"=>$no++,
+                    "nobatch" => $d->nobatch." - Mendekati Expired",
+                    "selisih" => $selisih[$i],
+                );
+            }else{
+                $data[] = array(
+                    "no" => $no++,
+                    "nobatch" => $d->nobatch,
+                    "selisih" => $selisih[$i],
+                );
+            }
+        }
+            $i++;
+        }
+        if(!isset($data)){
+            $data=array(
+                "tes"=>"No. batch tidak ditemukan"
+            );
+        }
         echo json_encode($data);
     }
 

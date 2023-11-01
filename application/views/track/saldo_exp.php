@@ -57,6 +57,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
     $tglprod = date("Y-m-d", strtotime($gabung));
     $bulan1 = $s->expdate;
     $tglexp = date("Y-m-d", strtotime('+' . $bulan1 . ' month', strtotime($tglprod)));
+    $selisih=floor((strtotime($tglexp)-strtotime(date("Y-m")))/3600/24/30);
 
     $awal = date_create($tglexp);
     $akhir = date_create(); // waktu sekarang
@@ -79,7 +80,7 @@ ini_set('date.timezone', 'Asia/Jakarta');
                                     <td><b><?php echo $sats2; ?> <?php echo $s->sat2 ?></b></td>
                                     <td><b><?php echo $sats3; ?> <?php echo $s->sat3 ?></b></td>
                                     <td><b><?php echo $diff->y . ' tahun ' . $diff->m . ' bulan '?></b></td>
-                                    <td><b><?php echo $bln?></b></td>
+                                    <td><b><?php echo $selisih?></b></td>
                                     </tr>
                                     <?php }
                                     } ?>

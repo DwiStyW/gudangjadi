@@ -83,13 +83,15 @@ class saldo_track extends CI_Controller
             $sats3 = $sisa - $sats2 * $s->max2;
 
             // perhitungan expdate
-            $batch = $s->nobatch;
+            $string = $s->nobatch;
+            $batch = preg_replace("/[^0-9]/","",$string);
             $tahun = strrev(substr(substr($batch, -6), 0, 2));
             $bulan = substr(substr($batch, -6), 2, 2);
             $gabung = $bulan . '/01/' . (2000 + $tahun);
             $tglprod = date("Y-m-d", strtotime($gabung));
             $bulan1 = $s->expdate;
             $tglexp = date("Y-m-d", strtotime('+' . $bulan1 . ' month', strtotime($tglprod)));
+            $selisih=floor((strtotime($tglexp)-strtotime(date("Y-m")))/3600/24/30);
 
             $awal = date_create($tglexp);
             $akhir = date_create(); // waktu sekarang
@@ -97,7 +99,7 @@ class saldo_track extends CI_Controller
             $bln=$diff->y*12+$diff->m;
             $jarak = strtotime($tglexp)-strtotime(date("Y-m-d"));
             
-            if ($diff->y == 0 && $diff->m <=0 && $bln<=12) {
+            if ($selisih<0) {
                 $test[]=array(
                     "no"=>$no++,
                     "nobatch"=>"<p style='color:red'><b>".$s->nobatch."</b></p>",
@@ -107,10 +109,11 @@ class saldo_track extends CI_Controller
                     "sat1"=>"<p style='color:red'><b>".$sats1.' '.$s->sat1."</b></p>",
                     "sat2"=>"<p style='color:red'><b>".$sats2.' '.$s->sat2."</b></p>",
                     "sat3"=>"<p style='color:red'><b>".$sats3.' '.$s->sat3."</b></p>",
-                    "exp"=>$diff->y.' tahun '.$diff->m.' bulan ',
-                    "ed"=>$bln,
+                    "exp"=>"<p style='color:red'><b>".$diff->y.' tahun '.$diff->m.' bulan </b></p>',
+                    "ed"=>"<p style='color:red'><b>".$selisih."</b></p>",
+                    "aksi"=>"<button class='btn btn-sm btn-primary' onclick='getid(`".$s->no."`,`".$s->nobatch."`,`".$s->nopallet."`,`".$s->kode."`,`".$sats1."`,`".$sats2."`,`".$sats3."`,`".$s->sat1."`,`".$s->sat2."`,`".$s->sat3."`,`".$s->nama."`)' data-toggle='modal' data-target='#musnah'>Musnahkan</button>",
                 );
-            }elseif ($diff->y == 0 && $diff->m <= 9 && $jarak >= 0 && $bln<=12) {
+            }elseif ($diff->y == 0 && $diff->m <= 9 && $selisih<=9) {
                     $test[] = array(
                         "no" => $no++,
                         "nobatch" => "<p style='color:darkorange'><b>" . $s->nobatch . "</b></p>",
@@ -120,8 +123,9 @@ class saldo_track extends CI_Controller
                         "sat1" => "<p style='color:darkorange'><b>" . $sats1 . ' ' . $s->sat1 . "</b></p>",
                         "sat2" => "<p style='color:darkorange'><b>" . $sats2 . ' ' . $s->sat2 . "</b></p>",
                         "sat3" => "<p style='color:darkorange'><b>" . $sats3 . ' ' . $s->sat3 . "</b></p>",
-                        "exp" => $diff->y . ' tahun ' . $diff->m . ' bulan ',
-                        "ed" => $bln,
+                        "exp" => "<p style='color:darkorange'><b>".$diff->y . ' tahun ' . $diff->m . ' bulan </b></p>',
+                        "ed" => "<p style='color:darkorange'><b>".$selisih."</b></p>",
+                        "aksi"=>"<button class='btn btn-sm btn-primary' onclick='getid(`".$s->no."`,`".$s->nobatch."`,`".$s->kode."`,`".$s->nopallet."`,`".$sats1."`,`".$sats2."`,`".$sats3."`,`".$s->sat1."`,`".$s->sat2."`,`".$s->sat3."`,`".$s->nama."`)' data-toggle='modal' data-target='#musnah'>Musnahkan</button>",
                     );
             }else{
                 $test[]=array(
@@ -134,7 +138,8 @@ class saldo_track extends CI_Controller
                     "sat2"=>$sats2.' '.$s->sat2,
                     "sat3"=>$sats3.' '.$s->sat3,
                     "exp"=>$diff->y.' tahun '.$diff->m.' bulan ',
-                    "ed"=>$bln,
+                    "ed"=>$selisih,
+                    "aksi"=>"<button class='btn btn-sm btn-primary' onclick='getid(`".$s->no."`,`".$s->nobatch."`,`".$s->kode."`,`".$s->nopallet."`,`".$sats1."`,`".$sats2."`,`".$sats3."`,`".$s->sat1."`,`".$s->sat2."`,`".$s->sat3."`,`".$s->nama."`)' data-toggle='modal' data-target='#musnah'>Musnahkan</button>",
                 ); 
             }
         }

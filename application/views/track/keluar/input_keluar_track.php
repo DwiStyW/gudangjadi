@@ -2,6 +2,7 @@
 ini_set('date.timezone', 'Asia/Jakarta');
 date_default_timezone_set('Asia/Jakarta');
 ?>
+
 <div class="">
     <div class="admin-dashone-data-table-area mg-b-40">
         <div class="container" style="position:relative;margin-top:-250px;padding-bottom:32px;z-index: 1">
@@ -96,9 +97,11 @@ date_default_timezone_set('Asia/Jakarta');
                                                         <label class="login2 pull-right pull-right-pro">No Batch</label>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <select id="batch" class="form-control" name="nobatch" type="select" required>
+                                                        <select id="batch" class="select2 form-control" name="nobatch" type="select" required>
                                                             <option type="search"></option>
-
+                                                            <option>Apple</option>
+                                                            <option>Kiwi</option>
+                                                            <option>Grape</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -239,7 +242,6 @@ date_default_timezone_set('Asia/Jakarta');
 <script src="<?=base_url()?>assets/select2-master/dist/js/select2.min.js"></script>
 <script src="<?=base_url()?>assets/sweetalert2/swal2.js"></script>
 <script>
-
     function filsalmin(){
         var saldo = document.getElementById('jumlah').value;
         var sal1  = document.getElementById('sats1').value;
@@ -378,8 +380,13 @@ $(document).ready(function() {
                 var i;
                 html = '<option selected type="search"></option>';
                 for (i = 0; i < data.length; i++) {
-                    html += '<option value=' + data[i].nobatch + '>' + data[i]
-                        .nobatch + '</option>';
+                    if(data[i].selisih<=9){
+                        html += '<option value=' + data[i].nobatch + '>' + data[i]
+                            .nobatch + '</option>';
+                    }else{
+                        html += '<option value=' + data[i].nobatch + '>' + data[i]
+                            .nobatch + '</option>';
+                    }
                 }
                 $('#batch').html(html);
             }
